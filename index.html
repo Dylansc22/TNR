@@ -13,16 +13,39 @@
 </head>
 <body>
 
+<!--Mapbox APIs-->
+<!--Mapbox Search Box-->
+<script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v2.3.0/mapbox-gl-geocoder.min.js'></script>
+<link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v2.3.0/mapbox-gl-geocoder.css' type='text/css' />
 <div id='map'></div>
+
 <script>
 mapboxgl.accessToken = 'pk.eyJ1IjoiZHlsYW5jIiwiYSI6Im53UGgtaVEifQ.RJiPqXwEtCLTLl-Vmd1GWQ';
 var map = new mapboxgl.Map({
     container: 'map', // container id
     style: 'mapbox://styles/mapbox/light-v9', // stylesheet location
     center: [-110.9747, 32.2226 ], // starting position [lng, lat]
-    zoom: 13 // starting zoom
+    zoom: 13, // starting zoom
+    attributionControl: false, // Removed default attribution and put custom attribution in below
 });
+
+//Adds Mapbox Search Box
+map.addControl(new MapboxGeocoder({
+    accessToken: 'pk.eyJ1IjoiZHlsYW5jIiwiYSI6Im53UGgtaVEifQ.RJiPqXwEtCLTLl-Vmd1GWQ' 
+}));
+
+// Add zoom and rotation controls to the map
+map.addControl(new mapboxgl.NavigationControl());
+
+//Shrinks Attribution to a small hover icon for displays 640px or less
+map.addControl(new mapboxgl.AttributionControl({
+        compact: true,   
+    }));
+
+</script>
+</script>
+
 </script>
 
 </body>
-</html>
+</html> 
