@@ -123,7 +123,7 @@ function updateRoute() {
 
 // make a directions request
 function getMatch(e) {
-  var url = 'https://api.mapbox.com/directions/v5/mapbox/cycling/' + e +'?geometries=geojson&steps=true&&access_token=' + mapboxgl.accessToken;
+  var url = 'https://api.mapbox.com/directions/v5/mapbox/cycling/' + e +'?geometries=geojson&steps=true&&access_token=' + 'pk.eyJ1IjoiZHlsYW5jIiwiYSI6Im53UGgtaVEifQ.RJiPqXwEtCLTLl-Vmd1GWQ';
   var req = new XMLHttpRequest();
   req.responseType = 'json';
   req.open('GET', url, true);
