@@ -49,6 +49,11 @@
 </div>
 
 <script>
+
+//---------------------------------------------------------------------------------------
+// ------------------------------- Step 1: Create The Map -------------------------------
+//---------------------------------------------------------------------------------------
+
 mapboxgl.accessToken = 'pk.eyJ1IjoiZHlsYW5jIiwiYSI6Im53UGgtaVEifQ.RJiPqXwEtCLTLl-Vmd1GWQ';
 var map = new mapboxgl.Map({
     container: 'map', // container id
@@ -57,6 +62,11 @@ var map = new mapboxgl.Map({
     zoom: 13, // starting zoom
     attributionControl: false, // Removed default attribution and put custom attribution in below
 });
+
+
+//---------------------------------------------------------------------------------------
+// --------------------------- Step 2: Create Custom Controls -----------------------------
+//---------------------------------------------------------------------------------------
 
 var draw = new MapboxDraw({
   displayControlsDefault: false,
@@ -183,7 +193,10 @@ function removeRoute () {
 
 
 
-// Add Various Controls
+//---------------------------------------------------------------------------------------
+// --------------------------- Step 3: Add Custom Controls -----------------------------
+//---------------------------------------------------------------------------------------
+
 
     /* No longer need regular driving directions
     //Adds driving directions to top-left corner
