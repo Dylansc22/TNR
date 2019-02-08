@@ -9,6 +9,21 @@
     <style>
         body { margin:0; padding:0; }
         #map { position:absolute; top:0; bottom:0; width:100%; }
+
+        .info-box {
+            height: 100px;
+            width: 150px;
+            position: absolute;
+            top: 20px;
+            left: 10px;
+            background-color: rgba(255, 255, 255, .9);
+            padding: 15px;
+            text-align: left;
+            font-family: 'Arial';
+            margin: 0;
+            font-size: 13px;
+          }
+
     </style>
 </head>
 <body>
@@ -20,9 +35,18 @@
 <!--Mapbox Directions-->
 <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.0.0/mapbox-gl-directions.js'></script>
 <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.0.0/mapbox-gl-directions.css' type='text/css' />
+<!--Mapbox Draw-->
+<script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.0.9/mapbox-gl-draw.js'></script>
+<link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.0.9/mapbox-gl-draw.css' type='text/css'/>
+
 
 <!--Initialize Map-->
 <div id='map'></div>
+<div class='info-box'>
+  <p>Draw your route</p>
+  <p> (25 points max)</p>
+  <div id='calculated-line'></div>
+</div>
 
 <script>
 mapboxgl.accessToken = 'pk.eyJ1IjoiZHlsYW5jIiwiYSI6Im53UGgtaVEifQ.RJiPqXwEtCLTLl-Vmd1GWQ';
@@ -34,29 +58,159 @@ var map = new mapboxgl.Map({
     attributionControl: false, // Removed default attribution and put custom attribution in below
 });
 
+var draw = new MapboxDraw({
+  displayControlsDefault: false,
+  controls: {
+    line_string: true,
+    trash: true
+  },
+  styles: [
+    // ACTIVE (being drawn)
+    // line stroke
+    {
+      "id": "gl-draw-line",
+      "type": "line",
+      "filter": ["all", ["==", "$type", "LineString"], ["!=", "mode", "static"]],
+      "layout": {
+        "line-cap": "round",
+        "line-join": "round"
+      },
+      "paint": {
+        "line-color": "#3b9ddd",
+        "line-dasharray": [0.2, 2],
+        "line-width": 4,
+        "line-opacity": 0.7
+      }
+    },
+    // vertex point halos
+    {
+      "id": "gl-draw-polygon-and-line-vertex-halo-active",
+      "type": "circle",
+      "filter": ["all", ["==", "meta", "vertex"], ["==", "$type", "Point"], ["!=", "mode", "static"]],
+      "paint": {
+        "circle-radius": 10,
+        "circle-color": "#FFF"
+      }
+    },
+    // vertex points
+    {
+      "id": "gl-draw-polygon-and-line-vertex-active",
+      "type": "circle",
+      "filter": ["all", ["==", "meta", "vertex"], ["==", "$type", "Point"], ["!=", "mode", "static"]],
+      "paint": {
+        "circle-radius": 6,
+        "circle-color": "#3b9ddd",
+      }
+    },
+  ]
+});
 
-//Adds driving directions to top-left corner
-map.addControl(new MapboxDirections({
-    accessToken: 'pk.eyJ1IjoiZHlsYW5jIiwiYSI6Im53UGgtaVEifQ.RJiPqXwEtCLTLl-Vmd1GWQ' 
-}), 'top-right');
+// add create, update, or delete actions
+map.on('draw.create', updateRoute);
+map.on('draw.update', updateRoute);
+map.on('draw.delete', removeRoute);
 
-//Adds Mapbox Search Box
-map.addControl(new MapboxGeocoder({
-    accessToken: 'pk.eyJ1IjoiZHlsYW5jIiwiYSI6Im53UGgtaVEifQ.RJiPqXwEtCLTLl-Vmd1GWQ' 
-}));
+// use the coordinates you just drew to make your directions request
+function updateRoute() {
+  removeRoute(); // overwrite any existing layers
+  var data = draw.getAll();
+  var answer = document.getElementById('calculated-line');
+  var lastFeature = data.features.length - 1;
+  var coords = data.features[lastFeature].geometry.coordinates;
+  var newCoords = coords.join(';')
+  getMatch(newCoords);
+}
 
-// Add zoom and rotation controls to the map
-map.addControl(new mapboxgl.NavigationControl());
+// make a directions request
+function getMatch(e) {
+  var url = 'https://api.mapbox.com/directions/v5/mapbox/cycling/' + e +'?geometries=geojson&steps=true&&access_token=' + mapboxgl.accessToken;
+  var req = new XMLHttpRequest();
+  req.responseType = 'json';
+  req.open('GET', url, true);
+  req.onload  = function() {
+    var jsonResponse = req.response;
+    var distance = jsonResponse.routes[0].distance*0.001;
+    var duration = jsonResponse.routes[0].duration/60;
+    document.getElementById('calculated-line').innerHTML = 'Distance: ' + distance.toFixed(2) + ' km<br>Duration: ' + duration.toFixed(2) + ' minutes';
+    var coords = jsonResponse.routes[0].geometry;
+      // add the route to the map
+      addRoute(coords);
+  };
+  req.send();
+}
 
-//Shrinks Attribution to a small hover icon for displays 640px or less
-map.addControl(new mapboxgl.AttributionControl({
-        compact: true,   
+// adds the route as a layer on the map
+function addRoute (coords) {
+  // check if the route is already loaded
+  if (map.getSource('route')) {
+    map.removeLayer('route')
+    map.removeSource('route')
+  } else{
+    map.addLayer({
+      "id": "route",
+      "type": "line",
+      "source": {
+        "type": "geojson",
+        "data": {
+          "type": "Feature",
+          "properties": {},
+          "geometry": coords
+        }
+      },
+      "layout": {
+        "line-join": "round",
+        "line-cap": "round"
+      },
+      "paint": {
+        "line-color": "#3b9ddd",
+        "line-width": 8,
+        "line-opacity": 0.8
+      }
+    });
+  };
+}
+
+// remove the layer if it exists
+function removeRoute () {
+  if (map.getSource('route')) {
+    map.removeLayer('route');
+    map.removeSource('route');
+    document.getElementById('calculated-line').innerHTML = '';
+  } else  {
+    return;
+  }
+}
+
+
+
+// Add Various Controls
+
+    /* No longer need regular driving directions
+    //Adds driving directions to top-left corner
+    map.addControl(new MapboxDirections({
+        accessToken: 'pk.eyJ1IjoiZHlsYW5jIiwiYSI6Im53UGgtaVEifQ.RJiPqXwEtCLTLl-Vmd1GWQ' 
+    }), 'top-right');
+    */
+
+    // Adds Mapbox Search Box
+    map.addControl(new MapboxGeocoder({
+        accessToken: 'pk.eyJ1IjoiZHlsYW5jIiwiYSI6Im53UGgtaVEifQ.RJiPqXwEtCLTLl-Vmd1GWQ' 
     }));
 
-</script>
-</script>
+    // Add zoom and rotation controls to the map
+    map.addControl(new mapboxgl.NavigationControl());
+
+    // Add the draw tool to the map
+    map.addControl(draw);
+
+    // Shrinks Attribution to a small hover icon for displays 640px or less
+    map.addControl(new mapboxgl.AttributionControl({
+            compact: true,   
+        }));
+
 
 </script>
+
 
 </body>
 </html> 
