@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset='utf-8' />
-    <title>Display a map</title>
+    <title>Tucson's Best Cycling Routes</title>
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
     <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.52.0/mapbox-gl.js'></script>
     <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.52.0/mapbox-gl.css' rel='stylesheet' />
@@ -11,12 +11,13 @@
         #map { position:absolute; top:0; bottom:0; width:100%; }
 
         .info-box {
-            height: 100px;
+            height:30px;
             width: 150px;
             position: absolute;
             top: 20px;
             left: 10px;
-            background-color: rgba(255, 255, 255, .9);
+            background-color: rgba(255, 255, 255, .4);
+            border: solid 3px #A0A0A0;
             padding: 15px;
             text-align: left;
             font-family: 'Arial';
@@ -43,8 +44,6 @@
 <!--Initialize Map-->
 <div id='map'></div>
 <div class='info-box'>
-  <p>Draw your route</p>
-  <p> (25 points max)</p>
   <div id='calculated-line'></div>
 </div>
 
@@ -89,7 +88,7 @@ var draw = new MapboxDraw({
         "line-join": "round" //miter (default), bevel, round
       },
       "paint": { 
-        "line-color": "#2F9599", 
+        "line-color": "#81A4CD", 
         "line-dasharray": [2, 4],
         "line-width": 2,
         "line-opacity": 0.7
@@ -105,7 +104,7 @@ var draw = new MapboxDraw({
       "type": "circle",
       "filter": ["all", ["==", "meta", "vertex"], ["==", "$type", "Point"], ["!=", "mode", "static"]],
       "paint": {
-        "circle-radius": 10,
+        "circle-radius": 8,
         "circle-color": "#FFF" 
       }
     },
@@ -115,8 +114,8 @@ var draw = new MapboxDraw({
       "type": "circle",
       "filter": ["all", ["==", "meta", "vertex"], ["==", "$type", "Point"], ["!=", "mode", "static"]],
       "paint": {
-        "circle-radius": 6,
-        "circle-color": "#F26B38", 
+        "circle-radius": 5,
+        "circle-color": "#3E7CB1", 
       }
     },
     // midpoint point halos
@@ -136,7 +135,7 @@ var draw = new MapboxDraw({
         "filter": ["all", ["==", "meta", "midpoint"], ["==", "$type", "Point"], ["!=", "mode", "static"]],
         "paint": {
             "circle-radius": 4,
-            "circle-color": "#F7DB4F",
+            "circle-color": "#3E7CB1",
         }
     },
   ]
@@ -199,8 +198,8 @@ function addRoute (coords) {
         "line-cap": "round"
       },
       "paint": {
-        "line-color": "#3b9ddd",
-        "line-width": 8,
+        "line-color": "#0F9D58", //3b9ddd
+        "line-width": 4,
         "line-opacity": 0.8
       }
     });
