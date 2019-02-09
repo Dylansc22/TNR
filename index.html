@@ -53,6 +53,7 @@
 //---------------------------------------------------------------------------------------
 // ------------------------------- Step 1: Create The Map -------------------------------
 //---------------------------------------------------------------------------------------
+// All parameter options such as attributionControl, minZoom, style, etc... are found here... https://docs.mapbox.com/mapbox-gl-js/api/#map
 
 mapboxgl.accessToken = 'pk.eyJ1IjoiZHlsYW5jIiwiYSI6Im53UGgtaVEifQ.RJiPqXwEtCLTLl-Vmd1GWQ';
 var map = new mapboxgl.Map({
@@ -61,6 +62,7 @@ var map = new mapboxgl.Map({
     center: [-110.9747, 32.2226 ], // starting position [lng, lat]
     zoom: 13, // starting zoom
     attributionControl: false, // Removed default attribution and put custom attribution in below
+    maxBounds: [[-111.1,32], [-110.6, 32.5]], //Southwest & Northeast Bounds
 });
 
 
