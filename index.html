@@ -72,34 +72,39 @@ var draw = new MapboxDraw({
   displayControlsDefault: false,
   controls: {
     line_string: true,
-    trash: true
+    trash: true,
   },
   styles: [
+    // For more info - Mapbox GL Style Spec - https://docs.mapbox.com/mapbox-gl-js/style-spec
     // ACTIVE (being drawn)
     // line stroke
     {
-      "id": "gl-draw-line",
-      "type": "line",
-      "filter": ["all", ["==", "$type", "LineString"], ["!=", "mode", "static"]],
-      "layout": {
-        "line-cap": "round",
-        "line-join": "round"
+      "id": "gl-draw-line", // Required String - Unique layer name
+      "type": "line", //Required types: fill, line, symbol, circle, heatmap, fill-extrusion, raster, hillshade, background)
+      "filter": ["all", ["==", "$type", "LineString"], ["!=", "mode", "static"]], 
+      "layout": { 
+        "line-cap": "round", //e.g. butt (default), round, square
+        "line-join": "round" //miter (default), bevel, round
       },
-      "paint": {
-        "line-color": "#3b9ddd",
-        "line-dasharray": [0.2, 2],
-        "line-width": 4,
+      "paint": { 
+        "line-color": "#2F9599", 
+        "line-dasharray": [2, 4],
+        "line-width": 2,
         "line-opacity": 0.7
+        //line-translate
+        //line-gap-width
+        //line-gradient
+        //etc...
       }
     },
-    // vertex point halos
+    // vertex point halos - must come before vertex, because these are two layers of circles
     {
       "id": "gl-draw-polygon-and-line-vertex-halo-active",
       "type": "circle",
       "filter": ["all", ["==", "meta", "vertex"], ["==", "$type", "Point"], ["!=", "mode", "static"]],
       "paint": {
         "circle-radius": 10,
-        "circle-color": "#FFF"
+        "circle-color": "#FFF" 
       }
     },
     // vertex points
@@ -109,8 +114,28 @@ var draw = new MapboxDraw({
       "filter": ["all", ["==", "meta", "vertex"], ["==", "$type", "Point"], ["!=", "mode", "static"]],
       "paint": {
         "circle-radius": 6,
-        "circle-color": "#3b9ddd",
+        "circle-color": "#F26B38", 
       }
+    },
+    // midpoint point halos
+    {
+      "id": "gl-draw-polygon-and-line-midpoint-halo-active",
+      "type": "circle",
+      "filter": ["all", ["==", "meta", "midpoint"], ["==", "$type", "Point"], ["!=", "mode", "static"]],
+      "paint": {
+        "circle-radius": 6,
+        "circle-color": "#FFF" 
+      }
+    },
+    // midpoint points
+    {
+        "id": "gl-draw-polygon-and-line-midpoint-active",
+        "type": "circle",
+        "filter": ["all", ["==", "meta", "midpoint"], ["==", "$type", "Point"], ["!=", "mode", "static"]],
+        "paint": {
+            "circle-radius": 4,
+            "circle-color": "#F7DB4F",
+        }
     },
   ]
 });
@@ -139,9 +164,9 @@ function getMatch(e) {
   req.open('GET', url, true);
   req.onload  = function() {
     var jsonResponse = req.response;
-    var distance = jsonResponse.routes[0].distance*0.001;
+    var distance = jsonResponse.routes[0].distance*0.001*0.621371;
     var duration = jsonResponse.routes[0].duration/60;
-    document.getElementById('calculated-line').innerHTML = 'Distance: ' + distance.toFixed(2) + ' km<br>Duration: ' + duration.toFixed(2) + ' minutes';
+    document.getElementById('calculated-line').innerHTML = 'Distance: ' + distance.toFixed(2) + ' Mi<br>Duration: ' + duration.toFixed(2) + ' minutes';
     var coords = jsonResponse.routes[0].geometry;
       // add the route to the map
       addRoute(coords);
