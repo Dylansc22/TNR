@@ -41,8 +41,9 @@
 <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.0.9/mapbox-gl-draw.css' type='text/css'/>
 
 
-<!--Initialize Map-->
+<!--Initialize Map, Menu, & Info Box-->
 <div id='map'></div>
+<nav id="menu"></nav>
 <div class='info-box'>
   <div id='calculated-line'></div>
 </div>
@@ -63,6 +64,28 @@ var map = new mapboxgl.Map({
     attributionControl: false, // Removed default attribution and put custom attribution in below
     maxBounds: [[-111.1,32], [-110.6, 32.5]], //Southwest & Northeast Bounds
 });
+
+//---------------------------------------------------------------------------------------
+// --------------------------- Step 2: Add Data Layers  -----------------------------
+//---------------------------------------------------------------------------------------
+
+map.on('load', function() {  
+
+    map.addSource('hawks', {
+        type: 'geojson',
+        data: 'https://raw.githubusercontent.com/Dylansc22/sourcedata/master/Hawks.geojson'
+    });
+  
+    map.addLayer({
+        id: 'layer',
+        source: 'hawks',
+        type: 'circle', // 'circle' works... 'fill', 'line', 'symbol' don't work - they worked up through version 0.19
+        layout: { 'visibility': 'visible'},
+        paint: {'circle-radius': 3.5, 'circle-color': '#dd885d'
+        },
+    });
+});
+
 
 
 //---------------------------------------------------------------------------------------
@@ -216,6 +239,7 @@ function removeRoute () {
     return;
   }
 }
+
 
 
 
