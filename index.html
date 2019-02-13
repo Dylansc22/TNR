@@ -23,7 +23,50 @@
             font-family: 'Arial';
             margin: 0;
             font-size: 13px;
-          }
+            }
+
+        #menu {
+            /*background: #fff;*/
+            position: absolute;
+            z-index: 1;
+            top: 85px;
+            left: 10px;
+            border-radius: 3px;
+            width: 150px;
+            padding:15px;
+            /*border: 1px solid rgba(0,0,0,0.4);*/
+            font-family: 'Open Sans', sans-serif;
+            }
+             
+        #menu a {
+            font-size: 13px;
+            color: #404040;
+            display: block;
+            margin: 0;
+            padding: 0;
+            padding: 10px;
+            text-decoration: none;
+            border-bottom: 1px solid rgba(0,0,0,0.25);
+            text-align: center;
+            }
+             
+        #menu a:last-child {
+            border: none;
+            }
+             
+        #menu a:hover {
+            background-color: #f8f8f8;
+            color: #404040;
+            }
+             
+        #menu a.active {
+            background-color: #3887be;
+            color: #ffffff;
+            }
+             
+        #menu a.active:hover {
+            background: #3074a4;
+            }
 
     </style>
 </head>
@@ -43,7 +86,7 @@
 
 <!--Initialize Map, Menu, & Info Box-->
 <div id='map'></div>
-<nav id="menu"></nav>
+<nav id="menu"></nav> 
 <div class='info-box'>
   <div id='calculated-line'></div>
 </div>
@@ -70,26 +113,56 @@ var map = new mapboxgl.Map({
 //---------------------------------------------------------------------------------------
 
 map.on('load', function() {  
-
     map.addSource('hawks', {
         type: 'geojson',
         data: 'https://raw.githubusercontent.com/Dylansc22/sourcedata/master/Hawks.geojson'
     });
-  
     map.addLayer({
-        id: 'layer',
+        id: 'Pedestrian Crosswalks',
         source: 'hawks',
         type: 'circle', // 'circle' works... 'fill', 'line', 'symbol' don't work - they worked up through version 0.19
         layout: { 'visibility': 'visible'},
-        paint: {'circle-radius': 3.5, 'circle-color': '#dd885d'
-        },
+        paint: {'circle-radius': 3.5, 'circle-color': '#dd885d'},
     });
 });
 
+//---------------------------------------------------------------------------------------
+// -------------    Step 3: Add Data Layers Toggle Button   -----------------------------
+//---------------------------------------------------------------------------------------
 
+
+var toggleableLayerIds = [ 'Pedestrian Crosswalks', 'Future Buttons Here' ]; //Add toggleable layer ids here
+ 
+for (var i = 0; i < toggleableLayerIds.length; i++) {
+var id = toggleableLayerIds[i];
+ 
+var link = document.createElement('a');
+link.href = '#';
+link.className = 'active';
+link.textContent = id;
+ 
+link.onclick = function (e) {
+var clickedLayer = this.textContent;
+e.preventDefault();
+e.stopPropagation();
+ 
+var visibility = map.getLayoutProperty(clickedLayer, 'visibility');
+ 
+if (visibility === 'visible') {
+map.setLayoutProperty(clickedLayer, 'visibility', 'none');
+this.className = '';
+} else {
+this.className = 'active';
+map.setLayoutProperty(clickedLayer, 'visibility', 'visible');
+}
+};
+ 
+var layers = document.getElementById('menu');
+layers.appendChild(link);
+}
 
 //---------------------------------------------------------------------------------------
-// --------------------------- Step 2: Create Custom Controls -----------------------------
+// --------------------------- Step 4: Create Custom Controls -----------------------------
 //---------------------------------------------------------------------------------------
 
 var draw = new MapboxDraw({
@@ -242,9 +315,8 @@ function removeRoute () {
 
 
 
-
 //---------------------------------------------------------------------------------------
-// --------------------------- Step 3: Add Custom Controls -----------------------------
+// --------------------------- Step 5: Add Custom Controls -----------------------------
 //---------------------------------------------------------------------------------------
 
 
