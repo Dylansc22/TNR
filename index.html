@@ -10,11 +10,14 @@
         body { margin:0; padding:0; }
         #map { position:absolute; top:0; bottom:0; width:100%; }
 
-        .info-box {
+
+
+        #instructions {
             height:30px;
-            width: 150px;
+            min-height:300px;
+            width: 250px;
             position: absolute;
-            top: 20px;
+            top: 120px;
             left: 10px;
             background-color: rgba(255, 255, 255, .4);
             border: solid 3px #A0A0A0;
@@ -23,13 +26,14 @@
             font-family: 'Arial';
             margin: 0;
             font-size: 13px;
+            overflow-y: scroll; /*scroll after max height is reached*/
             }
 
         #menu {
             /*background: #fff;*/
             position: absolute;
             z-index: 1;
-            top: 85px;
+            /*top: 20px;*/
             left: 10px;
             border-radius: 3px;
             width: 150px;
@@ -92,8 +96,11 @@
 <div id='map'></div>
 <nav id="menu"></nav> 
 <div class='info-box'>
-  <div id='calculated-line'><p>Use Up To 25 Waypoints</p></div>
+    <div id='instructions'>
+        <div id="calculated-line"></div>
+    </div>
 </div>
+
 
 <script>
 
@@ -267,10 +274,19 @@ function getMatch(e) {
     var jsonResponse = req.response;
     var distance = jsonResponse.routes[0].distance*0.001*0.621371;
     var duration = jsonResponse.routes[0].duration/60;
-    document.getElementById('calculated-line').innerHTML = 'Distance: ' + distance.toFixed(2) + ' Mi<br>Duration: ' + duration.toFixed(2) + ' minutes';
+    var steps = jsonResponse.routes[0].legs[0].steps;
     var coords = jsonResponse.routes[0].geometry;
-      // add the route to the map
-      addRoute(coords);
+   
+    //Return the Distance and Duration of Route 
+    document.getElementById('calculated-line').innerHTML = 'Distance: ' + distance.toFixed(2) + ' Mi<br>Duration: ' + duration.toFixed(2) + ' minutes';
+
+    //Get Route Direction On Load Map
+    steps.forEach(function(step){
+        instructions.insertAdjacentHTML('beforeend', '<p>' + step.maneuver.instruction + '</p>')
+    });
+
+    //Add The Route To The Map
+    addRoute(coords);
   };
   req.send();
 }
@@ -313,7 +329,7 @@ function removeRoute () {
     map.removeSource('route');
     document.getElementById('calculated-line').innerHTML = '';
   } else  {
-    return;
+        return;
   }
 }
 
