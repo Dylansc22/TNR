@@ -284,7 +284,7 @@ function getMatch(e) {
     // console.log(duration);
 
     // get distance and duration
-    instructions.insertAdjacentHTML('beforeend', '<p>' +  'Distance: ' + distance.toFixed(2) + ' km<br>Duration: ' + duration.toFixed(2) + ' minutes' + '</p>');
+    instructions.insertAdjacentHTML('beforeend', '<p>' +  'Distance: ' + 0.621371*distance.toFixed(2) + ' mi<br>Duration: ' + duration.toFixed(2) + ' minutes' + '</p>');
 
     //Get Route Direction On Load Map
     steps.forEach(function(step){
@@ -324,15 +324,48 @@ function addRoute (coords) {
         "line-width": 4,
         "line-opacity": 0.8
       }
+    }),
+
+    //Add directional arrows to route
+    map.addLayer({
+      id: 'routearrows',
+      type: 'symbol',
+      source: 'route',
+      layout: {
+        'symbol-placement': 'line',
+        'text-field': '▶',
+        'text-size': {
+          base: 2,
+          stops: [[12, 24], [22, 60]]
+        },
+        'symbol-spacing': {
+          base: 1,
+          stops: [[12, 30], [22, 160]]
+        },
+        'text-keep-upright': false
+      },
+      paint: {
+        'text-color': '#0F9D58',
+        'text-halo-color': 'hsl(55, 11%, 96%)',
+        'text-halo-width': 3
+      }
     });
+
+
+
   };
 }
+
+
+
 
 // remove the layer if it exists
 function removeRoute () {
   if (map.getSource('route')) {
     map.removeLayer('route');
     map.removeSource('route');
+    map.removeLayer('routearrows');
+    map.removeSource('routearrows');
     instructions.innerHTML = '';
     //I think I can delete this since I added the above line recently document.getElementById('calculated-line').innerHTML = '';
   } else  {
