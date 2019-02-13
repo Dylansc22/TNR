@@ -277,8 +277,14 @@ function getMatch(e) {
     var steps = jsonResponse.routes[0].legs[0].steps;
     var coords = jsonResponse.routes[0].geometry;
    
-    //Return the Distance and Duration of Route 
-    document.getElementById('calculated-line').innerHTML = 'Distance: ' + distance.toFixed(2) + ' Mi<br>Duration: ' + duration.toFixed(2) + ' minutes';
+    //Return Various Results to Console Log for Troubleshooting
+    //  console.log(steps);
+    console.log(coords);
+    //  console.log(distance);
+    // console.log(duration);
+
+    // get distance and duration
+    instructions.insertAdjacentHTML('beforeend', '<p>' +  'Distance: ' + distance.toFixed(2) + ' km<br>Duration: ' + duration.toFixed(2) + ' minutes' + '</p>');
 
     //Get Route Direction On Load Map
     steps.forEach(function(step){
@@ -327,7 +333,8 @@ function removeRoute () {
   if (map.getSource('route')) {
     map.removeLayer('route');
     map.removeSource('route');
-    document.getElementById('calculated-line').innerHTML = '';
+    instructions.innerHTML = '';
+    //I think I can delete this since I added the above line recently document.getElementById('calculated-line').innerHTML = '';
   } else  {
         return;
   }
@@ -351,6 +358,14 @@ function removeRoute () {
     map.addControl(new MapboxGeocoder({
         accessToken: 'pk.eyJ1IjoiZHlsYW5jIiwiYSI6Im53UGgtaVEifQ.RJiPqXwEtCLTLl-Vmd1GWQ' 
     }));
+
+    // Add User-Geolocate to the map
+    map.addControl(new mapboxgl.GeolocateControl({
+        positionOptions: {
+        enableHighAccuracy: true
+        },
+        trackUserLocation: true
+        }));
 
     // Add zoom and rotation controls to the map
     map.addControl(new mapboxgl.NavigationControl());
