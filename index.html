@@ -123,6 +123,8 @@ var map = new mapboxgl.Map({
 // --------------------------- Step 2: Add Data Layers  -----------------------------
 //---------------------------------------------------------------------------------------
 
+
+
 map.on('load', function() {  
     map.addSource('hawks', {
         type: 'geojson',
@@ -135,6 +137,30 @@ map.on('load', function() {
         layout: { 'visibility': 'visible'},
         paint: {'circle-radius': 3.5, 'circle-color': '#dd885d'},
     });
+
+
+        map.addSource('TNRRoadsSource', {
+            type: 'geojson',
+            data: 'https://raw.githubusercontent.com/Dylansc22/sourcedata/master/TNRRoads_Optimized_WGS84.geojson'
+        });
+
+    map.addLayer({
+            'id': 'TNRRoadsID',
+            'type': 'line',
+            'source': 'TNRRoadsSource',
+            'layout': { 'visibility': 'visible', 
+                "line-cap": "butt", //e.g. butt (default), round, square
+                "line-join": "round" //miter (default), bevel, round
+                },
+            //Maybe i need this? 'source-layer': 'TNRRoads',
+
+            'paint': {
+                'line-color': '#9ea4b5',
+                'line-width': 3,
+                'line-opacity': 0.4
+                },
+        }, 'waterway-label');
+
 });
 
 //---------------------------------------------------------------------------------------
@@ -142,7 +168,7 @@ map.on('load', function() {
 //---------------------------------------------------------------------------------------
 
 
-var toggleableLayerIds = [ 'Pedestrian Crosswalks', 'Future Buttons Here' ]; //Add toggleable layer ids here
+var toggleableLayerIds = [ 'Pedestrian Crosswalks','TNRRoadsID',  'Future Buttons Here' ]; //Add toggleable layer ids here
  
 for (var i = 0; i < toggleableLayerIds.length; i++) {
 var id = toggleableLayerIds[i];
