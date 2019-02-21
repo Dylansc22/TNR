@@ -389,9 +389,8 @@ function addRoute (coords) {
 function removeRoute () {
   if (map.getSource('route')) {
     map.removeLayer('route');
-    map.removeSource('route');
     map.removeLayer('routearrows');
-    map.removeSource('routearrows');
+    map.removeSource('route');
     instructions.innerHTML = '';
     //I think I can delete this since I added the above line recently document.getElementById('calculated-line').innerHTML = '';
   } else  {
