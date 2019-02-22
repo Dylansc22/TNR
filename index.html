@@ -29,6 +29,23 @@
             overflow-y: scroll; /*scroll after max height is reached*/
             }
 
+        #geojsonbox {
+            height:30px;
+            min-height:100px;
+            width: 250px;
+            position: absolute;
+            top: 500px;
+            left: 10px;
+            background-color: rgba(255, 255, 255, .4);
+            border: solid 3px #A0A0A0;
+            padding: 15px;
+            text-align: left;
+            font-family: 'Arial';
+            margin: 0;
+            font-size: 13px;
+            overflow-y: scroll; /*scroll after max height is reached*/
+            }
+
         #menu {
             /*background: #fff;*/
             position: absolute;
@@ -95,12 +112,12 @@
 <!--Initialize Map, Menu, & Info Box-->
 <div id='map'></div>
 <nav id="menu"></nav> 
-<div class='info-box'>
     <div id='instructions'>
         <div id="calculated-line"></div>
     </div>
+<div id='geojsonbox'>
+    <div id='htmlcoords'>html coords here</div>
 </div>
-
 
 <script>
 
@@ -112,7 +129,7 @@
 mapboxgl.accessToken = 'pk.eyJ1IjoiZHlsYW5jIiwiYSI6Im53UGgtaVEifQ.RJiPqXwEtCLTLl-Vmd1GWQ';
 var map = new mapboxgl.Map({
     container: 'map', // container id
-    style: 'mapbox://styles/mapbox/light-v9', // stylesheet location
+    style: 'mapbox://styles/dylanc/cjsfuwcf00fby1fpnt4n5iokq', // stylesheet location
     center: [-110.9747, 32.2226 ], // starting position [lng, lat]
     zoom: 13, // starting zoom
     attributionControl: false, // Removed default attribution and put custom attribution in below
@@ -135,7 +152,7 @@ map.on('load', function() {
         source: 'hawks',
         type: 'circle', // 'circle' works... 'fill', 'line', 'symbol' don't work - they worked up through version 0.19
         layout: { 'visibility': 'visible'},
-        paint: {'circle-radius': 3.5, 'circle-color': '#dd885d'},
+        paint: {'circle-radius': 4, 'circle-color': '#5a9b77'},
     });
 
 
@@ -257,7 +274,7 @@ var draw = new MapboxDraw({
       "type": "circle",
       "filter": ["all", ["==", "meta", "midpoint"], ["==", "$type", "Point"], ["!=", "mode", "static"]],
       "paint": {
-        "circle-radius": 6,
+        "circle-radius": 4,
         "circle-color": "#FFF" 
       }
     },
@@ -267,7 +284,7 @@ var draw = new MapboxDraw({
         "type": "circle",
         "filter": ["all", ["==", "meta", "midpoint"], ["==", "$type", "Point"], ["!=", "mode", "static"]],
         "paint": {
-            "circle-radius": 4,
+            "circle-radius": 3,
             "circle-color": "#3E7CB1",
         }
     },
@@ -303,19 +320,22 @@ function getMatch(e) {
     var steps = jsonResponse.routes[0].legs[0].steps;
     var coords = jsonResponse.routes[0].geometry;
    
-    //Return Various Results to Console Log for Troubleshooting
-    //  console.log(steps);
-    console.log(coords);
-    //  console.log(distance);
-    // console.log(duration);
-
-    // get distance and duration
-    instructions.insertAdjacentHTML('beforeend', '<p>' +  'Distance: ' + 0.621371*distance.toFixed(2) + ' mi<br>Duration: ' + duration.toFixed(2) + ' minutes' + '</p>');
+    //Get Distance and Duration
+    instructions.insertAdjacentHTML('beforeend', '<p>' +  'Distance: ' + distance.toFixed(2) + ' mi<br>Duration: ' + duration.toFixed(2) + ' minutes' + '</p>');
 
     //Get Route Direction On Load Map
     steps.forEach(function(step){
         instructions.insertAdjacentHTML('beforeend', '<p>' + step.maneuver.instruction + '</p>')
     });
+
+    //Get Route Geojson Coordinates
+    var output = document.getElementById("htmlcoords") //Essentially Links your JS Variable to the HTML ID you want associated with it 
+    
+    //The inner HTML of that ID from above will now become whatever you write below
+    output.innerHTML = "Geojson Coordinates: <br>" 
+        + coords.coordinates[0] + '<br>' 
+        + coords.coordinates[1] + '<br>' 
+        + coords.coordinates[2] + '<br>';
 
     //Add The Route To The Map
     addRoute(coords);
