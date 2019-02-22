@@ -14,7 +14,7 @@
 
         #instructions {
             height:30px;
-            min-height:300px;
+            min-height:200px;
             width: 250px;
             position: absolute;
             top: 120px;
@@ -31,10 +31,10 @@
 
         #geojsonbox {
             height:30px;
-            min-height:100px;
-            width: 250px;
+            min-height:300px;
+            width: 750px;
             position: absolute;
-            top: 500px;
+            top: 400px;
             left: 10px;
             background-color: rgba(255, 255, 255, .4);
             border: solid 3px #A0A0A0;
@@ -44,6 +44,7 @@
             margin: 0;
             font-size: 13px;
             overflow-y: scroll; /*scroll after max height is reached*/
+            word-wrap:break-word;
             }
 
         #menu {
@@ -116,7 +117,14 @@
         <div id="calculated-line"></div>
     </div>
 <div id='geojsonbox'>
-    <div id='htmlcoords'>html coords here</div>
+    <div id='htmlcoords'>html test coords here</div>
+    <br>
+    <div>Functional Code Here
+        <pre id='completegeojson'></pre>
+    </div>
+    <br>
+    <div id='coordsonlyID'>Coords Only Here:</div>
+    
 </div>
 
 <script>
@@ -329,17 +337,30 @@ function getMatch(e) {
     });
 
     //Get Route Geojson Coordinates
-    var output = document.getElementById("htmlcoords") //Essentially Links your JS Variable to the HTML ID you want associated with it 
-    
-    //The inner HTML of that ID from above will now become whatever you write below
-    output.innerHTML = "Geojson Coordinates: <br>" 
-        + coords.coordinates[0] + '<br>' 
-        + coords.coordinates[1] + '<br>' 
-        + coords.coordinates[2] + '<br>';
+
+    //Basic proof of concept
+    var output = "Geojson Coordinates: <br>" + coords.coordinates[0] + '<br>' + coords.coordinates[1] + '<br>' + coords.coordinates[2];
+    document.getElementById("htmlcoords").innerHTML = output; //Essentially Links your JS Variable to the HTML ID you want associated with it 
+
+
+    //Convert the jsonResponse from a Json into a formatted string ready to be sent to a server
+    //Returning the entire GeoJson
+    //var textedJson = JSON.stringify(jsonResponse, undefined, 2);
+    //document.getElementById("completegeojson").innerHTML = textedJson;
+
+    //Returning just the coordinates
+    var x='';
+    for (i = 0; i < jsonResponse.routes[0].geometry.coordinates.length; i++) {
+        x = x + "[" + jsonResponse.routes[0].geometry.coordinates[i] + "]" + "<br>";
+    }
+    document.getElementById("coordsonlyID").innerHTML = x;
+
 
     //Add The Route To The Map
     addRoute(coords);
   };
+
+
   req.send();
 }
 
