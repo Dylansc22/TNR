@@ -10,15 +10,13 @@
         body { margin:0; padding:0; }
         #map { position:absolute; top:0; bottom:0; width:100%; }
 
-
-
         #instructions {
-            height:30px;
+            height:50px;
             min-height:200px;
-            width: 250px;
+            width: 200px;
             position: absolute;
-            top: 120px;
-            left: 10px;
+            top: 240px;
+            left: 25px;
             background-color: rgba(255, 255, 255, .4);
             border: solid 3px #A0A0A0;
             padding: 15px;
@@ -31,11 +29,11 @@
 
         #geojsonbox {
             height:30px;
-            min-height:300px;
-            width: 750px;
+            min-height:150px;
+            width: 200px;
             position: absolute;
-            top: 400px;
-            left: 10px;
+            top: 500px;
+            left: 25px;
             background-color: rgba(255, 255, 255, .4);
             border: solid 3px #A0A0A0;
             padding: 15px;
@@ -51,7 +49,7 @@
             /*background: #fff;*/
             position: absolute;
             z-index: 1;
-            /*top: 20px;*/
+            top: 60px;
             left: 10px;
             border-radius: 3px;
             width: 150px;
@@ -94,6 +92,25 @@
             margin:0px;
         }
 
+        #remover {
+            margin: 0 auto;
+            width: 130px;
+            background-color: #fb5b3f;
+            color: #fff;
+            font-weight: bold;
+            padding: 0.5em;
+            border: 2px solid #fff;
+            border-radius: 0.5em;
+            box-shadow: 0px 0px 5px rgba(0,0,0,0.2);
+            cursor: pointer;
+            position: absolute;
+            left: 25px; /*left: 10em;*/
+            top: 20px;
+        }
+        #remover:hover {
+            background-color: salmon;
+        }
+
     </style>
 </head>
 <body>
@@ -112,20 +129,17 @@
 
 <!--Initialize Map, Menu, & Info Box-->
 <div id='map'></div>
+<div id='remover'>Add Bike Routes</div>
 <nav id="menu"></nav> 
     <div id='instructions'>
         <div id="calculated-line"></div>
     </div>
 <div id='geojsonbox'>
-    <div id='htmlcoords'>html test coords here</div>
-    <br>
     <div>Functional Code Here
         <pre id='completegeojson'></pre>
     </div>
-    <br>
-    <div id='coordsonlyID'>Coords Only Here:</div>
-    
-</div>
+    <!--<div id='coordsonlyID'>Coords Only Here:</div>-->
+    </div>
 
 <script>
 
@@ -137,63 +151,68 @@
 mapboxgl.accessToken = 'pk.eyJ1IjoiZHlsYW5jIiwiYSI6Im53UGgtaVEifQ.RJiPqXwEtCLTLl-Vmd1GWQ';
 var map = new mapboxgl.Map({
     container: 'map', // container id
-    style: 'mapbox://styles/dylanc/cjsfuwcf00fby1fpnt4n5iokq', // stylesheet location
+    style: 'mapbox://styles/dylanc/cjsgsh7gz06ds1fo98fl5q44s',
+    //style: 'mapbox://styles/dylanc/cjsfuwcf00fby1fpnt4n5iokq', // stylesheet location
     center: [-110.9747, 32.2226 ], // starting position [lng, lat]
     zoom: 13, // starting zoom
     attributionControl: false, // Removed default attribution and put custom attribution in below
-    maxBounds: [[-111.1,32], [-110.6, 32.5]], //Southwest & Northeast Bounds
+    maxBounds: [[-111.2,32], [-110.6, 32.5]], //Southwest & Northeast Bounds
 });
 
 //---------------------------------------------------------------------------------------
 // --------------------------- Step 2: Add Data Layers  -----------------------------
 //---------------------------------------------------------------------------------------
 
+//Toggle Multiple Layers At Once
+toggleLayer(['country-label','state-label', 'settlement-label', 'settlement-subdivision-label', 'airport-label', 'transit-label', 'poi-label', 'water-point-label', 'water-line-label', 'natural-point-label', 'natural-line-label', 'waterway-label', 'golf-hole-label', 'road-exit-shield', 'road-number-shield', 'road-label', 'building-number-label', 'contour-label'], 'Toggle Annotation');
 
+function toggleLayer(ids, name) {
+    var link = document.createElement('a');
+    link.href = '#';
+    link.className = 'active';
+    link.textContent = name;
 
-map.on('load', function() {  
-    map.addSource('hawks', {
-        type: 'geojson',
-        data: 'https://raw.githubusercontent.com/Dylansc22/sourcedata/master/Hawks.geojson'
+    link.onclick = function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        for (layers in ids){
+            var visibility = map.getLayoutProperty(ids[layers], 'visibility');
+            if (visibility === 'visible') {
+                map.setLayoutProperty(ids[layers], 'visibility', 'none');
+                this.className = '';
+            } else {
+                this.className = 'active';
+                map.setLayoutProperty(ids[layers], 'visibility', 'visible');
+            }
+         }
+    };
+    var layers = document.getElementById('menu');
+    layers.appendChild(link);
+}
+
+//Add Separate Button For Toggling Individual Layers
+map.on('load', function(){
+    var switchy = document.getElementById('remover');
+    switchy.addEventListener("click", function(){
+        switchy = document.getElementById('remover');
+        if (switchy.className === 'on') {
+            switchy.setAttribute('class', 'off');
+            map.setLayoutProperty('Bike Routes', 'visibility', 'none');
+            switchy.innerHTML = 'Add Bike Routes';
+        } else {
+            switchy.setAttribute('class', 'on');
+            map.setLayoutProperty('Bike Routes', 'visibility', 'visible');
+            switchy.innerHTML = 'Remove Bike Routes';
+        }
     });
-    map.addLayer({
-        id: 'Pedestrian Crosswalks',
-        source: 'hawks',
-        type: 'circle', // 'circle' works... 'fill', 'line', 'symbol' don't work - they worked up through version 0.19
-        layout: { 'visibility': 'visible'},
-        paint: {'circle-radius': 4, 'circle-color': '#5a9b77'},
-    });
-
-
-        map.addSource('TNRRoadsSource', {
-            type: 'geojson',
-            data: 'https://raw.githubusercontent.com/Dylansc22/sourcedata/master/TNRRoads_Optimized_WGS84.geojson'
-        });
-
-    map.addLayer({
-            'id': 'TNRRoadsID',
-            'type': 'line',
-            'source': 'TNRRoadsSource',
-            'layout': { 'visibility': 'visible', 
-                "line-cap": "butt", //e.g. butt (default), round, square
-                "line-join": "round" //miter (default), bevel, round
-                },
-            //Maybe i need this? 'source-layer': 'TNRRoads',
-
-            'paint': {
-                'line-color': '#9ea4b5',
-                'line-width': 3,
-                'line-opacity': 0.4
-                },
-        }, 'waterway-label');
-
 });
 
 //---------------------------------------------------------------------------------------
 // -------------    Step 3: Add Data Layers Toggle Button   -----------------------------
 //---------------------------------------------------------------------------------------
 
-
-var toggleableLayerIds = [ 'Pedestrian Crosswalks','TNRRoadsID',  'Future Buttons Here' ]; //Add toggleable layer ids here
+//Generate Menu of Button for Toggling Layers
+var toggleableLayerIds = [ 'Signaled Crosswalks', 'Bike Routes',  'Future Buttons Here' ]; //Add toggleable layer ids here
  
 for (var i = 0; i < toggleableLayerIds.length; i++) {
 var id = toggleableLayerIds[i];
@@ -202,26 +221,26 @@ var link = document.createElement('a');
 link.href = '#';
 link.className = 'active';
 link.textContent = id;
- 
-link.onclick = function (e) {
-var clickedLayer = this.textContent;
-e.preventDefault();
-e.stopPropagation();
- 
-var visibility = map.getLayoutProperty(clickedLayer, 'visibility');
- 
-if (visibility === 'visible') {
-map.setLayoutProperty(clickedLayer, 'visibility', 'none');
-this.className = '';
-} else {
-this.className = 'active';
-map.setLayoutProperty(clickedLayer, 'visibility', 'visible');
-}
-};
- 
-var layers = document.getElementById('menu');
-layers.appendChild(link);
-}
+
+    link.onclick = function (e) {
+        var clickedLayer = this.textContent;
+        e.preventDefault();
+        e.stopPropagation();
+     
+        var visibility = map.getLayoutProperty(clickedLayer, 'visibility');
+     
+        if (visibility === 'visible') {
+            map.setLayoutProperty(clickedLayer, 'visibility', 'none');
+            this.className = '';
+        } else {
+            this.className = 'active';
+            map.setLayoutProperty(clickedLayer, 'visibility', 'visible');
+        }
+    };
+     
+    var layers = document.getElementById('menu');
+    layers.appendChild(link);
+    }
 
 //---------------------------------------------------------------------------------------
 // --------------------------- Step 4: Create Custom Controls -----------------------------
@@ -338,22 +357,34 @@ function getMatch(e) {
 
     //Get Route Geojson Coordinates
 
-    //Basic proof of concept
+    /*/Basic proof of concept
     var output = "Geojson Coordinates: <br>" + coords.coordinates[0] + '<br>' + coords.coordinates[1] + '<br>' + coords.coordinates[2];
-    document.getElementById("htmlcoords").innerHTML = output; //Essentially Links your JS Variable to the HTML ID you want associated with it 
+    document.getElementById("htmlcoords").innerHTML = output; //Essentially Links your JS Variable to the HTML ID you want associated with it */
 
 
     //Convert the jsonResponse from a Json into a formatted string ready to be sent to a server
-    //Returning the entire GeoJson
-    //var textedJson = JSON.stringify(jsonResponse, undefined, 2);
-    //document.getElementById("completegeojson").innerHTML = textedJson;
+    /*Returning the entire GeoJson
+    var textedJson = JSON.stringify(jsonResponse, undefined, 2);
+    document.getElementById("completegeojson").innerHTML = textedJson;*/
 
-    //Returning just the coordinates
+    /*Returning just the coordinates
     var x='';
     for (i = 0; i < jsonResponse.routes[0].geometry.coordinates.length; i++) {
         x = x + "[" + jsonResponse.routes[0].geometry.coordinates[i] + "]" + "<br>";
     }
-    document.getElementById("coordsonlyID").innerHTML = x;
+    document.getElementById("coordsonlyID").innerHTML = x;*/
+
+
+
+    //Convert the jsonResponse from a Json into a formatted string ready to be sent to a server
+    //Returning the entire GeoJson
+    delete jsonResponse.waypoints;
+    delete jsonResponse.code;
+    delete jsonResponse.uuid;
+    console.log(Object.getOwnPropertyNames(req));
+    // expected output: Array ["a", "b", "c"]
+    //var textedJson = JSON.stringify(jsonResponse, undefined, 2);
+    //document.getElementById("completegeojson").innerHTML = textedJson;
 
 
     //Add The Route To The Map
@@ -417,10 +448,24 @@ function addRoute (coords) {
         'text-halo-width': 3
       }
     });
-
-
-
   };
+
+var TNRRoute = {
+    "id": "TNR Route",
+        "type": "FeatureCollection",
+            "features": [
+                {
+                    "type": "Feature",
+                    "properties": {},
+                    "geometry": coords
+                }
+            ]
+        };
+    //Convert the jsonResponse from a Json into a formatted string ready to be sent to a server
+    //Returning the entire GeoJson
+
+    var output = JSON.stringify(TNRRoute, undefined, 2);
+    document.getElementById("completegeojson").innerHTML = output;
 }
 
 
