@@ -129,13 +129,13 @@
 
 <!--Initialize Map, Menu, & Info Box-->
 <div id='map'></div>
-<div id='remover'>Add Bike Routes</div>
+<div id='remover'>Add Satallite</div>
 <nav id="menu"></nav> 
     <div id='instructions'>
         <div id="calculated-line"></div>
     </div>
 <div id='geojsonbox'>
-    <div>Functional Code Here
+    <div>
         <pre id='completegeojson'></pre>
     </div>
     <!--<div id='coordsonlyID'>Coords Only Here:</div>-->
@@ -151,7 +151,7 @@
 mapboxgl.accessToken = 'pk.eyJ1IjoiZHlsYW5jIiwiYSI6Im53UGgtaVEifQ.RJiPqXwEtCLTLl-Vmd1GWQ';
 var map = new mapboxgl.Map({
     container: 'map', // container id
-    style: 'mapbox://styles/dylanc/cjsgsh7gz06ds1fo98fl5q44s',
+    style: 'mapbox://styles/dylanc/cjsljph1q5gbo1fo4jaauh2no',
     //style: 'mapbox://styles/dylanc/cjsfuwcf00fby1fpnt4n5iokq', // stylesheet location
     center: [-110.9747, 32.2226 ], // starting position [lng, lat]
     zoom: 13, // starting zoom
@@ -163,8 +163,45 @@ var map = new mapboxgl.Map({
 // --------------------------- Step 2: Add Data Layers  -----------------------------
 //---------------------------------------------------------------------------------------
 
-//Toggle Multiple Layers At Once
-toggleLayer(['country-label','state-label', 'settlement-label', 'settlement-subdivision-label', 'airport-label', 'transit-label', 'poi-label', 'water-point-label', 'water-line-label', 'natural-point-label', 'natural-line-label', 'waterway-label', 'golf-hole-label', 'road-exit-shield', 'road-number-shield', 'road-label', 'building-number-label', 'contour-label'], 'Toggle Annotation');
+//Toggle All Annotation Layers At Once
+toggleLayer(
+    ['country-label',
+    'state-label', 
+    'settlement-label', 
+    'settlement-subdivision-label', 
+    'airport-label', 
+    'transit-label', 
+    'poi-label', 
+    'water-point-label', 
+    'water-line-label', 
+    'natural-point-label', 
+    'natural-line-label', 
+    'waterway-label', 
+    'golf-hole-label', 
+    'road-exit-shield', 
+    'road-number-shield', 
+    'road-label', 
+    'building-number-label', 
+    'contour-label'], 
+    'Toggle Annotation'); //Button Name
+
+toggleLayer(
+    ['High Stress Primary Roads',
+    'High Stress Secondary Roads', 
+    'High Stress Tertiary Roads',  
+    'road-motorway-trunk-case copy', 
+    'road-major-link-case copy', 
+    'road-primary-case copy', 
+    'road-secondary-tertiary-case copy', 
+    'road-minor-case copy', 
+    'road-pedestrian-case copy'], 
+    'Remove High Stress Road Network'); //Button Name
+
+toggleLayer(
+    ['Low Stress Deadend Roads 1',
+    'Low Stress Deadend Roads 2',
+    'road-street-case copy'],
+    'Remove Dead-End Low Stress Roads'); //Button Name
 
 function toggleLayer(ids, name) {
     var link = document.createElement('a');
@@ -197,12 +234,12 @@ map.on('load', function(){
         switchy = document.getElementById('remover');
         if (switchy.className === 'on') {
             switchy.setAttribute('class', 'off');
-            map.setLayoutProperty('Bike Routes', 'visibility', 'none');
-            switchy.innerHTML = 'Add Bike Routes';
+            map.setLayoutProperty('mapbox-satellite', 'visibility', 'none');
+            switchy.innerHTML = 'Add Satellite';
         } else {
             switchy.setAttribute('class', 'on');
-            map.setLayoutProperty('Bike Routes', 'visibility', 'visible');
-            switchy.innerHTML = 'Remove Bike Routes';
+            map.setLayoutProperty('mapbox-satellite', 'visibility', 'visible');
+            switchy.innerHTML = 'Remove Satallite';
         }
     });
 });
@@ -465,7 +502,7 @@ var TNRRoute = {
     //Returning the entire GeoJson
 
     var output = JSON.stringify(TNRRoute, undefined, 2);
-    document.getElementById("completegeojson").innerHTML = output;
+    document.getElementById("completegeojson").innerHTML = "<b>Geojson Output:</b> <br>" + output;
 }
 
 
@@ -522,6 +559,47 @@ function removeRoute () {
             compact: true,   
         }));
 
+
+// The 'building' layer in the mapbox-streets vector source contains building-height
+// data from OpenStreetMap.
+map.on('load', function() {
+// Insert the layer beneath any symbol layer.
+var layers = map.getStyle().layers;
+ 
+var labelLayerId;
+for (var i = 0; i < layers.length; i++) {
+if (layers[i].type === 'symbol' && layers[i].layout['text-field']) {
+labelLayerId = layers[i].id;
+break;
+}
+}
+ 
+map.addLayer({
+'id': '3d-buildings',
+'source': 'composite',
+'source-layer': 'building',
+'filter': ['==', 'extrude', 'true'],
+'type': 'fill-extrusion',
+'minzoom': 15,
+'paint': {
+'fill-extrusion-color': '#aaa',
+ 
+// use an 'interpolate' expression to add a smooth transition effect to the
+// buildings as the user zooms in
+'fill-extrusion-height': [
+"interpolate", ["linear"], ["zoom"],
+15, 0,
+15.05, ["get", "height"]
+],
+'fill-extrusion-base': [
+"interpolate", ["linear"], ["zoom"],
+15, 0,
+15.05, ["get", "min_height"]
+],
+'fill-extrusion-opacity': .6
+}
+}, labelLayerId);
+});
 
 </script>
 
