@@ -151,7 +151,7 @@
 mapboxgl.accessToken = 'pk.eyJ1IjoiZHlsYW5jIiwiYSI6Im53UGgtaVEifQ.RJiPqXwEtCLTLl-Vmd1GWQ';
 var map = new mapboxgl.Map({
     container: 'map', // container id
-    style: 'mapbox://styles/dylanc/cjsljph1q5gbo1fo4jaauh2no',
+    style: 'mapbox://styles/dylanc/cjswqd0y101861fs12fu0gton',
     //style: 'mapbox://styles/dylanc/cjsfuwcf00fby1fpnt4n5iokq', // stylesheet location
     center: [-110.9747, 32.2226 ], // starting position [lng, lat]
     zoom: 13, // starting zoom
@@ -163,7 +163,7 @@ var map = new mapboxgl.Map({
 // --------------------------- Step 2: Add Data Layers  -----------------------------
 //---------------------------------------------------------------------------------------
 
-//Toggle All Annotation Layers At Once
+//Toggle Annotation
 toggleLayer(
     ['country-label',
     'state-label', 
@@ -185,23 +185,81 @@ toggleLayer(
     'contour-label'], 
     'Toggle Annotation'); //Button Name
 
+//Toggle Standard Road Network
 toggleLayer(
-    ['High Stress Primary Roads',
-    'High Stress Secondary Roads', 
-    'High Stress Tertiary Roads',  
-    'road-motorway-trunk-case copy', 
-    'road-major-link-case copy', 
-    'road-primary-case copy', 
-    'road-secondary-tertiary-case copy', 
-    'road-minor-case copy', 
-    'road-pedestrian-case copy'], 
-    'Remove High Stress Road Network'); //Button Name
+    ['road-oneway-arrow-white',
+    'level-crossing', 
+    'road-rail-tracks', 
+    'road-rail', 
+    'road-motorway-trunk', 
+    'road-oneway-arrow-blue', 
+    'road-primary', 
+    'road-secondary-tertiary',
+    'road-street', 
+    'road-minor', 
+    'road-polygon',
+    'road-pedestrian-polygon-pattern', 
+    'road-pedestrian-polygon-fill', 
+    'road-pedestrian', 
+    'road-major-link', 
+    'road-steps', 
+    'road-path-cycleway-piste', 
+    'road-path-rough', 
+    'road-path-smooth',
+    'road-construction',
+    'road-motorway-trunk-case',
+    'road-major-link-case',
+    'road-primary-case',
+    'road-secondary-tertiary-case',
+    'road-street-case',
+    'road-minor-case',
+    'road-street-low',
+    'road-pedestrian-case',
+    'road-steps-bg',
+    'road-path-bg',
+    'bridge-oneway-arrow-white',
+    'bridge-motorway-trunk-2',
+    'bridge-major-link-2',
+    'bridge-motorway-trunk-2-case',
+    'bridge-major-link-2-case',
+    'bridge-rail-tracks',
+    'bridge-rail',
+    'bridge-motorway-trunk',
+    'bridge-oneway-arrow-blue',
+    'bridge-primary-secondary-tertiary',
+    'bridge-street-minor',
+    'bridge-pedestrian',
+    'bridge-major-link',
+    'bridge-steps',
+    'bridge-path-cycleway-piste',
+    'bridge-path-smooth-rough',
+    'bridge-construction',
+    'bridge-motorway-trunk-case',
+    'bridge-major-link-case',
+    'bridge-primary-secondary-tertiary-case',
+    'bridge-street-minor-case',,
+    'bridge-street-minor-low',
+    'bridge-pedestrian-case',
+    'bridge-steps-bg',
+    'bridge-path-bg'], 
+    'Toggle Standard Road Network'); //Button Name
 
 toggleLayer(
-    ['Low Stress Deadend Roads 1',
-    'Low Stress Deadend Roads 2',
-    'road-street-case copy'],
-    'Remove Dead-End Low Stress Roads'); //Button Name
+    ['road-street-low copy',
+    'HS- SecondaryTertiary',
+    'HS-Primary', 
+    'HS-MotorwayTrunk',
+    'LS-Streets-Low',
+    'LS-Streets',
+    'LS-SecondaryTertiary',
+    'LS-Primary',
+    'road-major-link-case copy',
+    'road-primary-case copy',
+    'road-secondary-tertiary-case copy',
+    'road-street-case copy',
+    'road-minor-case copy',
+    'road-pedestrian-case copy 1'],
+    'Toggle TNR Road Network'); //Button Name
 
 function toggleLayer(ids, name) {
     var link = document.createElement('a');
@@ -249,7 +307,7 @@ map.on('load', function(){
 //---------------------------------------------------------------------------------------
 
 //Generate Menu of Button for Toggling Layers
-var toggleableLayerIds = [ 'Signaled Crosswalks', 'Bike Routes',  'Future Buttons Here' ]; //Add toggleable layer ids here
+var toggleableLayerIds = [ 'Signaled Crosswalks', 'Bicycle Infrastructure',  'Future Buttons Here' ]; //Add toggleable layer ids here
  
 for (var i = 0; i < toggleableLayerIds.length; i++) {
 var id = toggleableLayerIds[i];
