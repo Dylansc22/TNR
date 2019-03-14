@@ -151,7 +151,7 @@
 mapboxgl.accessToken = 'pk.eyJ1IjoiZHlsYW5jIiwiYSI6Im53UGgtaVEifQ.RJiPqXwEtCLTLl-Vmd1GWQ';
 var map = new mapboxgl.Map({
     container: 'map', // container id
-    style: 'mapbox://styles/dylanc/cjswqd0y101861fs12fu0gton',
+    style: 'mapbox://styles/dylanc/cjt8h314525uc1fph7eu533pv',
     //style: 'mapbox://styles/dylanc/cjsfuwcf00fby1fpnt4n5iokq', // stylesheet location
     center: [-110.9747, 32.2226 ], // starting position [lng, lat]
     zoom: 13, // starting zoom
@@ -183,7 +183,7 @@ toggleLayer(
     'road-label', 
     'building-number-label', 
     'contour-label'], 
-    'Toggle Annotation'); //Button Name
+    'Annotation'); //Button Name
 
 //Toggle Standard Road Network
 toggleLayer(
@@ -242,24 +242,31 @@ toggleLayer(
     'bridge-pedestrian-case',
     'bridge-steps-bg',
     'bridge-path-bg'], 
-    'Toggle Standard Road Network'); //Button Name
+    'Standard Road Network'); //Button Name
+
+//Toggle High Stress Road Network
+toggleLayer(
+    ['hs-motorwaytrunk-c28gl0',
+    'hs-primary-2ethes',
+    'hs-secondarytertiary-8eu8pd'],
+    'High Stress Road Network');
 
 toggleLayer(
-    ['road-street-low copy',
-    'HS- SecondaryTertiary',
-    'HS-Primary', 
-    'HS-MotorwayTrunk',
-    'LS-Streets-Low',
-    'LS-Streets',
-    'LS-SecondaryTertiary',
-    'LS-Primary',
-    'road-major-link-case copy',
-    'road-primary-case copy',
-    'road-secondary-tertiary-case copy',
-    'road-street-case copy',
-    'road-minor-case copy',
-    'road-pedestrian-case copy 1'],
-    'Toggle TNR Road Network'); //Button Name
+    ['hawks-1sb3f4',
+    'hawkroads-acywed'], 
+    'Neighborhood Connections');
+
+toggleLayer(
+    ['tnr-v5-5pfsxq',
+    //'tnr-v4-apmebo',
+    //'tnr-v3-9wi26p',
+    'tnr-v2-06s5zd',
+    'tnr-v1-c7wnkt'],
+    'Low Stress Road Network'); //Button Name
+
+toggleLayer(
+    ['osm-bicycleinfras-5z6khj'],
+    'Recommended Bicycle Lanes'); //Button Name
 
 function toggleLayer(ids, name) {
     var link = document.createElement('a');
@@ -306,7 +313,10 @@ map.on('load', function(){
 // -------------    Step 3: Add Data Layers Toggle Button   -----------------------------
 //---------------------------------------------------------------------------------------
 
-//Generate Menu of Button for Toggling Layers
+/* Might Not Need this section any more?
+
+
+Generate Menu of Button for Toggling Layers
 var toggleableLayerIds = [ 'Signaled Crosswalks', 'Bicycle Infrastructure',  'Future Buttons Here' ]; //Add toggleable layer ids here
  
 for (var i = 0; i < toggleableLayerIds.length; i++) {
@@ -336,7 +346,7 @@ link.textContent = id;
     var layers = document.getElementById('menu');
     layers.appendChild(link);
     }
-
+*/
 //---------------------------------------------------------------------------------------
 // --------------------------- Step 4: Create Custom Controls -----------------------------
 //---------------------------------------------------------------------------------------
@@ -513,7 +523,7 @@ function addRoute (coords) {
         "line-cap": "round"
       },
       "paint": {
-        "line-color": "#0F9D58", //3b9ddd
+        "line-color": "#fff5d0", //"#0F9D58", //3b9ddd
         "line-width": 4,
         "line-opacity": 0.8
       }
