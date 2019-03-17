@@ -12,10 +12,10 @@
 
         #instructions {
             height:50px;
-            min-height:200px;
+            min-height:80px;
             width: 200px;
             position: absolute;
-            top: 240px;
+            top: 430px;
             left: 25px;
             background-color: rgba(255, 255, 255, .4);
             border: solid 3px #A0A0A0;
@@ -23,16 +23,17 @@
             text-align: left;
             font-family: 'Arial';
             margin: 0;
-            font-size: 13px;
+            font: 15px;
             overflow-y: scroll; /*scroll after max height is reached*/
+            font-weight: bold;
             }
 
         #geojsonbox {
             height:30px;
-            min-height:150px;
+            min-height:80px;
             width: 200px;
             position: absolute;
-            top: 500px;
+            top: 570px;
             left: 25px;
             background-color: rgba(255, 255, 255, .4);
             border: solid 3px #A0A0A0;
@@ -151,7 +152,7 @@
 mapboxgl.accessToken = 'pk.eyJ1IjoiZHlsYW5jIiwiYSI6Im53UGgtaVEifQ.RJiPqXwEtCLTLl-Vmd1GWQ';
 var map = new mapboxgl.Map({
     container: 'map', // container id
-    style: 'mapbox://styles/dylanc/cjt9p1y7s0gf61gmq3uholun5',
+    style: 'mapbox://styles/dylanc/cjtc75i652sp41fqrckja69dq',
     //style: 'mapbox://styles/dylanc/cjsfuwcf00fby1fpnt4n5iokq', // stylesheet location
     center: [-110.9747, 32.2226 ], // starting position [lng, lat]
     zoom: 13, // starting zoom
@@ -246,8 +247,12 @@ toggleLayer(
 
 //Toggle High Stress Road Network
 toggleLayer(
-    ['HS-do1x45'],
+    ['hs-do1x45'],
     'High Stress Road Network');
+
+//Toggle All LS Original Road Network
+toggleLayer(
+    ['ls-790ous'], 'Low Stress Road Network');
 
 toggleLayer(
     ['hawks-1sb3f4',
@@ -258,12 +263,15 @@ toggleLayer(
     ['tnr-v5-5pfsxq',
     //'tnr-v4-apmebo',
     //'tnr-v3-9wi26p',
-    'tnr-v2-06s5zd',
-    'tnr-v1-c7wnkt'],
-    'Low Stress Road Network'); //Button Name
+    //'tnr-v2-06s5zd',
+    //'tnr-v1-c7wnkt'
+    ],
+    'Recommended Bicycle Network'); //Button Name
 
 toggleLayer(
-    ['osm-bicycleinfras-5z6khj'],
+    ['osm-bicycleinfras-5z6khj', 
+    //'hs-do1x45 copy'
+    ],
     'Recommended Bicycle Lanes'); //Button Name
 
 function toggleLayer(ids, name) {
@@ -521,7 +529,7 @@ function addRoute (coords) {
         "line-cap": "round"
       },
       "paint": {
-        "line-color": "#fff5d0", //"#0F9D58", //3b9ddd
+        "line-color": "#FFC300", //"#2c9952" Green, //3b9ddd //#FFC300 Yellow
         "line-width": 4,
         "line-opacity": 0.8
       }
@@ -546,7 +554,7 @@ function addRoute (coords) {
         'text-keep-upright': false
       },
       paint: {
-        'text-color': '#0F9D58',
+        'text-color': '#FFC300',  //Yellow
         'text-halo-color': 'hsl(55, 11%, 96%)',
         'text-halo-width': 3
       }
