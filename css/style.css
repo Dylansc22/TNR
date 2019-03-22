@@ -14,7 +14,6 @@ body {
 #features {
     position: absolute;
     top: 0;
-    left: 0;
     width: 40%;
     font-family: sans-serif;
     /*overflow-y: scroll; Removed because I don't want the scrollbar showing*/
@@ -33,6 +32,7 @@ section {
     opacity: 0.25;
     font-size: 13px;
 }
+
 section.active {
     opacity: 1;
 }
@@ -153,4 +153,15 @@ section:last-child {
     color: #222;
     background: #fff;
     z-index: 3;
+}
+
+#scrolltest {
+    font-size:25px;
+    background-color:red;
+}
+
+#testbutton {
+    position: absolute;
+    left:600px;
+    z-index: 4;
 }

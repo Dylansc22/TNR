@@ -6,7 +6,7 @@
 mapboxgl.accessToken = 'pk.eyJ1IjoiZHlsYW5jIiwiYSI6Im53UGgtaVEifQ.RJiPqXwEtCLTLl-Vmd1GWQ';
 var map = new mapboxgl.Map({
     container: 'map', // container id
-    style: 'mapbox://styles/dylanc/cjtc75i652sp41fqrckja69dq',
+    style: 'mapbox://styles/dylanc/cjtkompwn0upp1fpa8n5fqgfq',
     //style: 'mapbox://styles/dylanc/cjsfuwcf00fby1fpnt4n5iokq', // stylesheet location
     center: [-110.926757, 35.215554 ], // starting position [lng, lat]
     zoom: 5, // starting zoom
@@ -22,7 +22,7 @@ map.on('load', function(){
         zoom: 12, //This should all be the same as the first var chapter 'tucson1' 
         pitch: 45,
         bearing: 10,
-        speed: 0.4,
+        speed: 0.6,
     });
 });
 
@@ -36,24 +36,39 @@ JSON.stringify(e.lngLat);
 });
 
 var chapters = {
-'tucson1': {
+'tucson1': { //This is mearly the reset position if i scroll to the top of the text
     center: [-110.932759,32.199656 ], // starting position [lng, lat]
         zoom: 12,
         pitch: 45,
         bearing: 10,
-},
+    },
 'baker': {
     bearing: 10,
     center: [-110.92357, 32.213554],
-    zoom: 15,
-    pitch: 45
+    zoom: 11,
+    pitch: 55,
+    bearing: -10,
+    duration: 2000,
+},
+'baker2': {
+    bearing: 10,
+    center: [-110.92357, 32.213554],
+    zoom: 11,
+    pitch: 55,
+    bearing: -10,
 },
 'aldgate': {
-    duration: 6000,
     center: [-110.907800,32.22162],
     bearing: -10,
     zoom: 14.5,
-    pitch: 0
+    pitch: 0,
+    duration: 3500,
+},
+'aldgate2': {
+    center: [-110.907800,32.22162],
+    bearing: -10,
+    zoom: 14.5,
+    pitch: 0,
 },
 'london-bridge': {
     bearing: 20,
@@ -101,6 +116,7 @@ for (var i = 0; i < chapterNames.length; i++) {
     var chapterName = chapterNames[i];
 if (isElementOnScreen(chapterName)) {
     setActiveChapter(chapterName);
+    myFunction();
 break;
 }
 }
@@ -124,12 +140,67 @@ var bounds = element.getBoundingClientRect();
 return bounds.top < window.innerHeight && bounds.bottom > 0;
 }
 
+function myFunction() {
+  //document.getElementById("demo").innerHTML = "Hello World";
+    if (activeChapterName === 'baker') {
+        map.setLayoutProperty('theloop-b2gq5f', 'visibility', 'visible');
+        var x = document.getElementById("scrolltest");   // Get the element with id="demo"
+        x.style.background = "green";  
+    } else 
+    if (activeChapterName === 'baker2') {
+        map.setLayoutProperty('osm-bicycleinfras-5z6khj', 'visibility', 'visible');
+        var x = document.getElementById("scrolltest");   // Get the element with id="demo"
+        x.style.background = "green";  
+    } else 
+    if (activeChapterName === 'aldgate') {
+        map.setLayoutProperty('theloop-b2gq5f', 'visibility', 'none');
+        var x = document.getElementById("scrolltest");   // Get the element with id="demo"
+        x.style.background = "green";  
+    } else
+    if (activeChapterName === 'aldgate2') {
+        map.setLayoutProperty('theloop-b2gq5f', 'visibility', 'none');
+        map.setLayoutProperty('hs-do1x45', 'visibility', 'visible');
+        var x = document.getElementById("scrolltest");   // Get the element with id="demo"
+        x.style.background = "green"; 
+    } return;
+}
+
+/* Turn on data layers when scrolling */
+function addActiveLayers(chapterName) {
+    if (activeChapterName === 'aldgate') {
+        var x = document.getElementById("scrolltest");   // Get the element with id="demo"
+        x.style.background = "green";
+
+
+
+
+        //map.setLayoutProperty('hs-do1x45', 'visibility', 'visible');
+        
+        /*for (layers in ids){
+            var visibility = map.getLayoutProperty(ids[layers], 'visibility');
+            if (visibility === 'visible') {
+                map.setLayoutProperty(ids[layers], 'visibility', 'none');
+                this.className = '';
+            } else {
+                this.className = 'active';
+                map.setLayoutProperty(ids[layers], 'visibility', 'visible');
+            }
+         }*/
+
+
+        /*toggleLayer(
+            ['hs-do1x45'],
+            'High Stress Road Network');
+        return;*/
+    }
+};
+
 //---------------------------------------------------------------------------------------
 // --------------------------- Step 2: Add Data Layers  -----------------------------
 //---------------------------------------------------------------------------------------
 
 //Toggle Annotation
-toggleLayer(
+/*toggleLayer(
     ['country-label',
     'state-label', 
     'settlement-label', 
@@ -278,6 +349,7 @@ map.on('load', function(){
         }
     });
 });
+*/
 
 //---------------------------------------------------------------------------------------
 // -------------    Step 3: Add Data Layers Toggle Button   -----------------------------
@@ -638,3 +710,5 @@ map.addLayer({
 }
 }, labelLayerId);
 });
+
+
