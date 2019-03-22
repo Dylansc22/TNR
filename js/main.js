@@ -9,7 +9,7 @@ var map = new mapboxgl.Map({
     style: 'mapbox://styles/dylanc/cjtc75i652sp41fqrckja69dq',
     //style: 'mapbox://styles/dylanc/cjsfuwcf00fby1fpnt4n5iokq', // stylesheet location
     center: [-110.926757, 35.215554 ], // starting position [lng, lat]
-    zoom: 3, // starting zoom
+    zoom: 5, // starting zoom
     attributionControl: false, // Removed default attribution and put custom attribution in below
     //maxBounds: [[-111.2,32], [-110.6, 32.5]], //Southwest & Northeast Bounds
     //pitch: 45,
@@ -19,7 +19,7 @@ var map = new mapboxgl.Map({
 map.on('load', function(){
     map.flyTo({
         center: [-110.932759,32.199656 ], // starting position [lng, lat]
-        zoom: 11.5,
+        zoom: 12, //This should all be the same as the first var chapter 'tucson1' 
         pitch: 45,
         bearing: 10,
         speed: 0.4,
@@ -38,7 +38,7 @@ JSON.stringify(e.lngLat);
 var chapters = {
 'tucson1': {
     center: [-110.932759,32.199656 ], // starting position [lng, lat]
-        zoom: 11.5,
+        zoom: 12,
         pitch: 45,
         bearing: 10,
 },
