@@ -62,14 +62,14 @@ var chapters = {
 'aldgate': {
     center: [-110.907800,32.22162],
     bearing: -10,
-    zoom: 14.5,
+    zoom: 13.5,
     pitch: 0,
     duration: 3500,
 },
 'aldgate2': {
     center: [-110.907800,32.22162],
     bearing: -10,
-    zoom: 14.5,
+    zoom: 13.5,
     pitch: 0,
 },
 'london-bridge': {
@@ -81,43 +81,42 @@ var chapters = {
 },
 'woolwich': {
 bearing: -10,
-center: [-110.8880799,32.2150097],
+center: [-110.926112,32.23569],
 zoom: 13.5,
 speed: 0.3
 },
 'woolwich2': {
 bearing: -10,
-center: [-110.8880799,32.2150097],
+center: [-110.926112,32.23569],
 zoom: 13.5,
 },
 'woolwich3': {
 bearing: -10,
-center: [-110.8880799,32.2150097],
+center: [-110.926112,32.23569],
 zoom: 13.5,
 },
 'gloucester': {
-    bearing: 15,
-    center: [-110.9545, 32.2524],
-    zoom: 12.3,
-    pitch: 20,
-    speed: 0.5
+    bearing: -10,
+    center: [-110.926112,32.23569],
+    zoom: 13.5,
 },
 'caulfield-gardens': { 
-    bearing: -15,
-    center: [-110.89, 32.21],
-    zoom: 12.3
+    bearing: -20,
+    pitch: 30,
+    center: [-110.93115323609769,32.23606789868883],
+    zoom: 19
 },
 'telegraph': {
-    bearing: 10,
-    center: [-110.9747, 32.2226],
-    zoom: 17.3,
-    pitch: 40
+    bearing: 0,
+    center: [-110.89842393118215,32.22807348245561],
+    zoom: 12,
+    pitch: 20
 },
 'charing-cross': {
-    bearing: 0,
-    center: [-110.974, 32.2226],
-    zoom: 14.3,
-    pitch: 20
+    bearing: 10,
+    center: [-110.9747, 32.2226],
+    zoom: 11.5,
+    pitch: 40
 }
 };
  
@@ -176,6 +175,8 @@ function myFunction() {
     } else
     if (activeChapterName === 'woolwich') {
         map.setLayoutProperty('ls-790ous', 'visibility', 'visible');
+        map.setLayoutProperty('tnr-v1-c7wnkt', 'visibility', 'none');
+        map.setLayoutProperty('tnr-v5-5pfsxq', 'visibility', 'none');
     } else
     if (activeChapterName === 'woolwich2') {
         //map.setLayoutProperty('osm-bicycleinfras-5z6khj', 'visibility', 'none');
@@ -197,15 +198,28 @@ function myFunction() {
         map.setLayoutProperty('hawkroads-acywed', 'visibility', 'visible');
         map.setLayoutProperty('tnr-v1-c7wnkt', 'visibility', 'visible');
         map.setLayoutProperty('tnr-v5-5pfsxq', 'visibility', 'visible');
+        map.setLayoutProperty('mapbox-satellite', 'visibility', 'none');
     } else 
         if (activeChapterName === 'caulfield-gardens') {
+        map.setLayoutProperty('mapbox-satellite', 'visibility', 'visible');    
+        map.setLayoutProperty('osm-bicycleinfras-5z6khj', 'visibility', 'none');
+        map.setLayoutProperty('hs-do1x45', 'visibility', 'none');
+        map.setLayoutProperty('ls-790ous', 'visibility', 'none'); 
+        map.setLayoutProperty('tnr-v1-c7wnkt', 'visibility', 'none');
+        map.setLayoutProperty('tnr-v5-5pfsxq', 'visibility', 'none');
+        map.setLayoutProperty('hawks-1sb3f4', 'visibility', 'none');
+        map.setLayoutProperty('hawkroads-acywed', 'visibility', 'none');
+    } else 
+        if (activeChapterName === 'telegraph') {
+        map.setLayoutProperty('mapbox-satellite', 'visibility', 'none');    
         map.setLayoutProperty('osm-bicycleinfras-5z6khj', 'visibility', 'none');
         map.setLayoutProperty('hs-do1x45', 'visibility', 'none');
         map.setLayoutProperty('ls-790ous', 'visibility', 'none'); 
         map.setLayoutProperty('tnr-v1-c7wnkt', 'visibility', 'visible');
         map.setLayoutProperty('tnr-v5-5pfsxq', 'visibility', 'visible');
-    } //hawks-1sb3f4' 'hawkroads-acywed
-    return;
+        map.setLayoutProperty('hawks-1sb3f4', 'visibility', 'visible');
+        map.setLayoutProperty('hawkroads-acywed', 'visibility', 'visible');//hawks-1sb3f4' 'hawkroads-acywed
+    } return;
 }
 
 /* Turn on data layers when scrolling */
