@@ -26,8 +26,8 @@ body {
 }
 
 #sidebar {
+    display: block;
     position: relative;
-    left: 300px;
 }
 section {
     padding: 350px 50px;
@@ -50,7 +50,7 @@ section:last-child {
     width: 200px;
     position: absolute;
     top: 430px;
-    left: 25px;
+    right: 25px;
     background-color: rgba(255, 255, 255, .4);
     border: solid 3px #A0A0A0;
     padding: 15px;
@@ -69,7 +69,7 @@ section:last-child {
     width: 200px;
     position: absolute;
     top: 570px;
-    left: 25px;
+    right: 25px;
     background-color: rgba(255, 255, 255, .4);
     border: solid 3px #A0A0A0;
     padding: 15px;
@@ -82,6 +82,28 @@ section:last-child {
     word-wrap: break-word;
     z-index: 2;
 }
+
+#info {
+    height: 30px;
+    min-height: 80px;
+    width: 200px;
+    position: absolute;
+    top: 290px;
+    right: 25px;
+    background-color: rgba(255, 255, 255, .4);
+    border: solid 3px #A0A0A0;
+    padding: 15px;
+    text-align: left;
+    font-family: 'Arial';
+    margin: 0;
+    font-size: 10px;
+    overflow-y: hidden; /*scroll;*/ 
+    /*scroll after max height is reached*/
+    word-wrap: break-word;
+    z-index: 2;
+    font-weight:bold;
+}
+
 #menu {
     /*background: #fff;*/
     position: absolute;
@@ -141,22 +163,6 @@ section:last-child {
 }
 #remover:hover {
     background-color: salmon;
-}
-#info {
-    display: block;
-    position: absolute;
-    bottom:0;
-    right:0;
-    margin: 0px auto;
-    width: 30%;
-    padding: 10px;
-    border: none;
-    border-radius: 3px;
-    font-size: 12px;
-    text-align: center;
-    color: #222;
-    background: #fff;
-    z-index: 3;
 }
 
 #scrolltest {

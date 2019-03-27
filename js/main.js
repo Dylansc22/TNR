@@ -209,11 +209,14 @@ function myFunction() {
 }
 
 /* Turn on data layers when scrolling */
+/* This can be deleted now, but it is the proof-of-concept
+function that i used to understand how events happen from a scroll 
 function addActiveLayers(chapterName) {
     if (activeChapterName === 'aldgate') {
         var x = document.getElementById("scrolltest");   // Get the element with id="demo"
         x.style.background = "green";
-
+    }
+};*/
 
 
 
@@ -235,8 +238,7 @@ function addActiveLayers(chapterName) {
             ['hs-do1x45'],
             'High Stress Road Network');
         return;*/
-    }
-};
+
 
 //---------------------------------------------------------------------------------------
 // --------------------------- Step 2: Add Data Layers  -----------------------------
