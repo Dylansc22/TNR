@@ -25,6 +25,14 @@ body {
     color: #d9ac7d;
 }
 
+#bicyclelanes {
+    color: #1fa375;
+}
+
+#highstress {
+    color: #ef8e39;
+}
+
 #sidebar {
     display: block;
     position: relative;
@@ -85,10 +93,10 @@ section:last-child {
 
 #info {
     height: 30px;
-    min-height: 80px;
+    min-height: 120px;
     width: 200px;
     position: absolute;
-    top: 290px;
+    top: 260px;
     right: 25px;
     background-color: rgba(255, 255, 255, .4);
     border: solid 3px #A0A0A0;
@@ -97,7 +105,7 @@ section:last-child {
     font-family: 'Arial';
     margin: 0;
     font-size: 10px;
-    overflow-y: hidden; /*scroll;*/ 
+    /*overflow-y: hidden; /*scroll;*/ 
     /*scroll after max height is reached*/
     word-wrap: break-word;
     z-index: 2;

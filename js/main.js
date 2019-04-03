@@ -6,7 +6,7 @@
 mapboxgl.accessToken = 'pk.eyJ1IjoiZHlsYW5jIiwiYSI6Im53UGgtaVEifQ.RJiPqXwEtCLTLl-Vmd1GWQ';
 var map = new mapboxgl.Map({
     container: 'map', // container id
-    style: 'mapbox://styles/dylanc/cjtkompwn0upp1fpa8n5fqgfq',
+    style: 'mapbox://styles/dylanc/cju1qd0jv1f781fpeaf3f3cwr',
     //style: 'mapbox://styles/dylanc/cjsfuwcf00fby1fpnt4n5iokq', // stylesheet location
     center: [-110.926757, 35.215554 ], // starting position [lng, lat]
     zoom: 5, // starting zoom
@@ -30,10 +30,11 @@ map.on('mousemove', function (e) {
 document.getElementById('info').innerHTML =
 // e.point is the x, y coordinates of the mousemove event relative
 // to the top-left corner of the map
-JSON.stringify(e.point) + '<br />' +
 // e.lngLat is the longitude, latitude geographical position of the event
-JSON.stringify(e.lngLat) + '<br/>' + 
-JSON.stringify(map.pitch);
+'Lat/Long:' + JSON.stringify(e.lngLat) + 
+'<br/> Zoom:' + JSON.stringify(Math.round(1000*map.getZoom())/1000) + 
+'<br/> Pitch:' + JSON.stringify(Math.round(1000*map.getPitch())/1000) +
+ '<br/> Bearing:' + JSON.stringify(Math.round(1000*map.getBearing())/1000) + '<br/>'
 });
 
 var chapters = {
@@ -43,7 +44,7 @@ var chapters = {
         pitch: 45,
         bearing: 10,
     },
-'baker': {
+'bicycleinfrastructure': {
     bearing: 10,
     center: [-110.92357, 32.213554],
     zoom: 11,
@@ -51,34 +52,29 @@ var chapters = {
     bearing: -10,
     duration: 2000,
 },
-'baker2': {
+'accidents': {
     bearing: 10,
-    center: [-110.93000, 32.222],
-    zoom: 11.5,
-    pitch: 45,
+    center: [-110.9448, 32.2339],
+    zoom: 13,
+    pitch: 50,
     bearing: 25,
     duration: 2000,
 },
-'aldgate': {
-    center: [-110.907800,32.22162],
-    bearing: -10,
-    zoom: 13.5,
-    pitch: 0,
+
+'highstressroads': {
+    center: [-110.906200,32.2456],
+    bearing: -73,
+    zoom: 13,
+    pitch: 60,
     duration: 3500,
 },
-'aldgate2': {
-    center: [-110.907800,32.22162],
-    bearing: -10,
-    zoom: 13.5,
-    pitch: 0,
-},
-'london-bridge': {
+/*'london-bridge': {
     bearing: 20,
     center: [-110.929702,32.21926065],
     zoom: 12,
     speed: 0.6,
     pitch: 40
-},
+},*/
 'woolwich': {
 bearing: -10,
 center: [-110.926112,32.23569],
@@ -155,43 +151,51 @@ function myFunction() {
   //document.getElementById("demo").innerHTML = "Hello World";
     if (activeChapterName === 'tucson1') {
         map.setLayoutProperty('theloop-b2gq5f', 'visibility', 'none');
-        var x = document.getElementById("scrolltest");   // Get the element with id="demo"
-        x.style.background = "green";  
-    } else 
-    if (activeChapterName === 'baker') {
         map.setLayoutProperty('osm-bicycleinfras-5z6khj', 'visibility', 'none');
-        map.setLayoutProperty('theloop-b2gq5f', 'visibility', 'visible');
+        //var x = document.getElementById("scrolltest");   // Get the element with id="demo"
+        //x.style.background = "green";  
     } else 
-    if (activeChapterName === 'baker2') {
+    if (activeChapterName === 'bicycleinfrastructure') {
         map.setLayoutProperty('osm-bicycleinfras-5z6khj', 'visibility', 'visible');
+        map.setLayoutProperty('theloop-b2gq5f', 'visibility', 'visible');
+        map.setLayoutProperty('trafficincidentsbike-4uqhba-points', 'visibility', 'none');
+        map.setLayoutProperty('trafficincidentsbike-4uqhba', 'visibility', 'none');
     } else 
-    if (activeChapterName === 'aldgate') {
+    if (activeChapterName === 'accidents') {
+        map.setLayoutProperty('trafficincidentsbike-4uqhba-points', 'visibility', 'visible');
+        map.setLayoutProperty('trafficincidentsbike-4uqhba', 'visibility', 'visible');
         map.setLayoutProperty('theloop-b2gq5f', 'visibility', 'none');
         map.setLayoutProperty('hs-do1x45', 'visibility', 'none');
-    } else
-    if (activeChapterName === 'aldgate2') {
+    } else 
+    if (activeChapterName === 'highstressroads') {
+        map.setLayoutProperty('theloop-b2gq5f', 'visibility', 'none');
         map.setLayoutProperty('hs-do1x45', 'visibility', 'visible');
         map.setLayoutProperty('ls-790ous', 'visibility', 'none');
     } else
     if (activeChapterName === 'woolwich') {
         map.setLayoutProperty('ls-790ous', 'visibility', 'visible');
-        map.setLayoutProperty('tnr-v1-c7wnkt', 'visibility', 'none');
-        map.setLayoutProperty('tnr-v5-5pfsxq', 'visibility', 'none');
+        map.setLayoutProperty('ls-nonhawkroads-4dyda7', 'visibility', 'none');       
+        map.setLayoutProperty('hawks-1sb3f4', 'visibility', 'none');
+        map.setLayoutProperty('hawkroads-acywed', 'visibility', 'none');
+        map.setLayoutProperty('trafficincidentsbike-4uqhba', 'visibility', 'none');
+        map.setLayoutProperty('trafficincidentsbike-4uqhba-points', 'visibility', 'none');
     } else
     if (activeChapterName === 'woolwich2') {
         //map.setLayoutProperty('osm-bicycleinfras-5z6khj', 'visibility', 'none');
         //map.setLayoutProperty('hs-do1x45', 'visibility', 'none');
-        map.setLayoutProperty('ls-790ous', 'visibility', 'visible');        
         map.setLayoutProperty('tnr-v1-c7wnkt', 'visibility', 'visible');
         map.setLayoutProperty('tnr-v5-5pfsxq', 'visibility', 'visible');
+        map.setLayoutProperty('ls-790ous', 'visibility', 'visible'); 
+        map.setLayoutProperty('ls-nonhawkroads-4dyda7', 'visibility', 'visible');       
     } else
     if (activeChapterName === 'woolwich3') {
         map.setLayoutProperty('osm-bicycleinfras-5z6khj', 'visibility', 'none');
-        map.setLayoutProperty('ls-790ous', 'visibility', 'none'); 
+        map.setLayoutProperty('ls-790ous', 'visibility', 'none');
         map.setLayoutProperty('tnr-v1-c7wnkt', 'visibility', 'visible');
         map.setLayoutProperty('tnr-v5-5pfsxq', 'visibility', 'visible');
-        map.setLayoutProperty('hawks-1sb3f4', 'visibility', 'none');
-        map.setLayoutProperty('hawkroads-acywed', 'visibility', 'none');
+        map.setLayoutProperty('ls-nonhawkroads-4dyda7', 'visibility', 'none');     
+        //map.setLayoutProperty('hawks-1sb3f4', 'visibility', 'none');
+        //map.setLayoutProperty('hawkroads-acywed', 'visibility', 'none');
     } else
     if (activeChapterName === 'gloucester') {
         map.setLayoutProperty('hawks-1sb3f4', 'visibility', 'visible');
