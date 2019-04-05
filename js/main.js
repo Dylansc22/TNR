@@ -6,7 +6,7 @@
 mapboxgl.accessToken = 'pk.eyJ1IjoiZHlsYW5jIiwiYSI6Im53UGgtaVEifQ.RJiPqXwEtCLTLl-Vmd1GWQ';
 var map = new mapboxgl.Map({
     container: 'map', // container id
-    style: 'mapbox://styles/dylanc/cju3013b72rxp1fo9cbmzguty',
+    style: 'mapbox://styles/dylanc/cju4kw5ja48zc1fpm1j9rf65m',
     //style: 'mapbox://styles/dylanc/cjsfuwcf00fby1fpnt4n5iokq', // stylesheet location
     center: [-110.926757, 35.215554 ], // starting position [lng, lat]
     zoom: 5, // starting zoom
@@ -92,31 +92,20 @@ speed: 0.3 //or duration: like 3500(?)
 bearing: -10,
 center: [-110.926112,32.23569],
 zoom: 13.5,
-speed: 0.15,
+duration: 3000,
 },
-'gloucester': {
-    bearing: -10,
-    center: [-110.926112,32.23569],
-    zoom: 13.5,
-},
-'caulfield-gardens': { 
+'satallite': { 
     bearing: -20,
-    pitch: 30,
-    center: [-110.93115323609769,32.23606789868883],
-    zoom: 19,
-    speed: 0.5,
+    pitch: 50,
+    center: [-110.93114323609769,32.23606789868883],
+    zoom: 19.8,
+    speed: 0.8,
 },
 'telegraph': {
     bearing: 0,
     center: [-110.89842393118215,32.22807348245561],
     zoom: 12,
     pitch: 20
-},
-'charing-cross': {
-    bearing: 10,
-    center: [-110.9747, 32.2226],
-    zoom: 12,
-    pitch: 40
 }
 };
  
@@ -177,48 +166,34 @@ function myFunction() {
         map.setLayoutProperty('ls-790ous', 'visibility', 'none');
     } else
     if (activeChapterName === 'neighborhoodroads') {
-        map.setLayoutProperty('ls-790ous', 'visibility', 'visible');
-        map.setLayoutProperty('ls-nonhawkroads-4dyda7', 'visibility', 'none');       
-        map.setLayoutProperty('hawks-1sb3f4', 'visibility', 'none');
-        map.setLayoutProperty('hawkroads-acywed', 'visibility', 'none');
         map.setLayoutProperty('trafficincidentsbike-4uqhba', 'visibility', 'none');
         map.setLayoutProperty('trafficincidentsbike-4uqhba-points', 'visibility', 'none');
+        map.setLayoutProperty('osm-bicycleinfras-5z6khj', 'visibility', 'none');
+        map.setLayoutProperty('ls-790ous', 'visibility', 'visible');
+        map.setLayoutProperty('hawks-1sb3f4', 'visibility', 'none');
+        map.setLayoutProperty('hawkroads-acywed', 'visibility', 'none');
+        map.setLayoutProperty('ls-nonhawkroads-4dyda7', 'visibility', 'none');       
     } else
     if (activeChapterName === 'deadendroads') {
         //map.setLayoutProperty('osm-bicycleinfras-5z6khj', 'visibility', 'none');
         //map.setLayoutProperty('hs-do1x45', 'visibility', 'none');
-        map.setLayoutProperty('tnr-v1-c7wnkt', 'visibility', 'visible');
-        map.setLayoutProperty('tnr-v5-5pfsxq', 'visibility', 'visible');
-        map.setLayoutProperty('ls-790ous', 'visibility', 'visible'); 
-        map.setLayoutProperty('ls-nonhawkroads-4dyda7', 'visibility', 'visible');       
+        map.setLayoutProperty('ls-nonhawkroads-4dyda7', 'visibility', 'visible');
     } else
     if (activeChapterName === 'lowstressnetwork') {
-        map.setLayoutProperty('osm-bicycleinfras-5z6khj', 'visibility', 'none');
-        map.setLayoutProperty('ls-790ous', 'visibility', 'none');
         map.setLayoutProperty('tnr-v1-c7wnkt', 'visibility', 'visible');
         map.setLayoutProperty('tnr-v5-5pfsxq', 'visibility', 'visible');
+        map.setLayoutProperty('ls-790ous', 'visibility', 'none');
         map.setLayoutProperty('ls-nonhawkroads-4dyda7', 'visibility', 'none');     
+        map.setLayoutProperty('mapbox-satellite', 'visibility', 'none');
         //map.setLayoutProperty('hawks-1sb3f4', 'visibility', 'none');
         //map.setLayoutProperty('hawkroads-acywed', 'visibility', 'none');
     } else
-    if (activeChapterName === 'gloucester') {
-        map.setLayoutProperty('hawks-1sb3f4', 'visibility', 'visible');
-        map.setLayoutProperty('hawkroads-acywed', 'visibility', 'visible');
-        map.setLayoutProperty('tnr-v1-c7wnkt', 'visibility', 'visible');
-        map.setLayoutProperty('tnr-v5-5pfsxq', 'visibility', 'visible');
-        map.setLayoutProperty('mapbox-satellite', 'visibility', 'none');
-    } else 
-        if (activeChapterName === 'caulfield-gardens') {
-        map.setLayoutProperty('mapbox-satellite', 'visibility', 'visible');    
-        map.setLayoutProperty('osm-bicycleinfras-5z6khj', 'visibility', 'none');
-        map.setLayoutProperty('hs-do1x45', 'visibility', 'none');
-        map.setLayoutProperty('ls-790ous', 'visibility', 'none'); 
-        map.setLayoutProperty('tnr-v1-c7wnkt', 'visibility', 'none');
-        map.setLayoutProperty('tnr-v5-5pfsxq', 'visibility', 'none');
-        map.setLayoutProperty('hawks-1sb3f4', 'visibility', 'none');
-        map.setLayoutProperty('hawkroads-acywed', 'visibility', 'none');
+        if (activeChapterName === 'satallite') {    
+        map.setLayoutProperty('hawkroads-example', 'visibility', 'visible');
+        map.setLayoutProperty('mapbox-satellite', 'visibility', 'visible');
     } else 
         if (activeChapterName === 'telegraph') {
+        //map.setLayoutProperty('hawkroads-example', 'visibility', 'none');
         map.setLayoutProperty('mapbox-satellite', 'visibility', 'none');    
         map.setLayoutProperty('osm-bicycleinfras-5z6khj', 'visibility', 'none');
         map.setLayoutProperty('hs-do1x45', 'visibility', 'none');
