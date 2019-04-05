@@ -14,29 +14,26 @@ body {
 #features {
     position: absolute;
     top: 0;
-    width: 40%;
+    /*width: 40%;*/
     font-family: sans-serif;
     /*overflow-y: scroll; Removed because I don't want the scrollbar showing*/
     z-index: 2;
     color: white;
 }
 
-#theLoop {
-    color: #d9ac7d;
+/*fonts and text*/
+h1 {
+    font-size: 2.2rem;
+    line-height: 2.2rem;
 }
 
-#bicyclelanes {
-    color: #1fa375;
-}
+.theloopfont {color: #d9ac7d;}
+.bicyclelanefont {color: #1fa375;}
+.highstressfont {color: #ef8e39;}
+.accidentsfont {color: #d22828;}
+.neighborhoodroadfont {color: #62adf3;}
 
-#highstress {
-    color: #ef8e39;
-}
 
-#sidebar {
-    display: block;
-    position: relative;
-}
 section {
     padding: 350px 50px;
     line-height: 25px;
@@ -52,19 +49,26 @@ section:last-child {
     border-bottom: none;
     margin-bottom: 200px;
 }
+
+#maininfo {
+    position: absolute;
+    z-index: 10;
+    bottom: 20px;
+}
+
 #instructions {
-    height: 50px;
+/*    height: 50px;
     min-height: 80px;
     width: 200px;
     position: absolute;
     top: 430px;
-    right: 25px;
+    right: 25px;*/
     background-color: rgba(255, 255, 255, .4);
     border: solid 3px #A0A0A0;
     padding: 15px;
     text-align: left;
     font-family: 'Arial';
-    margin: 0;
+    margin: 10;
     font: 15px;
     overflow-y: scroll;
     /*scroll after max height is reached*/
@@ -72,18 +76,18 @@ section:last-child {
     z-index: 2;
 }
 #geojsonbox {
-    height: 30px;
+/*    height: 30px;
     min-height: 80px;
     width: 200px;
     position: absolute;
     top: 570px;
-    right: 25px;
+    right: 25px;*/
     background-color: rgba(255, 255, 255, .4);
     border: solid 3px #A0A0A0;
     padding: 15px;
     text-align: left;
     font-family: 'Arial';
-    margin: 0;
+    margin: 10;
     font-size: 13px;
     overflow-y: scroll;
     /*scroll after max height is reached*/
@@ -92,18 +96,18 @@ section:last-child {
 }
 
 #info {
-    height: 30px;
+/*    height: 30px;
     min-height: 120px;
     width: 200px;
     position: absolute;
     top: 260px;
-    right: 25px;
+    right: 25px;*/
     background-color: rgba(255, 255, 255, .4);
     border: solid 3px #A0A0A0;
     padding: 15px;
     text-align: left;
     font-family: 'Arial';
-    margin: 0;
+    margin: 10;
     font-size: 10px;
     /*overflow-y: hidden; /*scroll;*/ 
     /*scroll after max height is reached*/

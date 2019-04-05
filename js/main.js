@@ -6,7 +6,7 @@
 mapboxgl.accessToken = 'pk.eyJ1IjoiZHlsYW5jIiwiYSI6Im53UGgtaVEifQ.RJiPqXwEtCLTLl-Vmd1GWQ';
 var map = new mapboxgl.Map({
     container: 'map', // container id
-    style: 'mapbox://styles/dylanc/cju1qd0jv1f781fpeaf3f3cwr',
+    style: 'mapbox://styles/dylanc/cju3013b72rxp1fo9cbmzguty',
     //style: 'mapbox://styles/dylanc/cjsfuwcf00fby1fpnt4n5iokq', // stylesheet location
     center: [-110.926757, 35.215554 ], // starting position [lng, lat]
     zoom: 5, // starting zoom
@@ -62,8 +62,8 @@ var chapters = {
 },
 
 'highstressroads': {
-    center: [-110.906200,32.2456],
-    bearing: -73,
+    center: [-110.92402,32.246861],
+    bearing: -50,
     zoom: 13,
     pitch: 60,
     duration: 3500,
@@ -75,21 +75,24 @@ var chapters = {
     speed: 0.6,
     pitch: 40
 },*/
-'woolwich': {
+'neighborhoodroads': {
 bearing: -10,
 center: [-110.926112,32.23569],
 zoom: 13.5,
-speed: 0.3
+pitch: 43,
+speed: 0.15,
 },
-'woolwich2': {
-bearing: -10,
-center: [-110.926112,32.23569],
-zoom: 13.5,
+'deadendroads': {
+center: [-110.926718,32.239679],
+zoom: 14.5,
+pitch: 19,
+speed: 0.3 //or duration: like 3500(?)
 },
-'woolwich3': {
+'lowstressnetwork': {
 bearing: -10,
 center: [-110.926112,32.23569],
 zoom: 13.5,
+speed: 0.15,
 },
 'gloucester': {
     bearing: -10,
@@ -100,7 +103,8 @@ zoom: 13.5,
     bearing: -20,
     pitch: 30,
     center: [-110.93115323609769,32.23606789868883],
-    zoom: 19
+    zoom: 19,
+    speed: 0.5,
 },
 'telegraph': {
     bearing: 0,
@@ -111,7 +115,7 @@ zoom: 13.5,
 'charing-cross': {
     bearing: 10,
     center: [-110.9747, 32.2226],
-    zoom: 11.5,
+    zoom: 12,
     pitch: 40
 }
 };
@@ -172,7 +176,7 @@ function myFunction() {
         map.setLayoutProperty('hs-do1x45', 'visibility', 'visible');
         map.setLayoutProperty('ls-790ous', 'visibility', 'none');
     } else
-    if (activeChapterName === 'woolwich') {
+    if (activeChapterName === 'neighborhoodroads') {
         map.setLayoutProperty('ls-790ous', 'visibility', 'visible');
         map.setLayoutProperty('ls-nonhawkroads-4dyda7', 'visibility', 'none');       
         map.setLayoutProperty('hawks-1sb3f4', 'visibility', 'none');
@@ -180,7 +184,7 @@ function myFunction() {
         map.setLayoutProperty('trafficincidentsbike-4uqhba', 'visibility', 'none');
         map.setLayoutProperty('trafficincidentsbike-4uqhba-points', 'visibility', 'none');
     } else
-    if (activeChapterName === 'woolwich2') {
+    if (activeChapterName === 'deadendroads') {
         //map.setLayoutProperty('osm-bicycleinfras-5z6khj', 'visibility', 'none');
         //map.setLayoutProperty('hs-do1x45', 'visibility', 'none');
         map.setLayoutProperty('tnr-v1-c7wnkt', 'visibility', 'visible');
@@ -188,7 +192,7 @@ function myFunction() {
         map.setLayoutProperty('ls-790ous', 'visibility', 'visible'); 
         map.setLayoutProperty('ls-nonhawkroads-4dyda7', 'visibility', 'visible');       
     } else
-    if (activeChapterName === 'woolwich3') {
+    if (activeChapterName === 'lowstressnetwork') {
         map.setLayoutProperty('osm-bicycleinfras-5z6khj', 'visibility', 'none');
         map.setLayoutProperty('ls-790ous', 'visibility', 'none');
         map.setLayoutProperty('tnr-v1-c7wnkt', 'visibility', 'visible');
