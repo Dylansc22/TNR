@@ -6,7 +6,7 @@
 mapboxgl.accessToken = 'pk.eyJ1IjoiZHlsYW5jIiwiYSI6Im53UGgtaVEifQ.RJiPqXwEtCLTLl-Vmd1GWQ';
 var map = new mapboxgl.Map({
     container: 'map', // container id
-    style: 'mapbox://styles/dylanc/cju4kw5ja48zc1fpm1j9rf65m',
+    style: 'mapbox://styles/dylanc/cju4ty0sy4he31fp6wk3l33zj',
     //style: 'mapbox://styles/dylanc/cjsfuwcf00fby1fpnt4n5iokq', // stylesheet location
     center: [-110.926757, 35.215554 ], // starting position [lng, lat]
     zoom: 5, // starting zoom
@@ -60,7 +60,13 @@ var chapters = {
     bearing: 25,
     duration: 2000,
 },
-
+'satallitebikelanes': {
+    center: [-110.92512,32.23603],
+    bearing: -90,
+    zoom: 19.3,
+    pitch: 52,
+    duration: 3500,
+},
 'highstressroads': {
     center: [-110.92402,32.246861],
     bearing: -50,
@@ -84,14 +90,17 @@ speed: 0.15,
 },
 'deadendroads': {
 center: [-110.926718,32.239679],
-zoom: 14.5,
+bearing: -10,
+zoom: 13.3,
 pitch: 19,
-speed: 0.3 //or duration: like 3500(?)
+//speed: 0.3 
+duration: 3000
 },
 'lowstressnetwork': {
 bearing: -10,
-center: [-110.926112,32.23569],
-zoom: 13.5,
+center: [-110.926718,32.239679],
+zoom: 13.3,
+pitch: 19,
 duration: 3000,
 },
 'satallite': { 
@@ -104,7 +113,7 @@ duration: 3000,
 'telegraph': {
     bearing: 0,
     center: [-110.89842393118215,32.22807348245561],
-    zoom: 12,
+    zoom: 12.2,
     pitch: 20
 }
 };
@@ -159,17 +168,33 @@ function myFunction() {
         map.setLayoutProperty('trafficincidentsbike-4uqhba', 'visibility', 'visible');
         map.setLayoutProperty('theloop-b2gq5f', 'visibility', 'none');
         map.setLayoutProperty('hs-do1x45', 'visibility', 'none');
+        map.setLayoutProperty('mapbox-satellite', 'visibility', 'none');
+        map.setLayoutProperty('osm-bicycleinfras-example', 'visibility', 'none');
     } else 
+if (activeChapterName === 'satallitebikelanes') {
+        map.setLayoutProperty('mapbox-satellite', 'visibility', 'visible');
+        map.setLayoutProperty('osm-bicycleinfras-example', 'visibility', 'visible');
+        map.setLayoutProperty('ls-790ous', 'visibility', 'none');
+        map.setLayoutProperty('tnr-v1-c7wnkt', 'visibility', 'none');
+        map.setLayoutProperty('tnr-v5-5pfsxq', 'visibility', 'none');
+        map.setLayoutProperty('hs-do1x45', 'visibility', 'none');
+    } else
     if (activeChapterName === 'highstressroads') {
+        map.setLayoutProperty('mapbox-satellite', 'visibility', 'none');
+        map.setLayoutProperty('osm-bicycleinfras-example', 'visibility', 'none');
         map.setLayoutProperty('theloop-b2gq5f', 'visibility', 'none');
         map.setLayoutProperty('hs-do1x45', 'visibility', 'visible');
         map.setLayoutProperty('ls-790ous', 'visibility', 'none');
+        map.setLayoutProperty('tnr-v1-c7wnkt', 'visibility', 'none');
+        map.setLayoutProperty('tnr-v5-5pfsxq', 'visibility', 'none');
     } else
     if (activeChapterName === 'neighborhoodroads') {
         map.setLayoutProperty('trafficincidentsbike-4uqhba', 'visibility', 'none');
         map.setLayoutProperty('trafficincidentsbike-4uqhba-points', 'visibility', 'none');
         map.setLayoutProperty('osm-bicycleinfras-5z6khj', 'visibility', 'none');
         map.setLayoutProperty('ls-790ous', 'visibility', 'visible');
+        map.setLayoutProperty('tnr-v1-c7wnkt', 'visibility', 'visible');
+        map.setLayoutProperty('tnr-v5-5pfsxq', 'visibility', 'visible');
         map.setLayoutProperty('hawks-1sb3f4', 'visibility', 'none');
         map.setLayoutProperty('hawkroads-acywed', 'visibility', 'none');
         map.setLayoutProperty('ls-nonhawkroads-4dyda7', 'visibility', 'none');       
@@ -180,8 +205,6 @@ function myFunction() {
         map.setLayoutProperty('ls-nonhawkroads-4dyda7', 'visibility', 'visible');
     } else
     if (activeChapterName === 'lowstressnetwork') {
-        map.setLayoutProperty('tnr-v1-c7wnkt', 'visibility', 'visible');
-        map.setLayoutProperty('tnr-v5-5pfsxq', 'visibility', 'visible');
         map.setLayoutProperty('ls-790ous', 'visibility', 'none');
         map.setLayoutProperty('ls-nonhawkroads-4dyda7', 'visibility', 'none');     
         map.setLayoutProperty('mapbox-satellite', 'visibility', 'none');
@@ -191,6 +214,8 @@ function myFunction() {
         if (activeChapterName === 'satallite') {    
         map.setLayoutProperty('hawkroads-example', 'visibility', 'visible');
         map.setLayoutProperty('mapbox-satellite', 'visibility', 'visible');
+        map.setLayoutProperty('hawks-1sb3f4', 'visibility', 'none');
+        map.setLayoutProperty('hawkroads-acywed', 'visibility', 'none');
     } else 
         if (activeChapterName === 'telegraph') {
         //map.setLayoutProperty('hawkroads-example', 'visibility', 'none');
@@ -712,6 +737,8 @@ function removeRoute () {
         }));
 
 
+/*Enable/Disable 3D Buildings when zoomed in
+
 // The 'building' layer in the mapbox-streets vector source contains building-height
 // data from OpenStreetMap.
 map.on('load', function() {
@@ -726,6 +753,7 @@ break;
 }
 }
  
+
 map.addLayer({
 'id': '3d-buildings',
 'source': 'composite',
@@ -752,5 +780,5 @@ map.addLayer({
 }
 }, labelLayerId);
 });
-
+*/
 
