@@ -6,7 +6,7 @@
 mapboxgl.accessToken = 'pk.eyJ1IjoiZHlsYW5jIiwiYSI6Im53UGgtaVEifQ.RJiPqXwEtCLTLl-Vmd1GWQ';
 var map = new mapboxgl.Map({
     container: 'map', // container id
-    style: 'mapbox://styles/dylanc/cju4ty0sy4he31fp6wk3l33zj',
+    style: 'mapbox://styles/dylanc/cjuczwmdd187v1fmf3ys7mn3c',
     //style: 'mapbox://styles/dylanc/cjsfuwcf00fby1fpnt4n5iokq', // stylesheet location
     center: [-110.926757, 35.215554 ], // starting position [lng, lat]
     zoom: 5, // starting zoom
@@ -70,10 +70,10 @@ var chapters = {
     duration: 3500,
 },
 'highstressroads': {
-    center: [-110.92402,32.246861],
-    bearing: -50,
-    zoom: 13,
+    center: [-110.89461, 32.24297], 
+    zoom: 13.514,
     pitch: 60,
+    bearing: -90,
     duration: 3500,
 },
 /*'london-bridge': {
@@ -105,18 +105,19 @@ zoom: 13.3,
 pitch: 19,
 duration: 3000,
 },
-'satallite': { 
+/*'satallite': { 
     bearing: -20,
     pitch: 50,
     center: [-110.93114323609769,32.23606789868883],
     zoom: 19.8,
     speed: 0.8,
-},
+},*/
 'telegraph': {
     center: [-110.91999, 32.23657], 
     zoom: 12.7,
     pitch: 0,
-    bearing: 0, 
+    bearing: 0,
+    duration: 4000,
 }
 };
  
@@ -159,74 +160,92 @@ function myFunction() {
     if (activeChapterName === 'bicycleinfrastructure') {
         map.setLayoutProperty('osm-bicycleinfras-5z6khj', 'visibility', 'visible');
         map.setLayoutProperty('theloop-b2gq5f', 'visibility', 'visible');
-        map.setLayoutProperty('trafficincidentsbike-4uqhba-points', 'visibility', 'none');
         map.setLayoutProperty('trafficincidentsbike-4uqhba', 'visibility', 'none');
+        map.setLayoutProperty('trafficincidentsbike-4uqhba copy', 'visibility', 'none');
     } else 
     if (activeChapterName === 'accidents') {
-        map.setLayoutProperty('trafficincidentsbike-4uqhba-points', 'visibility', 'visible');
-        map.setLayoutProperty('trafficincidentsbike-4uqhba', 'visibility', 'visible');
+        map.setLayoutProperty('osm-bicycleinfras-5z6khj', 'visibility', 'none');
         map.setLayoutProperty('theloop-b2gq5f', 'visibility', 'none');
+        map.setLayoutProperty('trafficincidentsbike-4uqhba', 'visibility', 'visible');
+        map.setLayoutProperty('trafficincidentsbike-4uqhba copy', 'visibility', 'visible');
         map.setLayoutProperty('hs-do1x45', 'visibility', 'none');
         map.setLayoutProperty('mapbox-satellite', 'visibility', 'none');
-        map.setLayoutProperty('osm-bicycleinfras-example', 'visibility', 'none');
     } else 
 if (activeChapterName === 'satallitebikelanes') {
         map.setLayoutProperty('mapbox-satellite', 'visibility', 'visible');
-        map.setLayoutProperty('osm-bicycleinfras-example', 'visibility', 'visible');
+        //Need to remake this layer in new map map.setLayoutProperty('osm-bicycleinfras-example', 'visibility', 'visible');
         map.setLayoutProperty('ls-790ous', 'visibility', 'none');
-        //map.setLayoutProperty('tnr-v1-c7wnkt', 'visibility', 'none');
-        map.setLayoutProperty('tnr-v5-5pfsxq', 'visibility', 'none');
-        map.setLayoutProperty('hs-do1x45', 'visibility', 'none');
+        map.setLayoutProperty('hs-do1x45 copy 1', 'visibility', 'none');
+        map.setLayoutProperty('hs-do1x45 copy', 'visibility', 'none');
     } else
     if (activeChapterName === 'highstressroads') {
         map.setLayoutProperty('mapbox-satellite', 'visibility', 'none');
-        map.setLayoutProperty('osm-bicycleinfras-example', 'visibility', 'none');
-        map.setLayoutProperty('theloop-b2gq5f', 'visibility', 'none');
-        map.setLayoutProperty('hs-do1x45', 'visibility', 'visible');
+        //Need to remake this layer in new map map.setLayoutProperty('osm-bicycleinfras-example', 'visibility', 'none');
+        map.setLayoutProperty('hs-do1x45 copy 1', 'visibility', 'visible');
+        map.setLayoutProperty('hs-do1x45 copy', 'visibility', 'visible');
+        map.setLayoutProperty('ls-790ous copy', 'visibility', 'none');
         map.setLayoutProperty('ls-790ous', 'visibility', 'none');
-        //map.setLayoutProperty('tnr-v1-c7wnkt', 'visibility', 'none');
         map.setLayoutProperty('tnr-v5-5pfsxq', 'visibility', 'none');
 
     } else
     if (activeChapterName === 'neighborhoodroads') {
         map.setLayoutProperty('trafficincidentsbike-4uqhba', 'visibility', 'none');
-        map.setLayoutProperty('trafficincidentsbike-4uqhba-points', 'visibility', 'none');
-        map.setLayoutProperty('osm-bicycleinfras-5z6khj', 'visibility', 'none');
+        map.setLayoutProperty('trafficincidentsbike-4uqhba copy', 'visibility', 'none');
+        map.setLayoutProperty('ls-790ous copy', 'visibility', 'visible');
         map.setLayoutProperty('ls-790ous', 'visibility', 'visible');
-        //map.setLayoutProperty('tnr-v1-c7wnkt', 'visibility', 'visible');
-        map.setLayoutProperty('tnr-v5-5pfsxq', 'visibility', 'visible');
         map.setLayoutProperty('hawks-1sb3f4', 'visibility', 'none');
         map.setLayoutProperty('hawkroads-acywed', 'visibility', 'none');
+        map.setLayoutProperty('ls-nonhawkroads-4dyda7 copy', 'visibility', 'none');
         map.setLayoutProperty('ls-nonhawkroads-4dyda7', 'visibility', 'none');       
+        map.setLayoutProperty('tnr-v5-5pfsxq', 'visibility', 'none');
+        map.setLayoutProperty('tnr-v5-5pfsxq copy', 'visibility', 'none');
     } else
     if (activeChapterName === 'deadendroads') {
         //map.setLayoutProperty('osm-bicycleinfras-5z6khj', 'visibility', 'none');
         //map.setLayoutProperty('hs-do1x45', 'visibility', 'none');
+        map.setLayoutProperty('hs-do1x45 copy 1', 'visibility', 'visible');
+        map.setLayoutProperty('hs-do1x45 copy', 'visibility', 'visible');
+        map.setLayoutProperty('ls-nonhawkroads-4dyda7 copy', 'visibility', 'visible');
         map.setLayoutProperty('ls-nonhawkroads-4dyda7', 'visibility', 'visible');
+        map.setLayoutProperty('tnr-v5-5pfsxq', 'visibility', 'visible');
+        map.setLayoutProperty('tnr-v5-5pfsxq copy', 'visibility', 'visible');
+        map.setLayoutProperty('osm-bicycleinfras-5z6khj', 'visibility', 'none');
+        map.setLayoutProperty('theloop-b2gq5f', 'visibility', 'none');
+        map.setLayoutProperty('hs-do1x45 copy 2', 'visibility', 'none');
+        map.setLayoutProperty('hs-do1x45 copy 3', 'visibility', 'none');
     } else
     if (activeChapterName === 'lowstressnetwork') {
+        map.setLayoutProperty('hs-do1x45 copy 1', 'visibility', 'none');
+        map.setLayoutProperty('hs-do1x45 copy', 'visibility', 'none');
+        map.setLayoutProperty('ls-nonhawkroads-4dyda7 copy', 'visibility', 'none');     
+        map.setLayoutProperty('ls-nonhawkroads-4dyda7', 'visibility', 'none');
         map.setLayoutProperty('ls-790ous', 'visibility', 'none');
-        map.setLayoutProperty('ls-nonhawkroads-4dyda7', 'visibility', 'none');     
+        map.setLayoutProperty('ls-790ous copy', 'visibility', 'none');
+        map.setLayoutProperty('theloop-b2gq5f', 'visibility', 'visible');
+        map.setLayoutProperty('hs-do1x45 copy 2', 'visibility', 'visible');
+        map.setLayoutProperty('hs-do1x45 copy 3', 'visibility', 'visible');
         map.setLayoutProperty('mapbox-satellite', 'visibility', 'none');
         //map.setLayoutProperty('hawks-1sb3f4', 'visibility', 'none');
         //map.setLayoutProperty('hawkroads-acywed', 'visibility', 'none');
-    } else
+    } /*else
         if (activeChapterName === 'satallite') {    
-        map.setLayoutProperty('hawkroads-example', 'visibility', 'visible');
         map.setLayoutProperty('mapbox-satellite', 'visibility', 'visible');
         map.setLayoutProperty('hawks-1sb3f4', 'visibility', 'none');
         map.setLayoutProperty('hawkroads-acywed', 'visibility', 'none');
-    } else 
+    }*/ else 
         if (activeChapterName === 'telegraph') {
-        //map.setLayoutProperty('hawkroads-example', 'visibility', 'none');
         map.setLayoutProperty('mapbox-satellite', 'visibility', 'none');    
-        map.setLayoutProperty('osm-bicycleinfras-5z6khj', 'visibility', 'none');
-        map.setLayoutProperty('hs-do1x45', 'visibility', 'none');
-        map.setLayoutProperty('ls-790ous', 'visibility', 'none'); 
-        //map.setLayoutProperty('tnr-v1-c7wnkt', 'visibility', 'visible');
+        map.setLayoutProperty('hs-do1x45 copy 2', 'visibility', 'visible');
+        map.setLayoutProperty('hs-do1x45 copy 3', 'visibility', 'visible');
+        map.setLayoutProperty('osm-bicycleinfras-5z6khj', 'visibility', 'visible');
+        map.setLayoutProperty('theloop-b2gq5f', 'visibility', 'visible');
         map.setLayoutProperty('tnr-v5-5pfsxq', 'visibility', 'visible');
+        map.setLayoutProperty('tnr-v5-5pfsxq copy', 'visibility', 'visible');
+        map.setLayoutProperty('ls-790ous', 'visibility', 'visible'); 
         map.setLayoutProperty('hawks-1sb3f4', 'visibility', 'visible');
+        map.setLayoutProperty('hawks-1sb3f4 copy', 'visibility', 'visible');
         map.setLayoutProperty('hawkroads-acywed', 'visibility', 'visible');
+        map.setLayoutProperty('hawkroads-acywed copy', 'visibility', 'visible');
     } return;
 }
 
@@ -632,7 +651,7 @@ function addRoute (coords) {
         "line-cap": "round"
       },
       "paint": {
-        "line-color": "#FFC300", //"#2c9952" Green, //3b9ddd //#FFC300 Yellow
+        "line-color": "#2c9952", //"#2c9952" Green, //3b9ddd //#FFC300 Yellow
         "line-width": 4,
         "line-opacity": 0.8
       }
@@ -657,7 +676,7 @@ function addRoute (coords) {
         'text-keep-upright': false
       },
       paint: {
-        'text-color': '#FFC300',  //Yellow
+        'text-color': '#2c9952',  //Yellow
         'text-halo-color': 'hsl(55, 11%, 96%)',
         'text-halo-width': 3
       }
