@@ -27,14 +27,17 @@ map.on('load', function(){
 });
 
 map.on('mousemove', function (e) {
-document.getElementById('info').innerHTML =
+var lngRounded =  (Math.round(100000*map.getCenter().lng)/100000);
+var latRounded = (Math.round(100000*map.getCenter().lat)/100000);
+document.getElementById('mapWindowInfo').innerHTML =
 // e.point is the x, y coordinates of the mousemove event relative
 // to the top-left corner of the map
 // e.lngLat is the longitude, latitude geographical position of the event
-'Lat/Long:' + JSON.stringify(e.lngLat) + 
-'<br/> Zoom:' + JSON.stringify(Math.round(1000*map.getZoom())/1000) + 
-'<br/> Pitch:' + JSON.stringify(Math.round(1000*map.getPitch())/1000) +
- '<br/> Bearing:' + JSON.stringify(Math.round(1000*map.getBearing())/1000) + '<br/>'
+//'Lat/Long:' + JSON.stringify(e.lngLat) +
+'center: [' + lngRounded + ', ' + latRounded + '], ' +
+'<br/> zoom: ' + JSON.stringify(Math.round(1000*map.getZoom())/1000) + ',' +
+'<br/> pitch: ' + JSON.stringify(Math.round(1000*map.getPitch())/1000) + ',' +
+ '<br/> bearing: ' + JSON.stringify(Math.round(1000*map.getBearing())/1000) + '<br/>'
 });
 
 var chapters = {
@@ -45,11 +48,10 @@ var chapters = {
         bearing: 10,
     },
 'bicycleinfrastructure': {
-    bearing: 10,
-    center: [-110.92357, 32.213554],
-    zoom: 11,
-    pitch: 55,
-    bearing: -10,
+    center: [-110.90873, 32.1971], 
+    zoom: 11.354,
+    pitch: 46.98,
+    bearing: 0,
     duration: 2000,
 },
 'accidents': {
@@ -111,38 +113,35 @@ duration: 3000,
     speed: 0.8,
 },
 'telegraph': {
-    bearing: 0,
-    center: [-110.89842393118215,32.22807348245561],
-    zoom: 12.2,
-    pitch: 20
-}
-};
- 
-// On every scroll event, check which element is on screen
-window.onscroll = function() {
-var chapterNames = Object.keys(chapters);
-for (var i = 0; i < chapterNames.length; i++) {
-    var chapterName = chapterNames[i];
-if (isElementOnScreen(chapterName)) {
-    setActiveChapter(chapterName);
-    myFunction();
-break;
-}
+    center: [-110.91999, 32.23657], 
+    zoom: 12.7,
+    pitch: 0,
+    bearing: 0, 
 }
 };
  
 var activeChapterName = 'tucson1';
 function setActiveChapter(chapterName) {
-if (chapterName === activeChapterName) return;
+    if (chapterName === activeChapterName) return;
+        map.flyTo(chapters[chapterName]);
+        document.getElementById(chapterName).setAttribute('class', 'active');
+        document.getElementById(activeChapterName).setAttribute('class', '');
+        activeChapterName = chapterName;
+    }
  
-map.flyTo(chapters[chapterName]);
- 
-document.getElementById(chapterName).setAttribute('class', 'active');
-document.getElementById(activeChapterName).setAttribute('class', '');
- 
-activeChapterName = chapterName;
-}
- 
+// On every scroll event, check which element is on screen
+window.onscroll = function() {
+    var chapterNames = Object.keys(chapters);
+    for (var i = 0; i < chapterNames.length; i++) {
+        var chapterName = chapterNames[i];
+        if (isElementOnScreen(chapterName)) {
+            setActiveChapter(chapterName);
+            myFunction();
+            break;
+            }
+        }
+    };
+     
 function isElementOnScreen(id) {
 var element = document.getElementById(id);
 var bounds = element.getBoundingClientRect();
@@ -175,7 +174,7 @@ if (activeChapterName === 'satallitebikelanes') {
         map.setLayoutProperty('mapbox-satellite', 'visibility', 'visible');
         map.setLayoutProperty('osm-bicycleinfras-example', 'visibility', 'visible');
         map.setLayoutProperty('ls-790ous', 'visibility', 'none');
-        map.setLayoutProperty('tnr-v1-c7wnkt', 'visibility', 'none');
+        //map.setLayoutProperty('tnr-v1-c7wnkt', 'visibility', 'none');
         map.setLayoutProperty('tnr-v5-5pfsxq', 'visibility', 'none');
         map.setLayoutProperty('hs-do1x45', 'visibility', 'none');
     } else
@@ -185,15 +184,16 @@ if (activeChapterName === 'satallitebikelanes') {
         map.setLayoutProperty('theloop-b2gq5f', 'visibility', 'none');
         map.setLayoutProperty('hs-do1x45', 'visibility', 'visible');
         map.setLayoutProperty('ls-790ous', 'visibility', 'none');
-        map.setLayoutProperty('tnr-v1-c7wnkt', 'visibility', 'none');
+        //map.setLayoutProperty('tnr-v1-c7wnkt', 'visibility', 'none');
         map.setLayoutProperty('tnr-v5-5pfsxq', 'visibility', 'none');
+
     } else
     if (activeChapterName === 'neighborhoodroads') {
         map.setLayoutProperty('trafficincidentsbike-4uqhba', 'visibility', 'none');
         map.setLayoutProperty('trafficincidentsbike-4uqhba-points', 'visibility', 'none');
         map.setLayoutProperty('osm-bicycleinfras-5z6khj', 'visibility', 'none');
         map.setLayoutProperty('ls-790ous', 'visibility', 'visible');
-        map.setLayoutProperty('tnr-v1-c7wnkt', 'visibility', 'visible');
+        //map.setLayoutProperty('tnr-v1-c7wnkt', 'visibility', 'visible');
         map.setLayoutProperty('tnr-v5-5pfsxq', 'visibility', 'visible');
         map.setLayoutProperty('hawks-1sb3f4', 'visibility', 'none');
         map.setLayoutProperty('hawkroads-acywed', 'visibility', 'none');
@@ -223,10 +223,10 @@ if (activeChapterName === 'satallitebikelanes') {
         map.setLayoutProperty('osm-bicycleinfras-5z6khj', 'visibility', 'none');
         map.setLayoutProperty('hs-do1x45', 'visibility', 'none');
         map.setLayoutProperty('ls-790ous', 'visibility', 'none'); 
-        map.setLayoutProperty('tnr-v1-c7wnkt', 'visibility', 'visible');
+        //map.setLayoutProperty('tnr-v1-c7wnkt', 'visibility', 'visible');
         map.setLayoutProperty('tnr-v5-5pfsxq', 'visibility', 'visible');
         map.setLayoutProperty('hawks-1sb3f4', 'visibility', 'visible');
-        map.setLayoutProperty('hawkroads-acywed', 'visibility', 'visible');//hawks-1sb3f4' 'hawkroads-acywed
+        map.setLayoutProperty('hawkroads-acywed', 'visibility', 'visible');
     } return;
 }
 

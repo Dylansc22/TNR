@@ -16,14 +16,33 @@ body {
     z-index: 1
 }
 
-
 #text {
     top: 0;
-    /*width: 40%;*/
+    min-width: 500px;
+    max-width: 500px;
     font-family: sans-serif;
     /*overflow-y: scroll; Removed because I don't want the scrollbar showing*/
     z-index: 2;
     color: white;
+    /*dont know if i need this? -webkit-transition: all 1s;*/
+    transition: all 0.3s;
+}
+
+#text.active {
+    margin-left: -500px;
+}
+
+/*dont know if i need these*/
+@media (max-width: 768px) {
+    #sidebar {
+        margin-left: -250px;
+    }
+    #sidebar.active {
+        margin-left: 0;
+    }
+    #sidebarCollapse span {
+        display: none;
+    }
 }
 
 /*fonts and text*/
@@ -117,9 +136,8 @@ section:last-child {
     z-index: 2;
 }
 
-#info {
+#mapWindowInfo {
 /*    height: 30px;
-    min-height: 120px;
     width: 200px;
     position: absolute;
     top: 260px;
@@ -127,6 +145,7 @@ section:last-child {
     text-align: left;
     padding: 15px;
     right: 25px;*/
+    min-height: 65px;
     max-height: 15vh;
     width: auto;
     background-color: rgba(255, 255, 255, .4);
