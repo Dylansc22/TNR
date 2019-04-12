@@ -44,19 +44,22 @@
 <div id='map'></div>
 
 <div class='container-fluid'>
-    
+    <div id='ethos' ><h1><span class="wow fadeInUp" data-wow-delay="1s" data-wow-duration="1s" ><span style='color:green'> Feeling safe</span> on a bicycle</span><br>
+        <span class="wow fadeInUp" data-wow-delay="2.5s" data-wow-duration="1s"> is one of the largest barrier of entry</span><br>
+        <span class="wow fadeInUp" data-wow-delay="4.5s" data-wow-duration="1s" >for city travel.</span><br><br></h1>
+        <h5><span style='color:orange' class="wow fadeInUp" data-wow-delay="6s" data-wow-duration="1s">Click anywhere to continue</span></h5>
+    </div>     
     
     <!-- Presentation Text-->
-        <nav id="text">
-            TESTING
-            <section><h1><span style='color:Blue'>Feeling Safe</span> is one of largest barriers of entry for bicycle commuting.</h1></section>
+        <div id="text">
+        
 
-            <section class="active wow fadeInUp" data-wow-delay="2s" data-wow-duration="3s" id="tucson1">
-                <h1>
+            <section id="tucson1">
+                <h2>
                     This is Tucson Arizona <br>
                     Metro Population: +1,000,000 <br>
                     Other Statistics Blah Blah Blah
-                </h1>
+                </h2>
                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
                 </p>
             </section>
@@ -140,7 +143,6 @@
                     Holmes and Watson head to The Daily Telegraph and place an ad to draw out the criminal. It reads: "To-night. Same hour. Same place. Two taps. Most vitally important. Your own safety at stake. Pierrot." The trap works and Holmes catches the criminal: Colonel Valentine Walter, the brother of Woolwich Arsenal's chief. He confesses to working for Hugo Oberstein to obtain the submarine plans in order to pay off his debts.
                 </p>
             </section>
-        </nav>
     <div id='maininfo'>
         <button id="sidebarCollapse" type="button" class="btn btn-info">
             <i class="fas fa-align-left"></i>
@@ -180,6 +182,12 @@
     $(document).ready(function () {
         $('#sidebarCollapse').on('click', function () {
             $('#text').toggleClass('active');
+        });
+    });
+
+    $("#ethos").click(function() {
+        $("#ethos").fadeOut("slow", function() { //or fadeOut(normal... or fadeOut 3000,
+            $(this).remove();
         });
     });
 </script>

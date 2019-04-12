@@ -22,7 +22,7 @@ map.on('load', function(){
         zoom: 12, //This should all be the same as the first var chapter 'tucson1' 
         pitch: 45,
         bearing: 10,
-        speed: 0.6,
+        speed: 0.3,
     });
 });
 

@@ -1,6 +1,7 @@
-body {
+html, body {
     margin: 0;
     padding: 0;
+    height: 100%;
     /*font-family: 'Oswald', sans-serif;*/
 }
 
@@ -8,16 +9,25 @@ body {
     padding: 0px;
 }
 
+#ethos {
+    position: fixed;
+    background-color: white;
+    z-index: 3; 
+    height: 100%;
+    width: 100%;
+    text-align: center;
+    padding: 10% 8%;
+}
+
 #map {
     position: fixed;
-    top: 0;
-    bottom: 0;
+    height: 100%;
     width: 100%; /*width 80% with right:0*/;
-    z-index: 1
+    z-index: 1;
 }
 
 #text {
-    position: relative;
+    position: absolute;
     max-width: 60%;
     font-family: sans-serif;
     /*overflow-y: scroll; Removed because I don't want the scrollbar showing*/
@@ -33,7 +43,7 @@ body {
 /*dont know if i need these*/
 @media (max-width: 768px) {
     #sidebar {
-        margin-left: -250px;
+        margin-left: -60%;
     }
     #sidebar.active {
         margin-left: 0;
@@ -45,8 +55,13 @@ body {
 
 /*fonts and text*/
 h1 {
-    font-size: 3rem;
-    line-height: 3rem;
+    font-size: 6vw;
+    line-height: 6vw;
+}
+
+h2 {
+    font-size: 4.5vw;
+    line-height: 4.5vw;
 }
 
 .theloopfont {color: #d9ac7d;}
