@@ -41,11 +41,16 @@
 
 
 <!--Initialize Map, Menu, & Info Box-->
+<div id='map'></div>
+
 <div class='container-fluid'>
-    <div id='map'></div>
+    
+    
     <!-- Presentation Text-->
-    <div class="d-flex flex-row justify-content-between">
-        <nav id="text" class='col-xs-2 col-med-3 col-lg-4'>
+        <nav id="text">
+            TESTING
+            <section><h1><span style='color:Blue'>Feeling Safe</span> is one of largest barriers of entry for bicycle commuting.</h1></section>
+
             <section class="active wow fadeInUp" data-wow-delay="2s" data-wow-duration="3s" id="tucson1">
                 <h1>
                     This is Tucson Arizona <br>
@@ -56,43 +61,43 @@
                 </p>
             </section>
             <section id="bicycleinfrastructure">
-                <h1>
+                <h2>
                     We have a vast network of <span class='bicyclelanefont'>Bicycle Lanes</span> along with over 130 miles of a <span class="theloopfont">Shared-use Pedestrian Path</span> surrounding the Tucson metro.
-                </h1>
+                </h2>
                 <p>
                     Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
                 </p>
             </section>
             <section id="accidents">
-                <h1>
+                <h2>
                     However <span class='accidentsfont'>Traffic Accidents</span> with cyclists and pedestrians are also disproportionally high compared to national averages. 
-                </h1>
+                </h2>
                 <p>
                     Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
                 </p>
             </section>
-            <section id="satallitebikelanes">
-                <h1>
+            <!--<section id="satallitebikelanes">
+                <h2>
                     A majority of which occur on <span class='highstressfont'>High Stress Roads</span> where cyclists share street-space that is, at its core, optimized for vehicle traffic.
-                </h1> 
+                </h2> 
                 <p>
                     Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
                     tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.
                 </p>
-            </section>
+            </section>-->
             <section id="highstressroads">
-                <h1>
+                <h2>
                     A majority of which occur on <span class='highstressfont'>High Stress Roads</span> where cyclists share street-space that is, at its core, optimized for vehicle traffic.
-                </h1> 
+                </h2> 
                 <p>
                     Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
                     tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.
                 </p>
             </section>
             <section id="neighborhoodroads">
-                <h1>
+                <h2>
                     However utilizing our <span class='neighborhoodroadfont'>Neighborhood Road Network</span> there are safe and efficient alternatives, that minimize time spent on <span class='highstressfont'>High Stress Roads</span>. 
-                </h1>
+                </h2>
                 <p>
                     Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
                     tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.
@@ -136,26 +141,26 @@
                 </p>
             </section>
         </nav>
-    <div id='maininfo' class='col-sm-2'>
+    <div id='maininfo'>
         <button id="sidebarCollapse" type="button" class="btn btn-info">
             <i class="fas fa-align-left"></i>
             <span>Toggle Sidebar</span>
         </button>
 
-        <div id='mapWindowInfo'></div>
+        <div id='mapPosition'></div>
         <!--<div id='remover'>Add Satallite</div>-->
-        <div id='instructions'>ID=instructions
+        <div id='instructions'>
             <div id="calculated-line"></div>
         </div>
-        <div id='geojsonbox'>ID=geojsonbox<br>
+        <div id='geojsonbox'>
             <div><pre id='completegeojson'></pre></div>
         </div>
     <!--<div id='scrolltest'>This is a test</div>
     <p id="demo">Click the button to change the text in this paragraph.</p>
     <button id="testbutton">Try it</button>-->
     </div>
-    </div>
 </div>
+
 
 
 <!--enables all animation behavior-->
