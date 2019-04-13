@@ -1,19 +1,21 @@
+/*Overrides*/
+.wow {visibility: hidden;}
+
 html, body {
-    margin: 0;
-    padding: 0;
     height: 100%;
     /*font-family: 'Oswald', sans-serif;*/
 }
 
-.boostrapoverrides div {
+#bootstrapoverrides {
     padding: 0px;
 }
 
 #ethos {
+    top:0;
+    height: 100%;
     position: fixed;
     background-color: white;
     z-index: 3; 
-    height: 100%;
     width: 100%;
     text-align: center;
     padding: 10% 8%;
@@ -21,23 +23,33 @@ html, body {
 
 #map {
     position: fixed;
-    height: 100%;
+    top:0;
+    bottom:0;
     width: 100%; /*width 80% with right:0*/;
     z-index: 1;
 }
 
 #text {
-    position: absolute;
-    max-width: 60%;
+    margin-top:50px;
+    margin-left:50px;
+    position: relative;
+    max-width: 50%;
     font-family: sans-serif;
     /*overflow-y: scroll; Removed because I don't want the scrollbar showing*/
     z-index: 2;
     /*dont know if i need this? -webkit-transition: all 1s;*/
-    transition: all 0.3s;
+    -webkit-transition: all 0.3s;
+    -moz-transition: all 0.3s;
+    -o-transition: all 0.3s;
+    transition:all 0.3s;
 }
 
-#text.active {
-    margin-left: -60%;
+.hide {
+    margin-left: -60% !important;
+    -webkit-transition: all 0.3s;
+    -moz-transition: all 0.3s;
+    -o-transition: all 0.3s;
+    transition:all 0.3s;
 }
 
 /*dont know if i need these*/
@@ -45,7 +57,7 @@ html, body {
     #sidebar {
         margin-left: -60%;
     }
-    #sidebar.active {
+    #sidebar.hide {
         margin-left: 0;
     }
     #sidebarCollapse span {
@@ -64,6 +76,11 @@ h2 {
     line-height: 4.5vw;
 }
 
+h3 {
+    font-size: 4vw;
+    line-height: 4vw;
+}
+
 .theloopfont {color: #d9ac7d;}
 .bicyclelanefont {color: #1fa375;}
 .highstressfont {color: #ef8e39;}
@@ -72,7 +89,7 @@ h2 {
 
 
 section {
-    margin:100vh 50px;
+    margin-bottom:100vh;
     line-height: 25px;
     /*border-bottom: 1px solid #ddd; Removed because I didn't like the line between text sections*/
     font-size: 13px;
@@ -137,15 +154,6 @@ section:last-child {
     /*scroll after max height is reached*/
     word-wrap: break-word;
 }
-#text {
-    align-content: center;
-    width: 100%;
-    /*border-style: solid;
-    border-color: blue;
-    border-width: 4px;*/
-    z-index: 2;
-}
-
 
 
 #scrolltest {

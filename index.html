@@ -26,7 +26,7 @@
     <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.52.0/mapbox-gl.css' rel='stylesheet' />
 
 </head>
-<body class='boostrapoverrides'>
+<body>
 
 <!--Mapbox APIs-->
 <!--Mapbox Search Box-->
@@ -41,40 +41,60 @@
 
 
 <!--Initialize Map, Menu, & Info Box-->
-<div id='map'></div>
 
-<div class='container-fluid'>
-    <div id='ethos' ><h1><span class="wow fadeInUp" data-wow-delay="1s" data-wow-duration="1s" ><span style='color:green'> Feeling safe</span> on a bicycle</span><br>
-        <span class="wow fadeInUp" data-wow-delay="2.5s" data-wow-duration="1s"> is one of the largest barrier of entry</span><br>
-        <span class="wow fadeInUp" data-wow-delay="4.5s" data-wow-duration="1s" >for city travel.</span><br><br></h1>
-        <h5><span style='color:orange' class="wow fadeInUp" data-wow-delay="6s" data-wow-duration="1s">Click anywhere to continue</span></h5>
-    </div>     
+
+<div id='bootstrapoverrides' class='container-fluid'>
+    <div id='ethos' ><h1><span class="wow fadeInUp" data-wow-delay="0s" data-wow-duration="1s" ><span style='color:green'> Feeling safe</span> riding a bicycle</span><br>
+        <span class="wow fadeInUp" data-wow-delay="1.5s" data-wow-duration="1s"> is the largest barrier of entry</span><br>
+        <span class="wow fadeInUp" data-wow-delay="3.5s" data-wow-duration="1s" >for non-bicycle commuters.</span><br><br></h1>
+        <h5><span style='color:orange' class="wow fadeInUp" data-wow-delay="5s" data-wow-duration="1s">Click anywhere to continue</span></h5>
+    </div>
+    
+    <div id='map'></div>
+    
+    <div id='maininfo'>
+        <button id="sidebarCollapse" type="button" class="btn btn-info">
+            <i class="fas fa-align-left"></i>
+            <span>Toggle Sidebar</span>
+        </button>
+
+        <div id='mapPosition'></div>
+        <!--<div id='remover'>Add Satallite</div>-->
+        <div id='instructions'>
+            <div id="calculated-line"></div>
+        </div>
+        <div id='geojsonbox'>
+            <div><pre id='completegeojson'></pre></div>
+        </div>
+    <!--<div id='scrolltest'>This is a test</div>
+    <p id="demo">Click the button to change the text in this paragraph.</p>
+    <button id="testbutton">Try it</button>-->
+    </div>
+         
     
     <!-- Presentation Text-->
-        <div id="text">
-        
-
+    <div id="text">
             <section id="tucson1">
-                <h2>
+                <h3>
                     This is Tucson Arizona <br>
                     Metro Population: +1,000,000 <br>
                     Other Statistics Blah Blah Blah
-                </h2>
+                </h3>
                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
                 </p>
             </section>
             <section id="bicycleinfrastructure">
-                <h2>
+                <h3>
                     We have a vast network of <span class='bicyclelanefont'>Bicycle Lanes</span> along with over 130 miles of a <span class="theloopfont">Shared-use Pedestrian Path</span> surrounding the Tucson metro.
-                </h2>
+                </h3>
                 <p>
                     Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
                 </p>
             </section>
             <section id="accidents">
-                <h2>
+                <h3>
                     However <span class='accidentsfont'>Traffic Accidents</span> with cyclists and pedestrians are also disproportionally high compared to national averages. 
-                </h2>
+                </h3>
                 <p>
                     Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
                 </p>
@@ -89,18 +109,18 @@
                 </p>
             </section>-->
             <section id="highstressroads">
-                <h2>
+                <h3>
                     A majority of which occur on <span class='highstressfont'>High Stress Roads</span> where cyclists share street-space that is, at its core, optimized for vehicle traffic.
-                </h2> 
+                </h3> 
                 <p>
                     Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
                     tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.
                 </p>
             </section>
             <section id="neighborhoodroads">
-                <h2>
+                <h3>
                     However utilizing our <span class='neighborhoodroadfont'>Neighborhood Road Network</span> there are safe and efficient alternatives, that minimize time spent on <span class='highstressfont'>High Stress Roads</span>. 
-                </h2>
+                </h3>
                 <p>
                     Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
                     tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.
@@ -143,25 +163,7 @@
                     Holmes and Watson head to The Daily Telegraph and place an ad to draw out the criminal. It reads: "To-night. Same hour. Same place. Two taps. Most vitally important. Your own safety at stake. Pierrot." The trap works and Holmes catches the criminal: Colonel Valentine Walter, the brother of Woolwich Arsenal's chief. He confesses to working for Hugo Oberstein to obtain the submarine plans in order to pay off his debts.
                 </p>
             </section>
-    <div id='maininfo'>
-        <button id="sidebarCollapse" type="button" class="btn btn-info">
-            <i class="fas fa-align-left"></i>
-            <span>Toggle Sidebar</span>
-        </button>
-
-        <div id='mapPosition'></div>
-        <!--<div id='remover'>Add Satallite</div>-->
-        <div id='instructions'>
-            <div id="calculated-line"></div>
-        </div>
-        <div id='geojsonbox'>
-            <div><pre id='completegeojson'></pre></div>
-        </div>
-    <!--<div id='scrolltest'>This is a test</div>
-    <p id="demo">Click the button to change the text in this paragraph.</p>
-    <button id="testbutton">Try it</button>-->
     </div>
-</div>
 
 
 
@@ -181,7 +183,7 @@
 <script type="text/javascript">
     $(document).ready(function () {
         $('#sidebarCollapse').on('click', function () {
-            $('#text').toggleClass('active');
+            $('#text').toggleClass('hide');
         });
     });
 
