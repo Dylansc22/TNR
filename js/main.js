@@ -377,25 +377,28 @@ toggleLayer(
 //Toggle High Stress Road Network
 toggleLayer(
     ['hs-do1x45'],
-    'High Stress Road Network');
+    'High Stress Roads');
 
 //Toggle All LS Original Road Network
 toggleLayer(
-    ['ls-790ous'], 'Low Stress Road Network');
+    ['ls-790ous', 'ls-790ous copy'], 'Low Stress Roads');
 
 toggleLayer(
     ['hawks-1sb3f4',
-    'hawkroads-acywed'], 
+    'hawkroads-acywed', 
+    'hawks-1sb3f4',
+    'hawks-1sb3f4 copy'],
     'Neighborhood Connections');
 
 toggleLayer(
     ['tnr-v5-5pfsxq',
+    'tnr-v5-5pfsxq copy'
     //'tnr-v4-apmebo',
     //'tnr-v3-9wi26p',
     //'tnr-v2-06s5zd',
     //'tnr-v1-c7wnkt'
     ],
-    'Recommended Bicycle Network'); //Button Name
+    'Residential Bicycle Network'); //Button Name
 
 toggleLayer(
     ['osm-bicycleinfras-5z6khj', 
