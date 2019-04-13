@@ -15,7 +15,7 @@ html, body {
     height: 100%;
     position: fixed;
     background-color: white;
-    z-index: 3; 
+    z-index: 5; 
     width: 100%;
     text-align: center;
     padding: 10% 8%;
@@ -38,6 +38,21 @@ html, body {
     /*overflow-y: scroll; Removed because I don't want the scrollbar showing*/
     z-index: 2;
     /*dont know if i need this? -webkit-transition: all 1s;*/
+    -webkit-transition: all 0.3s;
+    -moz-transition: all 0.3s;
+    -o-transition: all 0.3s;
+    transition:all 0.3s;
+}
+
+#toolbar {
+    position:fixed;
+    bottom: 1vw;
+    left: 1vw; 
+    z-index: 4;
+    min-height:50px;
+    min-width: 150px;
+    max-width: 150px;
+    background-color: yellow;
     -webkit-transition: all 0.3s;
     -moz-transition: all 0.3s;
     -o-transition: all 0.3s;
@@ -109,6 +124,7 @@ section:last-child {
     right: 1vw; 
     z-index: 2;
     min-width: 150px;
+    max-width: 150px;
 }
 
 #maininfo > div {

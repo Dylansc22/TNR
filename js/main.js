@@ -294,7 +294,7 @@ function addActiveLayers(chapterName) {
 //---------------------------------------------------------------------------------------
 
 //Toggle Annotation
-/*toggleLayer(
+toggleLayer(
     ['country-label',
     'state-label', 
     'settlement-label', 
@@ -443,7 +443,7 @@ map.on('load', function(){
         }
     });
 });
-*/
+
 
 //---------------------------------------------------------------------------------------
 // -------------    Step 3: Add Data Layers Toggle Button   -----------------------------
