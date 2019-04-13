@@ -385,9 +385,9 @@ toggleLayer(
 
 toggleLayer(
     ['hawks-1sb3f4',
-    'hawkroads-acywed', 
-    'hawks-1sb3f4',
-    'hawks-1sb3f4 copy'],
+    'hawks-1sb3f4 copy', 
+    'hawkroads-acywed',
+    'hawkroads-acywed copy'],
     'Neighborhood Connections');
 
 toggleLayer(
