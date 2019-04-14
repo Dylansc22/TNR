@@ -406,6 +406,8 @@ toggleLayer(
     ],
     'Recommended Bicycle Lanes'); //Button Name
 
+toggleLayer(['theloop-b2gq5f'], 'The Loop Pedestrian Path');
+
 function toggleLayer(ids, name) {
     var link = document.createElement('a');
     link.href = '#';
@@ -426,7 +428,7 @@ function toggleLayer(ids, name) {
             }
          }
     };
-    var layers = document.getElementById('menu');
+    var layers = document.getElementById('toolbar');
     layers.appendChild(link);
 }
 
