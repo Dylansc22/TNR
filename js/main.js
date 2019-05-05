@@ -91,10 +91,10 @@ pitch: 43,
 speed: 0.15,
 },
 'deadendroads': {
-center: [-110.926718,32.239679],
+center: [-110.92876, 32.23895], 
+zoom: 14.156,
+pitch: 19.406,
 bearing: -10,
-zoom: 13.3,
-pitch: 19,
 //speed: 0.3 
 duration: 3000
 },
@@ -187,11 +187,13 @@ function myFunction() {
         map.setLayoutProperty('ls-790ous copy', 'visibility', 'none');
         map.setLayoutProperty('ls-790ous', 'visibility', 'none');
         map.setLayoutProperty('tnr-v5-5pfsxq', 'visibility', 'none');
+        map.setLayoutProperty('hawkroads-acywed-white', 'visibility', 'none');
 
     } else
     if (activeChapterName === 'neighborhoodroads') {
         map.setLayoutProperty('trafficincidentsbike-4uqhba', 'visibility', 'none');
         map.setLayoutProperty('trafficincidentsbike-4uqhba copy', 'visibility', 'none');
+        map.setLayoutProperty('hawkroads-acywed-white', 'visibility', 'visible');     
         map.setLayoutProperty('ls-790ous copy', 'visibility', 'visible');
         map.setLayoutProperty('ls-790ous', 'visibility', 'visible');
         map.setLayoutProperty('hawks-1sb3f4', 'visibility', 'none');
@@ -222,7 +224,7 @@ function myFunction() {
         map.setLayoutProperty('mapbox-satellite', 'visibility', 'none');
         //Turn off Bold Colored High Stress Network
         map.setLayoutProperty('hs-do1x45 copy 1', 'visibility', 'none');
-        map.setLayoutProperty('hs-do1x45 copy', 'visibility', 'none');
+        map.setLayoutProperty('hs-do1x45 copy', 'visibility', 'none'); 
         map.setLayoutProperty('ls-nonhawkroads-4dyda7 copy', 'visibility', 'none');     
         map.setLayoutProperty('ls-nonhawkroads-4dyda7', 'visibility', 'none');
         map.setLayoutProperty('ls-790ous', 'visibility', 'none');
@@ -405,6 +407,8 @@ toggleLayer(
     //'hs-do1x45 copy'
     ],
     'Recommended Bicycle Lanes'); //Button Name
+
+toggleLayer (['mapbox-satellite'], 'Satallite');
 
 toggleLayer(['theloop-b2gq5f'], 'The Loop Pedestrian Path');
 
