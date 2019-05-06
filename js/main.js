@@ -105,13 +105,13 @@ zoom: 13.3,
 pitch: 19,
 duration: 3000,
 },
-/*'satallite': { 
+'satallite': { 
     bearing: -20,
     pitch: 50,
     center: [-110.93114323609769,32.23606789868883],
     zoom: 19.8,
     speed: 0.8,
-},*/
+},
 'telegraph': {
     center: [-110.91999, 32.23657], 
     zoom: 12.7,
@@ -220,7 +220,17 @@ function myFunction() {
         map.setLayoutProperty('hs-do1x45 copy 2', 'visibility', 'visible');
         map.setLayoutProperty('hs-do1x45 copy 3', 'visibility', 'visible');
     } else
-    if (activeChapterName === 'lowstressnetwork') {
+        if (activeChapterName === 'satallite') {    
+        map.setLayoutProperty('mapbox-satellite', 'visibility', 'visible');
+        map.setLayoutProperty('hawks-1sb3f4', 'visibility', 'none');
+        map.setLayoutProperty('hawkroads-acywed', 'visibility', 'none');
+        //Turn off all hawk layers
+        map.setLayoutProperty('hawks-1sb3f4', 'visibility', 'none');
+        map.setLayoutProperty('hawks-1sb3f4 copy', 'visibility', 'none');
+        map.setLayoutProperty('hawkroads-acywed', 'visibility', 'none');
+        map.setLayoutProperty('hawkroads-acywed copy', 'visibility', 'none');
+    } else 
+if (activeChapterName === 'lowstressnetwork') {
         map.setLayoutProperty('mapbox-satellite', 'visibility', 'none');
         //Turn off Bold Colored High Stress Network
         map.setLayoutProperty('hs-do1x45 copy 1', 'visibility', 'none');
@@ -230,20 +240,15 @@ function myFunction() {
         map.setLayoutProperty('ls-790ous', 'visibility', 'none');
         map.setLayoutProperty('ls-790ous copy', 'visibility', 'none');
         map.setLayoutProperty('theloop-b2gq5f', 'visibility', 'visible');
-        //Turn off all hawk layers
-        map.setLayoutProperty('hawks-1sb3f4', 'visibility', 'none');
-        map.setLayoutProperty('hawks-1sb3f4 copy', 'visibility', 'none');
-        map.setLayoutProperty('hawkroads-acywed', 'visibility', 'none');
-        map.setLayoutProperty('hawkroads-acywed copy', 'visibility', 'none');
+        //Turn on all hawk layers
+        map.setLayoutProperty('hawks-1sb3f4', 'visibility', 'visible');
+        map.setLayoutProperty('hawks-1sb3f4 copy', 'visibility', 'visible');
+        map.setLayoutProperty('hawkroads-acywed', 'visibility', 'visible');
+        map.setLayoutProperty('hawkroads-acywed copy', 'visibility', 'visible');
 
         //map.setLayoutProperty('hawks-1sb3f4', 'visibility', 'none');
         //map.setLayoutProperty('hawkroads-acywed', 'visibility', 'none');
-    } /*else
-        if (activeChapterName === 'satallite') {    
-        map.setLayoutProperty('mapbox-satellite', 'visibility', 'visible');
-        map.setLayoutProperty('hawks-1sb3f4', 'visibility', 'none');
-        map.setLayoutProperty('hawkroads-acywed', 'visibility', 'none');
-    }*/ else 
+    } else
         if (activeChapterName === 'telegraph') {
         map.setLayoutProperty('mapbox-satellite', 'visibility', 'none');    
         map.setLayoutProperty('osm-bicycleinfras-5z6khj', 'visibility', 'visible');
@@ -251,11 +256,6 @@ function myFunction() {
         map.setLayoutProperty('tnr-v5-5pfsxq', 'visibility', 'visible');
         map.setLayoutProperty('tnr-v5-5pfsxq copy', 'visibility', 'visible');
         map.setLayoutProperty('ls-790ous', 'visibility', 'none'); 
-        //Turn on all hawk layers
-        map.setLayoutProperty('hawks-1sb3f4', 'visibility', 'visible');
-        map.setLayoutProperty('hawks-1sb3f4 copy', 'visibility', 'visible');
-        map.setLayoutProperty('hawkroads-acywed', 'visibility', 'visible');
-        map.setLayoutProperty('hawkroads-acywed copy', 'visibility', 'visible');
     } return;
 }
 
