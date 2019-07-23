@@ -788,3 +788,10 @@ background-color:white;
         color: #3985dd; 
     }
 
+    #landingpagebuttons {
+        padding:20vh;
+    }
+
+    #landingpagebuttons > .btn {
+        margin: 10px 20px;
+    }

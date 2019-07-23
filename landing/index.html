@@ -28,7 +28,16 @@
 </head>
 <body>
 
-	<div id='landingpageheading' class="d-flex justify-content-center circle"><h2>Tuesday<br>Night<br>Ride</h2></div>
+	<div id='landingpageheading' class="justify-content-center">
+		<h2>Tuesday Night Ride</h2><br><h6>U of A Flagpole	&#9679;		8:30pm to 10:30pm(ish)	&#9679;	10 miles(ish)<br><br>A slow ride to see your city</h6>
+	<div id="landingpagebuttons">
+		<button type="button" class="btn btn-warning">Plan A Route</button>
+		<button type="button" class="btn btn-warning">Learn What Makes for a Good Route</button>
+		<button type="button" class="btn btn-warning">Other Group Rides</button>
+		<button type="button" class="btn btn-warning">Riding Etiquette</button>
+	</div>
+	</div>
+
 
 
 
@@ -59,7 +68,7 @@
 <script>
 	mapboxgl.accessToken = 'pk.eyJ1IjoiZHlsYW5jIiwiYSI6Im53UGgtaVEifQ.RJiPqXwEtCLTLl-Vmd1GWQ';
 	var start = [-110.962759,32.226];
-	var end = [-77.50, 38];
+	var end = [-110.9, 32.2];
 	var mapvar = new mapboxgl.Map({
 	//attributionControl: false,
 	container: 'landingpagemap',
@@ -89,14 +98,14 @@
 	    // These options control the ending camera position: centered at
 	    // the target, at zoom level 9, and north up.
 	    center: target,
-	    zoom: 10,
-	    bearing: 0,
+	    zoom: 13,
+	    bearing: -20,
 
 	    // These options control the flight curve, making it move
 	    // slowly and zoom out almost completely before starting
 	    // to pan.
-	    speed: 0.1, // make the flying slow
-	    curve: 0.01, // change the speed at which it zooms out
+	    speed: 0.15, // make the flying slow
+	    curve: 0.1, // change the speed at which it zooms out
 
 	    // This can be any easing function: it takes a number between
 	    // 0 and 1 and returns another number between 0 and 1.
