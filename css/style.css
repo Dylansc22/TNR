@@ -97,27 +97,48 @@ html, body {
 
 /*fonts and text*/
 h1 {
-    font-size: 6vw;
-    line-height: 6vw;
+    font-size: 10vmin;
+    line-height: 10vmin;
 }
 
 h2 {
-    font-size: 4.5vw;
-    line-height: 4.5vw;
+    font-size: 8vmin;
+    line-height: 8vmin;
 }
 
 h3 {
-    font-size: 4vw;
-    line-height: 4vw;
+    font-size: 6vmin;
+    line-height: 6vmin;
 }
 
-.theloopfont {color: #d9ac7d;}
-.bicyclelanefont {color: #1fa375;}
-.highstressfont {color: #a42323;}
-.accidentsfont {color: #d22828;}
-.neighborhoodroadfont {color: #62adf3;}
-.lowstressfont {color: #76a4e0;}
+h4 {
+    font-size: 4vmin;
+    line-height: 4vmin;
+}
 
+h5 {
+    font-size: 3vmin;
+    line-height: 3vmin;
+}
+
+h6 {
+    font-size: 2.5vmin;
+    line-height: 2.5vmin;
+}
+
+
+p {
+    font-size: 2vmin;
+    line-height: 2vmin;
+}
+
+
+.theloopfont {color: #d9ac7d; font-weight:bold;}
+.bicyclelanefont {color: #1fa375; font-weight:bold;}
+.highstressfont {color: #a42323; font-weight:bold;}
+.accidentsfont {color: #a11717; font-weight:bold;} /*{color: #d22828;}*/
+.neighborhoodroadfont {color: #62adf3; font-weight:bold;}
+.lowstressfont {color: #76a4e0; font-weight:bold;}
 
 section {
     margin-bottom:100vh;
@@ -789,7 +810,7 @@ background-color:white;
     }
 
     #landingpagebuttons {
-        padding:20vh;
+        padding-top:40vh;
     }
 
     #landingpagebuttons > .btn {
