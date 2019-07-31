@@ -93,16 +93,23 @@ bearing: -10,
 center: [-110.926112,32.23569],
 zoom: 13.5,
 pitch: 43,
-speed: 0.15,
+speed: 1
 },
-'deadendroads': {
+'traditionroutes': {
+bearing: -10,
+center: [-110.926718,32.239679],
+zoom: 13.3,
+pitch: 19,
+duration: 2000,
+},
+/*'deadendroads': {
 center: [-110.92876, 32.23895], 
 zoom: 14.156,
 pitch: 19.406,
 bearing: -10,
 //speed: 0.3 
 duration: 3000
-},
+},*/
 'lowstressnetwork': {
 bearing: -10,
 center: [-110.926718,32.239679],
@@ -179,32 +186,35 @@ function myFunction() {
         map.setLayoutProperty('osm-bicycleinfras-example', 'visibility', 'none');
         map.setLayoutProperty('hs-do1x45-example', 'visibility', 'none');
     } else 
-    if (activeChapterName === 'satallitebikelanes') {
-            map.setLayoutProperty('mapbox-satellite', 'visibility', 'visible');
-            map.setLayoutProperty('osm-bicycleinfras-example', 'visibility', 'visible');
-            map.setLayoutProperty('hs-do1x45-example', 'visibility', 'visible');
-            //Need to remake this layer in new map map.setLayoutProperty('osm-bicycleinfras-example', 'visibility', 'visible');
-            map.setLayoutProperty('ls-790ous', 'visibility', 'none');
-            map.setLayoutProperty('hs-do1x45 copy 1', 'visibility', 'none');
-            map.setLayoutProperty('hs-do1x45 copy', 'visibility', 'none');
-    } else
     if (activeChapterName === 'highstressroads') {
-        map.setLayoutProperty('mapbox-satellite', 'visibility', 'none');
-        map.setLayoutProperty('osm-bicycleinfras-example', 'visibility', 'none');
-        //map.setLayoutProperty('hs-do1x45-example', 'visibility', 'none');
-        map.setLayoutProperty('osm-bicycleinfras-5z6khj', 'visibility', 'none');
-        map.setLayoutProperty('theloop-b2gq5f', 'visibility', 'none');
-        //map.setLayoutProperty('mapbox-satellite', 'visibility', 'none');
         //Need to remake this layer in new map map.setLayoutProperty('osm-bicycleinfras-example', 'visibility', 'none');
+        map.setLayoutProperty('osm-bicycleinfras-5z6khj', 'visibility', 'visible');
         map.setLayoutProperty('hs-do1x45 copy 1', 'visibility', 'visible');
         map.setLayoutProperty('hs-do1x45 copy', 'visibility', 'visible');
         map.setLayoutProperty('ls-790ous copy', 'visibility', 'none');
         map.setLayoutProperty('ls-790ous', 'visibility', 'none');
         map.setLayoutProperty('tnr-v5-5pfsxq', 'visibility', 'none');
         map.setLayoutProperty('hawkroads-acywed-white', 'visibility', 'none');
+        map.setLayoutProperty('mapbox-satellite', 'visibility', 'none');
+        map.setLayoutProperty('osm-bicycleinfras-example', 'visibility', 'none');
+        //map.setLayoutProperty('hs-do1x45-example', 'visibility', 'none');
+        //map.setLayoutProperty('mapbox-satellite', 'visibility', 'none');
 
     } else
+    if (activeChapterName === 'satallitebikelanes') {
+            map.setLayoutProperty('osm-bicycleinfras-5z6khj', 'visibility', 'none');
+            map.setLayoutProperty('theloop-b2gq5f', 'visibility', 'none');
+            map.setLayoutProperty('mapbox-satellite', 'visibility', 'visible');
+            map.setLayoutProperty('osm-bicycleinfras-example', 'visibility', 'visible');
+            //map.setLayoutProperty('hs-do1x45-example', 'visibility', 'visible');
+            //Need to remake this layer in new map map.setLayoutProperty('osm-bicycleinfras-example', 'visibility', 'visible');
+            map.setLayoutProperty('ls-790ous', 'visibility', 'none');
+            map.setLayoutProperty('hs-do1x45 copy 1', 'visibility', 'none');
+            map.setLayoutProperty('hs-do1x45 copy', 'visibility', 'none');
+    } else
     if (activeChapterName === 'neighborhoodroads') {
+        map.setLayoutProperty('osm-bicycleinfras-example', 'visibility', 'none');
+        map.setLayoutProperty('mapbox-satellite', 'visibility', 'none');
         map.setLayoutProperty('trafficincidentsbike-4uqhba', 'visibility', 'none');
         map.setLayoutProperty('trafficincidentsbike-4uqhba copy', 'visibility', 'none');
         map.setLayoutProperty('hawkroads-acywed-white', 'visibility', 'visible');     
@@ -219,9 +229,10 @@ function myFunction() {
         map.setLayoutProperty('hs-do1x45 copy 2', 'visibility', 'none');
         map.setLayoutProperty('hs-do1x45 copy 3', 'visibility', 'none');
     } else
-    if (activeChapterName === 'deadendroads') {
+    /*if (activeChapterName === 'deadendroads') {
         //map.setLayoutProperty('osm-bicycleinfras-5z6khj', 'visibility', 'none');
         //map.setLayoutProperty('hs-do1x45', 'visibility', 'none');
+        map.setLayoutProperty('mapbox-satellite', 'visibility', 'none');
         map.setLayoutProperty('hs-do1x45 copy 1', 'visibility', 'visible');
         map.setLayoutProperty('hs-do1x45 copy', 'visibility', 'visible');
         map.setLayoutProperty('ls-nonhawkroads-4dyda7 copy', 'visibility', 'visible');
@@ -234,7 +245,7 @@ function myFunction() {
         map.setLayoutProperty('hs-do1x45 copy 2', 'visibility', 'visible');
         map.setLayoutProperty('hs-do1x45 copy 3', 'visibility', 'visible');
         map.setLayoutProperty('hawkroads-acywed-example', 'visibility', 'none');
-    } else
+    } else*/
         if (activeChapterName === 'satallite') {    
         map.setLayoutProperty('mapbox-satellite', 'visibility', 'visible');
         map.setLayoutProperty('hawkroads-acywed-example', 'visibility', 'visible');
@@ -245,6 +256,24 @@ function myFunction() {
         map.setLayoutProperty('hawks-1sb3f4 copy', 'visibility', 'none');
         map.setLayoutProperty('hawkroads-acywed', 'visibility', 'none');
         map.setLayoutProperty('hawkroads-acywed copy', 'visibility', 'none');
+    } else 
+    if (activeChapterName === 'traditionroutes') {    
+        map.setLayoutProperty('mapbox-satellite', 'visibility', 'none');
+        map.setLayoutProperty('hawkroads-acywed-example', 'visibility', 'none');
+        map.setLayoutProperty('osm-bicycleinfras-5z6khj', 'visibility', 'visible');
+        map.setLayoutProperty('hs-do1x45 copy 1', 'visibility', 'visible');
+        map.setLayoutProperty('hs-do1x45 copy', 'visibility', 'visible');
+        //Turn off all hawk layers
+        map.setLayoutProperty('hawks-1sb3f4', 'visibility', 'none');
+        map.setLayoutProperty('hawks-1sb3f4 copy', 'visibility', 'none');
+        map.setLayoutProperty('hawkroads-acywed', 'visibility', 'none');
+        map.setLayoutProperty('hawkroads-acywed copy', 'visibility', 'none');
+        map.setLayoutProperty('hawks-1sb3f4', 'visibility', 'none');
+        map.setLayoutProperty('hawks-1sb3f4 copy', 'visibility', 'none');
+        map.setLayoutProperty('hawkroads-acywed', 'visibility', 'none');
+        map.setLayoutProperty('hawkroads-acywed copy', 'visibility', 'none');
+        map.setLayoutProperty('tnr-v5-5pfsxq', 'visibility', 'none');
+        map.setLayoutProperty('tnr-v5-5pfsxq copy', 'visibility', 'none');
     } else 
 if (activeChapterName === 'lowstressnetwork') {
         map.setLayoutProperty('hawkroads-acywed-example', 'visibility', 'none');    
