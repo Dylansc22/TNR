@@ -122,9 +122,16 @@ duration: 3000
 'lowstressnetwork': {
     center: [-110.9195, 32.22924], 
     zoom: 12.54,
-    pitch: 35,
+    pitch: 50,
     bearing: 0,
     duration: 4500,
+
+    /*center: [-110.9195, 32.22924], 
+    zoom: 12.54,
+    pitch: 35,
+    bearing: 0,
+    duration: 4500,*/
+
     /*bearing: 10,
     center: [-110.9448, 32.2339],
     zoom: 13,
@@ -285,6 +292,8 @@ function myFunction() {
         map.setLayoutProperty('hawks-1sb3f4 copy', 'visibility', 'none');
         map.setLayoutProperty('hawkroads-acywed', 'visibility', 'none');
         map.setLayoutProperty('hawkroads-acywed copy', 'visibility', 'none');
+        map.setLayoutProperty('hawks-1sb3f4', 'visibility', 'none');
+        map.setLayoutProperty('hawks-1sb3f4 copy', 'visibility', 'none');
     } else 
     if (activeChapterName === 'traditionroutes') {    
         map.setLayoutProperty('mapbox-satellite', 'visibility', 'none');
@@ -305,10 +314,17 @@ function myFunction() {
         map.setLayoutProperty('tnr-v5-5pfsxq copy', 'visibility', 'none');
         map.setLayoutProperty('hs-do1x45 copy 2', 'visibility', 'none');
         map.setLayoutProperty('hs-do1x45 copy 3', 'visibility', 'none');
+        map.setLayoutProperty('hawks-1sb3f4', 'visibility', 'visible');
+        map.setLayoutProperty('hawks-1sb3f4 copy', 'visibility', 'visible');
     } else 
     if (activeChapterName === 'traditionroutes2') {    
         map.setLayoutProperty('hs-do1x45 copy 2', 'visibility', 'visible');
         map.setLayoutProperty('hs-do1x45 copy 3', 'visibility', 'visible');
+        map.setLayoutProperty('theloop-b2gq5f', 'visibility', 'none');
+        map.setLayoutProperty('hawkroads-acywed', 'visibility', 'none');
+        map.setLayoutProperty('hawkroads-acywed copy', 'visibility', 'none');
+        map.setLayoutProperty('tnr-v5-5pfsxq', 'visibility', 'none');
+        map.setLayoutProperty('tnr-v5-5pfsxq copy', 'visibility', 'none');
     } else 
 if (activeChapterName === 'lowstressnetwork') {
         map.setLayoutProperty('hawkroads-acywed-example', 'visibility', 'none');    
@@ -324,8 +340,6 @@ if (activeChapterName === 'lowstressnetwork') {
         //Turn on all hawk layers
         map.setLayoutProperty('hs-do1x45 copy 2', 'visibility', 'visible');
         map.setLayoutProperty('hs-do1x45 copy 3', 'visibility', 'visible');
-        map.setLayoutProperty('hawks-1sb3f4', 'visibility', 'visible');
-        map.setLayoutProperty('hawks-1sb3f4 copy', 'visibility', 'visible');
         map.setLayoutProperty('hawkroads-acywed', 'visibility', 'visible');
         map.setLayoutProperty('hawkroads-acywed copy', 'visibility', 'visible');
         map.setLayoutProperty('tnr-v5-5pfsxq', 'visibility', 'visible');

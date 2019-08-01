@@ -35,8 +35,8 @@ html, body {
 }
 
 #text {
-    margin-top:1vw;
-    margin-left:1vw;
+    margin-top:2vw;
+    margin-left:2vw;
     position: relative;
     max-width: 50%;
     font-family: sans-serif;
@@ -52,7 +52,7 @@ html, body {
 #toolbar {
     position:fixed;
     bottom: 2vw;
-    left: 1vw; 
+    left: 2vw; 
     z-index: 4;
     /*min-height:50px;*/
     min-width: 200px;
