@@ -93,9 +93,17 @@ bearing: -10,
 center: [-110.926112,32.23569],
 zoom: 13.5,
 pitch: 43,
-speed: 0.2
+duration: 3000,
 },
 'traditionroutes': {
+    bearing: 10,
+    center: [-110.9448, 32.2339],
+    zoom: 13,
+    pitch: 50,
+    bearing: 25,
+    duration: 3500,
+},
+'traditionroutes2': {
     bearing: 10,
     center: [-110.9448, 32.2339],
     zoom: 13,
@@ -114,9 +122,9 @@ duration: 3000
 'lowstressnetwork': {
     center: [-110.9195, 32.22924], 
     zoom: 12.54,
-    pitch: 46.98,
+    pitch: 35,
     bearing: 0,
-    speed: 0.075,
+    duration: 4500,
     /*bearing: 10,
     center: [-110.9448, 32.2339],
     zoom: 13,
@@ -199,6 +207,17 @@ function myFunction() {
         map.setLayoutProperty('osm-bicycleinfras-example', 'visibility', 'none');
         map.setLayoutProperty('hs-do1x45-example', 'visibility', 'none');
     } else 
+    if (activeChapterName === 'satallitebikelanes') {
+            map.setLayoutProperty('osm-bicycleinfras-5z6khj', 'visibility', 'none');
+            map.setLayoutProperty('theloop-b2gq5f', 'visibility', 'none');
+            map.setLayoutProperty('mapbox-satellite', 'visibility', 'visible');
+            map.setLayoutProperty('osm-bicycleinfras-example', 'visibility', 'visible');
+            map.setLayoutProperty('hs-do1x45-example', 'visibility', 'visible');
+            //Need to remake this layer in new map map.setLayoutProperty('osm-bicycleinfras-example', 'visibility', 'visible');
+            map.setLayoutProperty('ls-790ous', 'visibility', 'none');
+            map.setLayoutProperty('hs-do1x45 copy 1', 'visibility', 'none');
+            map.setLayoutProperty('hs-do1x45 copy', 'visibility', 'none');
+    } else
     if (activeChapterName === 'highstressroads') {
         map.setLayoutProperty('trafficincidentsbike-4uqhba', 'visibility', 'none');
         map.setLayoutProperty('trafficincidentsbike-4uqhba copy', 'visibility', 'none');
@@ -216,18 +235,11 @@ function myFunction() {
         //map.setLayoutProperty('mapbox-satellite', 'visibility', 'none');
 
     } else
-    if (activeChapterName === 'satallitebikelanes') {
-            map.setLayoutProperty('osm-bicycleinfras-5z6khj', 'visibility', 'none');
-            map.setLayoutProperty('theloop-b2gq5f', 'visibility', 'none');
-            map.setLayoutProperty('mapbox-satellite', 'visibility', 'visible');
-            map.setLayoutProperty('osm-bicycleinfras-example', 'visibility', 'visible');
-            //map.setLayoutProperty('hs-do1x45-example', 'visibility', 'visible');
-            //Need to remake this layer in new map map.setLayoutProperty('osm-bicycleinfras-example', 'visibility', 'visible');
-            map.setLayoutProperty('ls-790ous', 'visibility', 'none');
-            map.setLayoutProperty('hs-do1x45 copy 1', 'visibility', 'none');
-            map.setLayoutProperty('hs-do1x45 copy', 'visibility', 'none');
-    } else
     if (activeChapterName === 'neighborhoodroads') {
+        map.setLayoutProperty('osm-bicycleinfras-5z6khj', 'visibility', 'none');
+        map.setLayoutProperty('hs-do1x45 copy 1', 'visibility', 'none');
+        map.setLayoutProperty('hs-do1x45 copy', 'visibility', 'none');
+        map.setLayoutProperty('hs-do1x45-example', 'visibility', 'none');
         map.setLayoutProperty('osm-bicycleinfras-example', 'visibility', 'none');
         map.setLayoutProperty('mapbox-satellite', 'visibility', 'none');
         map.setLayoutProperty('trafficincidentsbike-4uqhba', 'visibility', 'none');
@@ -293,6 +305,10 @@ function myFunction() {
         map.setLayoutProperty('tnr-v5-5pfsxq copy', 'visibility', 'none');
         map.setLayoutProperty('hs-do1x45 copy 2', 'visibility', 'none');
         map.setLayoutProperty('hs-do1x45 copy 3', 'visibility', 'none');
+    } else 
+    if (activeChapterName === 'traditionroutes2') {    
+        map.setLayoutProperty('hs-do1x45 copy 2', 'visibility', 'visible');
+        map.setLayoutProperty('hs-do1x45 copy 3', 'visibility', 'visible');
     } else 
 if (activeChapterName === 'lowstressnetwork') {
         map.setLayoutProperty('hawkroads-acywed-example', 'visibility', 'none');    
