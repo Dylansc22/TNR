@@ -35,8 +35,8 @@ html, body {
 }
 
 #text {
-    margin-top:50px;
-    margin-left:50px;
+    margin-top:1vw;
+    margin-left:1vw;
     position: relative;
     max-width: 50%;
     font-family: sans-serif;
@@ -102,13 +102,13 @@ h1 {
 }
 
 h2 {
-    font-size: 8vmin;
-    line-height: 8vmin;
+    font-size: 7vmin;
+    line-height: 7vmin;
 }
 
 h3 {
-    font-size: 6vmin;
-    line-height: 6vmin;
+    font-size: 5vmin;
+    line-height: 5vmin;
 }
 
 h4 {
@@ -146,7 +146,7 @@ p {
     padding: 10px;}
 
 #text > section {
-    background-color: rgb(255,255,255,0.2);
+    background-color: rgb(255,255,255,0.5);
     padding: 10px;
     border: solid 3px #A0A0A0;
 }
