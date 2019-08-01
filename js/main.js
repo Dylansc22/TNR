@@ -93,14 +93,15 @@ bearing: -10,
 center: [-110.926112,32.23569],
 zoom: 13.5,
 pitch: 43,
-speed: 1
+speed: 0.2
 },
 'traditionroutes': {
-bearing: -10,
-center: [-110.926718,32.239679],
-zoom: 13.3,
-pitch: 19,
-duration: 2000,
+    bearing: 10,
+    center: [-110.9448, 32.2339],
+    zoom: 13,
+    pitch: 50,
+    bearing: 25,
+    duration: 3500,
 },
 /*'deadendroads': {
 center: [-110.92876, 32.23895], 
@@ -111,12 +112,24 @@ bearing: -10,
 duration: 3000
 },*/
 'lowstressnetwork': {
-bearing: -10,
+    center: [-110.9195, 32.22924], 
+    zoom: 12.54,
+    pitch: 46.98,
+    bearing: 0,
+    speed: 0.075,
+    /*bearing: 10,
+    center: [-110.9448, 32.2339],
+    zoom: 13,
+    pitch: 50,
+    bearing: 25,
+    duration: 2000,*/
+},
+/*bearing: -10,
 center: [-110.926718,32.239679],
 zoom: 13.3,
 pitch: 19,
 duration: 3000,
-},
+*/
 'satallite': {
     bearing: -10,
     pitch: 60,
@@ -187,6 +200,8 @@ function myFunction() {
         map.setLayoutProperty('hs-do1x45-example', 'visibility', 'none');
     } else 
     if (activeChapterName === 'highstressroads') {
+        map.setLayoutProperty('trafficincidentsbike-4uqhba', 'visibility', 'none');
+        map.setLayoutProperty('trafficincidentsbike-4uqhba copy', 'visibility', 'none');
         //Need to remake this layer in new map map.setLayoutProperty('osm-bicycleinfras-example', 'visibility', 'none');
         map.setLayoutProperty('osm-bicycleinfras-5z6khj', 'visibility', 'visible');
         map.setLayoutProperty('hs-do1x45 copy 1', 'visibility', 'visible');
@@ -246,7 +261,9 @@ function myFunction() {
         map.setLayoutProperty('hs-do1x45 copy 3', 'visibility', 'visible');
         map.setLayoutProperty('hawkroads-acywed-example', 'visibility', 'none');
     } else*/
-        if (activeChapterName === 'satallite') {    
+        if (activeChapterName === 'satallite') {
+        map.setLayoutProperty('ls-790ous copy', 'visibility', 'none');
+        map.setLayoutProperty('ls-790ous', 'visibility', 'none');    
         map.setLayoutProperty('mapbox-satellite', 'visibility', 'visible');
         map.setLayoutProperty('hawkroads-acywed-example', 'visibility', 'visible');
         map.setLayoutProperty('hawks-1sb3f4', 'visibility', 'none');
@@ -261,8 +278,8 @@ function myFunction() {
         map.setLayoutProperty('mapbox-satellite', 'visibility', 'none');
         map.setLayoutProperty('hawkroads-acywed-example', 'visibility', 'none');
         map.setLayoutProperty('osm-bicycleinfras-5z6khj', 'visibility', 'visible');
-        map.setLayoutProperty('hs-do1x45 copy 1', 'visibility', 'visible');
-        map.setLayoutProperty('hs-do1x45 copy', 'visibility', 'visible');
+        //map.setLayoutProperty('hs-do1x45 copy 1', 'visibility', 'visible');
+        //map.setLayoutProperty('hs-do1x45 copy', 'visibility', 'visible');
         //Turn off all hawk layers
         map.setLayoutProperty('hawks-1sb3f4', 'visibility', 'none');
         map.setLayoutProperty('hawks-1sb3f4 copy', 'visibility', 'none');
@@ -274,6 +291,8 @@ function myFunction() {
         map.setLayoutProperty('hawkroads-acywed copy', 'visibility', 'none');
         map.setLayoutProperty('tnr-v5-5pfsxq', 'visibility', 'none');
         map.setLayoutProperty('tnr-v5-5pfsxq copy', 'visibility', 'none');
+        map.setLayoutProperty('hs-do1x45 copy 2', 'visibility', 'none');
+        map.setLayoutProperty('hs-do1x45 copy 3', 'visibility', 'none');
     } else 
 if (activeChapterName === 'lowstressnetwork') {
         map.setLayoutProperty('hawkroads-acywed-example', 'visibility', 'none');    
@@ -287,6 +306,8 @@ if (activeChapterName === 'lowstressnetwork') {
         map.setLayoutProperty('ls-790ous copy', 'visibility', 'none');
         map.setLayoutProperty('theloop-b2gq5f', 'visibility', 'visible');
         //Turn on all hawk layers
+        map.setLayoutProperty('hs-do1x45 copy 2', 'visibility', 'visible');
+        map.setLayoutProperty('hs-do1x45 copy 3', 'visibility', 'visible');
         map.setLayoutProperty('hawks-1sb3f4', 'visibility', 'visible');
         map.setLayoutProperty('hawks-1sb3f4 copy', 'visibility', 'visible');
         map.setLayoutProperty('hawkroads-acywed', 'visibility', 'visible');
