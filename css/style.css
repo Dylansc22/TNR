@@ -38,7 +38,7 @@ html, body {
     margin-top:2vw;
     margin-left:2vw;
     position: relative;
-    max-width: 50%;
+    max-width: 40%;
     font-family: sans-serif;
     /*overflow-y: scroll; Removed because I don't want the scrollbar showing*/
     z-index: 2;
@@ -48,6 +48,8 @@ html, body {
     -o-transition: all 0.3s;
     transition:all 0.3s;
 }
+
+
 
 #toolbar {
     position:fixed;
