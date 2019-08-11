@@ -3,6 +3,7 @@
 //---------------------------------------------------------------------------------------
 // All parameter options such as attributionControl, minZoom, style, etc... are found here... https://docs.mapbox.com/mapbox-gl-js/api/#map
 
+//Activate Mapbox Map
 mapboxgl.accessToken = 'pk.eyJ1IjoiZHlsYW5jIiwiYSI6Im53UGgtaVEifQ.RJiPqXwEtCLTLl-Vmd1GWQ';
 var map = new mapboxgl.Map({
     container: 'map', // container id
@@ -18,6 +19,7 @@ var map = new mapboxgl.Map({
     //bearing: 10,
 });
 
+//Add Data layers so map isn't empty
 map.on('load', function(){
   map.setLayoutProperty('tnr-v5-5pfsxq', 'visibility', 'visible')
   map.setLayoutProperty('tnr-v5-5pfsxq copy', 'visibility', 'visible')
@@ -26,38 +28,23 @@ map.on('load', function(){
   map.setLayoutProperty('hawkroads-acywed copy', 'visibility', 'visible')
 });
 
+//Return Map Coordinates, barring, and pitch on mouse move so 
 map.on('mousemove', function (e) {
-var lngRounded =  (Math.round(100000*map.getCenter().lng)/100000);
-var latRounded = (Math.round(100000*map.getCenter().lat)/100000);
-document.getElementById('mapPosition').innerHTML =
-// e.point is the x, y coordinates of the mousemove event relative
-// to the top-left corner of the map
-// e.lngLat is the longitude, latitude geographical position of the event
-//'Lat/Long:' + JSON.stringify(e.lngLat) +
-'center: [' + lngRounded + ', ' + latRounded + '], ' +
-'<br/> zoom: ' + JSON.stringify(Math.round(1000*map.getZoom())/1000) + ',' +
-'<br/> pitch: ' + JSON.stringify(Math.round(1000*map.getPitch())/1000) + ',' +
- '<br/> bearing: ' + JSON.stringify(Math.round(1000*map.getBearing())/1000) + ',<br/>'
-});
-
-
-//Get Mouse Coordinates on Mouse Movement
-map.on('mousemove', function (e) {
-var lngRounded =  (Math.round(100000*map.getCenter().lng)/100000);
-var latRounded = (Math.round(100000*map.getCenter().lat)/100000);
-document.getElementById('mapPosition').innerHTML =
-// e.point is the x, y coordinates of the mousemove event relative
-// to the top-left corner of the map
-// e.lngLat is the longitude, latitude geographical position of the event
-//'Lat/Long:' + JSON.stringify(e.lngLat) +
-'center: [' + lngRounded + ', ' + latRounded + '], ' +
-'<br/> zoom: ' + JSON.stringify(Math.round(1000*map.getZoom())/1000) + ',' +
-'<br/> pitch: ' + JSON.stringify(Math.round(1000*map.getPitch())/1000) + ',' +
- '<br/> bearing: ' + JSON.stringify(Math.round(1000*map.getBearing())/1000) + ',<br/>'
+  var lngRounded =  (Math.round(100000*map.getCenter().lng)/100000);
+  var latRounded = (Math.round(100000*map.getCenter().lat)/100000);
+  document.getElementById('mapPosition').innerHTML =
+  // e.point is the x, y coordinates of the mousemove event relative
+  // to the top-left corner of the map
+  // e.lngLat is the longitude, latitude geographical position of the event
+  //'Lat/Long:' + JSON.stringify(e.lngLat) +
+  'center: [' + lngRounded + ', ' + latRounded + '], ' +
+  '<br/> zoom: ' + JSON.stringify(Math.round(1000*map.getZoom())/1000) + ',' +
+  '<br/> pitch: ' + JSON.stringify(Math.round(1000*map.getPitch())/1000) + ',' +
+   '<br/> bearing: ' + JSON.stringify(Math.round(1000*map.getBearing())/1000) + ',<br/>'
 });
 
 //---------------------------------------------------------------------------------------
-// --------------------------- Step 2: Add Data Layers  -----------------------------
+// -------------    Step 2: Add Data Layers And Toggle    -------------------------------
 //---------------------------------------------------------------------------------------
 
 //Toggle Annotation
@@ -81,7 +68,6 @@ toggleLayer(
     'building-number-label', 
     'contour-label'], 
     'Annotation'); //Button Name
-
 //Toggle Standard Road Network
 toggleLayer(
     ['road-oneway-arrow-white',
@@ -140,31 +126,27 @@ toggleLayer(
     'bridge-steps-bg',
     'bridge-path-bg'], 
     'Standard Road Network'); //Button Name
-
 //Toggle High Stress Road Network
 toggleLayer(
     ['hs-do1x45 copy', 
     'hs-do1x45 copy 1'],
     'High Stress Roads');
-
 //Toggle High Stress Road Network
 toggleLayer(
     ['hs-do1x45 copy 2', 
     'hs-do1x45 copy 3'],
     'High Stress Roads (Neutral)');
-
 //Toggle All LS Original Road Network
 toggleLayer(
     ['ls-790ous', 
     'ls-790ous copy'], 
     'Low Stress Roads');
-
+//Toggle All Hawk Stuff
 toggleLayer(
     ['hawks-1sb3f4 copy', 
     'hawkroads-acywed',
     'hawkroads-acywed copy'],
     'Neighborhood Connections');
-
 toggleLayer(
     ['tnr-v5-5pfsxq',
     'tnr-v5-5pfsxq copy'
@@ -174,21 +156,19 @@ toggleLayer(
     //'tnr-v1-c7wnkt'
     ],
     'Residential Bicycle Network'); //Button Name
-
 toggleLayer(
     ['osm-bicycleinfras-5z6khj', 
     //'hs-do1x45 copy'
     ],
     'Recommended Bicycle Lanes'); //Button Name
-
 toggleLayer (
   ['mapbox-satellite'], 
   'Satallite');
-
 toggleLayer(
   ['theloop-b2gq5f'], 
   'The Loop Pedestrian Path');
 
+//Enable Toggle Layers Button Behavior 'on click'
 function toggleLayer(ids, name) {
     var link = document.createElement('a');
     link.href = '#';
@@ -213,7 +193,7 @@ function toggleLayer(ids, name) {
     layers.appendChild(link);
 }
 
-//Add Separate Button For Toggling Individual Layers
+//Enable Toggle Layers Button Behavior for Satellite Imagery Specifically since its a Mapbox Baselayer and not a Geojson
 map.on('load', function(){
     var switchy = document.getElementById('remover');
     switchy.addEventListener("click", function(){
@@ -232,47 +212,10 @@ map.on('load', function(){
 
 
 //---------------------------------------------------------------------------------------
-// -------------    Step 3: Add Data Layers Toggle Button   -----------------------------
+// --------------------------- Step 3: Create Custom Controls -----------------------------
 //---------------------------------------------------------------------------------------
 
-/* Might Not Need this section any more?
-
-
-Generate Menu of Button for Toggling Layers
-var toggleableLayerIds = [ 'Signaled Crosswalks', 'Bicycle Infrastructure',  'Future Buttons Here' ]; //Add toggleable layer ids here
- 
-for (var i = 0; i < toggleableLayerIds.length; i++) {
-var id = toggleableLayerIds[i];
- 
-var link = document.createElement('a');
-link.href = '#';
-link.className = 'active';
-link.textContent = id;
-
-    link.onclick = function (e) {
-        var clickedLayer = this.textContent;
-        e.preventDefault();
-        e.stopPropagation();
-     
-        var visibility = map.getLayoutProperty(clickedLayer, 'visibility');
-     
-        if (visibility === 'visible') {
-            map.setLayoutProperty(clickedLayer, 'visibility', 'none');
-            this.className = '';
-        } else {
-            this.className = 'active';
-            map.setLayoutProperty(clickedLayer, 'visibility', 'visible');
-        }
-    };
-     
-    var layers = document.getElementById('menu');
-    layers.appendChild(link);
-    }
-*/
-//---------------------------------------------------------------------------------------
-// --------------------------- Step 4: Create Custom Controls -----------------------------
-//---------------------------------------------------------------------------------------
-
+var x = 0;
 var draw = new MapboxDraw({
   displayControlsDefault: false,
   controls: {
@@ -343,6 +286,7 @@ var draw = new MapboxDraw({
         }
     },
   ]
+
 });
 
 // add create, update, or delete actions
@@ -351,20 +295,25 @@ map.on('draw.update', updateRoute);
 map.on('draw.delete', removeRoute);
 
 // use the coordinates you just drew to make your directions request
+var nodecount = 0; //declaring the variable here so its a global variable and can be later called outside the function
+
 function updateRoute() {
-var x = 0;
-function onClick(){
-    x=x+1;
-};
-instructions.insertAdjacentHTML('beforeend', '<p> VER 2 STEPS </p>' +  x);
+  //Add Nodecount
+  
   removeRoute(); // overwrite any existing layers
   var data = draw.getAll();
+  var nodecount = draw.getAll().features[0].geometry.coordinates.length;
   var answer = document.getElementById('calculated-line');
   var lastFeature = data.features.length - 1;
   var coords = data.features[lastFeature].geometry.coordinates;
   var newCoords = coords.join(';')
   getMatch(newCoords);
-  instructions.insertAdjacentHTML('beforeend', '<p> STEPS </p>' +  coords.length);
+
+  document.getElementById("drawbox").innerHTML = "<h6>Nodes Used:" + nodecount +"</h6><p>Max 25 Nodes</p>";
+
+  //When people draw routes, there is a 25 node max, for returning a route, So I need to know (and return on screen) the node count 
+  //drawbox.insertAdjacentHTML('beforeend', '<p>' +  ' NODES:' + nodecount);
+
 }
 
 // make a directions request
@@ -380,33 +329,16 @@ function getMatch(e) {
     var steps = jsonResponse.routes[0].legs[0].steps;
     var coords = jsonResponse.routes[0].geometry;
    
+
     //Get Distance and Duration
-    instructions.insertAdjacentHTML('beforeend', '<p>' +  'Distance: ' + distance.toFixed(2) + ' mi<br>Duration: ' + duration.toFixed(2) + ' mins' + '</p>' + "<br> STEPS:" + draw);
+    instructions.insertAdjacentHTML('beforeend', '<p>' +  'Distance: ' + distance.toFixed(2) + ' mi<br>Duration: ' + duration.toFixed(2) + ' mins<br>:');
 
     //Get Route Direction On Load Map
     steps.forEach(function(step){
         instructions.insertAdjacentHTML('beforeend', '<p>' + step.maneuver.instruction + '</p>')
     });
 
-    //Get Route Geojson Coordinates
-
-    /*/Basic proof of concept
-    var output = "Geojson Coordinates: <br>" + coords.coordinates[0] + '<br>' + coords.coordinates[1] + '<br>' + coords.coordinates[2];
-    document.getElementById("htmlcoords").innerHTML = output; //Essentially Links your JS Variable to the HTML ID you want associated with it */
-
-
-    //Convert the jsonResponse from a Json into a formatted string ready to be sent to a server
-    /*Returning the entire GeoJson
-    var textedJson = JSON.stringify(jsonResponse, undefined, 2);
-    document.getElementById("completegeojson").innerHTML = textedJson;*/
-
-    /*Returning just the coordinates
-    var x='';
-    for (i = 0; i < jsonResponse.routes[0].geometry.coordinates.length; i++) {
-        x = x + "[" + jsonResponse.routes[0].geometry.coordinates[i] + "]" + "<br>";
-    }
-    document.getElementById("coordsonlyID").innerHTML = x;*/
-
+    
 
 
     //Convert the jsonResponse from a Json into a formatted string ready to be sent to a server

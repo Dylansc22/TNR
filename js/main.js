@@ -684,12 +684,7 @@ map.on('draw.update', updateRoute);
 map.on('draw.delete', removeRoute);
 
 // use the coordinates you just drew to make your directions request
-function updateRoute() {
-var x = 0;
-function onClick(){
-    x=x+1;
-};
-instructions.insertAdjacentHTML('beforeend', '<p> VER 2 STEPS </p>' +  x);
+instructions.insertAdjacentHTML('beforeend', '<p> STEPS </p>' +  coords.length);
   removeRoute(); // overwrite any existing layers
   var data = draw.getAll();
   var answer = document.getElementById('calculated-line');
@@ -697,8 +692,6 @@ instructions.insertAdjacentHTML('beforeend', '<p> VER 2 STEPS </p>' +  x);
   var coords = data.features[lastFeature].geometry.coordinates;
   var newCoords = coords.join(';')
   getMatch(newCoords);
-  instructions.insertAdjacentHTML('beforeend', '<p> STEPS </p>' +  coords.length);
-}
 
 // make a directions request
 function getMatch(e) {
@@ -713,8 +706,10 @@ function getMatch(e) {
     var steps = jsonResponse.routes[0].legs[0].steps;
     var coords = jsonResponse.routes[0].geometry;
    
+
+
     //Get Distance and Duration
-    instructions.insertAdjacentHTML('beforeend', '<p>' +  'Distance: ' + distance.toFixed(2) + ' mi<br>Duration: ' + duration.toFixed(2) + ' mins' + '</p>' + "<br> STEPS:" + draw);
+    instructions.insertAdjacentHTML('beforeend', '<p>' +  'Distance: ' + distance.toFixed(2) + ' mi<br>Duration: ' + duration.toFixed(2) + ' mins' + '</p>');
 
     //Get Route Direction On Load Map
     steps.forEach(function(step){
