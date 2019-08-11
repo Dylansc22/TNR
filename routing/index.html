@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tucson's Best Cycling Routes</title>
+    <meta charset='utf-8' />
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    
+    <!--Bootstrap CSS (must come before other stylesheets)-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <!-- Custom CSS -->
+    <link href="../css/style.css" rel="stylesheet">
+
+    <!--Animation CSS and WOW.JS - Source: http://mynameismatthieu.com/WOW/docs.html-->
+    <link rel="stylesheet" href="../css/animate_minify.css">
+    <script src="../js/wow.min.js"></script>
+
+    <!--Awesome Fonts Library - Source: https://fontawesome.com/start -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+
+   <!--Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Merriweather&display=swap" rel="stylesheet">
+
+    <!--Mapbox JS & Mapbox CSS Libraries-->
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.52.0/mapbox-gl.js'></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.52.0/mapbox-gl.css' rel='stylesheet' />
+
+</head>
+<body>
+
+<!--Mapbox APIs-->
+<!--Mapbox Search Box-->
+<script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v2.3.0/mapbox-gl-geocoder.min.js'></script>
+<link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v2.3.0/mapbox-gl-geocoder.css' type='text/css' />
+<!--Mapbox Directions-->
+<script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.0.0/mapbox-gl-directions.js'></script>
+<link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.0.0/mapbox-gl-directions.css' type='text/css' />
+<!--Mapbox Draw-->
+<script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.0.9/mapbox-gl-draw.js'></script>
+<link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.0.9/mapbox-gl-draw.css' type='text/css'/>
+
+
+<!--Initialize Map, Menu, & Info Box-->
+
+<div id='bootstrapoverrides' class='container-fluid'>
+    <div id='map'></div>
+    <div id='maininfo'>
+        <button id="sidebarCollapse" type="button" class="btn btn-info">
+            <i class="fas fa-align-left"></i>
+            <span>Toggle Sidebar</span>
+        </button>
+        <button id="toolbarCollapse" type="button" class="btn btn-warning">
+            <i class="fas fa-align-left"></i>
+            <span>Data</span>
+        </button>
+
+        <div id='mapPosition'></div>
+        <!--<div id='remover'>Add Satallite</div>-->
+        <div id='instructions'>
+            <div id="calculated-line"></div>
+        </div>
+        <div id='geojsonbox'>
+            <div><pre id='completegeojson'></pre></div>
+        </div>
+    <!--<div id='scrolltest'>This is a test</div>
+    <p id="demo">Click the button to change the text in this paragraph.</p>
+    <button id="testbutton">Try it</button>-->
+    </div>
+    <div id='toolbar'><h4>Data Layers<br><h4><h6>(work in progress)</h6></div>
+
+
+
+
+<!--enables all animation behavior-->
+<script>new WOW().init();</script>
+
+<!--Main Javascript File-->
+<script src="js/routing.js"></script>
+
+<!--Bootstrap Scripts-->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+<script type="text/javascript" src="https://code.jquery.com/jquery.min.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#sidebarCollapse').on('click', function () {
+            $('#text').toggleClass('hide');
+        });
+    });
+
+    $(document).ready(function () {
+        $('#toolbarCollapse').on('click', function () {
+            $('#toolbar').toggleClass('hide');
+        });
+    });
+
+    $("#ethos").click(function() {
+        $("#ethos").fadeOut("slow", function() { //or fadeOut(normal... or fadeOut 3000,
+            $(this).remove();
+        });
+    });
+</script>
+
+</body>
+</html> 
