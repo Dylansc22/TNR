@@ -21,11 +21,12 @@ var map = new mapboxgl.Map({
 
 //Add Data layers so map isn't empty
 map.on('load', function(){
-  map.setLayoutProperty('tnr-v5-5pfsxq', 'visibility', 'visible')
-  map.setLayoutProperty('tnr-v5-5pfsxq copy', 'visibility', 'visible')
-  map.setLayoutProperty('hawks-1sb3f4 copy', 'visibility', 'visible')
-  map.setLayoutProperty('hawkroads-acywed', 'visibility', 'visible')
-  map.setLayoutProperty('hawkroads-acywed copy', 'visibility', 'visible')
+  map.setLayoutProperty('tuesday-night-ride-points-of-int', 'visibility', 'visible');
+  map.setLayoutProperty('tnr-v5-5pfsxq', 'visibility', 'visible');
+  map.setLayoutProperty('tnr-v5-5pfsxq copy', 'visibility', 'visible');
+  map.setLayoutProperty('hawks-1sb3f4 copy', 'visibility', 'visible');
+  map.setLayoutProperty('hawkroads-acywed', 'visibility', 'visible');
+  map.setLayoutProperty('hawkroads-acywed copy', 'visibility', 'visible');
 });
 
 //Return Map Coordinates, barring, and pitch on mouse move so 
@@ -194,6 +195,7 @@ function toggleLayer(ids, name) {
 }
 
 //Enable Toggle Layers Button Behavior for Satellite Imagery Specifically since its a Mapbox Baselayer and not a Geojson
+/*I dont think I need this anymore?
 map.on('load', function(){
     var switchy = document.getElementById('remover');
     switchy.addEventListener("click", function(){
@@ -209,13 +211,12 @@ map.on('load', function(){
         }
     });
 });
-
+*/
 
 //---------------------------------------------------------------------------------------
 // --------------------------- Step 3: Create Custom Controls -----------------------------
 //---------------------------------------------------------------------------------------
 
-var x = 0;
 var draw = new MapboxDraw({
   displayControlsDefault: false,
   controls: {
@@ -295,25 +296,22 @@ map.on('draw.update', updateRoute);
 map.on('draw.delete', removeRoute);
 
 // use the coordinates you just drew to make your directions request
-var nodecount = 0; //declaring the variable here so its a global variable and can be later called outside the function
-
+var drawing = {}; 
 function updateRoute() {
   //Add Nodecount
   
   removeRoute(); // overwrite any existing layers
-  var data = draw.getAll();
+  drawing = draw.getAll();
   var nodecount = draw.getAll().features[0].geometry.coordinates.length;
   var answer = document.getElementById('calculated-line');
-  var lastFeature = data.features.length - 1;
-  var coords = data.features[lastFeature].geometry.coordinates;
+  var lastFeature = drawing.features.length - 1;
+  var coords = drawing.features[lastFeature].geometry.coordinates;
   var newCoords = coords.join(';')
   getMatch(newCoords);
 
-  document.getElementById("drawbox").innerHTML = "<h6>Nodes Used:" + nodecount +"</h6><p>Max 25 Nodes</p>";
-
   //When people draw routes, there is a 25 node max, for returning a route, So I need to know (and return on screen) the node count 
-  //drawbox.insertAdjacentHTML('beforeend', '<p>' +  ' NODES:' + nodecount);
-
+  //Akso nodecount is a local variable only declared in updateRoute(), so the below line of code should only if still in updateRoute(), which is why i have it here 
+  document.getElementById("drawbox").innerHTML = "<h6>Nodes Used:" + nodecount +"</h6><p>Max 25 Nodes</p>";
 }
 
 // make a directions request
@@ -413,8 +411,6 @@ function addRoute (coords) {
         'text-halo-width': 3
       }
     });
-  };
-
 var TNRRoute = {
     "id": "TNR Route",
         "type": "FeatureCollection",
@@ -426,14 +422,22 @@ var TNRRoute = {
                 }
             ]
         };
+}
+
     //Convert the jsonResponse from a Json into a formatted string ready to be sent to a server
     //Returning the entire GeoJson
 
     var output = JSON.stringify(TNRRoute, undefined, 2);
     document.getElementById("completegeojson").innerHTML = "<b>Geojson Output:</b> <br>" + output;
+  };
+
+
+
+function CopyRouteToClipboard() {
+  drawing.select();
+  document.execCommand("copy");
+  alert("Route Copied to Clipboard!");
 }
-
-
 
 
 // remove the layer if it exists
@@ -487,6 +491,50 @@ function removeRoute () {
             compact: true,   
         }));
 
+//When Clicking the Copy or Paste Button, execute the Copy or Paste Function
+document.getElementById("copybutton").addEventListener("click", myCopyFunction);
+document.getElementById("pastebutton").addEventListener("click", myPasteFunction);
+
+//This function is so that if you're working on a route you can copy (and essentially save it) to work on it later
+function myCopyFunction() {
+  //Console Log It as a test
+  //console.log("this is the value of the drawing variable: " + JSON.stringify(drawing));
+
+  //Copy it to clipboard - Don't totally get how it works but got it from 
+  //https://stackoverflow.com/questions/33855641/copy-output-of-a-javascript-variable-to-the-clipboard
+  var dummy = document.createElement("textarea");
+  document.body.appendChild(dummy);
+  dummy.value = JSON.stringify(drawing);
+  dummy.select();
+  document.execCommand("copy");
+  document.body.removeChild(dummy);
+};
+
+
+//This function is so that if you're working on a route you can paste (and essentially load it) to view it later
+function myPasteFunction() {   
+    var el = document.createElement('textarea');
+    document.body.appendChild(el);
+    el.focus();
+    document.execCommand('paste', false, pastedrawing);
+    var pastedrawing = el.value;
+    //document.body.removeChild(el)
+    //return pastedrawing;
+    console.log("this is the value of the drawing variable: " + JSON.stringify(pastedrawing));
+    console.log("doc exec command paste:" + pastedrawing);
+ 
+};
+console.log(myPasteFunction());
+
+
+
+/*
+    let button = document.getElementById('copybutton');
+      button.addEventListener('click', function(e) {
+        e.preventDefault();
+        document.execCommand('copy', false, document.getElementById('select-this').select());
+      });
+*/
 
 /*Enable/Disable 3D Buildings when zoomed in
 
