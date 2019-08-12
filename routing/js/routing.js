@@ -299,13 +299,13 @@ map.on('draw.delete', removeRoute);
 var drawing = {}; 
 function updateRoute() {
   //Add Nodecount
-  
   removeRoute(); // overwrite any existing layers
   drawing = draw.getAll();
   var nodecount = draw.getAll().features[0].geometry.coordinates.length;
   var answer = document.getElementById('calculated-line');
   var lastFeature = drawing.features.length - 1;
   var coords = drawing.features[lastFeature].geometry.coordinates;
+  console.log(JSON.parse(JSON.stringify(coords)));
   var newCoords = coords.join(';')
   getMatch(newCoords);
 
@@ -493,15 +493,11 @@ function removeRoute () {
 
 //When Clicking the Copy or Paste Button, execute the Copy or Paste Function
 document.getElementById("copybutton").addEventListener("click", myCopyFunction);
-document.getElementById("pastebutton").addEventListener("click", myPasteFunction);
+document.getElementById("newpastebutton").addEventListener("click", myNewPasteFunction);
+document.getElementById("oldbutton").addEventListener("click", testingFunction);
 
-//This function is so that if you're working on a route you can copy (and essentially save it) to work on it later
+
 function myCopyFunction() {
-  //Console Log It as a test
-  //console.log("this is the value of the drawing variable: " + JSON.stringify(drawing));
-
-  //Copy it to clipboard - Don't totally get how it works but got it from 
-  //https://stackoverflow.com/questions/33855641/copy-output-of-a-javascript-variable-to-the-clipboard
   var dummy = document.createElement("textarea");
   document.body.appendChild(dummy);
   dummy.value = JSON.stringify(drawing);
@@ -510,74 +506,73 @@ function myCopyFunction() {
   document.body.removeChild(dummy);
 };
 
+function myNewPasteFunction() {
+  map.on('draw.add', latestfunction());
 
-//This function is so that if you're working on a route you can paste (and essentially load it) to view it later
-function myPasteFunction() {   
-    var el = document.createElement('textarea');
-    document.body.appendChild(el);
-    el.focus();
-    document.execCommand('paste', false, pastedrawing);
-    var pastedrawing = el.value;
-    //document.body.removeChild(el)
-    //return pastedrawing;
-    console.log("this is the value of the drawing variable: " + JSON.stringify(pastedrawing));
-    console.log("doc exec command paste:" + pastedrawing);
- 
+  function latestfunction () {
+    var x = document.getElementById("myInput").value;
+    var y = JSON.parse(x);
+    console.log(y);
+    console.log("above is y. Below is stringify y");
+    console.log(JSON.stringify(y));
+    removeRoute();
+    drawing = y;
+    var nodecount = y.features[0].geometry.coordinates.length;
+    var answer = document.getElementById('calculated-line');
+    var lastFeature = drawing.features.length - 1;
+    var coords = drawing.features[lastFeature].geometry.coordinates;
+    console.log(JSON.parse(JSON.stringify(coords)));
+    var newCoords = coords.join(';')
+    getMatch(newCoords);
+
+    document.getElementById("drawbox").innerHTML = "<h6>Nodes Used:" + nodecount +"</h6><p>Max 25 Nodes</p>";
+
+    
+  }
 };
-console.log(myPasteFunction());
 
-
+function testingFunction() {
+  var x = {
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "id": "618af16332d59e7f29657494f3810f1a",
+      "type": "Feature",
+      "properties": {},
+      "geometry": {
+        "coordinates": [
+          [
+            -110.91448695572704,
+            32.24773592145573
+          ],
+          [
+            -110.92833402462189,
+            32.231109490072114
+          ],
+          [
+            -110.95476933795841,
+            32.242412518450394
+          ]
+        ],
+        "type": "LineString"
+      }
+    }
+  ]
+};
+  console.log(x);
+  console.log("above is x. Below is stringify x");
+  console.log(JSON.stringify(x));
+    map.on('load', function() {
+      draw.add(x)});
+};
+ 
 
 /*
-    let button = document.getElementById('copybutton');
-      button.addEventListener('click', function(e) {
-        e.preventDefault();
-        document.execCommand('copy', false, document.getElementById('select-this').select());
-      });
+   HAving Trouble with the next line of code.
+  var nodecount = draw.getAll().features[0].geometry.coordinates.length;
+
+  //When people draw routes, there is a 25 node max, for returning a route, So I need to know (and return on screen) the node count 
+  //Akso nodecount is a local variable only declared in updateRoute(), so the below line of code should only if still in updateRoute(), which is why i have it here 
+  document.getElementById("drawbox").innerHTML = "<h6>Nodes Used:" + nodecount +"</h6><p>Max 25 Nodes</p>";
+
 */
-
-/*Enable/Disable 3D Buildings when zoomed in
-
-// The 'building' layer in the mapbox-streets vector source contains building-height
-// data from OpenStreetMap.
-map.on('load', function() {
-// Insert the layer beneath any symbol layer.
-var layers = map.getStyle().layers;
- 
-var labelLayerId;
-for (var i = 0; i < layers.length; i++) {
-if (layers[i].type === 'symbol' && layers[i].layout['text-field']) {
-labelLayerId = layers[i].id;
-break;
-}
-}
- 
-
-map.addLayer({
-'id': '3d-buildings',
-'source': 'composite',
-'source-layer': 'building',
-'filter': ['==', 'extrude', 'true'],
-'type': 'fill-extrusion',
-'minzoom': 15,
-'paint': {
-'fill-extrusion-color': '#aaa',
- 
-// use an 'interpolate' expression to add a smooth transition effect to the
-// buildings as the user zooms in
-'fill-extrusion-height': [
-"interpolate", ["linear"], ["zoom"],
-15, 0,
-15.05, ["get", "height"]
-],
-'fill-extrusion-base': [
-"interpolate", ["linear"], ["zoom"],
-15, 0,
-15.05, ["get", "min_height"]
-],
-'fill-extrusion-opacity': .6
-}
-}, labelLayerId);
-});
-*/
-
