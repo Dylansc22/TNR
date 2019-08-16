@@ -8,12 +8,6 @@
     <!--Bootstrap CSS (must come before other stylesheets)-->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
-    <!-- Custom CSS -->
-    <link href="../css/style.css" rel="stylesheet">
-
-    <!--Animation CSS and WOW.JS - Source: http://mynameismatthieu.com/WOW/docs.html-->
-    <link rel="stylesheet" href="../css/animate_minify.css">
-    <script src="../js/wow.min.js"></script>
 
     <!--Awesome Fonts Library - Source: https://fontawesome.com/start -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
@@ -25,22 +19,30 @@
     <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.52.0/mapbox-gl.js'></script>
     <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.52.0/mapbox-gl.css' rel='stylesheet' />
 
+    <!-- Custom CSS -->
+    <link href="../css/style.css" rel="stylesheet">
+
+    <!--Mapbox APIs-->
+    <!--Mapbox Search Box-->
+    <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v2.3.0/mapbox-gl-geocoder.min.js'></script>
+    <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v2.3.0/mapbox-gl-geocoder.css' type='text/css' />
+    <!--Mapbox Directions-->
+    <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.0.0/mapbox-gl-directions.js'></script>
+    <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.0.0/mapbox-gl-directions.css' type='text/css' />
+    <!--Mapbox Draw-->
+    <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.0.9/mapbox-gl-draw.js'></script>
+    <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.0.9/mapbox-gl-draw.css' type='text/css'/>
+
+
+    <!--Initialize Map, Menu, & Info Box-->
+
+    <!--Animation CSS and WOW.JS - Source: http://mynameismatthieu.com/WOW/docs.html-->
+    <link rel="stylesheet" href="../css/animate_minify.css">
+    <script src="../js/wow.min.js"></script>
+    
 </head>
 <body>
 
-<!--Mapbox APIs-->
-<!--Mapbox Search Box-->
-<script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v2.3.0/mapbox-gl-geocoder.min.js'></script>
-<link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v2.3.0/mapbox-gl-geocoder.css' type='text/css' />
-<!--Mapbox Directions-->
-<script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.0.0/mapbox-gl-directions.js'></script>
-<link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.0.0/mapbox-gl-directions.css' type='text/css' />
-<!--Mapbox Draw-->
-<script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.0.9/mapbox-gl-draw.js'></script>
-<link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.0.9/mapbox-gl-draw.css' type='text/css'/>
-
-
-<!--Initialize Map, Menu, & Info Box-->
 
 <div id='bootstrapoverrides' class='container-fluid'>
     <div id='map'></div>
@@ -72,10 +74,45 @@
     <p id="demo">Click the button to change the text in this paragraph.</p>
     <button id="testbutton">Try it</button>-->
     </div>
-    <div id='toolbar'><h4>Data Layers<br><h4><h6>(work in progress)</h6></div>
+    <div class="accordion" id="accordionExample">
+          <div class="card">
+                <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                  <h5>Route Drawing Tools</h5>
+                </button>
+            <div id="collapseOne" class="collapse show" aria-labelledby="headingOne">
+              <div id="testingmovement" class="card-body">
+                Trying to get mapbox controls here
+              </div>
+            </div>
+          </div>
+          <div class="card">
+                <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                  <h5>Data Layers</h5>
+                </button>
+            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" >
+              <div class="card-body">
+                    <div id='toolbar'></div>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+                <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                  <h5>Save/Load Route</h5>
+                </button>
+            <div id="collapseThree" class="collapse" aria-labelledby="headingThree" >
+              <div class="card-body">
+                Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+              </div>
+            </div>
+          </div>
+    </div>
 
 
-
+<script>
+  document.getElementById('testingmovement').appendChild(
+    document.getElementById('oldbutton')
+  );
+</script>
 
 <!--enables all animation behavior-->
 <script>new WOW().init();</script>
@@ -99,7 +136,7 @@
 
     $(document).ready(function () {
         $('#toolbarCollapse').on('click', function () {
-            $('#toolbar').toggleClass('hide');
+            $('#accordionExample').toggleClass('hide');
         });
     });
 
@@ -109,6 +146,7 @@
         });
     });
 </script>
+
 
 </body>
 </html> 
