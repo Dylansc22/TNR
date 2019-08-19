@@ -132,11 +132,20 @@
     }
 }
 
+#anotherdiv {
+    width:100%;
+    position:relative;
+    -webkit-transition: all 0.3s;
+    -moz-transition: all 0.3s;
+    -o-transition: all 0.3s;
+    transition:all 0.3s;
+}
+
 #text {
     margin-top:2vw;
     margin-left:2vw;
     position: relative;
-    max-width: 40%;
+    max-width: 60%;
     /*font-family: sans-serif;*/
     /*overflow-y: scroll; Removed because I don't want the scrollbar showing*/
     z-index: 2;
@@ -145,6 +154,10 @@
     -moz-transition: all 0.3s;
     -o-transition: all 0.3s;
     transition:all 0.3s;
+}
+
+#anotherdiv {
+    padding-bottom: 200px;
 }
 
 #accordionExample {
@@ -210,7 +223,7 @@
     }
 
 .hide {
-    margin-left: -60% !important;
+    margin-left: -100% !important;
     -webkit-transition: all 0.4s;
     -moz-transition: all 0.4s;
     -o-transition: all 0.4s;
@@ -220,7 +233,7 @@
 /*dont know if i need these*/
 @media (max-width: 768px) {
     #sidebar {
-        margin-left: -60%;
+        margin-left: -100%;
     }
     #sidebar.hide {
         margin-left: 0;

@@ -53,26 +53,15 @@
     <div id='map'></div>
     
     <div id='maininfo'>
-        <button id="sidebarCollapse" type="button" class="btn btn-info">
+        <button id="sidebarCollapse" type="button" class="btn btn-warning">
             <i class="fas fa-align-left"></i>
             <span>Toggle Sidebar</span>
         </button>
-
-        <div id='mapPosition'></div>
-        <!--<div id='remover'>Add Satallite</div>-->
-        <div id='instructions'>
-            <div id="calculated-line"></div>
-        </div>
-        <div id='geojsonbox'>
-            <div><pre id='completegeojson'></pre></div>
-        </div>
-    <!--<div id='scrolltest'>This is a test</div>
-    <p id="demo">Click the button to change the text in this paragraph.</p>
-    <button id="testbutton">Try it</button>-->
     </div>
          
     
     <!-- Presentation Text-->
+    <div id="anotherdiv">
     <div id="text">
             <section id="tucson1">
                     <h1>This is Tucson Arizona<br></h1>
@@ -155,21 +144,13 @@
             </section>-->
             <section id="lowstressnetwork">
                 <h3>
-                    This <span class="bicyclelanefont">Low Stress Network</span> is how people on bicycles should think of our city. Bicycle commutes will be <strong>significantly safer</strong>, more quiet, and more scenic.   
+                    This <span class="bicyclelanefont">Low Stress Network</span> is how people on bicycles should think of our city. Bicycle commutes will be <strong>significantly safer</strong>, more quiet, and more scenic. 
                 </h3>
                 <p>
                     Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod.
                 </p>
             </section>
-            <section id="telegraph">
-                <h3>
-                    Click 'Toggle Sidebar' to remove the presentation, and use the line-tool on the right to create a bicycle route.
-                </h3>
-                <p>
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                </p>
-                <h3><br><br><br><br><br><br></h3>
-            </section>
+    </div>
     </div>
 
     <div id='toolbar'><h4>Data Layers<br><h4><h6>(work in progress)</h6></div>
@@ -192,13 +173,7 @@
 <script type="text/javascript">
     $(document).ready(function () {
         $('#sidebarCollapse').on('click', function () {
-            $('#text').toggleClass('hide');
-        });
-    });
-
-    $(document).ready(function () {
-        $('#toolbarCollapse').on('click', function () {
-            $('#toolbar').toggleClass('hide');
+            $('#anotherdiv').toggleClass('hide');
         });
     });
 
