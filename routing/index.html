@@ -46,21 +46,12 @@
 
 <div id='bootstrapoverrides' class='container-fluid'>
     <div id='map'></div>
-    <div id='maininfo'>
-        <input id="myInput" type="text" value="Paste Here">
-        <button id="newpastebutton" type="button" class="btn btn-warning">New Paste Button</button>      
-
-        <button id="oldbutton" type="button" class="btn btn-info">Old Button</button>      
-        <button id="copybutton" type="button" class="btn btn-info">Copy Route</button>
-        <button id="sidebarCollapse" type="button" class="btn btn-info">
-            <i class="fas fa-align-left"></i>
-            <span>Toggle Sidebar</span>
-        </button>
         <button id="toolbarCollapse" type="button" class="btn btn-warning">
-            <i class="fas fa-align-left"></i>
-            <span>Data</span>
+            <span></span>
+            <span></span>
+            <span></span>
         </button>
-
+    <div id='maininfo'>
         <div id='mapPosition'></div>
         <div id='drawbox'><h6>Haven't Used Any Nodes Yet</h6></div>
         <!--<div id='remover'>Add Satallite</div>-->
@@ -75,6 +66,16 @@
     <button id="testbutton">Try it</button>-->
     </div>
     <div class="accordion" id="accordionExample">
+        <div class="card">
+            <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseMain" aria-expanded="false" aria-controls="collapseOne">
+            <h5>About This Map</h5>
+            </button>
+            <div id="collapseMain" class="collapse" aria-labelledby="headingOne">
+              <div class="card-body">
+                This is where the map description will go. 
+              </div>
+            </div>
+          </div>
           <div class="card">
                 <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
                   <h5>Draw A Bicycle Route</h5>
@@ -82,6 +83,7 @@
             <div id="collapseOne" class="collapse" aria-labelledby="headingOne">
               <div id="testingmovement" class="card-body">
                 Trying to get mapbox controls here<br><br>
+                <div id='draw' class='draw'></div>
 
               </div>
             </div>
@@ -101,19 +103,15 @@
                   <h5>Save or Load A Route</h5>
                 </button>
             <div id="collapseThree" class="collapse" aria-labelledby="headingThree" >
+                <button id="newpastebutton" type="button" class="btn btn-warning">Load Route</button>           
+                <input id="myInput" type="text" value="Paste Here">
+                <button id="copybutton" type="button" class="btn btn-info">Copy Route</button>
               <div class="card-body">
-                Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat 
               </div>
             </div>
           </div>
     </div>
-
-
-<script>
-  document.getElementById('testingmovement').appendChild(
-    document.getElementById('oldbutton')
-  );
-</script>
 
 <!--enables all animation behavior-->
 <script>new WOW().init();</script>
@@ -137,7 +135,8 @@
 
     $(document).ready(function () {
         $('#toolbarCollapse').on('click', function () {
-            $('#accordionExample').toggleClass('hide');
+            $('#accordionExample').toggleClass('hide');//on click, toggle the 'hide' class on/off the accordionExample HTML id
+            $(this).toggleClass('active'); //on click, toggle the 'active' class to get the toolbarCollapse button to change from three - to X
         });
     });
 

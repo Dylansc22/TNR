@@ -167,7 +167,10 @@ toggleLayer(
     ],
     'Recommended Bicycle Lanes'); //Button Name
 toggleLayer (
-  ['mapbox-satellite'], 
+  ['mapbox-satellite', 
+  'tnr-v5-5pfsxq copy 1', 
+  'hawkroads-acywed copy 1',
+  'hawks-1sb3f4 copy 1'], 
   'Satallite');
 toggleLayer(
   ['theloop-b2gq5f'], 
@@ -225,7 +228,9 @@ map.on('load', function(){
 // --------------------------- Step 3: Create Custom Controls -----------------------------
 //---------------------------------------------------------------------------------------
 
+
 var draw = new MapboxDraw({
+  accessToken: mapboxgl.accessToken,
   displayControlsDefault: false,
   controls: {
     line_string: true,
@@ -295,8 +300,10 @@ var draw = new MapboxDraw({
         }
     },
   ]
-
 });
+
+document.getElementById('draw').appendChild(draw.onAdd(map)); //Manually locate the draw tools inside the accordion
+
 
 // add create, update, or delete actions
 map.on('draw.create', updateRoute);
@@ -476,7 +483,7 @@ function removeRoute () {
     */
 
     // Adds Mapbox Search Box
-    var geocoder = map.addControl(new MapboxGeocoder({
+    map.addControl(new MapboxGeocoder({
         accessToken: 'pk.eyJ1IjoiZHlsYW5jIiwiYSI6Im53UGgtaVEifQ.RJiPqXwEtCLTLl-Vmd1GWQ' 
     }));
 
@@ -490,9 +497,6 @@ function removeRoute () {
 
     // Add zoom and rotation controls to the map
     map.addControl(new mapboxgl.NavigationControl());
-
-    // Add the draw tool to the map
-    map.addControl(draw);
 
     // Shrinks Attribution to a small hover icon for displays 640px or less
     map.addControl(new mapboxgl.AttributionControl({
@@ -520,9 +524,6 @@ function myNewPasteFunction() {
   function latestfunction () {
     var x = document.getElementById("myInput").value;
     var y = JSON.parse(x);
-    console.log(y);
-    console.log("above is y. Below is stringify y");
-    console.log(JSON.stringify(y));
     removeRoute();
     drawing = y;
     var nodecount = y.features[0].geometry.coordinates.length;
