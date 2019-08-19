@@ -29,6 +29,10 @@ map.on('load', function(){
   map.setLayoutProperty('hawkroads-acywed copy', 'visibility', 'visible');
 });
 
+
+
+
+
 //Return Map Coordinates, barring, and pitch on mouse move so 
 map.on('mousemove', function (e) {
   var lngRounded =  (Math.round(100000*map.getCenter().lng)/100000);
@@ -171,11 +175,10 @@ toggleLayer(
 
 //Enable Toggle Layers Button Behavior 'on click'
 function toggleLayer(ids, name) {
-    var link = document.createElement('a');
+    var link = document.createElement('button');
     link.href = '#';
-    link.className = 'active';
+    link.className = '';
     link.textContent = name;
-
     link.onclick = function (e) {
         e.preventDefault();
         e.stopPropagation();
@@ -193,6 +196,11 @@ function toggleLayer(ids, name) {
     var layers = document.getElementById('toolbar');
     layers.appendChild(link);
 }
+
+// http://stackoverflow.com/a/14438954/1934
+  function uniques(value, index, self) {
+    return self.indexOf(value) === index;
+  }
 
 //Enable Toggle Layers Button Behavior for Satellite Imagery Specifically since its a Mapbox Baselayer and not a Geojson
 /*I dont think I need this anymore?
@@ -468,7 +476,7 @@ function removeRoute () {
     */
 
     // Adds Mapbox Search Box
-    map.addControl(new MapboxGeocoder({
+    var geocoder = map.addControl(new MapboxGeocoder({
         accessToken: 'pk.eyJ1IjoiZHlsYW5jIiwiYSI6Im53UGgtaVEifQ.RJiPqXwEtCLTLl-Vmd1GWQ' 
     }));
 

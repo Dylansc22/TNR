@@ -1,10 +1,20 @@
+
+#bootstrapoverrides {
+  position: absolute;
+  height:100%;
+  width: 100%;
+  margin:0px;
+  padding:0;
+  font-family: acumin-pro;
+  border-radius: 0px !important;
+  /*font-family: 'Lato', sans-serif;*/
+  color:#606060;
+  background-color:#E8E8E8;
+    /*font-family: ""Source Sans Pro","Helvetica Neue",Helvetica,Arial,sans-serif";*/
+}
 /*Overrides*/
 .wow {visibility: hidden;}
 
-html, body {
-    height: 100%;
-    /*font-family: 'Oswald', sans-serif;*/
-}
 
 #bootstrapoverrides {
     padding: 0px;
@@ -39,7 +49,7 @@ html, body {
     margin-left:2vw;
     position: relative;
     max-width: 40%;
-    font-family: sans-serif;
+    /*font-family: sans-serif;*/
     /*overflow-y: scroll; Removed because I don't want the scrollbar showing*/
     z-index: 2;
     /*dont know if i need this? -webkit-transition: all 1s;*/
@@ -49,39 +59,74 @@ html, body {
     transition:all 0.3s;
 }
 
-
-
-#toolbar {
-    position:fixed;
-    bottom: 2vw;
-    left: 2vw; 
-    z-index: 4;
-    /*min-height:50px;*/
-    min-width: 200px;
-    max-width: 200px;
-    padding:5px;
-    background-color: rgba(255, 255, 255, .7);
-    border: solid 3px #A0A0A0;
-    -webkit-transition: all 0.3s;
-    -moz-transition: all 0.3s;
-    -o-transition: all 0.3s;
-    transition:all 0.3s;
-}
-
-#toolbar > a{
+#accordionExample {
+    top: 2vw;
+    left:2vw;
+    position: absolute;
+    width: 25%;
     display: block;
-    color:red;
-    padding-bottom: 2px;
-    font-size: 14px;
-
+    border: solid 3px #A0A0A0;
+    border-radius: 5px;
+    -webkit-transition: all 0.4s;
+    -moz-transition: all 0.4s;
+    -o-transition: all 0.4s;
+    transition:all 0.4s;
 }
+
+#accordionExample > div {
+    background-color: rgba(255, 255, 255, .9);
+}
+
+.card > button, .card > button:hover, .card > button:visited, .card > button:focus, .card > button:active {
+    word-wrap: break-word; /*this doesn't seem to be working, the text is spilling out of the box on smalls creens*/
+    color:red;
+    padding-top:10px;
+    color: rgba(71, 71, 71, 0.87);
+    text-transform: uppercase;
+    text-decoration: none;/*Looked too much like a boring-old link with the underline, so I removed it*/
+}
+
+/*Custom Map Layer Buttons*/
+    #toolbar > button {
+    background-color: rgba(0, 0, 0, 0);
+    border-color: rgba(71, 71, 71, 0.87);
+    border-radius:0px;
+    border-style: solid;
+    border-width:1px;
+    cursor: pointer;
+    display: inline-block;
+    font-family: acumin-pro;
+    font-size: 12px;
+    font-stretch: 100%;
+    letter-spacing: 2px;
+    line-height: normal;
+    margin-bottom: 4px;
+    min-width: 100%;
+    text-transform: uppercase;
+    padding: .375rem;
+    }
+
+    #toolbar > button:hover {
+        border-left-width:3px;
+        border-right-width:3px;
+        background-color:#dbdbdb;
+        -webkit-transition: all 0.2s;
+        -moz-transition: all 0.2s;
+        -o-transition: all 0.2s;
+        transition:all 0.2s;
+    }
+
+    #toolbar > .active {
+        background-color: grey;
+        color:white;
+    }
 
 .hide {
     margin-left: -60% !important;
-    -webkit-transition: all 0.3s;
-    -moz-transition: all 0.3s;
-    -o-transition: all 0.3s;
-    transition:all 0.3s;
+    -webkit-transition: all 0.4s;
+    -moz-transition: all 0.4s;
+    -o-transition: all 0.4s;
+    transition:all 0.4s;
 }
 
 /*dont know if i need these*/
@@ -262,18 +307,6 @@ textarea {
         color: #fff;
         background: #ee8a65;
     }
-
-#bootstrapoverrides {
-  position: absolute;
-  height:100%;
-  width: 100%;
-  margin:0px;
-  padding:0;
-  font-family: 'Lato', sans-serif;
-  color:#606060;
-      background-color:#E8E8E8;
-    /*font-family: ""Source Sans Pro","Helvetica Neue",Helvetica,Arial,sans-serif";*/
-}
 
 
 #bootstrapoverrides .container-fluid {
