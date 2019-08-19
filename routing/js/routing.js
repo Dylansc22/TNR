@@ -506,8 +506,6 @@ function removeRoute () {
 //When Clicking the Copy or Paste Button, execute the Copy or Paste Function
 document.getElementById("copybutton").addEventListener("click", myCopyFunction);
 document.getElementById("newpastebutton").addEventListener("click", myNewPasteFunction);
-document.getElementById("oldbutton").addEventListener("click", testingFunction);
-
 
 function myCopyFunction() {
   var dummy = document.createElement("textarea");
