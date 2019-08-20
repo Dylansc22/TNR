@@ -210,7 +210,7 @@ duration: 3000,
 },
 'traditionroutes': {
 center: [-110.92912, 32.23123], 
-zoom: 14.1,
+zoom: 14.5,
 pitch: 49,
 bearing: 25.2,
 duration: 3500,
