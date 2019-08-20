@@ -16,6 +16,110 @@ var map = new mapboxgl.Map({
     //bearing: 10,
 });
 
+//Add Custom Mapbox Controls for Bicycle Routing
+var draw = new MapboxDraw({
+  accessToken: mapboxgl.accessToken,
+  displayControlsDefault: false,
+  controls: {
+    line_string: true,
+    trash: true,
+  },
+  styles: [
+        // For more info - Mapbox GL Style Spec - https://docs.mapbox.com/mapbox-gl-js/style-spec
+        // ACTIVE (being drawn)
+        // line stroke
+        {
+          "id": "gl-draw-line", // Required String - Unique layer name
+          "type": "line", //Required types: fill, line, symbol, circle, heatmap, fill-extrusion, raster, hillshade, background)
+          "filter": ["all", ["==", "$type", "LineString"], ["!=", "mode", "static"]], 
+          "layout": { 
+            "line-cap": "round", //e.g. butt (default), round, square
+            "line-join": "round" //miter (default), bevel, round
+          },
+          "paint": { 
+            "line-color": "#81A4CD", 
+            "line-dasharray": [2, 4],
+            "line-width": 2,
+            "line-opacity": 0.7
+            //line-translate
+            //line-gap-width
+            //line-gradient
+            //etc...
+          }
+        },
+        // vertex point halos - must come before vertex, because these are two layers of circles
+        {
+          "id": "gl-draw-polygon-and-line-vertex-halo-active",
+          "type": "circle",
+          "filter": ["all", ["==", "meta", "vertex"], ["==", "$type", "Point"], ["!=", "mode", "static"]],
+          "paint": {
+            "circle-radius": 8,
+            "circle-color": "#FFF" 
+          }
+        },
+        // vertex points
+        {
+          "id": "gl-draw-polygon-and-line-vertex-active",
+          "type": "circle",
+          "filter": ["all", ["==", "meta", "vertex"], ["==", "$type", "Point"], ["!=", "mode", "static"]],
+          "paint": {
+            "circle-radius": 5,
+            "circle-color": "#3E7CB1", 
+          }
+        },
+        // midpoint point halos
+        {
+          "id": "gl-draw-polygon-and-line-midpoint-halo-active",
+          "type": "circle",
+          "filter": ["all", ["==", "meta", "midpoint"], ["==", "$type", "Point"], ["!=", "mode", "static"]],
+          "paint": {
+            "circle-radius": 4,
+            "circle-color": "#FFF" 
+          }
+        },
+        // midpoint points
+        {
+            "id": "gl-draw-polygon-and-line-midpoint-active",
+            "type": "circle",
+            "filter": ["all", ["==", "meta", "midpoint"], ["==", "$type", "Point"], ["!=", "mode", "static"]],
+            "paint": {
+                "circle-radius": 3,
+                "circle-color": "#3E7CB1",
+            }
+        },
+  ]
+});
+
+//Adds Mapbox Search Box
+var geocoder = new MapboxGeocoder({
+    accessToken: mapboxgl.accessToken,
+});
+
+//Add User-Geolocate Button
+var geolocate = new mapboxgl.GeolocateControl({
+    accessToken: mapboxgl.accessToken,
+    positionOptions: {
+        enableHighAccuracy: true
+    },
+    trackUserLocation: true
+})
+
+//Add Zome & Rotation Controls 
+var zoom = new mapboxgl.NavigationControl({
+    accessToken: mapboxgl.accessToken,    
+})
+
+// Shrinks Attribution to a small hover icon for displays 640px or less
+map.addControl(new mapboxgl.AttributionControl({
+    compact: true,   
+    }));
+
+document.getElementById('topRightControls').appendChild(geocoder.onAdd(map)); //Manually locate the draw tool inside the topRightControls DIV id
+document.getElementById('topRightControls').appendChild(geolocate.onAdd(map)); //Manually locate the draw tool inside the topRightControls DIV id
+document.getElementById('topRightControls').appendChild(draw.onAdd(map)); //Manually locate the draw tool inside the topRightControls DIV id
+document.getElementById('topRightControls').appendChild(zoom.onAdd(map)); //Manually locate the draw tool inside the topRightControls DIV id
+
+
 map.on('load', function(){
     map.flyTo({
         center: [-110.932759,32.199656 ], // starting position [lng, lat]
@@ -26,6 +130,7 @@ map.on('load', function(){
     });
 });
 
+/* Additional controls for mainroutingpage and functionality for main routing page
 map.on('mousemove', function (e) {
 var lngRounded =  (Math.round(100000*map.getCenter().lng)/100000);
 var latRounded = (Math.round(100000*map.getCenter().lat)/100000);
@@ -39,6 +144,7 @@ document.getElementById('mapPosition').innerHTML =
 '<br/> pitch: ' + JSON.stringify(Math.round(1000*map.getPitch())/1000) + ',' +
  '<br/> bearing: ' + JSON.stringify(Math.round(1000*map.getBearing())/1000) + ',<br/>'
 });
+*/
 
 var chapters = {
 'tucson1': { //This is mearly the reset position if i scroll to the top of the text
@@ -546,23 +652,6 @@ function toggleLayer(ids, name) {
     layers.appendChild(link);
 }
 
-//Add Separate Button For Toggling Individual Layers
-map.on('load', function(){
-    var switchy = document.getElementById('remover');
-    switchy.addEventListener("click", function(){
-        switchy = document.getElementById('remover');
-        if (switchy.className === 'on') {
-            switchy.setAttribute('class', 'off');
-            map.setLayoutProperty('mapbox-satellite', 'visibility', 'none');
-            switchy.innerHTML = 'Add Satellite';
-        } else {
-            switchy.setAttribute('class', 'on');
-            map.setLayoutProperty('mapbox-satellite', 'visibility', 'visible');
-            switchy.innerHTML = 'Remove Satallite';
-        }
-    });
-});
-
 
 //---------------------------------------------------------------------------------------
 // -------------    Step 3: Add Data Layers Toggle Button   -----------------------------
@@ -606,92 +695,32 @@ link.textContent = id;
 // --------------------------- Step 4: Create Custom Controls -----------------------------
 //---------------------------------------------------------------------------------------
 
-var draw = new MapboxDraw({
-  displayControlsDefault: false,
-  controls: {
-    line_string: true,
-    trash: true,
-  },
-  styles: [
-    // For more info - Mapbox GL Style Spec - https://docs.mapbox.com/mapbox-gl-js/style-spec
-    // ACTIVE (being drawn)
-    // line stroke
-    {
-      "id": "gl-draw-line", // Required String - Unique layer name
-      "type": "line", //Required types: fill, line, symbol, circle, heatmap, fill-extrusion, raster, hillshade, background)
-      "filter": ["all", ["==", "$type", "LineString"], ["!=", "mode", "static"]], 
-      "layout": { 
-        "line-cap": "round", //e.g. butt (default), round, square
-        "line-join": "round" //miter (default), bevel, round
-      },
-      "paint": { 
-        "line-color": "#81A4CD", 
-        "line-dasharray": [2, 4],
-        "line-width": 2,
-        "line-opacity": 0.7
-        //line-translate
-        //line-gap-width
-        //line-gradient
-        //etc...
-      }
-    },
-    // vertex point halos - must come before vertex, because these are two layers of circles
-    {
-      "id": "gl-draw-polygon-and-line-vertex-halo-active",
-      "type": "circle",
-      "filter": ["all", ["==", "meta", "vertex"], ["==", "$type", "Point"], ["!=", "mode", "static"]],
-      "paint": {
-        "circle-radius": 8,
-        "circle-color": "#FFF" 
-      }
-    },
-    // vertex points
-    {
-      "id": "gl-draw-polygon-and-line-vertex-active",
-      "type": "circle",
-      "filter": ["all", ["==", "meta", "vertex"], ["==", "$type", "Point"], ["!=", "mode", "static"]],
-      "paint": {
-        "circle-radius": 5,
-        "circle-color": "#3E7CB1", 
-      }
-    },
-    // midpoint point halos
-    {
-      "id": "gl-draw-polygon-and-line-midpoint-halo-active",
-      "type": "circle",
-      "filter": ["all", ["==", "meta", "midpoint"], ["==", "$type", "Point"], ["!=", "mode", "static"]],
-      "paint": {
-        "circle-radius": 4,
-        "circle-color": "#FFF" 
-      }
-    },
-    // midpoint points
-    {
-        "id": "gl-draw-polygon-and-line-midpoint-active",
-        "type": "circle",
-        "filter": ["all", ["==", "meta", "midpoint"], ["==", "$type", "Point"], ["!=", "mode", "static"]],
-        "paint": {
-            "circle-radius": 3,
-            "circle-color": "#3E7CB1",
-        }
-    },
-  ]
-});
-
 // add create, update, or delete actions
 map.on('draw.create', updateRoute);
 map.on('draw.update', updateRoute);
 map.on('draw.delete', removeRoute);
 
 // use the coordinates you just drew to make your directions request
-instructions.insertAdjacentHTML('beforeend', '<p> STEPS </p>' +  coords.length);
+var drawing = {}; 
+function updateRoute() {
+  //Add Nodecount
   removeRoute(); // overwrite any existing layers
-  var data = draw.getAll();
+  drawing = draw.getAll();
+  var nodecount = draw.getAll().features[0].geometry.coordinates.length;
   var answer = document.getElementById('calculated-line');
-  var lastFeature = data.features.length - 1;
-  var coords = data.features[lastFeature].geometry.coordinates;
+  var lastFeature = drawing.features.length - 1;
+  var coords = drawing.features[lastFeature].geometry.coordinates;
+  console.log(JSON.parse(JSON.stringify(coords)));
   var newCoords = coords.join(';')
   getMatch(newCoords);
+
+  //When people draw routes, there is a 25 node max, for returning a route, So I need to know (and return on screen) the node count 
+  //Akso nodecount is a local variable only declared in updateRoute(), so the below line of code should only if still in updateRoute(), which is why i have it here 
+  
+  /*Additional code for mainroutingpage
+  document.getElementById("drawbox").innerHTML = "<h6>Nodes Used:" + nodecount +"</h6><p>Max 25 Nodes</p>";
+  */
+}
 
 // make a directions request
 function getMatch(e) {
@@ -706,35 +735,17 @@ function getMatch(e) {
     var steps = jsonResponse.routes[0].legs[0].steps;
     var coords = jsonResponse.routes[0].geometry;
    
-
-
+    /*Additonal code for mainroutingpage
     //Get Distance and Duration
-    instructions.insertAdjacentHTML('beforeend', '<p>' +  'Distance: ' + distance.toFixed(2) + ' mi<br>Duration: ' + duration.toFixed(2) + ' mins' + '</p>');
+    instructions.insertAdjacentHTML('beforeend', '<p>' +  'Distance: ' + distance.toFixed(2) + ' mi<br>Duration: ' + duration.toFixed(2) + ' mins<br>:');
 
     //Get Route Direction On Load Map
     steps.forEach(function(step){
         instructions.insertAdjacentHTML('beforeend', '<p>' + step.maneuver.instruction + '</p>')
     });
+    */
 
-    //Get Route Geojson Coordinates
-
-    /*/Basic proof of concept
-    var output = "Geojson Coordinates: <br>" + coords.coordinates[0] + '<br>' + coords.coordinates[1] + '<br>' + coords.coordinates[2];
-    document.getElementById("htmlcoords").innerHTML = output; //Essentially Links your JS Variable to the HTML ID you want associated with it */
-
-
-    //Convert the jsonResponse from a Json into a formatted string ready to be sent to a server
-    /*Returning the entire GeoJson
-    var textedJson = JSON.stringify(jsonResponse, undefined, 2);
-    document.getElementById("completegeojson").innerHTML = textedJson;*/
-
-    /*Returning just the coordinates
-    var x='';
-    for (i = 0; i < jsonResponse.routes[0].geometry.coordinates.length; i++) {
-        x = x + "[" + jsonResponse.routes[0].geometry.coordinates[i] + "]" + "<br>";
-    }
-    document.getElementById("coordsonlyID").innerHTML = x;*/
-
+    
 
 
     //Convert the jsonResponse from a Json into a formatted string ready to be sent to a server
@@ -809,8 +820,6 @@ function addRoute (coords) {
         'text-halo-width': 3
       }
     });
-  };
-
 var TNRRoute = {
     "id": "TNR Route",
         "type": "FeatureCollection",
@@ -822,13 +831,24 @@ var TNRRoute = {
                 }
             ]
         };
+}
+
     //Convert the jsonResponse from a Json into a formatted string ready to be sent to a server
     //Returning the entire GeoJson
 
     var output = JSON.stringify(TNRRoute, undefined, 2);
+/*additonal code for mainroutingpage
     document.getElementById("completegeojson").innerHTML = "<b>Geojson Output:</b> <br>" + output;
-}
+  */
+  };
 
+
+
+function CopyRouteToClipboard() {
+  drawing.select();
+  document.execCommand("copy");
+  alert("Route Copied to Clipboard!");
+}
 
 
 
@@ -838,7 +858,7 @@ function removeRoute () {
     map.removeLayer('route');
     map.removeLayer('routearrows');
     map.removeSource('route');
-    instructions.innerHTML = '';
+    //Additional code for mainroutingpage instructions.innerHTML = '';
     //I think I can delete this since I added the above line recently document.getElementById('calculated-line').innerHTML = '';
   } else  {
         return;
@@ -859,29 +879,15 @@ function removeRoute () {
     }), 'top-right');
     */
 
-    // Adds Mapbox Search Box
-    map.addControl(new MapboxGeocoder({
-        accessToken: 'pk.eyJ1IjoiZHlsYW5jIiwiYSI6Im53UGgtaVEifQ.RJiPqXwEtCLTLl-Vmd1GWQ' 
-    }));
+/*
+   HAving Trouble with the next line of code.
+  var nodecount = draw.getAll().features[0].geometry.coordinates.length;
 
-    // Add User-Geolocate to the map
-    map.addControl(new mapboxgl.GeolocateControl({
-        positionOptions: {
-        enableHighAccuracy: true
-        },
-        trackUserLocation: true
-        }));
+  //When people draw routes, there is a 25 node max, for returning a route, So I need to know (and return on screen) the node count 
+  //Akso nodecount is a local variable only declared in updateRoute(), so the below line of code should only if still in updateRoute(), which is why i have it here 
+  document.getElementById("drawbox").innerHTML = "<h6>Nodes Used:" + nodecount +"</h6><p>Max 25 Nodes</p>";
 
-    // Add zoom and rotation controls to the map
-    map.addControl(new mapboxgl.NavigationControl());
-
-    // Add the draw tool to the map
-    map.addControl(draw);
-
-    // Shrinks Attribution to a small hover icon for displays 640px or less
-    map.addControl(new mapboxgl.AttributionControl({
-            compact: true,   
-        }));
+*/
 
 
 /*Enable/Disable 3D Buildings when zoomed in

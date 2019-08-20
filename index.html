@@ -51,7 +51,7 @@
     </div>
     
     <div id='map'></div>
-    
+    <div id="topRightControls" class="hideright"></div>
     <div id='maininfo'>
         <button id="sidebarCollapse" type="button" class="btn btn-warning">
             <i class="fas fa-align-left"></i>
@@ -150,6 +150,14 @@
                     Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod.
                 </p>
             </section>
+            <section id="telegraph">
+                <h3>
+                    Click the <span class='btn btn-warning'><i class="fas fa-align-left"></i> Toggle Sidebar</span> in the bottom-right of the map, and use the draw tool <button class="mapbox-gl-draw_ctrl-draw-btn mapbox-gl-draw_line" style="width:30px; height:30px; background-color:white"></button> to create a bicycle commute for yourself.  
+                </h3>
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod.
+                </p>
+            </section>
     </div>
     </div>
 
@@ -173,7 +181,10 @@
 <script type="text/javascript">
     $(document).ready(function () {
         $('#sidebarCollapse').on('click', function () {
-            $('#anotherdiv').toggleClass('hide');
+            $('#anotherdiv').toggleClass('hideleft');
+        });
+        $('#sidebarCollapse').on('click', function () {
+            $('#topRightControls').toggleClass('hideright');
         });
     });
 

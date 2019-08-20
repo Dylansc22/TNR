@@ -52,6 +52,33 @@
     padding:20px;
 }
 
+#topRightControls {
+    position: fixed;
+    width:200px;
+    top: 20px;
+    right: 20px;
+    z-index: 2;
+    -webkit-transition: all 0.3s;
+    -moz-transition: all 0.3s;
+    -o-transition: all 0.3s;
+    transition:all 0.3s;
+    align-items: end;
+}
+
+#topRightControls > .mapboxgl-ctrl-group {
+    float:right;
+    width:30px;
+    margin-bottom: 30px;
+}
+
+#topRightControls > .mapboxgl-ctrl-geocoder {
+    width:200px;
+    margin-bottom: 30px;
+}
+
+
+
+
 #toolbarCollapse {
     position: fixed;
     top: 20px;
@@ -222,8 +249,16 @@
         color:white;
     }
 
-.hide {
+.hideleft {
     margin-left: -100% !important;
+    -webkit-transition: all 0.4s;
+    -moz-transition: all 0.4s;
+    -o-transition: all 0.4s;
+    transition:all 0.4s;
+}
+
+.hideright {
+    margin-right: -100% !important;
     -webkit-transition: all 0.4s;
     -moz-transition: all 0.4s;
     -o-transition: all 0.4s;
@@ -316,7 +351,7 @@ section:last-child {
 
 #maininfo {
     position: fixed;
-    bottom: 1vw;
+    bottom: 2vw;
     right: 1vw; 
     z-index: 2;
     min-width: 150px;
