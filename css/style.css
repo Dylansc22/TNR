@@ -169,6 +169,7 @@
 }
 
 #text {
+    text-align: center;
     margin-top:2vw;
     margin-left:2vw;
     position: relative;
