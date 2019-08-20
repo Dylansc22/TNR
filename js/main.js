@@ -181,11 +181,18 @@ var chapters = {
     duration: 3500,*/
 },
 'highstressroads': {
-    center: [-110.93102, 32.24329], 
-    zoom: 12.963,
+    center: [-110.92102, 32.23629], 
+    zoom: 13.6,
+    pitch: 47,
+    bearing: 18.4,
+    duration: 3500,
+},
+'highstressroads2': {
+    center: [-110.9102, 32.23429], 
+    zoom: 13.6,
     pitch: 47,
     bearing: -12.4,
-    duration: 3500,
+    duration: 5500,
 },
 /*'london-bridge': {
     bearing: 20,
@@ -195,10 +202,10 @@ var chapters = {
     pitch: 40
 },*/
 'neighborhoodroads': {
-bearing: -10,
+bearing: -5,
 center: [-110.926112,32.23569],
 zoom: 13.5,
-pitch: 43,
+pitch: 23,
 duration: 3000,
 },
 'traditionroutes': {
@@ -351,15 +358,32 @@ function myFunction() {
         map.setLayoutProperty('mapbox-satellite', 'visibility', 'none');
         map.setLayoutProperty('osm-bicycleinfras-example', 'visibility', 'none');
         map.setLayoutProperty('hawks-1sb3f4 copy', 'visibility', 'none');
+        map.setLayoutProperty('hs-do1x45 copy 2', 'visibility', 'none');
+        map.setLayoutProperty('hs-do1x45 copy 3', 'visibility', 'none');
+
         //map.setLayoutProperty('hs-do1x45-example', 'visibility', 'none');
         //map.setLayoutProperty('mapbox-satellite', 'visibility', 'none');
+
+    } else
+    if (activeChapterName === 'highstressroads2') {
+        map.setLayoutProperty('hs-do1x45 copy 1', 'visibility', 'none');
+        map.setLayoutProperty('hs-do1x45 copy', 'visibility', 'none');
+        //Need to remake this layer in new map map.setLayoutProperty('osm-bicycleinfras-example', 'visibility', 'none');
+        map.setLayoutProperty('hs-do1x45 copy 2', 'visibility', 'visible');
+        map.setLayoutProperty('hs-do1x45 copy 3', 'visibility', 'visible');
+        map.setLayoutProperty('osm-bicycleinfras-5z6khj', 'visibility', 'visible');
+
+        //Disable Pending Slides
+        map.setLayoutProperty('ls-790ous copy', 'visibility', 'none');
+        map.setLayoutProperty('ls-790ous', 'visibility', 'none');
+        map.setLayoutProperty('hawks-1sb3f4 copy', 'visibility', 'none');
 
     } else
     if (activeChapterName === 'neighborhoodroads') {
         //Disable Prior Slides
         map.setLayoutProperty('osm-bicycleinfras-5z6khj', 'visibility', 'none');
-        map.setLayoutProperty('hs-do1x45 copy 1', 'visibility', 'none');
-        map.setLayoutProperty('hs-do1x45 copy', 'visibility', 'none');
+        map.setLayoutProperty('hs-do1x45 copy 2', 'visibility', 'none');
+        map.setLayoutProperty('hs-do1x45 copy 3', 'visibility', 'none');
         
         //Enable Current Slides
         map.setLayoutProperty('ls-790ous copy', 'visibility', 'visible');
