@@ -159,7 +159,7 @@
     }
 }
 
-#anotherdiv {
+#presentation {
     width:100%;
     position:relative;
     -webkit-transition: all 0.3s;
@@ -184,8 +184,8 @@
     transition:all 0.3s;
 }
 
-#anotherdiv {
-    padding-bottom: 200px;
+#presentation {
+    padding-bottom: 350px;
 }
 
 #accordionExample {
