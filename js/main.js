@@ -648,8 +648,8 @@ function toggleLayer(ids, name) {
             }
          }
     };
-    var layers = document.getElementById('toolbar');
-    layers.appendChild(link);
+    /*var layers = document.getElementById('toolbar');
+    layers.appendChild(link);*/
 }
 
 
