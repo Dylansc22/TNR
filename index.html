@@ -51,7 +51,61 @@
     </div>
     
     <div id='map'></div>
+        <div id="accordionExample" class="accordion hideleft">
+        <!--<div class="card">
+            <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseMain" aria-expanded="false" aria-controls="collapseOne">
+            <h5>About This Map</h5>
+            </button>
+            <div id="collapseMain" class="collapse" aria-labelledby="headingOne">
+              <div class="card-body">
+                This is where the map description will go. 
+              </div>
+            </div>
+          </div>
+          <div class="card">
+                <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                  <h5>Draw A Bicycle Route</h5>
+                </button>
+            <div id="collapseOne" class="collapse" aria-labelledby="headingOne">
+              <div id="testingmovement" class="card-body">
+                Trying to get mapbox controls here<br><br>
+                <div id='draw' class='draw'></div>
+
+              </div>
+            </div>
+          </div>-->
+          <div class="card">
+                <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                  <h5>Change Map Layers</h5>
+                </button>
+            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" >
+              <div class="card-body">
+                    <div id='toolbar'></div>
+              </div>
+            </div>
+          </div>
+          <!--<div class="card">
+                <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                  <h5>Save or Load A Route</h5>
+                </button>
+            <div id="collapseThree" class="collapse" aria-labelledby="headingThree" >
+                <button id="newpastebutton" type="button" class="btn btn-warning">Load Route</button>           
+                <input id="myInput" type="text" value="Paste Here">
+                <button id="copybutton" type="button" class="btn btn-info">Copy Route</button>
+              <div class="card-body">
+                Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat 
+              </div>
+            </div>
+          </div>-->
+    </div>
     <div id="topRightControls" class="hideright"></div>
+    <div id="slidenumber">
+        <h1>
+            <div class="slide1 active">Slide: 1/12</div>
+        
+        </h1>
+    </div>
+
     <div id='maininfo'>
         <button id="sidebarCollapse" type="button" class="btn btn-warning">
             <i class="fas fa-align-left"></i>
@@ -151,7 +205,7 @@
             </section>
             <section id="telegraph">
                 <h3>
-                    <strong>Map out a safer bicycle commute through your own neighborhood.</strong><br></h3>
+                    <strong>Map your own safer bicycle commute through your neighborhood.</strong><br></h3>
 
                     <h6>Click the <span class='btn btn-warning'><i class="fas fa-align-left"></i> Toggle Sidebar</span> in the bottom-right of the map, and use the draw tool <button class="mapbox-gl-draw_ctrl-draw-btn mapbox-gl-draw_line" style="width:30px; height:30px; background-color:white"></button> along the top-right of the map.  
                     </h6>
@@ -179,6 +233,9 @@
         });
         $('#sidebarCollapse').on('click', function () {
             $('#topRightControls').toggleClass('hideright');
+        });
+        $('#sidebarCollapse').on('click', function () {
+            $('#accordionExample').toggleClass('hideleft');
         });
     });
 

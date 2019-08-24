@@ -653,7 +653,7 @@ toggleLayer (['mapbox-satellite'], 'Satallite');
 toggleLayer(['theloop-b2gq5f'], 'The Loop Pedestrian Path');
 
 function toggleLayer(ids, name) {
-    var link = document.createElement('a');
+    var link = document.createElement('button');
     link.href = '#';
     link.className = 'active';
     link.textContent = name;
@@ -672,8 +672,8 @@ function toggleLayer(ids, name) {
             }
          }
     };
-    /*var layers = document.getElementById('toolbar');
-    layers.appendChild(link);*/
+    var layers = document.getElementById('toolbar');
+    layers.appendChild(link);
 }
 
 
