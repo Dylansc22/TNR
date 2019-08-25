@@ -25,6 +25,11 @@
     vertical-align: middle;
 }
 
+.alignright {
+    text-align: right;
+    vertical-align: middle;
+}
+
 #ethos {
     top:0;
     height: 100%;
@@ -242,7 +247,6 @@
 
 .card > button, .card > button:hover, .card > button:visited, .card > button:focus, .card > button:active {
     white-space: normal;
-    color:red;
     padding-top:10px;
     color: rgba(71, 71, 71, 0.87);
     text-transform: uppercase;
@@ -251,7 +255,6 @@
 
 /*Custom Map Layer Buttons*/
     #toolbar > button {
-    background-color: rgba(0, 0, 0, 0);
     border-color: rgba(71, 71, 71, 0.87);
     border-radius:0px;
     border-style: solid;
@@ -272,7 +275,7 @@
     #toolbar > button:hover {
         border-left-width:3px;
         border-right-width:3px;
-        background-color:#dbdbdb;
+        background-color:#62adf3;
         -webkit-transition: all 0.2s;
         -moz-transition: all 0.2s;
         -o-transition: all 0.2s;
@@ -282,6 +285,10 @@
     #toolbar > .active {
         background-color: grey;
         color:white;
+    }
+
+    .shaded {
+        background-color: yellow;
     }
 
 .hideleft {
