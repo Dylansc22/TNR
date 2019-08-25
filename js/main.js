@@ -527,6 +527,7 @@ function myFunction() {
         document.getElementById('standardroad').setAttribute('class', 'active');        
         document.getElementById('osmbikes').setAttribute('class', 'active');        
         document.getElementById('hawks').setAttribute('class', 'active');        
+        document.getElementById('theloop').setAttribute('class', 'active');        
 
         //No Prior Slides to Disable
 
@@ -548,6 +549,7 @@ function myFunction() {
         document.getElementById('tnrv5').setAttribute('class', 'active');        
         document.getElementById('hawks').setAttribute('class', 'active');        
         document.getElementById('osmbikes').setAttribute('class', 'active');        
+        document.getElementById('theloop').setAttribute('class', 'active');        
 
             //No Prior Slides to Disable
             //No Current Slides to Enable
