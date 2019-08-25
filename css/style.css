@@ -386,7 +386,7 @@ section:last-child {
 
 #maininfo {
     position: fixed;
-    bottom: 8vw;
+    bottom: 2vw;
     right: 1vw; 
     z-index: 2;
     min-width: 150px;
