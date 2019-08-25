@@ -215,6 +215,13 @@
     transition:all 0.3s;
 }
 
+@media(max-width:768px) {
+    #text { 
+        min-width:95%;
+        }
+
+    }
+
 #presentation {
     padding-bottom: 350px;
 }
