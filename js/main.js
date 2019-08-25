@@ -281,13 +281,7 @@ duration: 3000,
 };
  
 var activeChapterName = 'tucson1';
-function setActiveChapter(chapterName) {
-    if (chapterName === activeChapterName) return;
-        map.flyTo(chapters[chapterName]);
-        document.getElementById(chapterName).setAttribute('class', 'active');
-        document.getElementById(activeChapterName).setAttribute('class', '');
-        activeChapterName = chapterName;
-    }
+
  
 // On every scroll event, check which element is on screen
 window.onscroll = function() {
@@ -301,7 +295,14 @@ window.onscroll = function() {
             }
         }
     };
-     
+    
+function setActiveChapter(chapterName) {
+    if (chapterName === activeChapterName) return;
+        map.flyTo(chapters[chapterName]);
+        document.getElementById(chapterName).setAttribute('class', 'active');
+        document.getElementById(activeChapterName).setAttribute('class', '');
+        activeChapterName = chapterName;
+    }     
 function isElementOnScreen(id) {
 var element = document.getElementById(id);
 var bounds = element.getBoundingClientRect();

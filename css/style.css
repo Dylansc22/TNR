@@ -259,6 +259,7 @@
     border-radius:0px;
     border-style: solid;
     border-width:1px;
+    background-color: #eaeaea;
     cursor: pointer;
     display: inline-block;
     font-family: acumin-pro;
@@ -273,18 +274,27 @@
     }
 
     #toolbar > button:hover {
-        border-left-width:3px;
-        border-right-width:3px;
-        background-color:#62adf3;
+        background-color:#b9b9b9;
         -webkit-transition: all 0.2s;
         -moz-transition: all 0.2s;
         -o-transition: all 0.2s;
         transition:all 0.2s;
     }
 
-    #toolbar > .active {
-        background-color: grey;
-        color:white;
+        #toolbar > button:hover {
+        background-color:#b9b9b9;
+        -webkit-transition: all 0.2s;
+        -moz-transition: all 0.2s;
+        -o-transition: all 0.2s;
+        transition:all 0.2s;
+    }
+
+    #toolbar > .active, #toolbar > button:active, #toolbar > button:visited {
+        background-color:grey;
+        -webkit-transition: all 0.2s;
+        -moz-transition: all 0.2s;
+        -o-transition: all 0.2s;
+        transition:all 0.2s;
     }
 
     .shaded {
