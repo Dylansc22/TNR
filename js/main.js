@@ -295,78 +295,117 @@ window.onscroll = function() {
             }
         }
     };
-    
+
 function setActiveChapter(chapterName) {
     if (chapterName === activeChapterName) return;
         map.flyTo(chapters[chapterName]);
         document.getElementById(chapterName).setAttribute('class', 'active');
         document.getElementById(activeChapterName).setAttribute('class', '');
         activeChapterName = chapterName;
-    }     
+    }  
+
 function isElementOnScreen(id) {
 var element = document.getElementById(id);
 var bounds = element.getBoundingClientRect();
 return bounds.top < window.innerHeight && bounds.bottom > 0;
 }
 
+function removehighlight() {
+    var mylist=document.getElementById("toolbar");
+    var listitems= mylist.getElementsByTagName("button");
+    for (i=0; i<listitems.length; i++) {
+        listitems[i].setAttribute("class", "");
+        }
+    }
+
 function myFunction() {
   //document.getElementById("demo").innerHTML = "Hello World";
     if (activeChapterName === 'tucson1') {
+        removehighlight();
+        document.getElementById('standardroad').setAttribute('class', 'active');        
+
+        //Disable Pending Slides
         map.setLayoutProperty('theloop-b2gq5f', 'visibility', 'none');
         map.setLayoutProperty('osm-bicycleinfras-5z6khj', 'visibility', 'none');
-        //var x = document.getElementById("scrolltest");   // Get the element with id="demo"
-        //x.style.background = "green";  
     } else 
     if (activeChapterName === 'bicycleinfrastructure') {
+        removehighlight();        
+        document.getElementById('standardroad').setAttribute('class', 'active');        
+        document.getElementById('theloop').setAttribute('class', 'active');
+        document.getElementById('osmbikes').setAttribute('class', 'active');        
+
+        //Enable Current Slides
         map.setLayoutProperty('osm-bicycleinfras-5z6khj', 'visibility', 'visible');
         map.setLayoutProperty('theloop-b2gq5f', 'visibility', 'visible');
+
+        //Disable Pending Slides
         map.setLayoutProperty('trafficincidentsbike-4uqhba', 'visibility', 'none');
         map.setLayoutProperty('trafficincidentsbike-4uqhba copy', 'visibility', 'none');
-        map.setLayoutProperty('mapbox-satellite', 'visibility', 'none');
-        map.setLayoutProperty('osm-bicycleinfras-example', 'visibility', 'none');
+
     } else 
     if (activeChapterName === 'accidents') {
+        removehighlight();
+        document.getElementById('standardroad').setAttribute('class', 'active');        
+        document.getElementById('theloop').setAttribute('class', 'active');
+        document.getElementById('osmbikes').setAttribute('class', 'active');        
+
+        //Enable Current Slides
         map.setLayoutProperty('trafficincidentsbike-4uqhba', 'visibility', 'visible');
         map.setLayoutProperty('trafficincidentsbike-4uqhba copy', 'visibility', 'visible');
+    
+        //Disable Pending Slides
         map.setLayoutProperty('hs-do1x45 copy 1', 'visibility', 'none');
         map.setLayoutProperty('hs-do1x45 copy', 'visibility', 'none');
         map.setLayoutProperty('mapbox-satellite', 'visibility', 'none');
         map.setLayoutProperty('osm-bicycleinfras-example', 'visibility', 'none');
         map.setLayoutProperty('hs-do1x45-example', 'visibility', 'none');
+       
     } else 
     if (activeChapterName === 'satallitebikelanes') {
-            map.setLayoutProperty('osm-bicycleinfras-5z6khj', 'visibility', 'none');
-            map.setLayoutProperty('theloop-b2gq5f', 'visibility', 'none');
-            map.setLayoutProperty('mapbox-satellite', 'visibility', 'visible');
-            map.setLayoutProperty('osm-bicycleinfras-example', 'visibility', 'visible');
-            map.setLayoutProperty('hs-do1x45-example', 'visibility', 'visible');
-            //Need to remake this layer in new map map.setLayoutProperty('osm-bicycleinfras-example', 'visibility', 'visible');
-            map.setLayoutProperty('ls-790ous', 'visibility', 'none');
-            map.setLayoutProperty('hs-do1x45 copy 1', 'visibility', 'none');
-            map.setLayoutProperty('hs-do1x45 copy', 'visibility', 'none');
-    } else
-    if (activeChapterName === 'highstressroads') {
+        removehighlight();
+        document.getElementById('standardroad').setAttribute('class', 'active');        
+        document.getElementById('satellite').setAttribute('class', 'active');        
+
+        //Disable Prior Slides 
         map.setLayoutProperty('trafficincidentsbike-4uqhba', 'visibility', 'none');
         map.setLayoutProperty('trafficincidentsbike-4uqhba copy', 'visibility', 'none');
-        //Need to remake this layer in new map map.setLayoutProperty('osm-bicycleinfras-example', 'visibility', 'none');
+        map.setLayoutProperty('osm-bicycleinfras-5z6khj', 'visibility', 'none');
+        map.setLayoutProperty('theloop-b2gq5f', 'visibility', 'none');
+
+        //Enable Current Slides
+        map.setLayoutProperty('mapbox-satellite', 'visibility', 'visible');
+        map.setLayoutProperty('osm-bicycleinfras-example', 'visibility', 'visible');
+        map.setLayoutProperty('hs-do1x45-example', 'visibility', 'visible');
+        
+        map.setLayoutProperty('ls-790ous', 'visibility', 'none');
+        map.setLayoutProperty('hs-do1x45 copy 1', 'visibility', 'none');
+        map.setLayoutProperty('hs-do1x45 copy', 'visibility', 'none');
+    } else
+    if (activeChapterName === 'highstressroads') {
+        removehighlight();        
+        document.getElementById('standardroad').setAttribute('class', 'active');        
+        document.getElementById('osmbikes').setAttribute('class', 'active');        
+        document.getElementById('highstress').setAttribute('class', 'active');
+        //Disable Prior Slides
+        map.setLayoutProperty('mapbox-satellite', 'visibility', 'none');
+        map.setLayoutProperty('osm-bicycleinfras-example', 'visibility', 'none');
+        map.setLayoutProperty('hs-do1x45-example', 'visibility', 'none');
+
+        //Enable Currnet Slides
         map.setLayoutProperty('osm-bicycleinfras-5z6khj', 'visibility', 'visible');
         map.setLayoutProperty('hs-do1x45 copy 1', 'visibility', 'visible');
         map.setLayoutProperty('hs-do1x45 copy', 'visibility', 'visible');
-        map.setLayoutProperty('ls-790ous copy', 'visibility', 'none');
-        map.setLayoutProperty('ls-790ous', 'visibility', 'none');
-        map.setLayoutProperty('tnr-v5-5pfsxq', 'visibility', 'none');
-        map.setLayoutProperty('hawkroads-acywed-white', 'visibility', 'none');
-        map.setLayoutProperty('mapbox-satellite', 'visibility', 'none');
-        map.setLayoutProperty('osm-bicycleinfras-example', 'visibility', 'none');
-        map.setLayoutProperty('hawks-1sb3f4 copy', 'visibility', 'none');
+
+        //Disable Pending Slides        
         map.setLayoutProperty('hs-do1x45 copy 2', 'visibility', 'none');
         map.setLayoutProperty('hs-do1x45 copy 3', 'visibility', 'none');
-
-        //map.setLayoutProperty('hs-do1x45-example', 'visibility', 'none');
-        //map.setLayoutProperty('mapbox-satellite', 'visibility', 'none');
-
     } else
     if (activeChapterName === 'highstressroads2') {
+        removehighlight();
+        document.getElementById('standardroad').setAttribute('class', 'active');        
+        document.getElementById('osmbikes').setAttribute('class', 'active');        
+        document.getElementById('highstressneutral').setAttribute('class', 'active');        
+
         map.setLayoutProperty('hs-do1x45 copy 1', 'visibility', 'none');
         map.setLayoutProperty('hs-do1x45 copy', 'visibility', 'none');
         //Need to remake this layer in new map map.setLayoutProperty('osm-bicycleinfras-example', 'visibility', 'none');
@@ -381,6 +420,11 @@ function myFunction() {
 
     } else
     if (activeChapterName === 'neighborhoodroads') {
+        removehighlight();
+        document.getElementById('standardroad').setAttribute('class', 'active');        
+        document.getElementById('lowstress').setAttribute('class', 'active');        
+        document.getElementById('hawks').setAttribute('class', 'active');        
+
         //Disable Prior Slides
         map.setLayoutProperty('osm-bicycleinfras-5z6khj', 'visibility', 'none');
         map.setLayoutProperty('hs-do1x45 copy 2', 'visibility', 'none');
@@ -429,6 +473,9 @@ function myFunction() {
         map.setLayoutProperty('hawkroads-acywed-example', 'visibility', 'none');
     } else*/
         if (activeChapterName === 'satallite') {
+        removehighlight();
+        document.getElementById('standardroad').setAttribute('class', 'active');        
+        document.getElementById('satallite').setAttribute('class', 'active');        
         //Disable Prior Slides
         map.setLayoutProperty('ls-790ous copy', 'visibility', 'none');
         map.setLayoutProperty('ls-790ous', 'visibility', 'none');   
@@ -442,7 +489,10 @@ function myFunction() {
         //Disable Pending Slides
         map.setLayoutProperty('osm-bicycleinfras-5z6khj', 'visibility', 'none');
     } else 
-    if (activeChapterName === 'traditionroutes') {    
+    if (activeChapterName === 'traditionroutes') {
+        removehighlight();
+        document.getElementById('standardroad').setAttribute('class', 'active');        
+        document.getElementById('osmbikes').setAttribute('class', 'active');        
         //Disable Prior Slides
         map.setLayoutProperty('mapbox-satellite', 'visibility', 'none');
         map.setLayoutProperty('hawkroads-acywed-example', 'visibility', 'none');
@@ -472,7 +522,12 @@ function myFunction() {
         map.setLayoutProperty('tnr-v5-5pfsxq', 'visibility', 'none');
         map.setLayoutProperty('tnr-v5-5pfsxq copy', 'visibility', 'none');
     } else */
-if (activeChapterName === 'lowstressnetwork') {
+    if (activeChapterName === 'lowstressnetwork') {
+        removehighlight();
+        document.getElementById('standardroad').setAttribute('class', 'active');        
+        document.getElementById('osmbikes').setAttribute('class', 'active');        
+        document.getElementById('hawks').setAttribute('class', 'active');        
+
         //No Prior Slides to Disable
 
         //Enable Current Slides
@@ -487,7 +542,13 @@ if (activeChapterName === 'lowstressnetwork') {
         //No Pending Slides to Disable
 
     } else
-        if (activeChapterName === 'telegraph') {
+    if (activeChapterName === 'telegraph') {
+        removehighlight();
+        document.getElementById('standardroad').setAttribute('class', 'active');        
+        document.getElementById('tnrv5').setAttribute('class', 'active');        
+        document.getElementById('hawks').setAttribute('class', 'active');        
+        document.getElementById('osmbikes').setAttribute('class', 'active');        
+
             //No Prior Slides to Disable
             //No Current Slides to Enable
             //No Pending Slides to Disable
@@ -530,8 +591,9 @@ function addActiveLayers(chapterName) {
 // --------------------------- Step 2: Add Data Layers  -----------------------------
 //---------------------------------------------------------------------------------------
 
+
 //Toggle Annotation
-toggleLayer(
+toggleLayer('annotation',
     ['country-label',
     'state-label', 
     'settlement-label', 
@@ -547,7 +609,7 @@ toggleLayer(
     'Annotation'); //Button Name
 
 //Toggle Standard Road Network
-toggleLayer(
+toggleLayer('standardroad',
     ['road-rail',
     'road-motorway-trunk', 
     'road-primary', 
@@ -571,28 +633,28 @@ toggleLayer(
     'Standard Road Network'); //Button Name
 
 //Toggle High Stress Road Network
-toggleLayer(
+toggleLayer('highstress',
     ['hs-do1x45 copy', 
     'hs-do1x45 copy 1'],
     'High Stress Roads');
 
-//Toggle High Stress Road Network
-toggleLayer(
+//Toggle Neutral High Stress Road Network
+toggleLayer('highstressneutral',
     ['hs-do1x45 copy 2', 
     'hs-do1x45 copy 3'],
     'High Stress Roads (Neutral)');
 
 //Toggle All LS Original Road Network
-toggleLayer(
+toggleLayer('lowstress',
     ['ls-790ous', 'ls-790ous copy'], 'Low Stress Roads');
 
-toggleLayer(
+toggleLayer('hawks',
     ['hawks-1sb3f4 copy', 
     'hawkroads-acywed',
     'hawkroads-acywed copy'],
     'Neighborhood Connections');
 
-toggleLayer(
+toggleLayer('tnrv5',
     ['tnr-v5-5pfsxq',
     'tnr-v5-5pfsxq copy'
     //'tnr-v4-apmebo',
@@ -602,21 +664,23 @@ toggleLayer(
     ],
     'Residential Bicycle Network'); //Button Name
 
-toggleLayer(
+toggleLayer('osmbikes',
     ['osm-bicycleinfras-5z6khj', 
     //'hs-do1x45 copy'
     ],
     'Recommended Bicycle Lanes'); //Button Name
 
-toggleLayer (['mapbox-satellite'], 'Satallite');
+toggleLayer ('satellite', ['mapbox-satellite'], 'Satallite');
 
-toggleLayer(['theloop-b2gq5f'], 'The Loop Pedestrian Path');
+toggleLayer('theloop', ['theloop-b2gq5f'], 'The Loop Pedestrian Path');
 
-function toggleLayer(ids, name) {
+function toggleLayer(htmlID, ids, name) {
     var link = document.createElement('button');
+    link.setAttribute('id', htmlID);
     link.href = '#';
     link.className = '';
     link.textContent = name;
+   
 
     link.onclick = function (e) {
         e.preventDefault();
