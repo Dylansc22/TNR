@@ -322,7 +322,6 @@ function myFunction() {
   //document.getElementById("demo").innerHTML = "Hello World";
     if (activeChapterName === 'tucson1') {
         removehighlight();
-        document.getElementById('standardroad').setAttribute('class', 'active');        
 
         //Disable Pending Slides
         map.setLayoutProperty('theloop-b2gq5f', 'visibility', 'none');
@@ -330,7 +329,6 @@ function myFunction() {
     } else 
     if (activeChapterName === 'bicycleinfrastructure') {
         removehighlight();        
-        document.getElementById('standardroad').setAttribute('class', 'active');        
         document.getElementById('theloop').setAttribute('class', 'active');
         document.getElementById('osmbikes').setAttribute('class', 'active');        
 
@@ -345,7 +343,6 @@ function myFunction() {
     } else 
     if (activeChapterName === 'accidents') {
         removehighlight();
-        document.getElementById('standardroad').setAttribute('class', 'active');        
         document.getElementById('theloop').setAttribute('class', 'active');
         document.getElementById('osmbikes').setAttribute('class', 'active');        
 
@@ -363,7 +360,6 @@ function myFunction() {
     } else 
     if (activeChapterName === 'satallitebikelanes') {
         removehighlight();
-        document.getElementById('standardroad').setAttribute('class', 'active');        
         document.getElementById('satellite').setAttribute('class', 'active');        
 
         //Disable Prior Slides 
@@ -383,7 +379,6 @@ function myFunction() {
     } else
     if (activeChapterName === 'highstressroads') {
         removehighlight();        
-        document.getElementById('standardroad').setAttribute('class', 'active');        
         document.getElementById('osmbikes').setAttribute('class', 'active');        
         document.getElementById('highstress').setAttribute('class', 'active');
         //Disable Prior Slides
@@ -402,9 +397,7 @@ function myFunction() {
     } else
     if (activeChapterName === 'highstressroads2') {
         removehighlight();
-        document.getElementById('standardroad').setAttribute('class', 'active');        
         document.getElementById('osmbikes').setAttribute('class', 'active');        
-        document.getElementById('highstressneutral').setAttribute('class', 'active');        
 
         map.setLayoutProperty('hs-do1x45 copy 1', 'visibility', 'none');
         map.setLayoutProperty('hs-do1x45 copy', 'visibility', 'none');
@@ -421,7 +414,6 @@ function myFunction() {
     } else
     if (activeChapterName === 'neighborhoodroads') {
         removehighlight();
-        document.getElementById('standardroad').setAttribute('class', 'active');        
         document.getElementById('lowstress').setAttribute('class', 'active');        
         document.getElementById('hawks').setAttribute('class', 'active');        
 
@@ -474,7 +466,6 @@ function myFunction() {
     } else*/
         if (activeChapterName === 'satallite') {
         removehighlight();
-        document.getElementById('standardroad').setAttribute('class', 'active');        
         document.getElementById('satallite').setAttribute('class', 'active');        
         //Disable Prior Slides
         map.setLayoutProperty('ls-790ous copy', 'visibility', 'none');
@@ -491,7 +482,6 @@ function myFunction() {
     } else 
     if (activeChapterName === 'traditionroutes') {
         removehighlight();
-        document.getElementById('standardroad').setAttribute('class', 'active');        
         document.getElementById('osmbikes').setAttribute('class', 'active');        
         //Disable Prior Slides
         map.setLayoutProperty('mapbox-satellite', 'visibility', 'none');
@@ -524,7 +514,6 @@ function myFunction() {
     } else */
     if (activeChapterName === 'lowstressnetwork') {
         removehighlight();
-        document.getElementById('standardroad').setAttribute('class', 'active');        
         document.getElementById('osmbikes').setAttribute('class', 'active');        
         document.getElementById('hawks').setAttribute('class', 'active');        
         document.getElementById('theloop').setAttribute('class', 'active');        
@@ -545,7 +534,6 @@ function myFunction() {
     } else
     if (activeChapterName === 'telegraph') {
         removehighlight();
-        document.getElementById('standardroad').setAttribute('class', 'active');        
         document.getElementById('tnrv5').setAttribute('class', 'active');        
         document.getElementById('hawks').setAttribute('class', 'active');        
         document.getElementById('osmbikes').setAttribute('class', 'active');        
@@ -594,6 +582,45 @@ function addActiveLayers(chapterName) {
 //---------------------------------------------------------------------------------------
 
 
+
+//Toggle High Stress Road Network
+
+toggleLayer('tnrv5',
+    ['tnr-v5-5pfsxq',
+    'tnr-v5-5pfsxq copy'
+    //'tnr-v4-apmebo',
+    //'tnr-v3-9wi26p',
+    //'tnr-v2-06s5zd',
+    //'tnr-v1-c7wnkt'
+    ],
+    'Recommended Bicycle Network'); //Button Name
+
+toggleLayer('highstress',
+    ['hs-do1x45 copy', 
+    'hs-do1x45 copy 1'],
+    'High Stress Roads');
+
+//Toggle All LS Original Road Network
+toggleLayer('lowstress',
+    ['ls-790ous', 
+    'ls-790ous copy'], 'Low Stress Roads');
+
+toggleLayer('hawks',
+    ['hawks-1sb3f4 copy', 
+    'hawkroads-acywed',
+    'hawkroads-acywed copy'],
+    'Signalled Crosswalks');
+
+toggleLayer('osmbikes',
+    ['osm-bicycleinfras-5z6khj', 
+    //'hs-do1x45 copy'
+    ],
+    'City Bicycle Lanes'); //Button Name
+
+toggleLayer('theloop', ['theloop-b2gq5f'], 'The Loop Pedestrian Path');
+
+toggleLayer ('satellite', ['mapbox-satellite'], 'Satallite Baselayer');
+
 //Toggle Annotation
 toggleLayer('annotation',
     ['country-label',
@@ -610,71 +637,6 @@ toggleLayer('annotation',
     'road-label'], 
     'Annotation'); //Button Name
 
-//Toggle Standard Road Network
-toggleLayer('standardroad',
-    ['road-rail',
-    'road-motorway-trunk', 
-    'road-primary', 
-    'road-secondary-tertiary', 
-    'road-street', 
-    'road-minor', 
-    'road-pedestrian', 
-    'road-major-link', 
-    'road-steps', 
-    'road-path', 
-    'road-construction', 
-    'road-motorway-trunk-case', 
-    'road-major-link-case',
-    'road-primary-case',
-    'road-secondary-tertiary-case', 
-    'road-street-case', 
-    'road-minor-case', 
-    'road-street-low', 
-    'road-minor-low', 
-    'road-pedestrian-case'],
-    'Standard Road Network'); //Button Name
-
-//Toggle High Stress Road Network
-toggleLayer('highstress',
-    ['hs-do1x45 copy', 
-    'hs-do1x45 copy 1'],
-    'High Stress Roads');
-
-//Toggle Neutral High Stress Road Network
-toggleLayer('highstressneutral',
-    ['hs-do1x45 copy 2', 
-    'hs-do1x45 copy 3'],
-    'High Stress Roads (Neutral)');
-
-//Toggle All LS Original Road Network
-toggleLayer('lowstress',
-    ['ls-790ous', 'ls-790ous copy'], 'Low Stress Roads');
-
-toggleLayer('hawks',
-    ['hawks-1sb3f4 copy', 
-    'hawkroads-acywed',
-    'hawkroads-acywed copy'],
-    'Neighborhood Connections');
-
-toggleLayer('tnrv5',
-    ['tnr-v5-5pfsxq',
-    'tnr-v5-5pfsxq copy'
-    //'tnr-v4-apmebo',
-    //'tnr-v3-9wi26p',
-    //'tnr-v2-06s5zd',
-    //'tnr-v1-c7wnkt'
-    ],
-    'Residential Bicycle Network'); //Button Name
-
-toggleLayer('osmbikes',
-    ['osm-bicycleinfras-5z6khj', 
-    //'hs-do1x45 copy'
-    ],
-    'Recommended Bicycle Lanes'); //Button Name
-
-toggleLayer ('satellite', ['mapbox-satellite'], 'Satallite');
-
-toggleLayer('theloop', ['theloop-b2gq5f'], 'The Loop Pedestrian Path');
 
 function toggleLayer(htmlID, ids, name) {
     var link = document.createElement('button');
