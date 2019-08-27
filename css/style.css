@@ -60,7 +60,7 @@
 #topRightControls {
     position: fixed;
     width:50px;
-    top: 20px;
+    top: 70px;
     right: 20px;
     z-index: 2;
     -webkit-transition: all 0.3s;
@@ -227,10 +227,11 @@
 }
 
 #accordionExample {
-    top: 20px;
-    left: 20px;
+    z-index: 3;
+    top: 310px;
+    right: 20px;
     position: fixed;
-    width: 25%;
+    width: 20%;
     display: block;
     border: solid 3px #A0A0A0;
     border-radius: 5px;
@@ -238,6 +239,11 @@
     -moz-transition: all 0.4s;
     -o-transition: all 0.4s;
     transition:all 0.4s;
+}
+
+.card-body {
+    padding-top:0px;
+    padding-bottom:5px;
 }
 
 #accordionExample > div {
@@ -270,7 +276,7 @@
     cursor: pointer;
     display: inline-block;
     font-family: acumin-pro;
-    font-size: 2.5vmin;
+    font-size: 1.5vmin;
     font-stretch: 100%;
     letter-spacing: 2px;
     line-height: normal;
@@ -410,8 +416,8 @@ section:last-child {
 
 #maininfo {
     position: fixed;
-    bottom: 2vw;
-    right: 1vw; 
+    top: 1vw;
+    right: 20px; 
     z-index: 3;
     min-width: 150px;
     max-width: 150px;

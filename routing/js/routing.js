@@ -22,8 +22,8 @@ var map = new mapboxgl.Map({
 //Add Data layers so map isn't empty
 map.on('load', function(){
   map.setLayoutProperty('tuesday-night-ride-points-of-int', 'visibility', 'visible');
-  map.setLayoutProperty('tnr-v5-5pfsxq', 'visibility', 'visible');
-  map.setLayoutProperty('tnr-v5-5pfsxq copy', 'visibility', 'visible');
+  map.setLayoutProperty('tnr-v6-194byj', 'visibility', 'visible');
+  map.setLayoutProperty('tnr-v6-194byj copy', 'visibility', 'visible');
   map.setLayoutProperty('hawks-1sb3f4 copy', 'visibility', 'visible');
   map.setLayoutProperty('hawkroads-acywed', 'visibility', 'visible');
   map.setLayoutProperty('hawkroads-acywed copy', 'visibility', 'visible');
@@ -153,8 +153,8 @@ toggleLayer(
     'hawkroads-acywed copy'],
     'Neighborhood Connections');
 toggleLayer(
-    ['tnr-v5-5pfsxq',
-    'tnr-v5-5pfsxq copy'
+    ['tnr-v6-194byj',
+    'tnr-v6-194byj copy'
     //'tnr-v4-apmebo',
     //'tnr-v3-9wi26p',
     //'tnr-v2-06s5zd',
@@ -168,7 +168,7 @@ toggleLayer(
     'Recommended Bicycle Lanes'); //Button Name
 toggleLayer (
   ['mapbox-satellite', 
-  'tnr-v5-5pfsxq copy 1', 
+  'tnr-v6-194byj copy 1', 
   'hawkroads-acywed copy 1',
   'hawks-1sb3f4 copy 1'], 
   'Satallite');

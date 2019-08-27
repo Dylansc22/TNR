@@ -440,8 +440,8 @@ function myFunction() {
         map.setLayoutProperty('hawkroads-acywed', 'visibility', 'none');
         map.setLayoutProperty('ls-nonhawkroads-4dyda7 copy', 'visibility', 'none');
         map.setLayoutProperty('ls-nonhawkroads-4dyda7', 'visibility', 'none');       
-        //map.setLayoutProperty('tnr-v5-5pfsxq', 'visibility', 'none');
-        //map.setLayoutProperty('tnr-v5-5pfsxq copy', 'visibility', 'none');
+        //map.setLayoutProperty('tnr-v6-194byj', 'visibility', 'none');
+        //map.setLayoutProperty('tnr-v6-194byj copy', 'visibility', 'none');
         map.setLayoutProperty('hs-do1x45 copy 2', 'visibility', 'none');
         map.setLayoutProperty('hs-do1x45 copy 3', 'visibility', 'none');
     } else
@@ -455,8 +455,8 @@ function myFunction() {
         map.setLayoutProperty('hs-do1x45 copy', 'visibility', 'visible');
         map.setLayoutProperty('ls-nonhawkroads-4dyda7 copy', 'visibility', 'visible');
         map.setLayoutProperty('ls-nonhawkroads-4dyda7', 'visibility', 'visible');
-        //map.setLayoutProperty('tnr-v5-5pfsxq', 'visibility', 'visible');
-        //map.setLayoutProperty('tnr-v5-5pfsxq copy', 'visibility', 'visible');
+        //map.setLayoutProperty('tnr-v6-194byj', 'visibility', 'visible');
+        //map.setLayoutProperty('tnr-v6-194byj copy', 'visibility', 'visible');
         map.setLayoutProperty('osm-bicycleinfras-5z6khj', 'visibility', 'none');
         map.setLayoutProperty('theloop-b2gq5f', 'visibility', 'none');
         //Turn on Neutral HS Roads to cover up bad bike lanes
@@ -495,8 +495,8 @@ function myFunction() {
         map.setLayoutProperty('hawks-1sb3f4 copy', 'visibility', 'none');
         map.setLayoutProperty('hawkroads-acywed', 'visibility', 'none');
         map.setLayoutProperty('hawkroads-acywed copy', 'visibility', 'none');
-        map.setLayoutProperty('tnr-v5-5pfsxq', 'visibility', 'none');
-        map.setLayoutProperty('tnr-v5-5pfsxq copy', 'visibility', 'none');  
+        map.setLayoutProperty('tnr-v6-194byj', 'visibility', 'none');
+        map.setLayoutProperty('tnr-v6-194byj copy', 'visibility', 'none');  
         map.setLayoutProperty('hs-do1x45 copy 2', 'visibility', 'none');
         map.setLayoutProperty('hs-do1x45 copy 3', 'visibility', 'none');
     } else 
@@ -509,8 +509,8 @@ function myFunction() {
         map.setLayoutProperty('theloop-b2gq5f', 'visibility', 'none');
         map.setLayoutProperty('hawkroads-acywed', 'visibility', 'none');
         map.setLayoutProperty('hawkroads-acywed copy', 'visibility', 'none');
-        map.setLayoutProperty('tnr-v5-5pfsxq', 'visibility', 'none');
-        map.setLayoutProperty('tnr-v5-5pfsxq copy', 'visibility', 'none');
+        map.setLayoutProperty('tnr-v6-194byj', 'visibility', 'none');
+        map.setLayoutProperty('tnr-v6-194byj copy', 'visibility', 'none');
     } else */
     if (activeChapterName === 'lowstressnetwork') {
         removehighlight();
@@ -525,8 +525,8 @@ function myFunction() {
         map.setLayoutProperty('hawks-1sb3f4 copy', 'visibility', 'visible');
         map.setLayoutProperty('hawkroads-acywed', 'visibility', 'visible');
         map.setLayoutProperty('hawkroads-acywed copy', 'visibility', 'visible');
-        map.setLayoutProperty('tnr-v5-5pfsxq', 'visibility', 'visible');
-        map.setLayoutProperty('tnr-v5-5pfsxq copy', 'visibility', 'visible');  
+        map.setLayoutProperty('tnr-v6-194byj', 'visibility', 'visible');
+        map.setLayoutProperty('tnr-v6-194byj copy', 'visibility', 'visible');  
         map.setLayoutProperty('hs-do1x45 copy 2', 'visibility', 'visible');
         map.setLayoutProperty('hs-do1x45 copy 3', 'visibility', 'visible');
         //No Pending Slides to Disable
@@ -586,8 +586,8 @@ function addActiveLayers(chapterName) {
 //Toggle High Stress Road Network
 
 toggleLayer('tnrv5',
-    ['tnr-v5-5pfsxq',
-    'tnr-v5-5pfsxq copy'
+    ['tnr-v6-194byj',
+    'tnr-v6-194byj copy'
     //'tnr-v4-apmebo',
     //'tnr-v3-9wi26p',
     //'tnr-v2-06s5zd',

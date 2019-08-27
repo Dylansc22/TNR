@@ -52,7 +52,7 @@
     </div>
     
     <div id='map'></div>
-        <div id="accordionExample" class="accordion hideleft">
+        <div id="accordionExample" class="accordion hideright">
         <!--<div class="card">
             <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseMain" aria-expanded="false" aria-controls="collapseOne">
             <h5>About This Map</h5>
@@ -79,7 +79,7 @@
                 <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
                   <h5>Change Map Layers</h5>
                 </button>
-            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" >
+            <div id="collapseTwo" class="collapse show" aria-labelledby="headingTwo" >
               <div class="card-body">
                     <div id='toolbar'></div>
               </div>
@@ -248,7 +248,7 @@
             $('#topRightControls').toggleClass('hideright');
         });
         $('#sidebarCollapse').on('click', function () {
-            $('#accordionExample').toggleClass('hideleft');
+            $('#accordionExample').toggleClass('hideright');
         });
     });
 
