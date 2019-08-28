@@ -60,7 +60,7 @@
 #topRightControls {
     position: fixed;
     width:50px;
-    top: 70px;
+    top: 20px;
     right: 20px;
     z-index: 2;
     -webkit-transition: all 0.3s;
@@ -228,7 +228,7 @@
 
 #accordionExample {
     z-index: 3;
-    top: 310px;
+    top: 260px;
     right: 20px;
     position: fixed;
     width: 20%;
@@ -416,7 +416,7 @@ section:last-child {
 
 #maininfo {
     position: fixed;
-    top: 1vw;
+    bottom: 20px;
     right: 20px; 
     z-index: 3;
     min-width: 150px;
