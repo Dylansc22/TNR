@@ -8,20 +8,23 @@
     <!--Bootstrap CSS (must come before other stylesheets)-->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
+    <!-- Custom CSS -->
+    <link href="../css/style.css" rel="stylesheet">
+
+    <!--Animation CSS and WOW.JS - Source: http://mynameismatthieu.com/WOW/docs.html-->
+    <link rel="stylesheet" href="../css/animate_minify.css">
+    <script src="../js/wow.min.js"></script>
 
     <!--Awesome Fonts Library - Source: https://fontawesome.com/start -->
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+    <script src="https://use.fontawesome.com/436cbe7691.js"></script>
 
    <!--Google Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Merriweather&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Oswald" rel="stylesheet">
 
     <!--Mapbox JS & Mapbox CSS Libraries-->
     <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.52.0/mapbox-gl.js'></script>
     <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.52.0/mapbox-gl.css' rel='stylesheet' />
-
-    <!-- Custom CSS -->
-    <link href="../css/style.css" rel="stylesheet">
-
+    
     <!--Mapbox APIs-->
     <!--Mapbox Search Box-->
     <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v2.3.0/mapbox-gl-geocoder.min.js'></script>
@@ -32,41 +35,14 @@
     <!--Mapbox Draw-->
     <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.0.9/mapbox-gl-draw.js'></script>
     <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.0.9/mapbox-gl-draw.css' type='text/css'/>
-
-
-    <!--Initialize Map, Menu, & Info Box-->
-
-    <!--Animation CSS and WOW.JS - Source: http://mynameismatthieu.com/WOW/docs.html-->
-    <link rel="stylesheet" href="../css/animate_minify.css">
-    <script src="../js/wow.min.js"></script>
-    
 </head>
 <body>
 
 
 <div id='bootstrapoverrides' class='container-fluid'>
     <div id='map'></div>
-        <button id="toolbarCollapse" type="button" class="btn btn-warning">
-            <span></span>
-            <span></span>
-            <span></span>
-        </button>
-    <div id='maininfo'>
-        <div id='mapPosition'></div>
-        <div id='drawbox'><h6>Haven't Used Any Nodes Yet</h6></div>
-        <!--<div id='remover'>Add Satallite</div>-->
-        <div id='instructions'>
-            <div id="calculated-line"></div>
-        </div>
-        <div id='geojsonbox'>
-            <div><pre id='completegeojson'></pre></div>
-        </div>
-    <!--<div id='scrolltest'>This is a test</div>
-    <p id="demo">Click the button to change the text in this paragraph.</p>
-    <button id="testbutton">Try it</button>-->
-    </div>
-    <div class="accordion" id="accordionExample">
-        <div class="card">
+    <div id="accordionExample" class="accordion hideright">
+        <!--<div class="card">
             <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseMain" aria-expanded="false" aria-controls="collapseOne">
             <h5>About This Map</h5>
             </button>
@@ -87,18 +63,18 @@
 
               </div>
             </div>
-          </div>
+          </div>-->
           <div class="card">
                 <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
                   <h5>Change Map Layers</h5>
                 </button>
-            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" >
+            <div id="collapseTwo" class="collapse show" aria-labelledby="headingTwo" >
               <div class="card-body">
                     <div id='toolbar'></div>
               </div>
             </div>
           </div>
-          <div class="card">
+          <!--<div class="card">
                 <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
                   <h5>Save or Load A Route</h5>
                 </button>
@@ -110,7 +86,28 @@
                 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat 
               </div>
             </div>
-          </div>
+          </div>-->
+    </div>
+    <div id="topRightControls" class="hideright"></div>
+    <!--<div id="umber">
+        <h1>
+            <div class=" active"> 1/12</div>
+        
+        </h1>
+    </div>-->
+        <div id="footer">
+            <a href="https://dylansc22.github.io/portfolio" title="Portfolio"><i class="fa fa-home fa-2x" aria-hidden="true"></i></a>
+            <a href="https://www.linkedin.com/in/dylancobean" title="Linkedin"><i class="fa fa-linkedin fa-2x" aria-hidden="true"></i></a>
+            <!--<a href="https://twitter.com/MrDylanScott" title="Twitter"><i class="fa fa-twitter fa-2x" aria-hidden="true"></i></a>-->
+            <a href="https://github.com/dylansc22" title="Github"><i class="fa fa-github fa-2x" aria-hidden="true"></i></a>
+            <a href="mailto:dylan.cobean@gmail.com" title="Email"><i class="fa fa-envelope fa-2x" aria-hidden="true"></i></a>
+        </div>
+
+    <div id='maininfo'>
+        <button id="sidebarCollapse" type="button" class="btn btn-warning">
+            <i class="fas fa-align-left"></i>
+            <span>Toggle Sidebar</span>
+        </button>
     </div>
 
 <!--enables all animation behavior-->
@@ -129,22 +126,16 @@
 <script type="text/javascript">
     $(document).ready(function () {
         $('#sidebarCollapse').on('click', function () {
-            $('#text').toggleClass('hideleft');
+            $('#presentation').toggleClass('hideleft');
+        });
+        $('#sidebarCollapse').on('click', function () {
+            $('#topRightControls').toggleClass('hideright');
+        });
+        $('#sidebarCollapse').on('click', function () {
+            $('#accordionExample').toggleClass('hideright');
         });
     });
 
-    $(document).ready(function () {
-        $('#toolbarCollapse').on('click', function () {
-            $('#accordionExample').toggleClass('hideleft');//on click, toggle the 'hide' class on/off the accordionExample HTML id
-            $(this).toggleClass('active'); //on click, toggle the 'active' class to get the toolbarCollapse button to change from three - to X
-        });
-    });
-
-    $("#ethos").click(function() {
-        $("#ethos").fadeOut("slow", function() { //or fadeOut(normal... or fadeOut 3000,
-            $(this).remove();
-        });
-    });
 </script>
 
 
