@@ -619,7 +619,11 @@ toggleLayer('osmbikes',
 
 toggleLayer('theloop', ['theloop-b2gq5f'], 'The Loop Pedestrian Path');
 
-toggleLayer ('satellite', ['mapbox-satellite'], 'Satallite Baselayer');
+toggleLayer ('satellite', 
+  ['mapbox-satellite', 
+  'hawks-1sb3f4 copy 1', 
+  'hawkroads-acywed copy 1', 
+  'tnr-v6-194byj copy 1'], 'Satallite Baselayer');
 
 //Toggle Annotation
 toggleLayer('annotation',

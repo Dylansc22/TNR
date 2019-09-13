@@ -61,7 +61,7 @@
     position: fixed;
     width:50px;
     top: 20px;
-    right: 20px;
+    right: 280px;
     z-index: 2;
     -webkit-transition: all 0.3s;
     -moz-transition: all 0.3s;
@@ -109,11 +109,12 @@
 
 
 #footer {
+height:1px;
 width:100%;
 z-index: 3;
-bottom:20px;
+bottom:40px;
 position:fixed;
-margin:auto;
+margin:0 auto;
 text-align: center;
 }
 
@@ -256,7 +257,7 @@ text-align: center;
 
 #accordionExample {
     z-index: 3;
-    top: 260px;
+    top: 20px;
     right: 20px;
     position: fixed;
     width: 20%;
@@ -444,8 +445,8 @@ section:last-child {
 
 #maininfo {
     position: fixed;
-    bottom: 20px;
-    right: 20px; 
+    bottom: 40px;
+    right: 10px; 
     z-index: 3;
     min-width: 150px;
     max-width: 150px;
