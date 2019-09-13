@@ -61,7 +61,7 @@
     position: fixed;
     width:50px;
     top: 20px;
-    right: 280px;
+    right: 24%;
     z-index: 2;
     -webkit-transition: all 0.3s;
     -moz-transition: all 0.3s;
@@ -281,8 +281,11 @@ text-align: center;
 
 @media(max-width:768px) {
     #accordionExample { 
-        min-width:40%;
+        min-width:30%;
         }
+    #topRightControls {
+        right:38%;
+    }
 
     }
 

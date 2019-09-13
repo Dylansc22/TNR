@@ -199,7 +199,7 @@ toggleLayer('tnrv5',
     //'tnr-v2-06s5zd',
     //'tnr-v1-c7wnkt'
     ],
-    'Recommended Bicycle Network'); //Button Name
+    'Safest Bicycle Streets'); //Button Name
 
 toggleLayer('highstress',
     ['hs-do1x45 copy', 
