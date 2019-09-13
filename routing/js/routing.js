@@ -13,7 +13,7 @@ var map = new mapboxgl.Map({
     zoom: 12.826,
     pitch: 0,
     bearing: 0,
-    attributionControl: true, // Removed default attribution and put custom attribution in below
+    attributionControl: false, // Removed default attribution and put custom attribution in below
     //maxBounds: [[-111.2,32], [-110.6, 32.5]], //Southwest & Northeast Bounds
     //pitch: 45,
     //bearing: 10,
@@ -116,6 +116,7 @@ var zoom = new mapboxgl.NavigationControl({
 map.addControl(new mapboxgl.AttributionControl({
     compact: true,   
     }));
+    
 
 //document.getElementById('topRightControls').appendChild(geocoder.onAdd(map)); //Manually locate the draw tool inside the topRightControls DIV id
 document.getElementById('topRightControls').appendChild(geolocate.onAdd(map)); //Manually locate the draw tool inside the topRightControls DIV id
@@ -125,7 +126,6 @@ document.getElementById('topRightControls').appendChild(zoom.onAdd(map)); //Manu
 
 //Add Data layers so map isn't empty
 map.on('load', function(){
-  map.setLayoutProperty('tuesday-night-ride-points-of-int', 'visibility', 'visible');
   map.setLayoutProperty('tnr-v6-194byj', 'visibility', 'visible');
   map.setLayoutProperty('tnr-v6-194byj copy', 'visibility', 'visible');
   map.setLayoutProperty('hawks-1sb3f4 copy', 'visibility', 'visible');
@@ -225,7 +225,11 @@ toggleLayer('osmbikes',
 
 toggleLayer('theloop', ['theloop-b2gq5f'], 'The Loop Pedestrian Path');
 
-toggleLayer ('satellite', ['mapbox-satellite'], 'Satallite Baselayer');
+toggleLayer ('satellite', 
+  ['mapbox-satellite', 
+  'hawks-1sb3f4 copy 1', 
+  'hawkroads-acywed copy 1', 
+  'tnr-v6-194byj copy 1'], 'Satallite Baselayer');
 
 //Toggle Annotation
 toggleLayer('annotation',
