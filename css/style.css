@@ -70,15 +70,14 @@
     align-items: end;
 }
 
-.mapboxgl-ctrl-group {
-    border: solid 2px #ffc107;
-    width: 35px;
+#topRightControls > div {
+    background-color: white;
+    color: red;
 }
 
 .mapboxgl-ctrl-group, .mapboxgl-ctrl-geocoder {
-    border: solid 2px #ffc107;
-    border-radius: 0px;
-    background-color: white; /*#c2c2c2;*/
+    border: solid 2px #8a8472;
+    border-radius: 0px; 
     box-shadow: 0px;
 }
 
