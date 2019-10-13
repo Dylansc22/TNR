@@ -1078,10 +1078,15 @@ background-color:white;
     }
 
     #landingpageheading {
-        padding-top: 15vh;
+        padding-top: 20vh;
         vertical-align: center;
         text-align: center;
         font-family: 'Merriweather', serif;
+    }
+
+    #landingpageheading > h1 { 
+        font-size: 15vmin;
+        line-height: 15vmin;
     }
 
     #landingpageheading > * { 
@@ -1090,7 +1095,7 @@ background-color:white;
         border-color: #17760f;  yellow #dbaf1f;
         padding: 15px;
         background-color: rgba(255,255,255, 0.7);*/
-        color: #3985dd; 
+        color: #bc5050; 
     }
 
     #landingpagebuttons {
