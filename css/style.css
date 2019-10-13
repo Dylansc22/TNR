@@ -1069,12 +1069,12 @@ background-color:white;
 
 /* Landing Page Stuff */
     #landingpagemap{
-      position:fixed;
+      position:absolute;
       z-index: -1;
-      top:0;
-      bottom:0;
+      top:20px;
       width:100%;
-      height:100%;
+      height:400px;
+      border: solid 2px #8a8472;
     }
 
     #landingpageheading {
@@ -1084,7 +1084,7 @@ background-color:white;
         font-family: 'Merriweather', serif;
     }
 
-    #landingpageheading > h1 { 
+    #landingpageheading > h1 {
         font-size: 15vmin;
         line-height: 15vmin;
     }
@@ -1100,6 +1100,8 @@ background-color:white;
 
     #landingpagebuttons {
         padding-top:40vh;
+        vertical-align: center;
+        text-align: center;
     }
 
     #landingpagebuttons > .btn {

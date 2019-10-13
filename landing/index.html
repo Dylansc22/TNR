@@ -30,12 +30,12 @@
 
 	<div id='landingpageheading' class="justify-content-center">
 		<h1>Tucson Pathways</h1><h5>Finding Safer, Smarter, Quieter Cycling Routes</h5>
+	</div>
 	<div id="landingpagebuttons">
 		<a href="../routing/index.html"><button type="button" class="btn btn-warning">Plan A Route</button></a>
 		<button type="button" class="btn btn-warning">Where To Meet</button>
 		<button type="button" class="btn btn-warning">Other Group Rides</button>
 		<button type="button" class="btn btn-warning">Riding Etiquette</button>
-	</div>
 	</div>
 
 
@@ -70,7 +70,7 @@
 	var start = [-110.962759,32.226];
 	var end = [-110.9, 32.2];
 	var mapvar = new mapboxgl.Map({
-	//attributionControl: false,
+	attributionControl: false,
 	container: 'landingpagemap',
 	style: 'mapbox://styles/dylanc/cjudqm16b1x3s1fmfjveo40q8',
 	center: start,
@@ -104,7 +104,7 @@
 	    // These options control the flight curve, making it move
 	    // slowly and zoom out almost completely before starting
 	    // to pan.
-	    speed: 0.15, // make the flying slow
+	    speed: 0.05, // make the flying slow
 	    curve: 0.1, // change the speed at which it zooms out
 
 	    // This can be any easing function: it takes a number between
@@ -116,9 +116,8 @@
 	} //End fly() Program
 
 
-	  fly();
+	 fly();
 mapvar.on('load', function(){
-  	mapvar.setLayoutProperty('tuesday-night-ride-points-of-int', 'visibility', 'visible');
     mapvar.setLayoutProperty('osm-bicycleinfras-5z6khj', 'visibility', 'visible');
     mapvar.setLayoutProperty('theloop-b2gq5f', 'visibility', 'visible');
 });
