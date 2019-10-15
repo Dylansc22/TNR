@@ -126,11 +126,11 @@ document.getElementById('topRightControls').appendChild(zoom.onAdd(map)); //Manu
 
 //Add Data layers so map isn't empty
 map.on('load', function(){
-  map.setLayoutProperty('tnr-v6-194byj', 'visibility', 'visible');
-  map.setLayoutProperty('tnr-v6-194byj copy', 'visibility', 'visible');
-  map.setLayoutProperty('hawks-1sb3f4 copy', 'visibility', 'visible');
-  map.setLayoutProperty('hawkroads-acywed', 'visibility', 'visible');
-  map.setLayoutProperty('hawkroads-acywed copy', 'visibility', 'visible');
+  map.setLayoutProperty('tnr_main_inner', 'visibility', 'visible');
+  map.setLayoutProperty('tnr_main_outer', 'visibility', 'visible');
+  map.setLayoutProperty('hawkdotsgeojson', 'visibility', 'visible');
+  map.setLayoutProperty('hawk_roads', 'visibility', 'visible');
+  map.setLayoutProperty('hawkroadscase', 'visibility', 'visible');
 });
 
 // On every scroll event, check which element is on screen
@@ -192,8 +192,8 @@ map.on('mousemove', function (e) {
 //Toggle High Stress Road Network
 
 toggleLayer('tnrv5',
-    ['tnr-v6-194byj',
-    'tnr-v6-194byj copy'
+    ['tnr_main_inner',
+    'tnr_main_outer'
     //'tnr-v4-apmebo',
     //'tnr-v3-9wi26p',
     //'tnr-v2-06s5zd',
@@ -202,24 +202,24 @@ toggleLayer('tnrv5',
     'Safest Bicycle Streets'); //Button Name
 
 toggleLayer('highstress',
-    ['hs-do1x45 copy', 
-    'hs-do1x45 copy 1'],
+    ['hs_main_inner', 
+    'hs_main_outer'],
     'High Stress Roads');
 
 //Toggle All LS Original Road Network
 toggleLayer('lowstress',
-    ['ls-790ous', 
-    'ls-790ous copy'], 'Low Stress Roads');
+    ['ls_main_inner', 
+    'ls_main_outer'], 'Low Stress Roads');
 
 toggleLayer('hawks',
-    ['hawks-1sb3f4 copy', 
-    'hawkroads-acywed',
-    'hawkroads-acywed copy'],
+    ['hawkdotsgeojson', 
+    'hawk_roads',
+    'hawkroadscase'],
     'Signalled Crosswalks');
 
 toggleLayer('osmbikes',
     ['osm-bicycleinfras-5z6khj', 
-    //'hs-do1x45 copy'
+    //'hs_main_inner'
     ],
     'City Bicycle Lanes'); //Button Name
 
@@ -227,9 +227,9 @@ toggleLayer('theloop', ['theloop-b2gq5f'], 'The Loop Pedestrian Path');
 
 toggleLayer ('satellite', 
   ['mapbox-satellite', 
-  'hawks-1sb3f4 copy 1', 
-  'hawkroads-acywed copy 1', 
-  'tnr-v6-194byj copy 1'], 'Satallite Baselayer');
+  'hawkdotsgeojson 1', 
+  'hawkroadscase 1', 
+  'tnr_main_outer 1'], 'Satallite Baselayer');
 
 //Toggle Annotation
 toggleLayer('annotation',
