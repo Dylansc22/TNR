@@ -107,6 +107,7 @@
 }
 
 
+
 #footer {
 height:1px;
 width:100%;
@@ -1104,6 +1105,14 @@ background-color:white;
         text-align: center;
     }
 
-    #landingpagebuttons > .btn {
-        margin: 10px 20px;
+    #landingpagebuttons > a {
+        margin: 40px 20px;
     }
+
+#mainpagefooter {
+height:1px;
+width:100%;
+bottom:40px;
+margin:0 auto;
+text-align: center;
+}

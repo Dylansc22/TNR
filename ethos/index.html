@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tucson's Best Cycling Routes</title>
+    <meta charset='utf-8' />
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    
+    <!--Bootstrap CSS (must come before other stylesheets)-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <!-- Custom CSS -->
+    <link href="../css/style.css" rel="stylesheet">
+
+    <!--Animation CSS and WOW.JS - Source: http://mynameismatthieu.com/WOW/docs.html-->
+    <link rel="stylesheet" href="../css/animate_minify.css">
+    <script src="../js/wow.min.js"></script>
+
+    <!--Awesome Fonts Library - Source: https://fontawesome.com/start -->
+    <script src="https://kit.fontawesome.com/424cd50bdd.js"></script>
+
+   <!--Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Oswald" rel="stylesheet">
+
+    <!--Mapbox JS & Mapbox CSS Libraries-->
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.52.0/mapbox-gl.js'></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.52.0/mapbox-gl.css' rel='stylesheet' />
+    
+    <!--Mapbox APIs-->
+    <!--Mapbox Search Box-->
+    <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v2.3.0/mapbox-gl-geocoder.min.js'></script>
+    <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v2.3.0/mapbox-gl-geocoder.css' type='text/css' />
+    <!--Mapbox Directions-->
+    <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.0.0/mapbox-gl-directions.js'></script>
+    <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.0.0/mapbox-gl-directions.css' type='text/css' />
+    <!--Mapbox Draw-->
+    <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.0.9/mapbox-gl-draw.js'></script>
+    <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.0.9/mapbox-gl-draw.css' type='text/css'/>
+</head>
+<body>
+
+
+
+
+<!--Initialize Map, Menu, & Info Box-->
+
+
+<div id='bootstrapoverrides' class='container-fluid'>
+    <div id='ethos' ><h1><span class="wow fadeInUp" data-wow-delay="0s" data-wow-duration="1s" ><span style='color:green'> Not feeling safe</span> riding a bicycle</span><br>
+        <span class="wow fadeInUp" data-wow-delay="1.5s" data-wow-duration="1s"> is the largest barrier of entry</span><br>
+        <span class="wow fadeInUp" data-wow-delay="3.5s" data-wow-duration="1s" >for non-bicycle commuters.</span><br><br></h1>
+        <h5><span style='color:orange' class="wow fadeInUp" data-wow-delay="5s" data-wow-du
+            ration="1s">Click anywhere to continue</span></h5>
+    </div>
+    
+    <div id='map'></div>
+    <div id="accordionExample" class="accordion hideright">
+        <!--<div class="card">
+            <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseMain" aria-expanded="false" aria-controls="collapseOne">
+            <h5>About This Map</h5>
+            </button>
+            <div id="collapseMain" class="collapse" aria-labelledby="headingOne">
+              <div class="card-body">
+                This is where the map description will go. 
+              </div>
+            </div>
+          </div>
+          <div class="card">
+                <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                  <h5>Draw A Bicycle Route</h5>
+                </button>
+            <div id="collapseOne" class="collapse" aria-labelledby="headingOne">
+              <div id="testingmovement" class="card-body">
+                Trying to get mapbox controls here<br><br>
+                <div id='draw' class='draw'></div>
+
+              </div>
+            </div>
+          </div>-->
+          <div class="card">
+                <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                  <h5>Change Map Layers</h5>
+                </button>
+            <div id="collapseTwo" class="collapse show" aria-labelledby="headingTwo" >
+              <div class="card-body">
+                    <div id='toolbar'></div>
+              </div>
+            </div>
+          </div>
+          <!--<div class="card">
+                <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                  <h5>Save or Load A Route</h5>
+                </button>
+            <div id="collapseThree" class="collapse" aria-labelledby="headingThree" >
+                <button id="newpastebutton" type="button" class="btn btn-warning">Load Route</button>           
+                <input id="myInput" type="text" value="Paste Here">
+                <button id="copybutton" type="button" class="btn btn-info">Copy Route</button>
+              <div class="card-body">
+                Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat 
+              </div>
+            </div>
+          </div>-->
+    </div>
+    <div id="topRightControls" class="hideright"></div>
+    <!--<div id="umber">
+        <h1>
+            <div class=" active"> 1/12</div>
+        
+        </h1>
+    </div>-->
+        <div id="footer">
+            <a href="https://dylansc22.github.io/portfolio" title="Portfolio"><i class="fa fa-home fa-2x" aria-hidden="true"></i></a>
+            <a href="https://www.linkedin.com/in/dylancobean" title="Linkedin"><i class="fab fa-linkedin-in fa-2x"></i></a>
+            <!--<a href="https://twitter.com/MrDylanScott" title="Twitter"><i class="fa fa-twitter fa-2x" aria-hidden="true"></i></a>-->
+            <a href="https://github.com/dylansc22" title="Github"><i class="fab fa-github fa-2x"></i></a>
+            <a href="mailto:dylan.cobean@gmail.com" title="Email"><i class="fa fa-envelope fa-2x" aria-hidden="true"></i></a>
+        </div>
+
+    <div id='maininfo'>
+        <button id="sidebarCollapse" type="button" class="btn btn-warning">
+            <i class="fas fa-align-right"></i>
+            <span>Toggle Sidebar</span>
+        </button>
+    </div>
+
+         
+    
+    <!-- Presentation Text-->
+    <div id="presentation">
+    <div id="text">
+            <section id="tucson1">
+                    <h1>This is Tucson Arizona<br></h1>
+                <h3><span style='color:orange'>Scroll To Continue</span><br></h3>
+            </section>
+            <section id="bicycleinfrastructure">
+                <h3>
+                    We have a vast network of <span class='bicyclelanefont'>Bicycle Lanes</span> along with over 130 miles of a <span class="theloopfont">Shared-use Pedestrian Path</span> surrounding the Tucson metro.
+                </h3>
+                <h5 class="alignright">
+                    1 / 10
+                </h5>
+            </section>
+            <section id="accidents">
+                <h3>
+                    However <span class='accidentsfont'>Traffic Accidents</span> with cyclists and pedestrians remain disproportionally high compared to national averages. 
+                </h3>
+                <h5 class="alignright">
+                    2 / 10
+                </h5>
+            </section>
+            <section id="satallitebikelanes">
+                <h3>
+                    This is unsurprising, considering most of Tucson's bicycle infrastructure consists of <span class='bicyclelanefont'>Unprotected Bicycle Lanes</span> nested along the margins of High-Speed Vehicle Traffic.
+                    <!--     At its core, most major roads through Tucson, even with a bicycle lane, feel dangerous and uninviting. At best, bicycle commuter culture has has expectation of becoming normalized to the risk of riding alongside high-speed vehicle traffic. 
+
+                    At its core, expecting your bicycle commute to feel safe,  to safey the decisions to have install most bicycle infrastructure be: unprotected margins of roadway nested alongside high-speed automotive  bicycle lanes on the margins of high speed +35mph roads, is a -->
+                </h3>
+                <h5 class="alignright">
+                    3 / 10
+                </h5>
+            </section>
+            <section id="highstressroads">
+                <h3>
+                    For novice bicycle-riders, <span class='highstressfont'>High Stress Roads</span> are quite simply, not perceived as safe. And <span class='bicyclelanefont'>Unprotected Bicycle Lanes</span> do little to improve that perception.
+                </h3> 
+                <h5 class="alignright">
+                    4 / 10
+                </h5>
+            </section>
+            <section id="highstressroads2">
+                <h3>
+                    By accounting for perceived safety, we are left with far fewer <span class='bicyclelanefont'> Bicycle Lanes</span> than initially illustrated.
+                </h3> 
+                <h5 class="alignright">
+                    5 / 10
+                </h5>
+            </section>
+            <section id="neighborhoodroads">
+                <h3>
+                    However, we have far better alternatives in plain sight: <span class='neighborhoodroadfont'>Low-Traffic Residential Streets</span> in combination with <span class='theloopfont'> Signalled Pedestrian Crosswalks</span>.<!-- Streets are wider, quieter, and can be easily utilized for cross-town bicycle-commuting. -->
+                </h3>
+                <h5 class="alignright">
+                    6 / 10
+                </h5>
+            </section>
+            <section id="satallite">
+                <h3>
+                    These push-button <span class='theloopfont'> Signalled Pedestrian Crosswalks,</span> easily bypass vehicle traffic, and connected neighborhoods throughout through the city.
+                </h3>
+                <h5 class="alignright">
+                    7 / 10
+                </h5>
+            </section>
+            <section id="traditionroutes">
+                <h3>
+                    So while traditional thinking has Tucson's <span class='bicyclelanefont'>Bicycle Infrastructure</span> look like this...<!-- and merely be mindful of  dangerous traffic on <span class="highstressfont">High Stress Streets</span>.-->
+                </h3>
+                <h5 class="alignright">
+                    8 / 10
+                </h5>
+            </section>
+            <!--<section id="traditionroutes2">
+                <h3>
+                    ... And omitting the more dangerous Bicycle Lanes... 
+                </h3>
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                </p>
+            </section>-->
+            <!--<section id="deadendroads">
+                <h3>
+                    Routing will omit neighborhood roads that would that would 'dead-end' cyclists onto <span class="highstressfont">High Stress Streets</span>.  
+                </h3>
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                </p>
+            </section>-->
+            <section id="lowstressnetwork">
+                <h3>
+                    This <span class="bicyclelanefont">Low Stress Network</span> is how people on bicycles should think of our city. Bicycle commutes will be <strong>significantly safer</strong>, more quiet, and more scenic. 
+                </h3>
+                <h5 class="alignright">
+                    9 / 10
+                </h5>
+            </section>
+            <section id="telegraph">
+                <h3>
+                    <strong>Map your own safer bicycle commute through your neighborhood.</strong><br></h3>
+
+                    <h6>Click the <span class='btn btn-warning'><i class="fas fa-align-left"></i> Toggle Sidebar</span> in the bottom-right of the map, and use the draw tool <button class="mapbox-gl-draw_ctrl-draw-btn mapbox-gl-draw_line" style="width:30px; height:30px; background-color:white"></button> along the top-right of the map.  
+                    </h6>
+                    <h5 class="alignright">
+                    10 / 10
+                    </h5>                 
+            </section>
+    </div>
+    </div>
+
+<!--enables all animation behavior-->
+<script>new WOW().init();</script>
+
+<!--Main Javascript File-->
+<script src="../js/main.js"></script>
+
+<!--Bootstrap Scripts-->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+<script type="text/javascript" src="https://code.jquery.com/jquery.min.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#sidebarCollapse').on('click', function () {
+            $('#presentation').toggleClass('hideleft');
+        });
+        $('#sidebarCollapse').on('click', function () {
+            $('#topRightControls').toggleClass('hideright');
+        });
+        $('#sidebarCollapse').on('click', function () {
+            $('#accordionExample').toggleClass('hideright');
+        });
+    });
+
+    $("#ethos").click(function() {
+        $("#ethos").fadeOut("slow", function() { //or fadeOut(normal... or fadeOut 3000,
+            $(this).remove();
+        });
+    });
+</script>
+
+</body>
+</html> 
