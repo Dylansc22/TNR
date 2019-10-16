@@ -193,7 +193,10 @@ map.on('mousemove', function (e) {
 
 toggleLayer('tnrv5',
     ['tnr_main_inner',
-    'tnr_main_outer'
+    'tnr_main_outer',
+    'hawkdotsgeojson', 
+    'hawk_roads',
+    'hawkroadscase'
     //'tnr-v4-apmebo',
     //'tnr-v3-9wi26p',
     //'tnr-v2-06s5zd',
@@ -212,9 +215,7 @@ toggleLayer('lowstress',
     'ls_main_outer'], 'Low Stress Roads');
 
 toggleLayer('hawks',
-    ['hawkdotsgeojson', 
-    'hawk_roads',
-    'hawkroadscase'],
+    ['hawkdotsgeojson'],
     'Signalled Crosswalks');
 
 toggleLayer('osmbikes',

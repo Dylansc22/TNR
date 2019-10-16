@@ -371,7 +371,7 @@ function myFunction() {
         //Enable Current Slides
         map.setLayoutProperty('mapbox-satellite', 'visibility', 'visible');
         map.setLayoutProperty('osm-bicycleinfras-example', 'visibility', 'visible');
-        map.setLayoutProperty('hs-do1x45-example', 'visibility', 'visible');
+        //map.setLayoutProperty('hs-do1x45-example', 'visibility', 'visible');
         
         map.setLayoutProperty('ls_main_outer', 'visibility', 'none');
         map.setLayoutProperty('hs_main_inner', 'visibility', 'none');
@@ -384,7 +384,7 @@ function myFunction() {
         //Disable Prior Slides
         map.setLayoutProperty('mapbox-satellite', 'visibility', 'none');
         map.setLayoutProperty('osm-bicycleinfras-example', 'visibility', 'none');
-        map.setLayoutProperty('hs-do1x45-example', 'visibility', 'none');
+        //map.setLayoutProperty('hs-do1x45-example', 'visibility', 'none');
 
         //Enable Currnet Slides
         map.setLayoutProperty('osm-bicycleinfras-5z6khj', 'visibility', 'visible');
@@ -587,7 +587,10 @@ function addActiveLayers(chapterName) {
 
 toggleLayer('tnrv5',
     ['tnr_main_inner',
-    'tnr_main_outer'
+    'tnr_main_outer',
+    'hawkdotsgeojson', 
+    'hawk_roads',
+    'hawkroadscase'
     //'tnr-v4-apmebo',
     //'tnr-v3-9wi26p',
     //'tnr-v2-06s5zd',
@@ -606,9 +609,7 @@ toggleLayer('lowstress',
     'ls_main_inner'], 'Low Stress Roads');
 
 toggleLayer('hawks',
-    ['hawkdotsgeojson', 
-    'hawk_roads',
-    'hawkroadscase'],
+    ['hawkdotsgeojson'],
     'Signalled Crosswalks');
 
 toggleLayer('osmbikes',
