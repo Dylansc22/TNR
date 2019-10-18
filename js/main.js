@@ -587,8 +587,7 @@ function addActiveLayers(chapterName) {
 
 toggleLayer('tnrv5',
     ['tnr_main_inner',
-    'tnr_main_outer',
-    'hawkdotsgeojson', 
+    'tnr_main_outer', 
     'hawk_roads',
     'hawkroadscase'
     //'tnr-v4-apmebo',

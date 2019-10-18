@@ -131,6 +131,7 @@ map.on('load', function(){
   map.setLayoutProperty('hawkdotsgeojson', 'visibility', 'visible');
   map.setLayoutProperty('hawk_roads', 'visibility', 'visible');
   map.setLayoutProperty('hawkroadscase', 'visibility', 'visible');
+  map.setLayoutProperty('theloop-b2gq5f', 'visibility', 'visible');
 });
 
 // On every scroll event, check which element is on screen
@@ -193,8 +194,7 @@ map.on('mousemove', function (e) {
 
 toggleLayer('tnrv5',
     ['tnr_main_inner',
-    'tnr_main_outer',
-    'hawkdotsgeojson', 
+    'tnr_main_outer', 
     'hawk_roads',
     'hawkroadscase'
     //'tnr-v4-apmebo',
@@ -224,7 +224,10 @@ toggleLayer('osmbikes',
     ],
     'City Bicycle Lanes'); //Button Name
 
-toggleLayer('theloop', ['theloop-b2gq5f'], 'The Loop Pedestrian Path');
+toggleLayer('theloop', 
+    ['theloop-b2gq5f'
+    ], 
+    'The Loop Pedestrian Path');
 
 toggleLayer ('satellite', 
   ['mapbox-satellite', 
@@ -276,9 +279,9 @@ function toggleLayer(htmlID, ids, name) {
 }
 
 document.getElementById('tnrv5').setAttribute('class', 'active');        
-        document.getElementById('hawks').setAttribute('class', 'active');        
-        //document.getElementById('osmbikes').setAttribute('class', 'active');        
-        document.getElementById('theloop').setAttribute('class', 'active');      
+document.getElementById('hawks').setAttribute('class', 'active');        
+document.getElementById('theloop').setAttribute('class', 'active');      
+//document.getElementById('osmbikes').setAttribute('class', 'active');        
 
 /* http://stackoverflow.com/a/14438954/1934
   function uniques(value, index, self) {
