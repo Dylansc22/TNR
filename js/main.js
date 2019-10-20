@@ -497,8 +497,8 @@ function myFunction() {
         map.setLayoutProperty('hawkroadscase', 'visibility', 'none');
         map.setLayoutProperty('tnr_main_inner', 'visibility', 'none');
         map.setLayoutProperty('tnr_main_outer', 'visibility', 'none');  
-        map.setLayoutProperty('hs_v2_neutral_inner', 'visibility', 'none');
-        map.setLayoutProperty('hs_v2_neutral_outer', 'visibility', 'none');
+        //map.setLayoutProperty('hs_v2_neutral_inner', 'visibility', 'none');
+        //map.setLayoutProperty('hs_v2_neutral_outer', 'visibility', 'none');
     } else 
     /*if (activeChapterName === 'traditionroutes2') {
         //No Prior Slides to Disable
@@ -514,11 +514,13 @@ function myFunction() {
     } else */
     if (activeChapterName === 'lowstressnetwork') {
         removehighlight();
-        document.getElementById('osmbikes').setAttribute('class', 'active');        
+        //document.getElementById('osmbikes').setAttribute('class', 'active');        
+        document.getElementById('hawks').setAttribute('class', 'active');                
         document.getElementById('hawks').setAttribute('class', 'active');        
         document.getElementById('theloop').setAttribute('class', 'active');        
 
-        //No Prior Slides to Disable
+        //Prior Slides to Disable
+        map.setLayoutProperty('osm-bicycleinfras-5z6khj', 'visibility', 'none');
 
         //Enable Current Slides
         map.setLayoutProperty('theloop-b2gq5f', 'visibility', 'visible');
@@ -527,8 +529,8 @@ function myFunction() {
         map.setLayoutProperty('hawkroadscase', 'visibility', 'visible');
         map.setLayoutProperty('tnr_main_inner', 'visibility', 'visible');
         map.setLayoutProperty('tnr_main_outer', 'visibility', 'visible');  
-        map.setLayoutProperty('hs_v2_neutral_inner', 'visibility', 'visible');
-        map.setLayoutProperty('hs_v2_neutral_outer', 'visibility', 'visible');
+        //map.setLayoutProperty('hs_v2_neutral_inner', 'visibility', 'visible');
+        //map.setLayoutProperty('hs_v2_neutral_outer', 'visibility', 'visible');
         //No Pending Slides to Disable
 
     } else
@@ -536,7 +538,6 @@ function myFunction() {
         removehighlight();
         document.getElementById('tnrv5').setAttribute('class', 'active');        
         document.getElementById('hawks').setAttribute('class', 'active');        
-        document.getElementById('osmbikes').setAttribute('class', 'active');        
         document.getElementById('theloop').setAttribute('class', 'active');        
 
             //No Prior Slides to Disable
