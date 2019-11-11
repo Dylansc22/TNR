@@ -1192,7 +1192,7 @@ text-align: center;
     right: 0px;
     left:0px;
     vertical-align: middle;
-    font-family: 'Herr Von Muellerhoff', cursive;
+    font-family:initial;
     color: #bc5050;
   /*background-color:rgba(255,255,255,.3);*/
 }
