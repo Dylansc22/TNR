@@ -1124,13 +1124,13 @@ background-color:white;
     }
 
     #landingpagebuttons {
-        padding-top:40vh;
+        padding-top:20vh;
         vertical-align: center;
         text-align: center;
     }
 
     #landingpagebuttons > a {
-        margin: 40px 20px;
+        margin: 40px 10px;
     }
 
 #mainpagefooter {
