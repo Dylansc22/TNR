@@ -58,7 +58,7 @@
 }
 
 #topRightControls {
-    position: absolute;
+    position: fixed;
     width:50px;
     top: 20px;
     right: 24%;
@@ -259,7 +259,7 @@ text-align: center;
     z-index: 3;
     top: 20px;
     right: 20px;
-    position: absolute;
+    position: fixed;
     width: 20%;
     display: block;
     border: solid 3px #A0A0A0;
