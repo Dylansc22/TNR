@@ -1178,11 +1178,10 @@ text-align: center;
 */
 #BVCarousel, .carousel-item {
     max-height:600px;
-}
-
-#BVCarousel {
     border: solid 2px #8a8472;
 }
+
+
 
 .carousel-caption {
     /*all of this is needed to align text vertically in the middle the proper responsive way for different screen sizes*/
@@ -1198,8 +1197,8 @@ text-align: center;
 }
 
 .carousel h1 {
-  font-size: 10vw;
-  line-height:10vw;
+  font-size: 8vw;
+  line-height:8vw;
 }
 
 .carousel h2 {

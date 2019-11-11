@@ -230,14 +230,14 @@ duration: 3500,
     bearing: 25,
     duration: 3500,
 },*/
-/*'deadendroads': {
+'deadendroads': {
 center: [-110.92876, 32.23895], 
 zoom: 14.156,
 pitch: 19.406,
 bearing: -10,
 //speed: 0.3 
 duration: 3000
-},*/
+},
 'lowstressnetwork': {
     center: [-110.9195, 32.22924], 
     zoom: 12.54,
@@ -445,7 +445,7 @@ function myFunction() {
         map.setLayoutProperty('hs_v2_neutral_inner', 'visibility', 'none');
         map.setLayoutProperty('hs_v2_neutral_outer', 'visibility', 'none');
     } else
-    /*if (activeChapterName === 'deadendroads') {
+    if (activeChapterName === 'deadendroads') {
 
 
         //map.setLayoutProperty('osm-bicycleinfras-5z6khj', 'visibility', 'none');
@@ -463,7 +463,7 @@ function myFunction() {
         map.setLayoutProperty('hs_v2_neutral_inner', 'visibility', 'visible');
         map.setLayoutProperty('hs_v2_neutral_outer', 'visibility', 'visible');
         map.setLayoutProperty('hawk_roads-example', 'visibility', 'none');
-    } else*/
+    } else
         if (activeChapterName === 'satallite') {
         removehighlight();
         document.getElementById('satallite').setAttribute('class', 'active');        
