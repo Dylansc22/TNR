@@ -1093,6 +1093,7 @@ background-color:white;
       z-index: -20;
       width: 100%;
       height: 595px;
+      border: solid 2px #8a8472;
     }
 
     @media (max-width: 768px) {
@@ -1101,12 +1102,22 @@ background-color:white;
       z-index: -1;
       width: 100%;
       height: 255px;
+
     } 
     }
 
     #landingpageheading {
         text-align: center;
         font-family: 'Merriweather', serif;
+          position: absolute;
+          z-index: 1;
+  top: 50%;
+  transform: translateY(-50%);
+   left: 0; 
+  right: 0; 
+  margin-left: auto; 
+  margin-right: auto; 
+
     }
 
     #landingpageheading > h1 {
