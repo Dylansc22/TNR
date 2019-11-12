@@ -5,8 +5,9 @@
   width: 100%;
   margin:0px;
   padding:0;
-  font-family: acumin-pro;
+  font-family: acumin-pro; 
   border-radius: 0px !important;
+  font-family: 'Merriweather', serif;
   /*font-family: 'Lato', sans-serif;*/
   color:#606060;
   background-color:#E8E8E8;
@@ -1135,14 +1136,23 @@ background-color:white;
     }
 
     #landingpagebuttons {
-        padding-top:20vh;
+        padding:7vh 0;
         vertical-align: center;
         text-align: center;
+        font-family: 'Merriweather', serif;
     }
 
     #landingpagebuttons > a {
-        margin: 40px 10px;
+        margin: 40px 2vw;
     }
+
+
+    #landingpagebuttons button {
+        font-size:3vh;
+        border: solid 3px;
+    }
+
+
 
 #mainpagefooter {
 height:1px;
@@ -1223,3 +1233,38 @@ text-align: center;
     }
 /*Carousel Stuff End*/
 
+/*footer image*/
+.footerimage {
+            max-width: 100%;
+            max-height: 100vh;
+            margin: auto;
+        }
+
+.footercontact {
+    color:white;
+    padding-top:0px;
+    padding-bottom: 40px;
+    background-color: black;
+    text-align: center;
+}
+
+.footercontact > a > i {
+    color:white;
+    padding:20px;
+    -webkit-transform:scale(1.1);
+    -moz-transform:scale(1.1);
+    -o-transform:scale(1.1); 
+    -webkit-transition-duration: 0.5s; 
+    -moz-transition-duration: 0.5s;
+    -o-transition-duration: 0.5s;
+}
+
+.footercontact > a > i:hover {
+    color:#62adf3;
+    -webkit-transform:scale(1.5); 
+    -moz-transform:scale(1.5); 
+    -o-transform:scale(1.5); 
+    -webkit-transition-duration: 0.3s; 
+    -moz-transition-duration: 0.3s;
+    -o-transition-duration: 0.3s;
+}
