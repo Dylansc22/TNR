@@ -1,27 +1,26 @@
 //---------------------------------------------------------------------------------------
-// ------------------------------- Step 1: Create The Map -------------------------------
+// ---------------------------------- Create The Map ------------------------------------
 //---------------------------------------------------------------------------------------
 // All parameter options such as attributionControl, minZoom, style, etc... are found here... https://docs.mapbox.com/mapbox-gl-js/api/#map
 
 mapboxgl.accessToken = 'pk.eyJ1IjoiZHlsYW5jIiwiYSI6Im53UGgtaVEifQ.RJiPqXwEtCLTLl-Vmd1GWQ';
-var map = new mapboxgl.Map({
+var map = new mapboxgl.map({
     container: 'map', // container id
     style: 'mapbox://styles/dylanc/cjudqm16b1x3s1fmfjveo40q8',
-    //style: 'mapbox://styles/dylanc/cjsfuwcf00fby1fpnt4n5iokq', // stylesheet location
     center: [-110.926757, 35.215554 ], // starting position [lng, lat]
-    zoom: 5, // starting zoom
-    attributionControl: false, // Removed default attribution and put custom attribution in below
+    zoom: 5, // starting zoom (0 = fully zoomed out, 22 = fully zoomed in)
+    attributionControl: false, // Removed default attribution and put custom attribution in below to make it look nicer
     //maxBounds: [[-111.2,32], [-110.6, 32.5]], //Southwest & Northeast Bounds
-    //pitch: 45,
-    //bearing: 10,
+    //pitch: 45, //Initial Pitch
+    //bearing: 10, //Initial Bearing
 });
 
-//Add Custom Mapbox Controls for Bicycle Routing
+//Add Mapbox Buttons & Controls 
 var draw = new MapboxDraw({
   accessToken: mapboxgl.accessToken,
-  displayControlsDefault: false,
+  displayControlsDefault: false,  //Default Draw show too many buttons I don't need (such as drawing a polygon), I only need a couple
   controls: {
-    line_string: true,
+    line_string: true, 
     trash: true,
   },
   styles: [
@@ -146,9 +145,11 @@ document.getElementById('mapPosition').innerHTML =
 });
 */
 
+//These are the locations the map should fly when the user scrolls through the sidedeck. 
+//Javascript chapter names must match the equivalent HTML ids
 var chapters = {
 'tucson1': { //This is mearly the reset position if i scroll to the top of the text
-    center: [-110.932759,32.199656 ], // starting position [lng, lat]
+    center: [-110.932759,32.199656 ],
         zoom: 12,
         pitch: 45,
         bearing: 10,
@@ -244,26 +245,7 @@ duration: 3000
     pitch: 50,
     bearing: 0,
     duration: 6000,
-
-    /*center: [-110.9195, 32.22924], 
-    zoom: 12.54,
-    pitch: 35,
-    bearing: 0,
-    duration: 4500,*/
-
-    /*bearing: 10,
-    center: [-110.9448, 32.2339],
-    zoom: 13,
-    pitch: 50,
-    bearing: 25,
-    duration: 2000,*/
 },
-/*bearing: -10,
-center: [-110.926718,32.239679],
-zoom: 13.3,
-pitch: 19,
-duration: 3000,
-*/
 'satallite': {
     bearing: -10,
     pitch: 60,
@@ -279,10 +261,9 @@ duration: 3000,
     duration: 4000,
 }
 };
- 
+
 var activeChapterName = 'tucson1';
 
- 
 // On every scroll event, check which element is on screen
 window.onscroll = function() {
     var chapterNames = Object.keys(chapters);
@@ -318,8 +299,9 @@ function removehighlight() {
         }
     }
 
+//This is the meat-and-potatoes code that govern when the slide-deck layers show up 
+//as you scroll forwards and backwards through the slide-deck. 
 function myFunction() {
-  //document.getElementById("demo").innerHTML = "Hello World";
     if (activeChapterName === 'tucson1') {
         removehighlight();
 
@@ -546,76 +528,32 @@ function myFunction() {
     } return;
 }
 
-/* Turn on data layers when scrolling */
-/* This can be deleted now, but it is the proof-of-concept
-function that i used to understand how events happen from a scroll 
-function addActiveLayers(chapterName) {
-    if (activeChapterName === 'aldgate') {
-        var x = document.getElementById("scrolltest");   // Get the element with id="demo"
-        x.style.background = "green";
-    }
-};*/
-
-
-
-        //map.setLayoutProperty('hs-do1x45', 'visibility', 'visible');
-        
-        /*for (layers in ids){
-            var visibility = map.getLayoutProperty(ids[layers], 'visibility');
-            if (visibility === 'visible') {
-                map.setLayoutProperty(ids[layers], 'visibility', 'none');
-                this.className = '';
-            } else {
-                this.className = 'active';
-                map.setLayoutProperty(ids[layers], 'visibility', 'visible');
-            }
-         }*/
-
-
-        /*toggleLayer(
-            ['hs-do1x45'],
-            'High Stress Road Network');
-        return;*/
-
-
 //---------------------------------------------------------------------------------------
-// --------------------------- Step 2: Add Data Layers  -----------------------------
+// -------------------------------- Add Data Layers  ------------------------------------
 //---------------------------------------------------------------------------------------
 
-
-
-//Toggle High Stress Road Network
+//Adds the legend map controls layers
+//template of below code is: toggleLayer(HTML id, [what layers to enable/disable], what to name the button displayed on screen)
 
 toggleLayer('tnrv5',
-    ['tnr_main_inner',
-    'tnr_main_outer', 
-    'hawk_roads',
-    'hawkroadscase'
-    //'tnr-v4-apmebo',
-    //'tnr-v3-9wi26p',
-    //'tnr-v2-06s5zd',
-    //'tnr-v1-c7wnkt'
-    ],
+    ['tnr_main_inner','tnr_main_outer', 'hawk_roads','hawkroadscase'],
     'Safest Bicycle Streets'); //Button Name
 
 toggleLayer('highstress',
-    ['hs_main_outer', 
-    'hs_main_inner'],
+    ['hs_main_outer', 'hs_main_inner'],
     'High Stress Roads');
 
 //Toggle All LS Original Road Network
 toggleLayer('lowstress',
-    ['ls_main_outer', 
-    'ls_main_inner'], 'Low Stress Roads');
+    ['ls_main_outer', 'ls_main_inner'], 
+    'Low Stress Roads');
 
 toggleLayer('hawks',
     ['hawkdotsgeojson'],
     'Signalled Crosswalks');
 
 toggleLayer('osmbikes',
-    ['osm-bicycleinfras-5z6khj', 
-    //'hs_main_outer'
-    ],
+    ['osm-bicycleinfras-5z6khj'],
     'City Bicycle Lanes'); //Button Name
 
 toggleLayer('theloop', ['theloop-b2gq5f'], 'The Loop Pedestrian Path');
@@ -640,7 +578,7 @@ toggleLayer('annotation',
     'natural-line-label', 
     'waterway-label', 
     'road-label'], 
-    'Annotation'); //Button Name
+    'Annotation'); 
 
 
 function toggleLayer(htmlID, ids, name) {
@@ -671,45 +609,7 @@ function toggleLayer(htmlID, ids, name) {
 
 
 //---------------------------------------------------------------------------------------
-// -------------    Step 3: Add Data Layers Toggle Button   -----------------------------
-//---------------------------------------------------------------------------------------
-
-/* Might Not Need this section any more?
-
-
-Generate Menu of Button for Toggling Layers
-var toggleableLayerIds = [ 'Signaled Crosswalks', 'Bicycle Infrastructure',  'Future Buttons Here' ]; //Add toggleable layer ids here
- 
-for (var i = 0; i < toggleableLayerIds.length; i++) {
-var id = toggleableLayerIds[i];
- 
-var link = document.createElement('a');
-link.href = '#';
-link.className = 'active';
-link.textContent = id;
-
-    link.onclick = function (e) {
-        var clickedLayer = this.textContent;
-        e.preventDefault();
-        e.stopPropagation();
-     
-        var visibility = map.getLayoutProperty(clickedLayer, 'visibility');
-     
-        if (visibility === 'visible') {
-            map.setLayoutProperty(clickedLayer, 'visibility', 'none');
-            this.className = '';
-        } else {
-            this.className = 'active';
-            map.setLayoutProperty(clickedLayer, 'visibility', 'visible');
-        }
-    };
-     
-    var layers = document.getElementById('menu');
-    layers.appendChild(link);
-    }
-*/
-//---------------------------------------------------------------------------------------
-// --------------------------- Step 4: Create Custom Controls -----------------------------
+// ------------------------- Using Draw Tools to Crete Bike Routes-----------------------
 //---------------------------------------------------------------------------------------
 
 // add create, update, or delete actions
@@ -731,7 +631,7 @@ function updateRoute() {
   var newCoords = coords.join(';')
   getMatch(newCoords);
 
-  //When people draw routes, there is a 25 node max, for returning a route, So I need to know (and return on screen) the node count 
+  //***When people draw routes, there is a 25 node max, for returning a route, So I need to know (and return on screen) the node count 
   //Akso nodecount is a local variable only declared in updateRoute(), so the below line of code should only if still in updateRoute(), which is why i have it here 
   
   /*Additional code for mainroutingpage
@@ -792,26 +692,26 @@ function addRoute (coords) {
     map.removeSource('route')
   } else{
     map.addLayer({
-      "id": "route",
-      "type": "line",
-      "source": {
-        "type": "geojson",
-        "data": {
-          "type": "Feature",
-          "properties": {},
-          "geometry": coords
+        id: "route",
+        type: "line",
+        source: {
+            type: "geojson",
+            data: {
+                type: "Feature",
+                properties: {},
+                geometry: coords
+            }
+        },
+        layout: {
+            "line-join": "round",
+            "line-cap": "round"
+        },
+        paint: {
+            "line-color": "#6d5cc2", //"#2c9952" Green, //3b9ddd //#FFC300 Yellow
+            "line-width": 4,
+            "line-opacity": 0.8
         }
-      },
-      "layout": {
-        "line-join": "round",
-        "line-cap": "round"
-      },
-      "paint": {
-        "line-color": "#6d5cc2", //"#2c9952" Green, //3b9ddd //#FFC300 Yellow
-        "line-width": 4,
-        "line-opacity": 0.8
-      }
-    }),
+    });
 
     //Add directional arrows to route
     map.addLayer({
