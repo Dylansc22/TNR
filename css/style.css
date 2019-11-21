@@ -1088,6 +1088,51 @@ background-color:white;
   margin:0px;
 }
 
+/*Why Ride Stuff*/
+    #whyride {
+        margin:3vh 0;
+        padding:3vh 0;
+        font-family: 'Raleway', sans-serif;
+        color: #8a8472;
+        /*border:solid 1px black;*/
+        /*background-color:white;*/
+    }
+
+    /* dim other boxes when hovering on main*/
+    .dim {
+        opacity: 0.1;
+        }
+
+    #whyride > div {
+        justify-content: center;
+    }
+
+    .cases {
+        z-index: 0;
+        width: 22vw;
+        height:22vw;
+        margin: 1vw;
+        border: solid 0.5vw #8a8472;
+        padding: 1.5vw;
+        background-color:white;
+        -webkit-transition: all 0.3s;
+        -moz-transition: all 0.3s;
+        -o-transition: all 0.3s;
+        transition:all 0.3s;
+    }
+
+    .active {
+        background-color:orange;
+        color: white;
+        z-index: 5;
+        opacity: 1;
+        width:44vw;
+        -webkit-transition: all 0.5s;
+        -moz-transition: all 0.5s;
+        -o-transition: all 0.5s;
+        transition:all 0.5s;
+    }
+
 /* Landing Page Stuff */
     #landingpagemap{
       position:relative;
@@ -1109,7 +1154,7 @@ background-color:white;
 
     #landingpageheading {
         text-align: center;
-        font-family: 'Merriweather', serif;
+        font-family: 'Raleway', sans-serif;
           position: absolute;
           z-index: 1;
   top: 50%;

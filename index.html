@@ -20,6 +20,7 @@
 
    <!--Google Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Merriweather&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
 
     <!--Mapbox JS & Mapbox CSS Libraries-->
     <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.52.0/mapbox-gl.js'></script>
@@ -27,10 +28,25 @@
 
 </head>
 <body id="bootstrapoverrides">
-	<div id="landingpagemap"><div id="landingpageheading">
-                            <h1>Tucson Pathways</h1>
-                            <h4>Finding Safer, Smarter, Quieter Cycling Routes</h4>
-                        </div></div>
+	<div id="landingpagemap">
+		<div id="landingpageheading">
+            <h1>Tucson Pathways</h1>
+            <h4>Finding Safer, Smarter, Quieter Cycling Routes</h4>
+        </div>
+    </div>
+  	<div id="whyride" class="container-fluid">
+  		<div class="row"><h2>// Why Ride? //</h2></div>
+  		<div id="allcases" class="row">
+	  		<div class="cases"><h3>health.</h3></div>
+	  		<div class="cases"><h3>environmental.</h3></div>
+	  		<div class="cases"><h3>financial.</h3></div>
+	  	</div>
+  	</div>
+  	<div class="container">THIS IS A TEST
+  		<div class="row">This is a row</div>
+  		<div class="row">a second row</div>
+  	</div>
+
                         
 
 	<div id="landingpagebuttons">
@@ -139,29 +155,29 @@ mapvar.on('load', function(){
 });
 
 mapvar.on('load', function () {
-// We use D3 to fetch the JSON here so that we can parse and use it separately
-// from GL JS's use in the added source. You can use any request method (library
-// or otherwise) that you want.
-d3.json('landing.json', function(err, data) {
-if (err) throw err;
- 
-// save full coordinate list for later
-var coordinates = data.features[0].geometry.coordinates;
- 
-// start by showing just the first coordinate
-data.features[0].geometry.coordinates = [coordinates[0]];
- 
-// add it to the map
-mapvar.addSource('trace', { type: 'geojson', data: data });
-mapvar.addLayer({
-"id": "trace",
-"type": "line",
-"source": "trace",
-"paint": {
-"line-color": "#3985dd",
-"line-opacity": 0.75,
-"line-width": 5
-}
+	// We use D3 to fetch the JSON here so that we can parse and use it separately
+	// from GL JS's use in the added source. You can use any request method (library
+	// or otherwise) that you want.
+	d3.json('landing.json', function(err, data) {
+	if (err) throw err;
+	 
+	// save full coordinate list for later
+	var coordinates = data.features[0].geometry.coordinates;
+	 
+	// start by showing just the first coordinate
+	data.features[0].geometry.coordinates = [coordinates[0]];
+	 
+	// add it to the map
+	mapvar.addSource('trace', { type: 'geojson', data: data });
+	mapvar.addLayer({
+	"id": "trace",
+	"type": "line",
+	"source": "trace",
+	"paint": {
+	"line-color": "#3985dd",
+	"line-opacity": 0.75,
+	"line-width": 5
+	}
 });
  
 // setup the viewport
@@ -195,7 +211,22 @@ window.clearInterval(timer);
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
-<script type="text/javascript" src="https://code.jquery.com/jquery.min.js"></script>
+<script>
+	$(document).ready(function () {
+		$('.cases').hover(
+       		function(){ $(this).addClass('active') },
+       		function(){ $(this).removeClass('active') },
+		)
+	});
+	$(document).ready(function () {
+		$('.cases').hover(
+       		function(){ $(".cases").not(this).addClass('dim') },
+       		function(){ $(".cases").not(this).removeClass('dim') }
+		)
+	});
+
+
+</script>
 
 </body>
 </html> 
