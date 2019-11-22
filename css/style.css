@@ -1098,19 +1098,15 @@ background-color:white;
         /*background-color:white;*/
     }
 
-    /* dim other boxes when hovering on main*/
-    .dim {
-        opacity: 0.1;
-        }
-
     #whyride > div {
         justify-content: center;
     }
 
+    /*Default css of each 'case' box*/
     .cases {
         z-index: 0;
-        width: 22vw;
-        height:22vw;
+        width: 20vw;
+        height:20vw;
         margin: 1vw;
         border: solid 0.5vw #8a8472;
         padding: 1.5vw;
@@ -1121,17 +1117,28 @@ background-color:white;
         transition:all 0.3s;
     }
 
-    .active {
-        background-color:orange;
-        color: white;
+    .hidden {
+        opacity: 0;
+    }
+
+    /*Css that is added via Jquery when you hover over a case box*/
+    .hovered {
+        background-color: white;
+        color: black;
+        border-color:black;
         z-index: 5;
         opacity: 1;
-        width:44vw;
+        width:40vw;
         -webkit-transition: all 0.5s;
         -moz-transition: all 0.5s;
         -o-transition: all 0.5s;
         transition:all 0.5s;
     }
+
+    /* CSS that is added via Jquery to non hovered case boxes*/
+    .dimmed {
+        opacity: 0.3;
+        }
 
 /* Landing Page Stuff */
     #landingpagemap{

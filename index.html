@@ -34,25 +34,38 @@
             <h4>Finding Safer, Smarter, Quieter Cycling Routes</h4>
         </div>
     </div>
-  	<div id="whyride" class="container-fluid">
-  		<div class="row"><h2>// Why Ride? //</h2></div>
-  		<div id="allcases" class="row">
-	  		<div class="cases"><h3>health.</h3></div>
-	  		<div class="cases"><h3>environmental.</h3></div>
-	  		<div class="cases"><h3>financial.</h3></div>
-	  	</div>
-  	</div>
-  	<div class="container">THIS IS A TEST
-  		<div class="row">This is a row</div>
-  		<div class="row">a second row</div>
-  	</div>
-
-                        
-
 	<div id="landingpagebuttons">
 		<a href="ethos"><button type="button" class="btn btn-outline-secondary">Slide-Deck</button></a>
 		<a href="map"><button type="button" class="btn btn-outline-secondary">Plan Your Route</button></a>
 	</div>
+  	<div id="whyride" class="container-fluid">
+  		<div class="row"><h2>//   Why Take Up Riding?   //</h2></div>
+  		<div id="allcases" class="row">
+	  		<div class="cases"><h3>health.</h3>
+	  			<div class="hidden"><p>This is the health reason to ride.</p></div>
+	  		</div>
+	  		<div class="cases"><h3>environmental.</h3>
+	  			<div class="hidden"><p>This is the envr reason to ride.</p></div>
+	  		</div>
+	  		<div class="cases"><h3>financial.</h3>
+	  			<div class="hidden"><p>This is the financial reason to ride.</p></div>
+	  		</div>
+	  	</div>
+	  	<div class="row">
+	  		<div class="cases"><h3>mental.</h3>
+	  			<div class="hidden"><p>This is the mental reason to ride.</p></div>
+	  		</div>
+	  		<div class="cases"><h3>community.</h3>
+	  			<div class="hidden"><p>This is the community reason to ride.</p></div>
+	  		</div>
+	  		<div class="cases"><h3>other.</h3>
+	  			<div class="hidden"><p>This is the other reason to ride.</p></div>
+	  		</div>
+	  	</div>
+  	</div>
+
+                        
+
 
 
 	<div id="mainpagefooter">
@@ -214,16 +227,25 @@ window.clearInterval(timer);
 <script>
 	$(document).ready(function () {
 		$('.cases').hover(
-       		function(){ $(this).addClass('active') },
-       		function(){ $(this).removeClass('active') },
+       		function(){ $(this).addClass('hovered') },
+       		function(){ $(this).removeClass('hovered') },
 		)
 	});
 	$(document).ready(function () {
 		$('.cases').hover(
-       		function(){ $(".cases").not(this).addClass('dim') },
-       		function(){ $(".cases").not(this).removeClass('dim') }
+       		function(){$(this).find("div").toggleClass("hidden")},
+       		/*some line of code needs to go here but i havent figured it out yet*/
+
+
 		)
 	});
+	$(document).ready(function () {
+		$('.cases').hover(
+       		function(){ $(".cases").not(this).addClass('dimmed') },
+       		function(){ $(".cases").not(this).removeClass('dimmed') }
+		)
+	});
+
 
 
 </script>
