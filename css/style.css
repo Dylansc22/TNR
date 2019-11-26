@@ -18,6 +18,11 @@
     border-radius: 0 !important;
 }
 
+.row {
+    margin-left:0px;
+    margin-right:0px;
+}
+
 .wow {visibility: hidden;}
 
 
@@ -1096,6 +1101,7 @@ background-color:white;
         /*color: #8a8472;*/
         color:#6c757d;
         /*background-color:white;*/
+        height:35vw;
     }
 
     #whyride > div {
@@ -1106,11 +1112,11 @@ background-color:white;
     /*Default css of each 'case' box*/
     .cases {
         z-index: 0;
-        width: 20vw;
-        height:20vw;
-        margin: 1vw;
-        border: solid 0.5vw #6c757d;
-        padding: 1.5vw;
+        width: 15vw;
+        height:15vw;
+        margin: 0.6vw;
+        border: solid 0.3vw #6c757d;
+        padding: 1.4vw;
         background-color:white;
         -webkit-transition: all 0.3s;
         -moz-transition: all 0.3s;
@@ -1161,12 +1167,24 @@ background-color:white;
 
     @media (max-width: 1124px) {
     .cases h4 {
-        font-size:2.5vmin;
-        line-height: 2.5vmin;
+        font-size:2.2vmin;
+        line-height: 2.2vmin;
     }   
     }
 
 
+/* Timeline Stuff */
+#timeline {
+    position: relative;
+    margin:auto;
+    width:80vw;  
+}
+
+#timeline img {
+    width:100%;
+    height:auto;
+    margin-bottom: 20vh;
+}
 
 /* Landing Page Stuff */
     #landingpagemap{
@@ -1215,7 +1233,7 @@ background-color:white;
     }
 
     #landingpagebuttons {
-        padding:7vh 0;
+        margin:15vh 0;
         vertical-align: center;
         text-align: center;
         font-family: 'Merriweather', serif;
