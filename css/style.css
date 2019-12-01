@@ -5,13 +5,17 @@
     width: 100%;
     margin:0px;
     padding:0px;
-    font-family: acumin-pro; 
     border-radius: 0px !important;
-    font-family: 'Merriweather', serif;
-    /*font-family: 'Lato', sans-serif;*/
     /*color:#606060;*/
     /*background-color:#E8E8E8;*/
     /*font-family: ""Source Sans Pro","Helvetica Neue",Helvetica,Arial,sans-serif";*/
+}
+
+/*I have fonts sepearated from the #bootstrapoverrides css because otherwise the css is not 'ranked' high enough to override the default bootstrap css. I think this might be better best practices*/ 
+#bootstrapoverrides h1, h2, h3, h4, h5, h6, p {
+    font-family: 'Raleway', sans-serif; 
+    /*font-family: 'Merriweather', serif;*/
+    /*font-family: 'Lato', sans-serif*/
 }
 
 #bootstrapoverrides button {
@@ -314,7 +318,6 @@ text-align: center;
     background-color: #eaeaea;
     cursor: pointer;
     display: inline-block;
-    font-family: acumin-pro;
     font-size: 1.5vmin;
     font-stretch: 100%;
     letter-spacing: 2px;
@@ -1116,15 +1119,14 @@ background-color:white;
 
     #landingpageheading {
         text-align: center;
-        font-family: 'Raleway', sans-serif;
-          position: absolute;
-          z-index: 1;
-  top: 50%;
-  transform: translateY(-50%);
-   left: 0; 
-  right: 0; 
-  margin-left: auto; 
-  margin-right: auto; 
+        position: absolute;
+        z-index: 1;
+        top: 50%;
+        transform: translateY(-50%);
+        left: 0; 
+        right: 0; 
+        margin-left: auto; 
+        margin-right: auto; 
 
     }
 
@@ -1160,7 +1162,7 @@ background-color:white;
 
     #mission {
         padding:auto;
-        padding: 20vh 30vh;
+        padding: 5vw 8vw;
         /*background: #939393;
         color:white;*/
     }
@@ -1172,7 +1174,7 @@ background-color:white;
         height:300px;
         margin-bottom:15vh;
         vertical-align: center;
-        font-family: 'Merriweather', serif;
+        /*font-family: 'Merriweather', serif;*/
 
     }
 
@@ -1191,7 +1193,6 @@ background-color:white;
     #whyride {
         margin:3vh 0;
         padding:3vh 0;
-        font-family: 'Raleway', sans-serif;
         /*color: #8a8472;*/
         color:#6c757d;
         /*background-color:white;*/
