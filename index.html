@@ -21,7 +21,10 @@
     <link href="https://fonts.googleapis.com/css?family=Shadows+Into+Light&display=swap" rel="stylesheet">
 
     <!-- Mapbox CSS Libraries-->
-    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.52.0/mapbox-gl.css' rel='stylesheet' />
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.52.0/mapbox-gl.css' rel='stylesheet'/>
+
+    <!--Mapbox Compare CSS Library-->
+    <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-compare/v0.1.0/mapbox-gl-compare.css' type='text/css' />
 
     <!-- Custom CSS -->
     <link href="css/style.css" rel="stylesheet">
@@ -34,11 +37,6 @@
             <h3>Finding Safer, Smarter, Quieter Cycling Routes</h3>
         </div>
     </div>
-	<!--<div id="idea">
-		<div class="wow fadeInRight" data-wow-delay="0s" data-wow-duration="1s"><h1>Moving Traffic</h1></div>
-		<div class="wow fadeInUp" data-wow-delay="1s" data-wow-duration="1s"><h1>vs</h1></div>
-		<div class="wow fadeInLeft" data-wow-delay="2s" data-wow-duration="1s"><h1>Moving People</h1></div>
-	</div>-->
 
 
     <div id="mission" class="wow fadeIn" data-wow-delay="1s" data-wow-duration="3s">
@@ -48,65 +46,21 @@
 		<!--<h5><strong>Our mission </strong>is to reimagine our cities through map visuals. What does a city look like if optimize for more than moving traffic, but creating a better human experiences.<br><br>Our cities behave much like organisms; with inputs, outputs, growth cycles. What our community value: housing, small business, green-space, safety dictates that growth. <br><br> Imagine what that city would look like if optimize for those inputs, more so than optimizing it to move traffic. </h5>-->
 
     </div>
+    <div id="idea">
+		<div class="wow fadeInLeft" data-wow-delay="0s" data-wow-duration="1s"><h3>Moving People</h3></div>
+		<div class="wow fadeInDown" data-wow-delay="0.5s" data-wow-duration="1s"><h3>vs</h3></div>
+		<div class="wow fadeInRight" data-wow-delay="1s" data-wow-duration="1s"><h3>Moving Traffic</h3></div>
+	</div>
+    <div id="comparesection">
+    	<div id='before' class='comparemap'></div>
+		<div id='after' class='comparemap'></div>
+    </div>
+
 	<div id="landingpagebuttons">
 		<a href="ethos" role="button" class="btn btn-outline-secondary wow fadeInLeft"data-wow-delay="0.4s">Slide-Deck</a>
 		<a href="map" role="button" class="btn btn-outline-secondary wow fadeInRight" data-wow-delay="0.6s">Plan Your Route</a>
 	</div>
-  	<div id="whyride" class="container-fluid wow fadeInDown">
-  		<div class="row"><h2>Why Take Up Riding</h2></div>
-  		<div id="allcases" class="row">
-	  		<div class="cases wow fadeInDown" data-wow-delay="0.4s"><h4>health.</h4>
-	  			<div class="hidden">
-	  				<h6>Riding improves blood pressure, insulin levels, cholesterol levels; and conversely <strong>reduce risk of cancer, heart disease, and diabetes.</strong></h6><br>
-	  				<h6>If your drive to work is ~20 minutes, biking will only require you to leave 15 minutes earlier, and result in <strong>more than 1 hour of exercise by the end of every workday.</strong><br><br>
-	  				<!--<h6>Exchanging your daily time spent sitting during a drive, for time spent  <strong>bike commuting, is one of the healthiest upgrade to daily activity </strong>one can make without having to change larger behavioral habits (e.g. smoking, diet, sedentary living)</h6><br>-->
-	  				<p>Assumes non-highway (inter-city) commutes</p>
-	  			</div>
-	  		</div>
-	  		<div class="cases wow fadeInDown" data-wow-delay="0.6s"><h4>environment.</h4>
-	  			<!--Couldn't decide between Anti-Driving or Pro-cycling phrasing 
-	  				<div class="hidden"><h6>Every mile you choose to drive puts <strong>1 pound of CO2</strong> into the atmosphere. Over the next 20 to 200 years, <strong>65-80% of that pound will react with ocean water</strong> and end up as carbonic acid in the world's oceans.</h6><br><p>*Assumes 20mpg car. <br><a href="https://www.fueleconomy.gov/feg/contentIncludes/co2_inc.html">Source 1 </a><a href="https://earthobservatory.nasa.gov/features/OceanCarbon">Source 2 </a><a href="https://www.theguardian.com/environment/2012/jan/16/greenhouse-gases-remain-air">Source 3</a></p></div>
-	  			-->
-	  			<div class="hidden">
-	  				<h6>Every mile you choose to bike over driving will <strong>prevent 1 pound of CO2</strong> from going into the atmosphere. <strong>Roughly 3/4 of that pound will become carbonic acid in our oceans</strong> over the next 20 to 200 years as it reacts with ocean water.</h6>
-	  				<br>
-	  				<p>
-	  					<a href="https://www.fueleconomy.gov/feg/contentIncludes/co2_inc.html">Source 1 </a> / <a href="https://earthobservatory.nasa.gov/features/OceanCarbon">Source 2</a> / <a href="https://www.theguardian.com/environment/2012/jan/16/greenhouse-gases-remain-air">Source 3</a>
-	  				</p>
-	  				<p>* Assumes 20mpg car.</p>
-	  			</div>
-	  		</div>
-	  		<div class="cases wow fadeInRight" data-wow-delay="0.8s"><h4>financial.</h4>
-	  			<div class="hidden">
-	  				<h6><strong>A majority of car costs occur come from ownership, not useage. </strong>Whether you drive it or not, purchase price, insurance, registration, parking, depreciation already establish a financial commitment before you even factor in usage, maintenance  and gas.</h6>
-	  				<h6>There is no doubt that a car can unlock a level of convenience in city-transport, but <strong>if you can offset your need for a car for even 6 months, the money saved on insurance alone can justify a $500-600 bicycle purchase.</strong></h6>
-	  				<h6>A well maintained used bicycle maintains its re-sale value much longer than a used car. This makes it much easier to try commuting, and if its not for you. And if not you can recoup your funds by selling a bicycle on craigslist much faster than re-selling a car.</h6>
-	  				<br>
-	  				<!--
-					<h6>Consider how many of your car trips are around 2-3 miles (10-15 minute bike ride). How many of those can be replaced with a bicycle? </h6>
-	  					<h6>If you bought a $1000 bicycle, you would still have enough money to go on 750 5-mile uber rides, before even reaching the the cost of buying a used $10,000 car. This doesn't even account for cost-saving in insurance, maintance, or car-depreciation.</h6>-->
-	  			</div>
-	  		</div>
-	  		<div class="cases wow fadeInLeft" data-wow-delay="0.5s"><h4>mental.</h4>
-	  			<div class="hidden">
-	  				<h6>Similar to meditation - bike commutes are times in which you can 'check-out' and be among your thoughts.</h6>
-	  			</div>
-	  		</div>
-	  		<!--<div class="cases wow fadeInUp" data-wow-delay="0.7s"><h4>community.</h4>
-	  			<div class="hidden"><p>This is the community reason to ride.</p></div>
-	  		</div>-->
-	  		<div class="cases wow fadeInRight" data-wow-delay="0.9s"><h4>other.</h4>
-	  			<div class="hidden">
-	  				<h6>You will develop an improved resilience to bad weather, and greater apprecation of good weather.</h6><br>
-	  				<h6>You will know exactly how long your commutes take.</h6><br>
-	  				<h6>Riding your bike can be a launching board to other healthy habits you didn't know you were capable of.</h6><br>
-	  			</div>
-	  		</div>
-	  	</div>
-	  	<div class="row">
-	  		
-	  	</div>
-  	</div>
+	<!--whyride section here -->
   	<div id="timeline" class="wow fadeIn" data-wow-delay="0.8s">
   		<img src="img/timeline.png">
   	</div>
@@ -153,26 +107,54 @@
 
 <!--Mapbox JS Libraries-->
 <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.52.0/mapbox-gl.js'></script>
+<!--Mapbox Compare Plugin JS Library-->
+<script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-compare/v0.1.0/mapbox-gl-compare.js'></script>
 
 <!--d3 script-->
 <script src='//d3js.org/d3.v3.min.js' charset='utf-8'></script>
 
 <script>
 	mapboxgl.accessToken = 'pk.eyJ1IjoiZHlsYW5jIiwiYSI6Im53UGgtaVEifQ.RJiPqXwEtCLTLl-Vmd1GWQ';
-	var start = [-110.962759,32.226];
-	var end = [-110.9, 32.2];
+	var start = [-110.962759,32.236];
+	var end = [-110.8, 32.2];
 	var mapvar = new mapboxgl.Map({
-	attributionControl: false,
-	interactive: false,
-	container: 'landingpagemap',
-	style: 'mapbox://styles/dylanc/cjudqm16b1x3s1fmfjveo40q8',
-	center: start,
-	zoom: 12.5,
-	pitch: 45,
-    bearing: 5,
-
-
+		attributionControl: false,
+		interactive: false,
+		container: 'landingpagemap',
+		style: 'mapbox://styles/dylanc/cjudqm16b1x3s1fmfjveo40q8',
+		center: start,
+		zoom: 12.5,
+		pitch: 45,
+	    bearing: 5,
 	});
+
+
+	mapboxgl.accessToken = "pk.eyJ1IjoiZHlsYW5jIiwiYSI6Im53UGgtaVEifQ.RJiPqXwEtCLTLl-Vmd1GWQ";
+	var beforeMap = new mapboxgl.Map({
+		container: "before",
+		style: "mapbox://styles/dylanc/ck3ndggsc0w3z1cnvziay4jzi",
+		center: start, /*[-110.93475, 32.22396],*/
+  		zoom: 12.45,
+  		pitch:20,
+  		attributionControl: false,
+		interactive: false,
+	});
+
+	var afterMap = new mapboxgl.Map({
+		container: "after",
+		style: "mapbox://styles/dylanc/cjudps4181wa71fo221zf5efk",
+		center: start, /*[-110.93475, 32.22396],*/
+  		zoom: 12.45,
+  		pitch:20,
+		attributionControl: false,
+		interactive: false,
+	});
+
+	var map = new mapboxgl.Compare(beforeMap, afterMap, {
+	// Set this to enable comparing two maps by mouse movement:
+	// mousemove: true
+	});
+
 	mapvar.doubleClickZoom.disable();
 	mapvar.scrollZoom.disable();
 	mapvar.dragPan.disable();
@@ -199,6 +181,42 @@
 	    // slowly and zoom out almost completely before starting
 	    // to pan.
 	    speed: 0.03, // make the flying slow
+	    curve: 0.1, // change the speed at which it zooms out
+
+	    // This can be any easing function: it takes a number between
+	    // 0 and 1 and returns another number between 0 and 1.
+	    easing: function (t) {
+	        return t;
+	    }
+	});
+	beforeMap.flyTo({
+	    // These options control the ending camera position: centered at
+	    // the target, at zoom level 9, and north up.
+	    center: target,
+	    zoom: 14,
+
+	    // These options control the flight curve, making it move
+	    // slowly and zoom out almost completely before starting
+	    // to pan.
+	    speed: 0.06, // make the flying slow
+	    curve: 0.1, // change the speed at which it zooms out
+
+	    // This can be any easing function: it takes a number between
+	    // 0 and 1 and returns another number between 0 and 1.
+	    easing: function (t) {
+	        return t;
+	    }
+	});
+	afterMap.flyTo({
+	    // These options control the ending camera position: centered at
+	    // the target, at zoom level 9, and north up.
+	    center: target,
+	    zoom: 14,
+
+	    // These options control the flight curve, making it move
+	    // slowly and zoom out almost completely before starting
+	    // to pan.
+	    speed: 0.06, // make the flying slow
 	    curve: 0.1, // change the speed at which it zooms out
 
 	    // This can be any easing function: it takes a number between
