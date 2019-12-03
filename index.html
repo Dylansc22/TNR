@@ -41,20 +41,24 @@
 
     <div id="mission" class="wow fadeIn" data-wow-delay="1s" data-wow-duration="3s">
     	<h2>our mission.</h2>
-    	<h5>Bicycles can be an intimidating hobby to adopt, but the positive feedback loops they create in health, environment, finances, mental state, and community relationships make them an integral to better living. Through highlighting design and urban analytics, <strong>our goals is to help you reimagine your city, empowering everyone be stakeholders in a better Tucson.</strong><br><br>Imagine what your city looks like if optimize for more than moving traffic, but moving people. 
+    	<h5>If you are interested in riding a bicycle but apprehensive due to safety you are not alone. In most cases, riding a bicycle alongside traffic just does not feel safe. However, there are safe and enjoyable routes hidden in plain sight. Through design and analytics, <strong>our goals is to help you reimagine your city, empowering everyone be stakeholders in a better Tucson.</strong><br><br>Imagine what your city looks like if optimize for more than moving traffic, but moving people. 
 
-		<!--<h5><strong>Our mission </strong>is to reimagine our cities through map visuals. What does a city look like if optimize for more than moving traffic, but creating a better human experiences.<br><br>Our cities behave much like organisms; with inputs, outputs, growth cycles. What our community value: housing, small business, green-space, safety dictates that growth. <br><br> Imagine what that city would look like if optimize for those inputs, more so than optimizing it to move traffic. </h5>-->
+		<!--Residential roads interconnected by 'Push-Button' Signalled Pedestrian Crosswalks create a network of safe, quiet, enjoyable routes through residential neighborhoods there are alternatives in plane sight. the positive feedback loops they create in health, environment, finances, mental state, and community relationships make them an integral to better living. <h5><strong>Our mission </strong>is to reimagine our cities through map visuals. What does a city look like if optimize for more than moving traffic, but creating a better human experiences.<br><br>Our cities behave much like organisms; with inputs, outputs, growth cycles. What our community value: housing, small business, green-space, safety dictates that growth. <br><br> Imagine what that city would look like if optimize for those inputs, more so than optimizing it to move traffic. </h5>-->
 
+    </div>
+
+    	<!--<h2>The concept of the human scale.</h2>
+    	<h5>"Why do we enjoy being in parks more than parking lots?" It sounds like a dumb question, but one is space but at its core the only difference is one is dedicated to people - and the other is dedicated to cars.</h5>
+    	<h5>How much of neighborhood is dedicated to you? How much is dedicated to your car? How much is dedicated to businesses
+    --><div id="comparesection">
+    	<div id='before' class='comparemap'></div>
+		<div id='after' class='comparemap'></div>
     </div>
     <div id="idea">
 		<div class="wow fadeInLeft" data-wow-delay="0s" data-wow-duration="1s"><h3>Moving People</h3></div>
 		<div class="wow fadeInDown" data-wow-delay="0.5s" data-wow-duration="1s"><h3>vs</h3></div>
 		<div class="wow fadeInRight" data-wow-delay="1s" data-wow-duration="1s"><h3>Moving Traffic</h3></div>
 	</div>
-    <div id="comparesection">
-    	<div id='before' class='comparemap'></div>
-		<div id='after' class='comparemap'></div>
-    </div>
 
 	<div id="landingpagebuttons">
 		<a href="ethos" role="button" class="btn btn-outline-secondary wow fadeInLeft"data-wow-delay="0.4s">Slide-Deck</a>
@@ -124,7 +128,7 @@
 		style: 'mapbox://styles/dylanc/cjudqm16b1x3s1fmfjveo40q8',
 		center: start,
 		zoom: 12.5,
-		pitch: 45,
+		pitch: 15,
 	    bearing: 5,
 	});
 
@@ -134,8 +138,9 @@
 		container: "before",
 		style: "mapbox://styles/dylanc/ck3ndggsc0w3z1cnvziay4jzi",
 		center: start, /*[-110.93475, 32.22396],*/
-  		zoom: 12.45,
-  		pitch:20,
+  		zoom: 12,
+  		pitch:15,
+  		bearing: 5,
   		attributionControl: false,
 		interactive: false,
 	});
@@ -144,8 +149,9 @@
 		container: "after",
 		style: "mapbox://styles/dylanc/cjudps4181wa71fo221zf5efk",
 		center: start, /*[-110.93475, 32.22396],*/
-  		zoom: 12.45,
-  		pitch:20,
+  		zoom: 12,
+  		pitch:45,
+  		bearing: 5,
 		attributionControl: false,
 		interactive: false,
 	});
