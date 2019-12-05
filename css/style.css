@@ -11,8 +11,19 @@
     /*font-family: ""Source Sans Pro","Helvetica Neue",Helvetica,Arial,sans-serif";*/
 }
 
+/*custom font for ethos fade-in text stuff*/
+#bootstrapoverrides_ethos h1 { font-family: 'Merriweather', serif; }
+#bootstrapoverrides_ethos h2 { font-family: 'Merriweather', serif; }
+#bootstrapoverrides_ethos h3 { font-family: 'Merriweather', serif; }
+#bootstrapoverrides_ethos h4 { font-family: 'Merriweather', serif; }
+#bootstrapoverrides_ethos h5 { font-family: 'Merriweather', serif; }
+#bootstrapoverrides_ethos h6 { font-family: 'Merriweather', serif; }
+#bootstrapoverrides_ethos p { font-family: 'Merriweather', serif; }
+
+
+
 /*I have fonts sepearated from the #bootstrapoverrides css because otherwise the css is not 'ranked' high enough to override the default bootstrap css. I think this might be better best practices*/ 
-#bootstrapoverrides h1, h2, h3, h4, h5, h6, p {
+h1, h2, h3, h4, h5, h6, p {
     font-family: 'Raleway', sans-serif; 
     /*font-family: 'Merriweather', serif;*/
     /*font-family: 'Lato', sans-serif*/
