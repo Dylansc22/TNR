@@ -41,7 +41,7 @@
 
     <div id="mission" class="wow fadeIn" data-wow-delay="1s" data-wow-duration="3s">
     	<h2>our mission.</h2>
-    	<h5>If you are interested in riding a bicycle but apprehensive due to safety you are not alone. In fact, you're in the majority. <strong>Riding a bicycle is an incredible positive feedback loop.</strong> The impacts are direct and measurable to your health, the environment, your finances, your mental state, and community wellness. <br><br>But at its core, Tucson is still a car-centric city those safety concerns keep ridership low and the barrier of entry high. Our focus is to challenge that barrier of entry, by highlight solutions hidden in plain sight. <strong>We hope to empower potential bicycle riders, to reimagine Tucson as neighborhoods connected by crosswalks, rather than roadways connected by intersections.</strong>
+    	<h5><strong>Riding a bicycle is an incredible positive feedback loop.</strong> The impacts are direct and measurable to your health, the environment, your finances, your mental wellbeing, and your communities' development. <br><br><strong>If you are interested in riding a bicycle but apprehensive due to safety you are not alone. In fact, you're in the majority.</strong> The perceived danger of riding a bicycle through a 'car-centric' city keeps ridership low and the barrier of entry high. <br><br> Our focus is to challenge that perceived danger, by highlight solutions hidden in plain sight. We hope to empower Tucsonans that have written off ridership. <strong>Tucson Pathways is an idea to envision your city as neighborhoods connected by crosswalks, rather than roadways connected by intersections.</strong>
     	</h5>
 
     	<!--<h5>In most cases, riding a bicycle alongside traffic just does not feel safe. However, there are alternatives hidden in plain sight. Through design and analytics, <strong>our goals is to help you reimagine your city, empowering everyone be stakeholders in a better Tucson.</strong><br><br>Imagine what your city looks like if optimize for more than moving traffic, but moving people. -->
@@ -124,6 +124,7 @@
 	mapboxgl.accessToken = 'pk.eyJ1IjoiZHlsYW5jIiwiYSI6Im53UGgtaVEifQ.RJiPqXwEtCLTLl-Vmd1GWQ';
 	var start = [-110.962759,32.236];
 	var end = [-110.8, 32.2];
+	var otherend = [-110.88, 32.23];
 	var mapvar = new mapboxgl.Map({
 		attributionControl: false,
 		interactive: false,
@@ -201,7 +202,7 @@
 	beforeMap.flyTo({
 	    // These options control the ending camera position: centered at
 	    // the target, at zoom level 9, and north up.
-	    center: target,
+	    center: otherend,
 	    zoom: 14,
 
 	    // These options control the flight curve, making it move
@@ -219,7 +220,7 @@
 	afterMap.flyTo({
 	    // These options control the ending camera position: centered at
 	    // the target, at zoom level 9, and north up.
-	    center: target,
+	    center: otherend,
 	    zoom: 14,
 
 	    // These options control the flight curve, making it move
