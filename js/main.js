@@ -452,12 +452,11 @@ function myFunction() {
         //Disable Prior Slides
         map.setLayoutProperty('ls_main_inner', 'visibility', 'none');
         map.setLayoutProperty('ls_main_outer', 'visibility', 'none');   
+        map.setLayoutProperty('hawk_roads', 'visibility', 'none');
 
         //Enable Current Slides 
         map.setLayoutProperty('mapbox-satellite', 'visibility', 'visible');
         map.setLayoutProperty('hawk_roads-example', 'visibility', 'visible');
-        map.setLayoutProperty('hawk_roads', 'visibility', 'none');
-        map.setLayoutProperty('hawkdotsgeojson', 'visibility', 'none');
         
         //Disable Pending Slides
         map.setLayoutProperty('osm-bicycleinfras-5z6khj', 'visibility', 'none');

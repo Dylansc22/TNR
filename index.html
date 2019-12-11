@@ -39,24 +39,27 @@
     </div>
 
 
-    <div id="mission" class="wow fadeIn" data-wow-delay="1s" data-wow-duration="3s">
-    	<h2>our mission.</h2>
-    	<h5><strong>Riding a bicycle is an incredible positive feedback loop.</strong> The impacts are direct and measurable to your health, the environment, your finances, your mental wellbeing, and your communities' development. <br><br><strong>If you are interested in riding a bicycle but apprehensive due to safety you are not alone. In fact, you're in the majority.</strong> The perceived danger of riding a bicycle through a 'car-centric' city keeps ridership low and the barrier of entry high. <br><br> Our focus is to challenge that perceived danger, by highlight solutions hidden in plain sight. We hope to empower Tucsonans that have written off ridership. <strong>Tucson Pathways is an idea to envision your city as neighborhoods connected by crosswalks, rather than roadways connected by intersections.</strong>
+    <div id="mission">
+    	<h2 class="wow fadeInDown" data-wow-delay="0s" data-wow-duration="2s">our mission.</h2>
+    	<h5>
+    		<div class="wow fadeInDown" data-wow-delay="1s" data-wow-duration="2s"><strong>Riding a bicycle is an incredible positive feedback loop.</strong> The impacts are direct and measurable to your health, environment, finances, mental wellbeing, and your community's development. </div>
+	    	<br>
+	    	<div class="wow fadeInDown" data-wow-delay="1.5s" data-wow-duration="2s"><strong>However, the perceived danger of biking through a 'car-centric' city keeps ridership low and the barrier of entry high. </strong>The majority of citizens, want to ride a bicycle more, but are apprehensive due to safety concerns. </div>
+	    	<br>
+	    	<div class="wow fadeInDown" data-wow-delay="2s" data-wow-duration="2s"><strong>Our focus is to challenge that perceived danger, by highlight solutions hidden in plain sight. </strong>Tucson Pathways is an idea to envision your city as neighborhoods connected by crosswalks, rather than roadways connected by intersections.</div>
     	</h5>
-
+    </div>
     	<!--<h5>In most cases, riding a bicycle alongside traffic just does not feel safe. However, there are alternatives hidden in plain sight. Through design and analytics, <strong>our goals is to help you reimagine your city, empowering everyone be stakeholders in a better Tucson.</strong><br><br>Imagine what your city looks like if optimize for more than moving traffic, but moving people. -->
 
 		<!--Residential roads interconnected by 'Push-Button' Signalled Pedestrian Crosswalks create a network of safe, quiet, enjoyable routes through residential neighborhoods there are alternatives in plane sight. the positive feedback loops they create in health, environment, finances, mental state, and community relationships make them an integral to better living. <h5><strong>Our mission </strong>is to reimagine our cities through map visuals. What does a city look like if optimize for more than moving traffic, but creating a better human experiences.<br><br>Our cities behave much like organisms; with inputs, outputs, growth cycles. What our community value: housing, small business, green-space, safety dictates that growth. <br><br> Imagine what that city would look like if optimize for those inputs, more so than optimizing it to move traffic. </h5>-->
-
-    </div>
 
     	<!--<h2>The concept of the human scale.</h2>
     	<h5>"Why do we enjoy being in parks more than parking lots?" It sounds like a dumb question, but one is space but at its core the only difference is one is dedicated to people - and the other is dedicated to cars.</h5>
     	<h5>How much of neighborhood is dedicated to you? How much is dedicated to your car? How much is dedicated to businesses-->
     <div id="idea">
-		<div class="wow fadeInLeft" data-wow-delay="0s" data-wow-duration="1s"><h3>Moving People</h3></div>
-		<div class="wow fadeInDown" data-wow-delay="0.5s" data-wow-duration="1s"><h3>vs</h3></div>
-		<div class="wow fadeInRight" data-wow-delay="1s" data-wow-duration="1s"><h3>Moving Traffic</h3></div>
+		<div class="wow fadeInLeft" data-wow-delay="2s" data-wow-duration="2s"><h3>Moving People</h3></div>
+		<div class="wow fadeInDown" data-wow-delay="2.5s" data-wow-duration="2s"><h3>vs</h3></div>
+		<div class="wow fadeInRight" data-wow-delay="3s" data-wow-duration="2s"><h3>Moving Traffic</h3></div>
 	</div>
     <div id="comparesection">
     	<div id='before' class='comparemap'></div>
@@ -65,7 +68,7 @@
 
 	<div id="landingpagebuttons">
 		<a href="ethos" role="button" class="btn btn-outline-secondary wow fadeInLeft"data-wow-delay="0.4s">Watch Our Slide-Deck</a>
-		<a href="map" role="button" class="btn btn-outline-secondary wow fadeInRight" data-wow-delay="0.6s">Plan Your Route<br>(Current Alpha Release v1.0.9)</a>
+		<a href="map" role="button" class="btn btn-outline-secondary wow fadeInRight" data-wow-delay="0.6s">Plan Your Route<br>(Current Alpha Release 1.0.9)</a>
 	</div>
 	<!--whyride section here -->
 	<!--
@@ -192,7 +195,7 @@
   		pitch:15,
   		bearing: 5,
   		attributionControl: false,
-		interactive: false,
+		/*interactive: false,*/
 	});
 
 	var afterMap = new mapboxgl.Map({
@@ -203,7 +206,7 @@
   		pitch:45,
   		bearing: 5,
 		attributionControl: false,
-		interactive: false,
+		/*interactive: false,*/
 	});
 
 	var map = new mapboxgl.Compare(beforeMap, afterMap, {
