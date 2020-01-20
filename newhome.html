@@ -70,6 +70,35 @@
 	    bearing: 5,
 	});
 
+
+	mapboxgl.accessToken = "pk.eyJ1IjoiZHlsYW5jIiwiYSI6Im53UGgtaVEifQ.RJiPqXwEtCLTLl-Vmd1GWQ";
+	var beforeMap = new mapboxgl.Map({
+		container: "before",
+		style: "mapbox://styles/dylanc/ck3ndggsc0w3z1cnvziay4jzi",
+		center: start, /*[-110.93475, 32.22396],*/
+  		zoom: 12,
+  		pitch:35,
+  		bearing: 5,
+  		attributionControl: false,
+		/*interactive: false,*/
+	});
+
+	var afterMap = new mapboxgl.Map({
+		container: "after",
+		style: "mapbox://styles/dylanc/cjudps4181wa71fo221zf5efk",
+		center: start, /*[-110.93475, 32.22396],*/
+  		zoom: 12,
+  		pitch:35,
+  		bearing: 5,
+		attributionControl: false,
+		/*interactive: false,*/
+	});
+
+	var map = new mapboxgl.Compare(beforeMap, afterMap, {
+	// Set this to enable comparing two maps by mouse movement:
+	// mousemove: true
+	});
+
 	mapvar.doubleClickZoom.disable();
 	mapvar.scrollZoom.disable();
 	mapvar.dragPan.disable();
@@ -96,6 +125,42 @@
 	    // slowly and zoom out almost completely before starting
 	    // to pan.
 	    speed: 0.03, // make the flying slow
+	    curve: 0.1, // change the speed at which it zooms out
+
+	    // This can be any easing function: it takes a number between
+	    // 0 and 1 and returns another number between 0 and 1.
+	    easing: function (t) {
+	        return t;
+	    }
+	});
+	beforeMap.flyTo({
+	    // These options control the ending camera position: centered at
+	    // the target, at zoom level 9, and north up.
+	    center: otherend,
+	    zoom: 14,
+
+	    // These options control the flight curve, making it move
+	    // slowly and zoom out almost completely before starting
+	    // to pan.
+	    speed: 0.06, // make the flying slow
+	    curve: 0.1, // change the speed at which it zooms out
+
+	    // This can be any easing function: it takes a number between
+	    // 0 and 1 and returns another number between 0 and 1.
+	    easing: function (t) {
+	        return t;
+	    }
+	});
+	afterMap.flyTo({
+	    // These options control the ending camera position: centered at
+	    // the target, at zoom level 9, and north up.
+	    center: otherend,
+	    zoom: 14,
+
+	    // These options control the flight curve, making it move
+	    // slowly and zoom out almost completely before starting
+	    // to pan.
+	    speed: 0.06, // make the flying slow
 	    curve: 0.1, // change the speed at which it zooms out
 
 	    // This can be any easing function: it takes a number between
