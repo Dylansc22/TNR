@@ -11,6 +11,18 @@
     /*font-family: ""Source Sans Pro","Helvetica Neue",Helvetica,Arial,sans-serif";*/
 }
 
+#bootstrapoverrides_ethos {
+    position: absolute;
+    height:100%;
+    width: 100%;
+    margin:0px;
+    padding:0px;
+    border-radius: 0px !important;
+    /*color:#606060;*/
+    /*background-color:#E8E8E8;*/
+    /*font-family: ""Source Sans Pro","Helvetica Neue",Helvetica,Arial,sans-serif";*/
+}
+
 /*custom font for ethos fade-in text stuff*/
 #bootstrapoverrides_ethos h1 { font-family: 'Merriweather', serif; }
 #bootstrapoverrides_ethos h2 { font-family: 'Merriweather', serif; }
