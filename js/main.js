@@ -258,7 +258,7 @@ duration: 3000
     pitch: 60,
     center: [-110.9311202,32.2359678],
     zoom: 20.52,
-    speed: 0.6,
+    speed: 0.5,
 },
 'telegraph': {
     center: [-110.91999, 32.23657], 

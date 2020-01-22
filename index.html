@@ -109,15 +109,19 @@
 
 	 fly();
 mapvar.on('load', function(){
-    mapvar.setLayoutProperty('osm-bicycleinfras-5z6khj', 'visibility', 'visible');
     mapvar.setLayoutProperty('theloop-b2gq5f', 'visibility', 'visible');
+    mapvar.setLayoutProperty('tnr_main_inner', 'visibility', 'visible');
+    mapvar.setLayoutProperty('tnr_main_outer', 'visibility', 'visible');
+    mapvar.setLayoutProperty('hawkroadscase', 'visibility', 'visible');
+    mapvar.setLayoutProperty('hawk_roads', 'visibility', 'visible');
+    mapvar.setLayoutProperty('hawkdotsgeojson', 'visibility', 'visible');
 });
 
 mapvar.on('load', function () {
 	// We use D3 to fetch the JSON here so that we can parse and use it separately
 	// from GL JS's use in the added source. You can use any request method (library
 	// or otherwise) that you want.
-	d3.json('landing.json', function(err, data) {
+	d3.json('features.geojson', function(err, data) {
 	if (err) throw err;
 	 
 	// save full coordinate list for later
@@ -135,7 +139,7 @@ mapvar.on('load', function () {
 	"paint": {
 	"line-color": "#3985dd",
 	"line-opacity": 0.75,
-	"line-width": 5
+	"line-width": 3
 	}
 });
  
@@ -154,7 +158,7 @@ i++;
 } else {
 window.clearInterval(timer);
 }
-}, 100);
+}, 200);
 });
 });
 </script>
