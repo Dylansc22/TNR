@@ -246,6 +246,13 @@ duration: 3000
     bearing: 0,
     duration: 6000,
 },
+'residentialsatallite': {
+    bearing: -31,
+    pitch: 56,
+    center: [-110.929452,32.238657],
+    zoom: 18.39,
+    speed: 0.8,
+},
 'satallite': {
     bearing: -10,
     pitch: 60,
@@ -446,13 +453,26 @@ function myFunction() {
         map.setLayoutProperty('hs_v2_neutral_outer', 'visibility', 'visible');
         map.setLayoutProperty('hawk_roads-example', 'visibility', 'none');
     } else*/
-        if (activeChapterName === 'satallite') {
+    if (activeChapterName === 'residentialsatallite') {
         removehighlight();
         document.getElementById('satallite').setAttribute('class', 'active');        
         //Disable Prior Slides
         map.setLayoutProperty('ls_main_inner', 'visibility', 'none');
         map.setLayoutProperty('ls_main_outer', 'visibility', 'none');   
         map.setLayoutProperty('hawk_roads', 'visibility', 'none');
+
+        //Enable Current Slides 
+        map.setLayoutProperty('mapbox-satellite', 'visibility', 'visible');
+        map.setLayoutProperty('ls_main_outer copy', 'visibility', 'visible');
+        
+        //Disable Pending Slides
+        map.setLayoutProperty('hawk_roads-example', 'visibility', 'none');
+    } else 
+    if (activeChapterName === 'satallite') {
+        removehighlight();
+        document.getElementById('satallite').setAttribute('class', 'active');        
+        //Disable Prior Slides
+        map.setLayoutProperty('ls_main_outer copy', 'visibility', 'none');
 
         //Enable Current Slides 
         map.setLayoutProperty('mapbox-satellite', 'visibility', 'visible');
