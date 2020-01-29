@@ -428,7 +428,8 @@ function myFunction() {
         map.setLayoutProperty('trafficincidentsbike-4uqhba copy', 'visibility', 'none');
         map.setLayoutProperty('hawk_roads', 'visibility', 'none');
         map.setLayoutProperty('ls-nonhawkroads-4dyda7 copy', 'visibility', 'none');
-        map.setLayoutProperty('ls-nonhawkroads-4dyda7', 'visibility', 'none');       
+        map.setLayoutProperty('ls-nonhawkroads-4dyda7', 'visibility', 'none'); 
+        map.setLayoutProperty('ls_main_outer copy', 'visibility', 'none');      
         //map.setLayoutProperty('tnr_main_inner', 'visibility', 'none');
         //map.setLayoutProperty('tnr_main_outer', 'visibility', 'none');
         map.setLayoutProperty('hs_v2_neutral_inner', 'visibility', 'none');

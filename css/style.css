@@ -1191,6 +1191,19 @@ background-color:white;
             background-color: grey;
         }
 
+/* Banner Stuff */
+    #TPBanner .carousel-item {
+        height:100vh; /*this makes the banner fullscreen 100vh = 100% of screen*/
+    }
+
+    /*these 4-lines center the caption-text vertically in the middle of the banner*/
+    #TPBanner .carousel-caption {
+        top: 50%;
+        transform: translateY(-50%);
+        bottom: initial;
+    }
+
+
 
 /* Mission Statement */
 
@@ -1231,6 +1244,14 @@ background-color:white;
 
     .mapboxgl-compare .compare-swiper {
         background-color:grey;
+    }
+
+/*Carousel Stuff*/
+    #carouselWhyRide {
+        height:300px;
+        max-width: 70vw;
+        display: block;
+        background-color: grey;
     }
 
 /*Why Ride Stuff*/
@@ -1342,70 +1363,6 @@ text-align: center;
     border: solid 2px #8a8472;
 }
 
-/*Carousel stuff*/
-
-/*
-  font-family: 'Herr Von Muellerhoff', cursive;
-
-
-#BVCarousel {
-    border: solid 2px #8a8472;
-}
-
-
-.carousel * {
-    color: #bc5050;
-}
-
-.carousel-item {
-    width: auto;
-    height: 225px;
-    max-height: 225px;
-}
-
-
-
-
-.carouselimages {
-  position: relative;
-}
-
-*/
-#BVCarousel, .carousel-item {
-    max-height:600px;
-    border: solid 2px #8a8472;
-}
-
-
-
-.carousel-caption {
-    /*all of this is needed to align text vertically in the middle the proper responsive way for different screen sizes*/
-    top: 50%;
-    transform: translateY(-50%);
-    bottom:none;
-    right: 0px;
-    left:0px;
-    vertical-align: middle;
-    font-family:initial;
-    color: #bc5050;
-  /*background-color:rgba(255,255,255,.3);*/
-}
-
-.carousel h1 {
-  font-size: 8vw;
-  line-height:8vw;
-}
-
-.carousel h2 {
-  font-size: 3.5rem;
-}
-
-    @media (max-width: 768px) {
-    #BVCarousel, .carousel-item {
-      height: 260px !important;
-    } 
-    }
-/*Carousel Stuff End*/
 
 /*footer image*/
 .footerimage {
