@@ -66,43 +66,41 @@
 	                <div class="carousel-item active"> 
 	                    <!--d-block and w-100 are default for carousels=-->
 	                    <div class="carousel-caption d-none d-sm-block">
-	                            <h1 class="wow fadeIn" data-wow-delay="2.5s" data-wow-duration="2.5s">Explore Your City Safely</h1>
-	                        </div>
+	                        <h1>Explore Your City Safely</h1><!--class="wow fadeIn" data-wow-delay="1.5s" data-wow-duration="2.5s"-->
+	                    </div>
 	                    <video class="video-fluid" autoplay loop muted width="100%">
         					<source src="../img/tucsonaut3.mp4" type="video/mp4" />
       					</video>
 
 	                </div>
 	                <div class="carousel-item">
-	                    <img alt="Second slide" class="carouselimages d-block w-100" src="../img/image9.jpg">
-	                        <div class="carousel-caption d-none d-sm-block">
-	                            <h1>
-	                                Basics of Bike Commuting Tucson
-	                            </h1>
-	                            <p>
-	                                
-	                            </p>
-	                        </div>
+                        <div class="carousel-caption d-none d-sm-block">
+                            <h1>View Your City Differently</h1><br>
+                            <h6>Explore Our Map of Tucson</h6>
+	                    </div>
+                        <video class="video-fluid" autoplay loop muted width="100%">
+    						<source src="../img/tucsonaut2.mp4" type="video/mp4" />
+  						</video>
 	                </div>
 	                <div class="carousel-item">
 	                    <img alt="Third slide" class="carouselimages d-block w-100" src="../img/image6.jpg">
 	                        <div class="carousel-caption d-none d-sm-block">
 	                            <h1>
-	                                Monthly Group Coffee Outside Ride
+	                                Drop By Our Social Ride
 	                            </h1>
-	                            <h2>
-	                                a weekly journey around town 
-	                            </h2>
+	                            <h6>
+	                                a weekly journey around town for a coffee or tea
+	                            </h6>
 	                        </div>
 	                </div>
 	                <div class="carousel-item">
 	                    <img alt="Third slide" class="carouselimages d-block w-100" src="../img/image8.jpg">
 	                        <div class="carousel-caption d-none d-sm-block">
 	                            <h1>
-	                                Create A Commuter Program 
+	                                Help Us "Create A Commuter" Monthy Program
 	                            </h1>
 	                            <p>
-	                                Apply for Scholarship to Recieve a Commuter Bike For Free
+	                                Apply for Scholarship to Recieve a Bicycle To Try Commuting
 	                            </p>
 	                        </div>
 	                </div>
@@ -113,7 +111,7 @@
 	                                View Our Map
 	                            </h1>
 	                            <p>
-	                                ...
+	                            
 	                            </p>
 	                        </div>
 	                </div>
@@ -121,11 +119,9 @@
 	                    <img alt="Third slide" class="carouselimages d-block w-100" src="../img/image10.jpg">
 	                        <div class="carousel-caption d-none d-sm-block">
 	                            <h1>
-	                                Learn the Basics of Repair
+	                                Learn New Repair Skills
 	                            </h1>
-	                            <p>
-	                                ...
-	                            </p>
+	                            <h6>Explore Our Education Center</h6>
 	                        </div>
 	                </div>
 	            </div>
@@ -340,6 +336,7 @@
   		zoom: 12,
   		pitch:35,
   		bearing: 5,
+  		minZoom: 12, /*zooming out to 11.99, the TNR_v9 tileset disappears, nature of the beast of how that file size is uploaded, I can fix this but it takes a lot of backend mapbox studio work*/ 
 		attributionControl: false,
 		/*interactive: false,*/
 	});
@@ -349,10 +346,10 @@
 	// mousemove: true
 	});
 
-	mapvar.doubleClickZoom.disable();
-	mapvar.scrollZoom.disable();
-	mapvar.dragPan.disable();
-	mapvar.touchZoomRotate.disable();
+	map.doubleClickZoom.disable();
+	map.scrollZoom.disable();
+	map.dragPan.disable();
+	map.touchZoomRotate.disable();
 
 	var isAtStart = true;
 

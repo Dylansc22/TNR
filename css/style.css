@@ -1158,9 +1158,18 @@ background-color:white;
         background-color: rgb(255,255,255,0.5);*/
     }
 
+    /*Wanted the landing page font a little bigger and bolder with the dropshadow and/or border*/
     #landingpageheading > h1 {
         font-size: 15vmin;
         line-height: 15vmin;
+        text-shadow: 2px 3px 4px rgba(0, 0, 0, 0.6); /*dropshadow*/
+        /*text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black; /*1 px border*/
+    }
+
+    /*needed the dropshadow slightly smaller for the subheading, otherwise it looks weird*/
+    #landingpageheading > h3 {
+        text-shadow: 1px 2px 3px rgba(0, 0, 0, 0.6);
+        /*text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black; /*1 px border*/
     }
 
 
@@ -1169,6 +1178,7 @@ background-color:white;
         margin:3vh 3vw;
         text-align: center;
         vertical-align: center;
+
         /*font-family: 'Merriweather', serif;*/
 
     }
@@ -1180,15 +1190,16 @@ background-color:white;
         border-radius: 0px;
         margin:1vh 2vw;
         min-width: 250px;
+        box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.6);
     }
 
     /*So without this stuff the buttons on the homepage are just an outline with no background color. 
     I want them to be slightly opaque, and still have a hover effect, thus this code*/
         #landingpagebuttons > a {
-            background-color: rgb(255,255,255,0.8);
+            background-color: rgb(255,255,255,0.9);
         }
         #landingpagebuttons > a:hover {
-            background-color: grey;
+            background-color: rgb(100,100,100,0.8);;
         }
 
 /* Banner Stuff */
@@ -1196,11 +1207,16 @@ background-color:white;
         height:100vh; /*this makes the banner fullscreen 100vh = 100% of screen*/
     }
 
-    /*these 4-lines center the caption-text vertically in the middle of the banner*/
+    
     #TPBanner .carousel-caption {
-        top: 50%;
-        transform: translateY(-50%);
-        bottom: initial;
+        /*these 3-lines center the caption-text vertically in the middle of the banner*/
+            top: 50%;
+            transform: translateY(-50%);
+            bottom: initial;
+        /*adds shadow and/or border to banner text*/
+            color:white;
+            text-shadow: 2px 3px 4px rgba(0, 0, 0, 0.6); 
+            /*text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black; /*1 px border*/
     }
 
 
