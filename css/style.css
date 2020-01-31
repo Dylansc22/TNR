@@ -1243,6 +1243,7 @@ background-color:white;
     #mission {
         padding:auto;
         padding: 5vw 8vw;
+        background-color:white;
         /*background: #ecece3;
         color:white;*/
         /*background-image: url('../img/background.png');*/
@@ -1275,10 +1276,10 @@ background-color:white;
 
 /*Why Ride Stuff*/
     #whyride {
-        margin:3vh 0;
+        margin:3vh 6vw;
         padding:3vh 0;
         /*color: #8a8472;*/
-        color:#6c757d;
+        /*color:#6c757d;*/
         /*background-color:white;*/
         height:35vw;
     }
@@ -1291,9 +1292,9 @@ background-color:white;
     /*Default css of each 'case' box*/
     .cases {
         z-index: 0;
-        width: 15vw;
-        height:15vw;
-        margin: 0.6vw;
+        height:25vw;
+        width:25vw;
+        margin: 2vw;
         border: solid 0.3vw #6c757d;
         padding: 1vw;
         background-color:white;
@@ -1301,6 +1302,11 @@ background-color:white;
         -moz-transition: all 0.3s;
         -o-transition: all 0.3s;
         transition:all 0.3s;
+    }
+
+    .works {
+        color:red;
+        border-color:red;
     }
 
     .hidden {
