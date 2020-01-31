@@ -17,7 +17,34 @@
         relativeScrollTop =        0,
         currentKeyframe =          0,
         keyframes = [
+        //This is all the my custom stuff
           {
+            'wrapper' : '',
+            'duration' : '100%',
+            'animations' :  [
+              {
+                'selector'    : '#mission',
+                'translateY'  : '-300',
+                'opacity'     : 1,
+                //'scale'       : [.7,1.1],
+                //'scale'       : [0.8,1.1],
+              } 
+            ]
+          } , {
+            /*Cannot get this to work, I believe because I have a parallax event occuring on the parent div #mission
+            If I disable the above parallax on selector: #mission, the below code works... Doesn't totally matter, 
+            because I think it looks better without the scale parallax, which just seems too 'IN YOUR FACE', but a 
+            a little annoyed I couldn't get to the bottom of this. Might revisit later...
+            'wrapper' : '',
+            'duration' : '100%',
+            'animations' :  [
+              {
+                'selector'    : '.missionstatement',
+                'scale'  : '1.1',
+              } 
+            ]
+          } , { */
+            //This is all the original template stuff
             'wrapper' : '#intro',
             'duration' : '100%',
             'animations' :  [

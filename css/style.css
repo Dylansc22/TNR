@@ -11,6 +11,10 @@
     /*font-family: ""Source Sans Pro","Helvetica Neue",Helvetica,Arial,sans-serif";*/
 }
 
+.wrapper {
+    margin: 20vh 0vw;
+}
+
 #bootstrapoverrides_ethos {
     position: absolute;
     height:100%;
@@ -1242,17 +1246,22 @@ background-color:white;
 
     #mission {
         padding:auto;
-        padding: 5vw 8vw;
+        padding: 4vh 8vw;
         background-color:white;
         /*background: #ecece3;
         color:white;*/
         /*background-image: url('../img/background.png');*/
     }
 
+
+
 /*Compare map*/
     #comparesection {
         position: relative;
-        height:250px;
+        height:254px;
+        margin-bottom:4vh;
+        border-top:2px solid black;
+        border-bottom:2px solid black;
     }
 
     .comparemap {
@@ -1275,14 +1284,24 @@ background-color:white;
     }
 
 /*Why Ride Stuff*/
+    .whyridetitle {
+        padding: 0vh 8vw;
+    }
+
     #whyride {
-        margin:3vh 6vw;
-        padding:3vh 0;
+        padding: 0vh 8vw;
         /*color: #8a8472;*/
         /*color:#6c757d;*/
         /*background-color:white;*/
-        height:35vw;
+        display: flex; /*this is used to get the .slick-prev and .slick-next arrows in the same horizontal line, as the slick display carousel*/
     }
+
+#whyride > i {
+    color:grey;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
 
     #whyride > div {
         justify-content: center;
@@ -1292,7 +1311,6 @@ background-color:white;
     /*Default css of each 'case' box*/
     .cases {
         z-index: 0;
-        height:25vw;
         width:25vw;
         margin: 2vw;
         border: solid 0.3vw #6c757d;
@@ -1302,11 +1320,6 @@ background-color:white;
         -moz-transition: all 0.3s;
         -o-transition: all 0.3s;
         transition:all 0.3s;
-    }
-
-    .works {
-        color:red;
-        border-color:red;
     }
 
     .hidden {
