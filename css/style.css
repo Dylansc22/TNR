@@ -1160,14 +1160,16 @@ background-color:white;
 
     /*Wanted the landing page font a little bigger and bolder with the dropshadow and/or border*/
     #landingpageheading > h1 {
+        font-weight:500;
         font-size: 15vmin;
         line-height: 15vmin;
-        text-shadow: 2px 3px 4px rgba(0, 0, 0, 0.6); /*dropshadow*/
+        text-shadow: 1px 2px 3px rgba(0, 0, 0, 0.6); /*dropshadow*/
         /*text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black; /*1 px border*/
     }
 
     /*needed the dropshadow slightly smaller for the subheading, otherwise it looks weird*/
     #landingpageheading > h3 {
+        font-weight:600;
         text-shadow: 1px 2px 3px rgba(0, 0, 0, 0.6);
         /*text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black; /*1 px border*/
     }
@@ -1190,7 +1192,7 @@ background-color:white;
         border-radius: 0px;
         margin:1vh 2vw;
         min-width: 250px;
-        box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+        box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.6);
     }
 
     /*So without this stuff the buttons on the homepage are just an outline with no background color. 
@@ -1241,8 +1243,9 @@ background-color:white;
     #mission {
         padding:auto;
         padding: 5vw 8vw;
-        /*background: #939393;
+        /*background: #ecece3;
         color:white;*/
+        /*background-image: url('../img/background.png');*/
     }
 
 /*Compare map*/
