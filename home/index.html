@@ -67,6 +67,7 @@
 	                    <!--d-block and w-100 are default for carousels=-->
 	                    <div class="carousel-caption d-none d-sm-block">
 	                        <h1>Explore Your City Safely</h1><!--class="wow fadeIn" data-wow-delay="1.5s" data-wow-duration="2.5s"-->
+	                        <h6>This is our goal</h6>
 	                    </div>
 	                    <video class="video-fluid" autoplay loop muted width="100%">
         					<source src="../img/tucsonaut3.mp4" type="video/mp4" />
@@ -75,7 +76,7 @@
 	                </div>
 	                <div class="carousel-item">
                         <div class="carousel-caption d-none d-sm-block">
-                            <h1>View Your City Differently</h1><br>
+                            <h1>Reimagine Your City</h1><br>
                             <h6>Explore Our Map of Tucson</h6>
 	                    </div>
                         <video class="video-fluid" autoplay loop muted width="100%">
@@ -97,11 +98,11 @@
 	                    <img alt="Third slide" class="carouselimages d-block w-100" src="../img/image8.jpg">
 	                        <div class="carousel-caption d-none d-sm-block">
 	                            <h1>
-	                                Help "Create A Commuter"
+	                                Help Create A Commuter
 	                            </h1>
-	                            <p>
+	                            <h6>
 	                                Apply for Scholarship to Recieve a Bicycle To Try Commuting
-	                            </p>
+	                            </h6>
 	                        </div>
 	                </div>
 	                <div class="carousel-item">
@@ -148,13 +149,13 @@
 	<!-- End of Full Banner-->
 
     <div id="mission">
-    	<h2 class="wow fadeInDown" data-wow-delay="0s" data-wow-duration="2s">our mission.</h2>
+    	<h2 class="wow fadeInUp" data-wow-delay="0s" data-wow-duration="2s">our mission.</h2>
     	<h5>
-    		<div class="wow fadeInDown" data-wow-delay="1s" data-wow-duration="2s"><strong>Riding a bicycle is an incredible positive feedback loop.</strong> The impacts are direct and measurable to your health, environment, finances, mental wellbeing, and your community's development. </div>
+    		<div class="wow fadeInUp" data-wow-delay="1s" data-wow-duration="2s"><strong>Riding a bicycle is an incredible positive feedback loop.</strong> The impacts are direct and measurable to your health, environment, finances, mental wellbeing, and your community's development. </div>
 	    	<br>
-	    	<div class="wow fadeInDown" data-wow-delay="1.5s" data-wow-duration="2s"><strong>However most Tucsonans don't consider bicycles <!--as a option--> for transportion due to safety concerns. </strong> Most people want to ride more, but remain apprehensive due to the perceived danger of biking through a 'car-centric' city. This perception keeps ridership low and the barrier of entry high. </div>
+	    	<div class="wow fadeInUp" data-wow-delay="1.5s" data-wow-duration="2s"><strong>However most Tucsonans don't consider bicycles <!--as a option--> for transportion due to safety concerns. </strong> Most people want to ride more, but remain apprehensive due to the perceived danger of biking through a 'car-centric' city. This perception keeps ridership low and the barrier of entry high. </div>
 	    	<br>
-	    	<div class="wow fadeInDown" data-wow-delay="2s" data-wow-duration="2s"><strong>Our goal is to challenge how we percieve our city & navigate through it <!-- fundimentally, foundationally, conceptually reconsider, rethink, reframing, reimagining, reenvision, fundimentally change, conceptually reframe--></strong> - beginning by envision our city as neighborhoods connected by crosswalks, rather than roadways connected by intersections.</div>
+	    	<div class="wow fadeInUp" data-wow-delay="2s" data-wow-duration="2s"><strong>Our goal is to challenge how we percieve our city & navigate through it <!-- fundimentally, foundationally, conceptually reconsider, rethink, reframing, reimagining, reenvision, fundimentally change, conceptually reframe--></strong> - beginning by envision our city as neighborhoods connected by crosswalks, rather than roadways connected by intersections.</div>
     	</h5>
     	<br>
     	<div class=text-vertical-center>
@@ -169,13 +170,13 @@
     	<h5>"Why do we enjoy being in parks more than parking lots?" It sounds like a dumb question, but one is space but at its core the only difference is one is dedicated to people - and the other is dedicated to cars.</h5>
     	<h5>How much of neighborhood is dedicated to you? How much is dedicated to your car? How much is dedicated to businesses-->
     <div id="idea">
-		<div class="wow fadeInLeft" data-wow-delay="3s" data-wow-duration="3s"><h3>Moving Cars</h3></div>
-		<div class="wow fadeInDown" data-wow-delay="2s" data-wow-duration="1s"><h3>vs</h3></div>
-		<div class="wow fadeInRight" data-wow-delay="1s" data-wow-duration="3s"><h3>Moving People</h3></div>
+		<div class="wow fadeInLeft" data-wow-delay="1s" data-wow-duration="2s"><h3>Moving Cars</h3></div>
+		<div class="wow fadeInDown" data-wow-delay="1s" data-wow-duration="2s"><h3>vs</h3></div>
+		<div class="wow fadeInRight" data-wow-delay="1s" data-wow-duration="2s"><h3>Moving People</h3></div>
 	</div>
     <div id="comparesection">
-    	<div id='before' class="comparemap wow fadeIn" data-wow-delay="4s" data-wow-duration="3s"></div>
-		<div id='after' class="comparemap wow fadeIn" data-wow-delay="2s" data-wow-duration="3s"></div>
+    	<div id='before' class="comparemap wow fadeIn" data-wow-delay="1s" data-wow-duration="1s"></div>
+		<div id='after' class="comparemap wow fadeIn" data-wow-delay="1s" data-wow-duration="1s"></div>
     </div>
     <div class=text-vertical-center>
     	<a href="../compare" class="btn btn-outline-warning">View Comparison Map</a>
@@ -303,211 +304,239 @@
 
 
 
+<!--Load Bootstrap Scripts
+I think this should be the first script to load, 
+because it will JQuery will be loaded in immediately
+and some of my other scripts depend on JQuery
+---------------------------------------------->
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
-<!--Mapbox JS Libraries-->
-<script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.52.0/mapbox-gl.js'></script>
-<!--Mapbox Compare Plugin JS Library-->
-<script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-compare/v0.1.0/mapbox-gl-compare.js'></script>
+<!--Load Main Mapbox JS Libraries
+---------------------------------------------->
+	<script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.52.0/mapbox-gl.js'></script>
 
-<!--d3 script-->
-<script src='//d3js.org/d3.v3.min.js' charset='utf-8'></script>
+<!--Load Mapbox Compare Plugin JS Library
+---------------------------------------------->
+	<script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-compare/v0.1.0/mapbox-gl-compare.js'></script>
 
-<script>
-	mapboxgl.accessToken = 'pk.eyJ1IjoiZHlsYW5jIiwiYSI6Im53UGgtaVEifQ.RJiPqXwEtCLTLl-Vmd1GWQ';
-	var start = [-110.9,32.236];
-	var end = [-110.8, 32.2];
-	var otherend = [-110.88, 32.23];
+<!--Load d3 script
+Not sure if I'm currently Using this(?)
+---------------------------------------------->
+	<script src='//d3js.org/d3.v3.min.js' charset='utf-8'></script>
 
-	var beforeMap = new mapboxgl.Map({
-		container: "before",
-		style: "mapbox://styles/dylanc/cjudps4181wa71fo221zf5efk",
-		center: start, /*[-110.93475, 32.22396],*/
-  		zoom: 12,
-  		pitch:35,
-  		bearing: 5,
-  		attributionControl: false,
-		/*interactive: false,*/
-	});
+<!--Load Compare Map
+----------------------------------------------> 
+	<script>
+		mapboxgl.accessToken = 'pk.eyJ1IjoiZHlsYW5jIiwiYSI6Im53UGgtaVEifQ.RJiPqXwEtCLTLl-Vmd1GWQ';
+		var start = [-110.9,32.236];
+		var end = [-110.8, 32.2];
+		var otherend = [-110.88, 32.23];
 
-	var afterMap = new mapboxgl.Map({
-		container: "after",
-		style: "mapbox://styles/dylanc/ck3ndggsc0w3z1cnvziay4jzi",
-		center: start, /*[-110.93475, 32.22396],*/
-  		zoom: 12,
-  		pitch:35,
-  		bearing: 5,
-  		minZoom: 12, /*zooming out to 11.99, the TNR_v9 tileset disappears, nature of the beast of how that file size is uploaded, I can fix this but it takes a lot of backend mapbox studio work*/ 
-		attributionControl: false,
-		/*interactive: false,*/
-	});
+		var beforeMap = new mapboxgl.Map({
+			container: "before",
+			style: "mapbox://styles/dylanc/cjudps4181wa71fo221zf5efk",
+			center: start, /*[-110.93475, 32.22396],*/
+	  		zoom: 12,
+	  		pitch:35,
+	  		bearing: 5,
+	  		attributionControl: false,
+			/*interactive: false,*/
+		});
 
-	var map = new mapboxgl.Compare(beforeMap, afterMap, {
-	// Set this to enable comparing two maps by mouse movement:
-	// mousemove: true
-	});
+		var afterMap = new mapboxgl.Map({
+			container: "after",
+			style: "mapbox://styles/dylanc/ck3ndggsc0w3z1cnvziay4jzi",
+			center: start, /*[-110.93475, 32.22396],*/
+	  		zoom: 12,
+	  		pitch:35,
+	  		bearing: 5,
+	  		minZoom: 12, /*zooming out to 11.99, the TNR_v9 tileset disappears, nature of the beast of how that file size is uploaded, I can fix this but it takes a lot of backend mapbox studio work*/ 
+			attributionControl: false,
+			/*interactive: false,*/
+		});
 
-	map.doubleClickZoom.disable();
-	map.scrollZoom.disable();
-	map.dragPan.disable();
-	map.touchZoomRotate.disable();
-
-	var isAtStart = true;
-
-	function fly() {
-	// depending on whether we're currently at point a or b, aim for
-	// point a or b
-	var target = isAtStart ? end : start;
-
-	// and now we're at the opposite point
-	isAtStart = !isAtStart;
-
-	mapvar.flyTo({
-	    // These options control the ending camera position: centered at
-	    // the target, at zoom level 9, and north up.
-	    center: target,
-	    zoom: 13,
-	    bearing: -20,
-
-	    // These options control the flight curve, making it move
-	    // slowly and zoom out almost completely before starting
-	    // to pan.
-	    speed: 0.03, // make the flying slow
-	    curve: 0.1, // change the speed at which it zooms out
-
-	    // This can be any easing function: it takes a number between
-	    // 0 and 1 and returns another number between 0 and 1.
-	    easing: function (t) {
-	        return t;
-	    }
-	});
-	beforeMap.flyTo({
-	    // These options control the ending camera position: centered at
-	    // the target, at zoom level 9, and north up.
-	    center: otherend,
-	    zoom: 14,
-
-	    // These options control the flight curve, making it move
-	    // slowly and zoom out almost completely before starting
-	    // to pan.
-	    speed: 0.06, // make the flying slow
-	    curve: 0.1, // change the speed at which it zooms out
-
-	    // This can be any easing function: it takes a number between
-	    // 0 and 1 and returns another number between 0 and 1.
-	    easing: function (t) {
-	        return t;
-	    }
-	});
-	afterMap.flyTo({
-	    // These options control the ending camera position: centered at
-	    // the target, at zoom level 9, and north up.
-	    center: otherend,
-	    zoom: 14,
-
-	    // These options control the flight curve, making it move
-	    // slowly and zoom out almost completely before starting
-	    // to pan.
-	    speed: 0.06, // make the flying slow
-	    curve: 0.1, // change the speed at which it zooms out
-
-	    // This can be any easing function: it takes a number between
-	    // 0 and 1 and returns another number between 0 and 1.
-	    easing: function (t) {
-	        return t;
-	    }
-	});
-	} //End fly() Program
+		var map = new mapboxgl.Compare(beforeMap, afterMap, {
+		// Set this to enable comparing two maps by mouse movement:
+		// mousemove: true
+		});
 
 
-	 fly();
-mapvar.on('load', function(){
-    mapvar.setLayoutProperty('osm-bicycleinfras-5z6khj', 'visibility', 'visible');
-    mapvar.setLayoutProperty('theloop-b2gq5f', 'visibility', 'visible');
-});
-
-mapvar.on('load', function () {
-	// We use D3 to fetch the JSON here so that we can parse and use it separately
-	// from GL JS's use in the added source. You can use any request method (library
-	// or otherwise) that you want.
-	d3.json('landing.json', function(err, data) {
-	if (err) throw err;
-	 
-	// save full coordinate list for later
-	var coordinates = data.features[0].geometry.coordinates;
-	 
-	// start by showing just the first coordinate
-	data.features[0].geometry.coordinates = [coordinates[0]];
-	 
-	// add it to the map
-	mapvar.addSource('trace', { type: 'geojson', data: data });
-	mapvar.addLayer({
-	"id": "trace",
-	"type": "line",
-	"source": "trace",
-	"paint": {
-	"line-color": "#3985dd",
-	"line-opacity": 0.75,
-	"line-width": 5
-	}
-});
- 
-// setup the viewport
-//mapvar.jumpTo({ 'center': coordinates[0], 'zoom': 14 });
-//mapvar.setPitch(30);
- 
-// on a regular basis, add more coordinates from the saved list and update the map
-var i = 0;
-var timer = window.setInterval(function() {
-if (i < coordinates.length) {
-data.features[0].geometry.coordinates.push(coordinates[i]);
-mapvar.getSource('trace').setData(data);
-//mapvar.panTo(coordinates[i]);
-i++;
-} else {
-window.clearInterval(timer);
-}
-}, 100);
-});
-});
-</script>
-
-<!--enables all animation behavior - Source: http://mynameismatthieu.com/WOW/docs.html-->
-<script src="../js/wow.min.js"></script>
-<script>new WOW().init();</script>
-
-<!--Main Javascript File-->
-<script src="../js/main.js"></script>
-
-<!--Bootstrap Scripts-->
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-
-<script>
-	$(document).ready(function () {
-		$('.cases').hover(
-       		function(){ $(this).addClass('hovered') },
-       		function(){ $(this).removeClass('hovered') },
-		)
-	});
-	$(document).ready(function () {
-		$('.cases').hover(
-       		function(){$(this).find("div").toggleClass("hidden")},
-       		/*some line of code needs to go here but i havent figured it out yet*/
+		mapvar.doubleClickZoom.disable();
+		mapvar.scrollZoom.disable();
+		mapvar.dragPan.disable();
+		mapvar.touchZoomRotate.disable();
 
 
-		)
-	});
-	$(document).ready(function () {
-		$('.cases').hover(
-       		function(){ $(".cases").not(this).addClass('dimmed') },
-       		function(){ $(".cases").not(this).removeClass('dimmed') }
-		)
-	});
+		var isAtStart = true;
+
+		function fly() {
+		// depending on whether we're currently at point a or b, aim for
+		// point a or b
+		var target = isAtStart ? end : start;
+
+		// and now we're at the opposite point
+		isAtStart = !isAtStart;
+
+		mapvar.flyTo({
+		    // These options control the ending camera position: centered at
+		    // the target, at zoom level 9, and north up.
+		    center: target,
+		    zoom: 13,
+		    bearing: -20,
+
+		    // These options control the flight curve, making it move
+		    // slowly and zoom out almost completely before starting
+		    // to pan.
+		    speed: 0.03, // make the flying slow
+		    curve: 0.1, // change the speed at which it zooms out
+
+		    // This can be any easing function: it takes a number between
+		    // 0 and 1 and returns another number between 0 and 1.
+		    easing: function (t) {
+		        return t;
+		    }
+		});
+		beforeMap.flyTo({
+		    // These options control the ending camera position: centered at
+		    // the target, at zoom level 9, and north up.
+		    center: otherend,
+		    zoom: 14,
+
+		    // These options control the flight curve, making it move
+		    // slowly and zoom out almost completely before starting
+		    // to pan.
+		    speed: 0.06, // make the flying slow
+		    curve: 0.1, // change the speed at which it zooms out
+
+		    // This can be any easing function: it takes a number between
+		    // 0 and 1 and returns another number between 0 and 1.
+		    easing: function (t) {
+		        return t;
+		    }
+		});
+		afterMap.flyTo({
+		    // These options control the ending camera position: centered at
+		    // the target, at zoom level 9, and north up.
+		    center: otherend,
+		    zoom: 14,
+
+		    // These options control the flight curve, making it move
+		    // slowly and zoom out almost completely before starting
+		    // to pan.
+		    speed: 0.06, // make the flying slow
+		    curve: 0.1, // change the speed at which it zooms out
+
+		    // This can be any easing function: it takes a number between
+		    // 0 and 1 and returns another number between 0 and 1.
+		    easing: function (t) {
+		        return t;
+		    }
+		});
+		} //End fly() Program
 
 
+		fly();
+		mapvar.on('load', function(){
+		    mapvar.setLayoutProperty('osm-bicycleinfras-5z6khj', 'visibility', 'visible');
+		    mapvar.setLayoutProperty('theloop-b2gq5f', 'visibility', 'visible');
+		});
 
-</script>
+		mapvar.on('load', function () {
+			// We use D3 to fetch the JSON here so that we can parse and use it separately
+			// from GL JS's use in the added source. You can use any request method (library
+			// or otherwise) that you want.
+			d3.json('landing.json', function(err, data) {
+			if (err) throw err;
+			 
+			// save full coordinate list for later
+			var coordinates = data.features[0].geometry.coordinates;
+			 
+			// start by showing just the first coordinate
+			data.features[0].geometry.coordinates = [coordinates[0]];
+			 
+			// add it to the map
+			mapvar.addSource('trace', { type: 'geojson', data: data });
+			mapvar.addLayer({
+			"id": "trace",
+			"type": "line",
+			"source": "trace",
+			"paint": {
+			"line-color": "#3985dd",
+			"line-opacity": 0.75,
+			"line-width": 5
+			}
+		});
+		 
+		// setup the viewport
+		//mapvar.jumpTo({ 'center': coordinates[0], 'zoom': 14 });
+		//mapvar.setPitch(30);
+		 
+		// on a regular basis, add more coordinates from the saved list and update the map
+		var i = 0;
+		var timer = window.setInterval(function() {
+		if (i < coordinates.length) {
+		data.features[0].geometry.coordinates.push(coordinates[i]);
+		mapvar.getSource('trace').setData(data);
+		//mapvar.panTo(coordinates[i]);
+		i++;
+		} else {
+		window.clearInterval(timer);
+		}
+		}, 100);
+		});
+		});
+	</script>
 
+<!--Load WOW Animations
+Fade/Slide in/Slide out/etc...
+Source: http://mynameismatthieu.com/WOW/docs.html
+---------------------------------------------->
+	<script src="../js/wow.min.js"></script>
+	<script>new WOW().init();</script>
+
+<!--Load Parallax Scrolling/Animation
+---------------------------------------------->
+	<script src="../js/parallax.js">></script>
+	
+
+<!--Load Main Javascript File
+---------------------------------------------->
+	<script src="../js/main.js"></script>
+
+<!--Custom JQuery Script
+Used to Highlight/Dim buttons in map legend
+depending on whatever data layers are on the map
+---------------------------------------------->
+	<script>
+		$(document).ready(function () {
+			$('.cases').hover(
+	       		function(){ $(this).addClass('hovered') },
+	       		function(){ $(this).removeClass('hovered') },
+			)
+		});
+		$(document).ready(function () {
+			$('.cases').hover(
+	       		function(){$(this).find("div").toggleClass("hidden")},
+	       		/*some line of code needs to go here but i havent figured it out yet*/
+
+
+			)
+		});
+		$(document).ready(function () {
+			$('.cases').hover(
+	       		function(){ $(".cases").not(this).addClass('dimmed') },
+	       		function(){ $(".cases").not(this).removeClass('dimmed') }
+			)
+		});
+
+		$(document).ready(function () {
+			$('.cases').hover(
+	       		function(){ $(".cases").not(this).addClass('dimmed') },
+	       		function(){ $(".cases").not(this).removeClass('dimmed') }
+			)
+		});
+	</script>
 </body>
 </html> 
