@@ -1210,7 +1210,7 @@ background-color:white;
 
 /* Banner Stuff */
     #TPBanner .carousel-item {
-        height:100vh; /*this makes the banner fullscreen 100vh = 100% of screen*/
+        /*height:100vh; this makes the banner fullscreen 100vh = 100% of screen*/
     }
 
     
