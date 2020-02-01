@@ -1225,7 +1225,14 @@ background-color:white;
             /*text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black; /*1 px border*/
     }
 
+#main {
+    text-align: center;
+    padding-top:5vh;
+}
 
+#main > h1 {
+    color:#bc5050
+}
 
 /* Mission Statement */
 
