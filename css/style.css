@@ -1233,7 +1233,6 @@ background-color:white;
         display: grid;
         align-content:  center;
         grid-template-columns: auto auto auto;
-        margin:5vh 0vh;
     }
 
     #idea > div {
@@ -1244,10 +1243,16 @@ background-color:white;
         font-size:3vh;
     }
 
+    .sectiontitle {
+        padding: 0vh 8vw;
+    }
+
     #mission {
-        padding:auto;
-        padding: 4vh 8vw;
+        margin: 4vh 8vw;
+        padding: 2vw;
         background-color:white;
+        border: solid 2px #6c757d;
+        box-shadow: 4px 4px 8px grey;
         /*background: #ecece3;
         color:white;*/
         /*background-image: url('../img/background.png');*/
@@ -1259,9 +1264,9 @@ background-color:white;
     #comparesection {
         position: relative;
         height:254px;
-        margin-bottom:4vh;
-        border-top:2px solid black;
-        border-bottom:2px solid black;
+        margin:4vh 8vw;
+        border: solid 2px #6c757d;
+        box-shadow: 4px 4px 8px grey;
     }
 
     .comparemap {
@@ -1275,6 +1280,22 @@ background-color:white;
         background-color:grey;
     }
 
+.btn {
+    box-shadow: 4px 4px 8px grey;
+    border-radius: 0px;
+    font-size: 3vmin;
+    line-height: 3vmin;
+    margin:0px;
+}
+
+#yourride {
+    position: relative;
+    height:254px;
+    margin:4vh 8vw;
+    border: solid 2px #6c757d;
+    box-shadow: 4px 4px 8px grey;
+}
+
 /*Carousel Stuff*/
     #carouselWhyRide {
         height:300px;
@@ -1284,12 +1305,8 @@ background-color:white;
     }
 
 /*Why Ride Stuff*/
-    .whyridetitle {
-        padding: 0vh 8vw;
-    }
-
     #whyride {
-        padding: 0vh 8vw;
+        padding: 0vh 4vw;
         /*color: #8a8472;*/
         /*color:#6c757d;*/
         /*background-color:white;*/
@@ -1315,6 +1332,7 @@ background-color:white;
         margin: 2vw;
         border: solid 0.3vw #6c757d;
         padding: 1vw;
+        box-shadow: 4px 4px 8px grey;
         background-color:white;
         -webkit-transition: all 0.3s;
         -moz-transition: all 0.3s;
