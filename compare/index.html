@@ -57,9 +57,10 @@ var beforeMap = new mapboxgl.Map({
   container: "before",
   style: "mapbox://styles/dylanc/cjudps4181wa71fo221zf5efk",
   center: start, /*[-110.93475, 32.22396],*/
-    zoom: 12,
+    zoom: 13,
     pitch:15,
     bearing: 5,
+    minZoom:12,
     attributionControl: false,
   /*interactive: false,*/
 });
@@ -68,9 +69,10 @@ var afterMap = new mapboxgl.Map({
   container: "after",
   style: "mapbox://styles/dylanc/ck3ndggsc0w3z1cnvziay4jzi",
   center: start, /*[-110.93475, 32.22396],*/
-    zoom: 12,
+    zoom: 13,
     pitch:15,
     bearing: 5,
+    minZoom: 12,
   attributionControl: false,
   /*interactive: false,*/
 });
