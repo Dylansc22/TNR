@@ -1336,8 +1336,15 @@ background-color:white;
     }
 
     #whyride > .slick-list {
-        margin:0px 1vw;
+        margin:0px 1vw; /*Wanted to push slick-arrows a little further away from how close they were to the scrollable list */ scrollable list 
     }
+
+    /*this does work, but I can't get the top bottom margin the way id like, so I'm just nixing this for now
+    #whyride > .slick-arrow:hover {
+        color:black;
+        transform: scale(1.3);
+        transition: all .2s ease-in-out;
+    }*/
 
     /*Default css of each 'case' box*/
     .cases {
