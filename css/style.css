@@ -1289,7 +1289,7 @@ background-color:white;
         background-color:grey;
     }
 
-.btn {
+#bootstrapoverrides .btn-warning {
     box-shadow: 4px 4px 8px grey;
     border-radius: 0px;
     font-size: 3vmin;
