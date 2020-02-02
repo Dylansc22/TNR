@@ -1231,7 +1231,7 @@ background-color:white;
 }
 
 #main > h1 {
-    color:#bc5050
+    color:#bc5050;
 }
 
 /* Mission Statement */
@@ -1256,6 +1256,7 @@ background-color:white;
 
     #mission {
         margin: 4vh 8vw;
+        margin-top:0vh;
         padding: 2vw;
         background-color:white;
         border: solid 2px #6c757d;
@@ -1271,7 +1272,8 @@ background-color:white;
     #comparesection {
         position: relative;
         height:254px;
-        margin:4vh 8vw;
+        margin:0vh 8vw;
+        margin-bottom:1vh;
         border: solid 2px #6c757d;
         box-shadow: 4px 4px 8px grey;
     }
@@ -1299,6 +1301,7 @@ background-color:white;
     position: relative;
     height:254px;
     margin:4vh 8vw;
+    margin-top:0vh;
     border: solid 2px #6c757d;
     box-shadow: 4px 4px 8px grey;
 }
@@ -1336,7 +1339,7 @@ background-color:white;
     .cases {
         z-index: 0;
         width:25vw;
-        margin: 2vw;
+        margin: 0vh 2vw;
         border: solid 0.3vw #6c757d;
         padding: 1vw;
         box-shadow: 4px 4px 8px grey;
