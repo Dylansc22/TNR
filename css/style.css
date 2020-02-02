@@ -1368,7 +1368,11 @@ background-color:white;
     }
 
     #whyride > .slick-list {
-        margin:0px 1vw; /*Wanted to push slick-arrows a little further away from how close they were to the scrollable list */ scrollable list 
+        margin:0px 1vw; /*Wanted to push slick-arrows a little further away from how close they were to the scrollable list */
+    }
+
+    #whyride .slick-track {
+        padding-bottom: 10px /*the drop-shadow on the largest whyride case was being cut off at the bottom, because the slick-track defaults with 0px padding*/
     }
 
     /*this does work, but I can't get the top bottom margin the way id like, so I'm just nixing this for now
