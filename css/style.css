@@ -1316,7 +1316,7 @@ background-color:white;
 
 /*Why Ride Stuff*/
     #whyride {
-        padding: 0vh 4vw;
+        padding: 0vh 3vw;
         /*color: #8a8472;*/
         /*color:#6c757d;*/
         /*background-color:white;*/
@@ -1335,12 +1335,16 @@ background-color:white;
         margin-bottom: 1vw;
     }
 
+    #whyride > .slick-list {
+        margin:0px 1vw;
+    }
+
     /*Default css of each 'case' box*/
     .cases {
         z-index: 0;
         width:25vw;
-        margin: 0vh 2vw;
-        border: solid 0.3vw #6c757d;
+        margin: 0vh 1.5vw;
+        border: solid 2px #6c757d;
         padding: 1vw;
         box-shadow: 4px 4px 8px grey;
         background-color:white;
