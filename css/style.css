@@ -314,18 +314,53 @@ text-align: center;
     z-index: 3;
     position:fixed;
     display: block;
+    left:20px;
     bottom:20px;
+    padding:10px;
     border: solid 3px #A0A0A0;
     background-color:white;
     color:black;
-    width:500px;
-    height:50px;
     -webkit-transition: all 0.4s;
     -moz-transition: all 0.4s;
     -o-transition: all 0.4s;
     transition:all 0.4s;
-
+    width: 100%;
+    text-align: center;
 }
+
+#tnrv5 {
+    background-image: url("../img/map/legend/TucsonPathways.png");
+    background-size:cover;
+        }
+#highstress {
+    background-image: url("../img/map/legend/HighStress.png");
+    background-size:cover;
+        }
+#lowstress {
+    background-image: url("../img/map/legend/LowStress.png");
+    background-size:cover;
+        }
+#hawks {
+    background-image: url("../img/map/legend/HAWKS.png");
+    background-size:cover;
+        }
+#osmbikes {
+    background-image: url("../img/map/legend/BikeLanes.png");
+    background-size:cover;
+        }
+#theloop {
+    background-image: url("../img/map/legend/Loop.png");
+    background-size:cover;
+        }
+#satellite {
+    background-image: url("../img/map/legend/Satallite.png");
+    background-size:cover;
+    color:white;
+        }
+#annotation {
+    background-image: url("../img/map/legend/Annotation2.png");
+    background-size:cover;
+        }
 
 .card-body {
     padding-top:0px;
@@ -368,10 +403,13 @@ text-align: center;
     font-stretch: 100%;
     letter-spacing: 2px;
     line-height: normal;
-    margin-bottom: 4px;
-    min-width: 100%;
+    margin: 4px;
     text-transform: uppercase;
     padding: .375rem;
+    width:100px;
+    height:100px;
+    font-weight: 500;
+    text-align: right;
     }
 
     #toolbar > button:hover {
@@ -382,7 +420,7 @@ text-align: center;
         transition:all 0.2s;
     }
 
-        #toolbar > button:hover {
+    #toolbar > button:hover {
         background-color:#b9b9b9;
         -webkit-transition: all 0.2s;
         -moz-transition: all 0.2s;
