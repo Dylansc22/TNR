@@ -310,6 +310,23 @@ text-align: center;
     transition:all 0.4s;
 }
 
+#legend {
+    z-index: 3;
+    position:fixed;
+    display: block;
+    bottom:20px;
+    border: solid 3px #A0A0A0;
+    background-color:white;
+    color:black;
+    width:500px;
+    height:50px;
+    -webkit-transition: all 0.4s;
+    -moz-transition: all 0.4s;
+    -o-transition: all 0.4s;
+    transition:all 0.4s;
+
+}
+
 .card-body {
     padding-top:0px;
     padding-bottom:5px;
@@ -395,6 +412,14 @@ text-align: center;
 
 .hideright {
     margin-right: -100% !important;
+    -webkit-transition: all 0.4s;
+    -moz-transition: all 0.4s;
+    -o-transition: all 0.4s;
+    transition:all 0.4s;
+}
+
+.hidebottom {
+    margin-bottom: -100% !important;
     -webkit-transition: all 0.4s;
     -moz-transition: all 0.4s;
     -o-transition: all 0.4s;
@@ -495,6 +520,11 @@ section:last-child {
     z-index: 3;
     min-width: 400px;
     max-width: 150px;
+}
+
+#maininfo .btn-custom1 {
+    color:white;
+    background-color:#4f7ba4;
 }
 
 #maininfo > a {
