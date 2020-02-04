@@ -406,7 +406,7 @@ function addRoute (coords) {
       },
       "paint": {
         "line-color": "#6d5cc2", //"#2c9952" Green, //3b9ddd //#FFC300 Yellow
-        "line-width": 4,
+        "line-width": 3,
         "line-opacity": 0.8
       }
     }),
