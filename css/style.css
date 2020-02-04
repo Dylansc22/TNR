@@ -362,9 +362,7 @@ text-align: center;
     }
 
     #toolbar > button:hover {
-        background-color:#b9b9b9;
         font-weight:900;
-        border-color: black;
         -webkit-transition: all 0.2s;
         -moz-transition: all 0.2s;
         -o-transition: all 0.2s;
@@ -372,8 +370,9 @@ text-align: center;
     }
 
     #toolbar > .active, #toolbar > button:active, #toolbar > button:visited {
-        height:7vw;
-        border-color:black;
+        height:7.5vw;
+        border-width: 3px;
+        font-weight:900;
         -webkit-transition: all 0.2s;
         -moz-transition: all 0.2s;
         -o-transition: all 0.2s;
@@ -401,7 +400,6 @@ text-align: center;
         /*and make them bigger when clicked*/
         #toolbar > .active, #toolbar > button:active, #toolbar > button:visited {
             height:22vw;
-            border-color:black;
             font-weight:900;
         }
 
@@ -415,26 +413,32 @@ text-align: center;
 #tnrv5 {
     background-image: url("../img/map/legend/TucsonPathways.png");
     background-size:cover;
+    color:#828282;
         }
 #highstress {
     background-image: url("../img/map/legend/HighStress.png");
     background-size:cover;
+    color:#a42323;
         }
 #lowstress {
     background-image: url("../img/map/legend/LowStress.png");
     background-size:cover;
+    color:#76a4e0;
         }
 #hawks {
     background-image: url("../img/map/legend/HAWKS.png");
     background-size:cover;
+    color:#d9ac7d;
         }
 #osmbikes {
     background-image: url("../img/map/legend/BikeLanes.png");
     background-size:cover;
+    color:#589447;
         }
 #theloop {
     background-image: url("../img/map/legend/Loop.png");
     background-size:cover;
+    color:#d9ac7d;
         }
 #satellite {
     background-image: url("../img/map/legend/Satallite.png");
@@ -444,6 +448,7 @@ text-align: center;
 #annotation {
     background-image: url("../img/map/legend/Annotation2.png");
     background-size:cover;
+    color:#828282;
         }
 
 .card-body {
@@ -454,8 +459,6 @@ text-align: center;
 #accordionExample > div {
     background-color: rgba(255, 255, 255, .9);
 }
-
-
 
 .card > button, .card > button:hover, .card > button:visited, .card > button:focus, .card > button:active {
     white-space: normal;

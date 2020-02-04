@@ -204,19 +204,14 @@ toggleLayer('tnrv5',
     ],
     'Safest Bicycle Streets'); //Button Name
 
-toggleLayer('highstress',
-    ['hs_main_inner', 
-    'hs_main_outer'],
-    'High Stress Roads');
-
-//Toggle All LS Original Road Network
-toggleLayer('lowstress',
-    ['ls_main_inner', 
-    'ls_main_outer'], 'Low Stress Roads');
-
 toggleLayer('hawks',
     ['hawkdotsgeojson'],
     'Signalled Crosswalks');
+
+toggleLayer('theloop', 
+    ['theloop-b2gq5f'
+    ], 
+    'The Loop Pedestrian Path');
 
 toggleLayer('osmbikes',
     ['osm-bicycleinfras-5z6khj', 
@@ -224,10 +219,15 @@ toggleLayer('osmbikes',
     ],
     'City Bicycle Lanes'); //Button Name
 
-toggleLayer('theloop', 
-    ['theloop-b2gq5f'
-    ], 
-    'The Loop Pedestrian Path');
+//Toggle All LS Original Road Network
+toggleLayer('lowstress',
+    ['ls_main_inner', 
+    'ls_main_outer'], 'Low Stress Roads');
+
+toggleLayer('highstress',
+    ['hs_main_inner', 
+    'hs_main_outer'],
+    'High Stress Roads');
 
 toggleLayer ('satellite', 
   ['mapbox-satellite', 
