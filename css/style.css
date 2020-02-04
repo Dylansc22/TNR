@@ -391,15 +391,23 @@ text-align: center;
             min-width:100%;
             }
 
+        /*also make the buttons bigger*/
         #toolbar > button {
             width:22vw;
             height:14vw;
+            font-size: 2.5vmin;
         }
 
+        /*and make them bigger when clicked*/
         #toolbar > .active, #toolbar > button:active, #toolbar > button:visited {
-            height:18vw;
+            height:22vw;
             border-color:black;
             font-weight:900;
+        }
+
+        /*and make the background image in the buttons, zoom in a little more so you can see their details in these tiny buttons*/
+        #tnrv5, #highstress, #lowstress, #hawks, #osmbikes, #theloop, #satellite, #annotation {
+            background-size:auto;
         }
     }
 
