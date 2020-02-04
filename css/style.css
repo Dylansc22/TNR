@@ -1329,6 +1329,10 @@ background-color:white;
     color:#bc5050;
 }
 
+#main > * {
+    padding: 0 15vw;
+}
+
 /* Mission Statement */
 
     #idea {
@@ -1430,6 +1434,18 @@ background-color:white;
     margin:4vh 8vw;
     margin-top:0vh;
     border: solid 2px #6c757d;
+    box-shadow: 4px 4px 8px grey;
+}
+
+
+#slidedeck {
+    position: relative;
+    height:254px;
+    margin:4vh 8vw;
+    margin-top:0vh;
+    border: solid 2px #6c757d;
+    background-image: url(../img/slidedeck.png);
+    background-size:cover;
     box-shadow: 4px 4px 8px grey;
 }
 
