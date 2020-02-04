@@ -59,55 +59,8 @@
         </div>
       </div>
     </div>
-    <div id="accordionExample" class="accordion hideright">
-        <!--<div class="card">
-            <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseMain" aria-expanded="false" aria-controls="collapseOne">
-            <h5>About This Map</h5>
-            </button>
-            <div id="collapseMain" class="collapse" aria-labelledby="headingOne">
-              <div class="card-body">
-                This is where the map description will go. 
-              </div>
-            </div>
-          </div>
-          <div class="card">
-                <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-                  <h5>Draw A Bicycle Route</h5>
-                </button>
-            <div id="collapseOne" class="collapse" aria-labelledby="headingOne">
-              <div id="testingmovement" class="card-body">
-                Trying to get mapbox controls here<br><br>
-                <div id='draw' class='draw'></div>
-
-              </div>
-            </div>
-          </div>-->
-          <div class="card">
-                <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                  <h5>Change Map Layers</h5>
-                </button>
-            <div id="collapseTwo" class="collapse show" aria-labelledby="headingTwo" >
-              <div class="card-body">
-                    <!--<div id='toolbar'></div>-->
-              </div>
-            </div>
-          </div>
-          <!--<div class="card">
-                <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                  <h5>Save or Load A Route</h5>
-                </button>
-            <div id="collapseThree" class="collapse" aria-labelledby="headingThree" >
-                <button id="newpastebutton" type="button" class="btn btn-warning">Load Route</button>           
-                <input id="myInput" type="text" value="Paste Here">
-                <button id="copybutton" type="button" class="btn btn-info">Copy Route</button>
-              <div class="card-body">
-                Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat 
-              </div>
-            </div>
-          </div>-->
-    </div>
     <div id="topRightControls" class="hideright"></div>
-    <div id="legend" class="">
+    <div id="legend" class="hidebottom">
       <div id='toolbar'></div>
     </div>
     <!--<div id="umber">
@@ -116,13 +69,6 @@
         
         </h1>
     </div>-->
-        <div id="footer">
-            <a href="https://dylansc22.github.io/portfolio" title="Portfolio"><i class="fa fa-home fa-2x" aria-hidden="true"></i></a>
-            <a href="https://www.linkedin.com/in/dylancobean" title="Linkedin"><i class="fab fa-linkedin-in fa-2x"></i></a>
-            <!--<a href="https://twitter.com/MrDylanScott" title="Twitter"><i class="fa fa-twitter fa-2x" aria-hidden="true"></i></a>-->
-            <a href="https://github.com/dylansc22" title="Github"><i class="fab fa-github fa-2x"></i></a>
-            <a href="mailto:dylan.cobean@gmail.com" title="Email"><i class="fa fa-envelope fa-2x" aria-hidden="true"></i></a>
-        </div>
 
     <div id='maininfo'>
         <a href=# data-toggle="tooltip" data-placement="top" title="Tutorial"><button type="button" class="btn btn-custom1" data-toggle="modal" data-target=".bd-example-modal-lg"><i class="fas fa-laptop"></i></button></a>
@@ -147,9 +93,6 @@
         });
         $('#sidebarCollapse').on('click', function () {
             $('#topRightControls').toggleClass('hideright');
-        });
-        $('#sidebarCollapse').on('click', function () {
-            $('#accordionExample').toggleClass('hideright');
         });
 
         //Want to be able to show/hide the bottom legend on click of the Toggle Sidebar Button
