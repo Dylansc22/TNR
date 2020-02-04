@@ -100,7 +100,7 @@ h1, h2, h3, h4, h5, h6, p {
 #topRightControls {
     position: fixed;
     width:50px;
-    top: 20px;
+    top: 60px;
     right: 2%;
     z-index: 2;
     -webkit-transition: all 0.3s;
@@ -579,6 +579,7 @@ section:last-child {
     text-align: right;
     position: fixed;
     top: 10px;
+    right:2%;
     z-index: 3;
 }
 
