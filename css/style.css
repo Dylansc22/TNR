@@ -555,7 +555,8 @@ p {
 #text > section {
     background-color: rgb(255,255,255,0.5);
     padding: 10px;
-    border: solid 3px #A0A0A0;
+    border: solid 2px #A0A0A0;
+    box-shadow: 6px 6px 8px grey;
 }
 
 #text > #satallitebikelanes, #text > #satallite, #text > #residentialsatallite {
