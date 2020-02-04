@@ -393,11 +393,11 @@ text-align: center;
 
         #toolbar > button {
             width:22vw;
-            height:9vw;
+            height:14vw;
         }
 
         #toolbar > .active, #toolbar > button:active, #toolbar > button:visited {
-            height:12vw;
+            height:18vw;
             border-color:black;
             font-weight:900;
         }
