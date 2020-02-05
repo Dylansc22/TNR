@@ -1366,6 +1366,35 @@ background-color:white;
         /*background-image: url('../img/background.png');*/
     }
 
+/*stats slick*/
+    #stats {
+        padding: 0vh 3vw;
+        /*color: #8a8472;*/
+        /*color:#6c757d;*/
+        /*background-color:white;*/
+        display: flex; /*this is used to get the .slick-prev and .slick-next arrows in the same horizontal line, as the slick display carousel*/
+    }
+
+    #stats > i {
+        color:grey;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+    }
+
+    #stats > div {
+        justify-content: center;
+        margin-bottom: 1vw;
+    }
+
+    #stats > .slick-list {
+        margin:0px 1vw; /*Wanted to push slick-arrows a little further away from how close they were to the scrollable list */
+    }
+
+    #stats .slick-track {
+        padding-bottom: 10px /*the drop-shadow on the largest whyride case was being cut off at the bottom, because the slick-track defaults with 0px padding*/
+    }
+
 
 
 /*Compare map*/
