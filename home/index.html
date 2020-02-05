@@ -45,6 +45,9 @@
 		<h1>Tucson Pathways</h1>
 		<h4>finding safer, smarter, more scenic bicycle commutes</h4>
 		<p>(additional content coming soon - a project by <a href="http://dylansc22.github.io/portfolio">dylan scott</a>)</p>
+		<h2>number here: <span id="myTargetElement"></span></h2>
+				<h2>number here: <span id="target"></span></h2>
+
 	</div>
 
 	
@@ -53,16 +56,10 @@
     	</h2>
     	<!--stats box -->
 			<div id="stats">
-				<div class="cases wow fadeIn" data-wow-delay="0.6s"><strong><h3>environmental.</strong></h3>
+				<div class="cases wow fadeIn" data-wow-delay="0.6s"><strong><h3>Tucson Rank.</strong></h3>
 		  			<div>
-		  				<h6>Every mile you choose to bike over driving will <strong>prevent 1 pound of CO2</strong> from going into the atmosphere. <br><br>
-		  				Over the next 20 - 200 years, <strong>roughly 3/4 of that pound will become carbonic acid in our oceans</strong> as it reacts in the air with surface ocean water. <br><br>
-		  				Choosing to prevent even just <strong>1 pound, through 1 ride</strong> is something to be proud of.</strong>
-		  				<br><br>
-		  				</h6>
-		  				<p>
-		  					<a href="https://www.fueleconomy.gov/feg/contentIncludes/co2_inc.htm">Source 1 </a> / <a href="https://earthobservatory.nasa.gov/features/OceanCarbon">Source 2</a> / <a href="http://climatemodels.uchicago.edu/geocarb/archer.2009.ann_rev_tail.pdf">Source 3</a> / <a href="https://www.theguardian.com/environment/2012/jan/16/greenhouse-gases-remain-air">Source 4</a> / 
-		  					<a href="https://www.nationalgeographic.com/environment/oceans/critical-issues-ocean-acidification/">Source 5</a><br>
+		  				<h3>Value: </h3><h4 id="rank"></h4>
+		  				<a href="https://www.nationalgeographic.com/environment/oceans/critical-issues-ocean-acidification/">Source 5</a><br>
 		  				</p>
 		  				<p>* Assumes 20mpg car.</p>
 		  			</div>
@@ -330,6 +327,56 @@ and some of my other scripts depend on JQuery
 	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+<!--Load & Initialize CountUp JS Library
+---------------------------------------------->
+	<!-- Load -->
+		<script src="../js/countUp.min.js" type="module"></script>
+	
+	<!-- Initialize -->
+		<script type="module">
+			/*
+				see demo at: https://inorganik.github.io/countUp.js/
+
+				startVal?: number; // number to start at (0)
+				decimalPlaces?: number; // number of decimal places (0)
+				duration?: number; // animation duration in seconds (2)
+				useGrouping?: boolean; // example: 1,000 vs 1000 (true)
+				useEasing?: boolean; // ease animation (true)
+				smartEasingThreshold?: number; // smooth easing for large numbers above this if useEasing (999)
+				smartEasingAmount?: number; // amount to be eased for numbers above threshold (333)
+				separator?: string; // grouping separator (',')
+				decimal?: string; // decimal ('.')
+				// easingFn: easing function for animation (easeOutExpo)
+				easingFn?: (t: number, b: number, c: number, d: number) => number;
+				formattingFn?: (n: number) => string; // this function formats result
+				prefix?: string; // text prepended to result
+				suffix?: string; // text appended to result
+				numerals?: string[]; // numeral glyph substitution
+  			*/
+
+  			const options = {
+  			  startVal: 100,
+			  decimalPlaces: 2,
+			  duration: 5,
+			};
+
+			import { CountUp } from '../js/countUp.min.js';
+			window.onload = function() {
+			var c = new CountUp('target', 2, options);
+			c.start();
+			var d = new CountUp('rank', 2, options);
+			d.start();
+			}
+		</script>
+
+	<!--Customize-->
+		<script>
+			window.onload = function() {
+			const countUp = new CountUp('myTargetElement', 0, 5234);
+			countUp.start();
+			}
+		</script>
 
 <!--Load Main Mapbox JS Libraries
 ---------------------------------------------->
