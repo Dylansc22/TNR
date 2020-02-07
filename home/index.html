@@ -45,9 +45,6 @@
 		<h1>Tucson Pathways</h1>
 		<h4>finding safer, smarter, more scenic bicycle commutes</h4>
 		<p>(additional content coming soon - a project by <a href="http://dylansc22.github.io/portfolio">dylan scott</a>)</p>
-		<h2>number here: <span id="myTargetElement"></span></h2>
-				<h2>number here: <span id="target"></span></h2>
-
 	</div>
 
 	
@@ -56,44 +53,29 @@
     	</h2>
     	<!--stats box -->
 			<div id="stats">
-				<div class="cases wow fadeIn" data-wow-delay="0.6s"><strong><h3>Tucson Rank.</strong></h3>
+				<div class="cases wow fadeIn" data-wow-delay="0.6s">
 		  			<div>
-		  				<h3>Value: </h3><h4 id="rank"></h4>
-		  				<a href="https://www.nationalgeographic.com/environment/oceans/critical-issues-ocean-acidification/">Source 5</a><br>
-		  				</p>
-		  				<p>* Assumes 20mpg car.</p>
+		  				<div id="rank" class="value"></div><h5>deadliest city for bicycles</h5>
+		  				<a href="https://247wallst.com/special-report/2017/12/01/32-most-dangerous-and-safest-cities-for-cycling/8/">Source 1</a><br>
+		  				<p>2015 data</p>
 		  			</div>
 		  		</div>
-				<div class="cases wow fadeIn" data-wow-delay="0.4s"><strong><h3>health.</strong></h3>
+				<div class="cases wow fadeIn" data-wow-delay="0.4s">
 		  			<div>
-		  				<h6>Riding improves your blood pressure, insulin levels, cholesterol levels; and conversely <strong>reduce risk of cancer, heart disease, and diabetes.</strong>
-		  				<br><br>
-		  				Exchanging your daily time spent sitting during a drive, for time spent  <strong>bike commuting, is one of the healthiest upgrade to daily activity </strong>one can make without having to change larger behavioral habits.
-		  				<br><br>
-		  				If your drive to work is ~20 minutes, biking will only require you to leave your house 15 minutes earlier, and result in <strong>more than 1 hour of exercise by the end of every workday.</strong>
-		  				<br>
-		  				</h6>
-		  				<p>
-		  					<a href="https://www.mayoclinic.org/diseases-conditions/high-blood-pressure/in-depth/high-blood-pressure/art-20045206">Source 1 </a>
-		  				</p>
-		  				<p>Assumes non-highway (inter-city) commutes</p>
+		  				<div id="commute" class="value"></div><h5>percent of working population that drive, over commuting</h5>
+		  				<a href="https://247wallst.com/special-report/2017/12/01/32-most-dangerous-and-safest-cities-for-cycling/8/">Source 1</a><br>
+		  				<p>2015 data</p>
 		  			</div>
 		  		</div>
-		  		<div class="cases wow fadeIn" data-wow-delay="0.8s"><strong><h3>financial.</strong></h3>
+		  		<div class="cases wow fadeIn" data-wow-delay="0.8s">
 		  			<div>
-		  				<h6>There is no doubt that a car can unlock a level of convenience in city-transport, but <strong>if you can offset your need for a car for even 6 months, the money saved on insurance alone can justify a $500-600 bicycle purchase.</strong><br><br>
-		  				<strong>A majority of car costs occur come from ownership, not useage. </strong>Whether you drive it or not, purchase price, insurance, registration, parking, depreciation already establish a financial commitment before you even factor in usage, maintenance and gas.<br><br>
-		  				<strong>A well maintained used bicycle maintains its re-sale value much longer than a car. </strong>This makes it much easier to try commuting, and if its not for you, you can recoup the funds by selling a bicycle on craigslist much faster than re-selling a car.
-		  				<br><br>
-		  				</h6>
-		  				<p>
-		  					<a href="https://www.thesimpledollar.com/insurance/auto/how-much-does-car-insurance-cost/">Source 1 </a>
-		  				</p>
+		  				<div id="staterank" class="value"></div><h5>deadliest state in the nation for bicycles</h5>
+		  				<a href="https://www.governing.com/gov-data/transportation-infrastructure/most-bicycle-cyclist-deaths-per-capita-by-state-data.html">Source 1</a>
 		  			</div>
 		  		</div>
-		  		<div class="cases wow fadeIn" data-wow-delay="0.5s"><strong><h3>mental.</strong></h3>
+		  		<div class="cases wow fadeIn" data-wow-delay="0.5s"><h3><strong>misc. 1</strong>	</h3>
 		  			<div>
-		  				<h6>Similar to meditation - bike commutes are times in which you can 'check-out' and be among your thoughts.</h6>
+		  				<h6></h6>
 		  				<br>
 		  				<p>
 		  					<a href="https://www.scientificamerican.com/article/commuting-takes-its-toll/">Source 1 </a>
@@ -101,11 +83,9 @@
 		  			</div>
 		  		</div>
 
-		  		<div class="cases wow fadeIn" data-wow-delay="0.9s"><strong><h3>misc.</strong></h3>
+		  		<div class="cases wow fadeIn" data-wow-delay="0.9s"><h3><strong>misc. 2</strong></h3>
 		  			<div>
-		  				<h6>You will develop an improved resilience to bad weather, and greater apprecation of good weather.<br><br>
-		  				You will know exactly how long your commutes take.<br><br>
-		  				Riding your bike can be a launching board to other healthy habits you didn't know you were capable of.</h6><br>
+		  				<h6></h6><br>
 		  			</div>
 		  		</div>
 			</div>
@@ -356,17 +336,33 @@ and some of my other scripts depend on JQuery
   			*/
 
   			const options = {
-  			  startVal: 100,
-			  decimalPlaces: 2,
-			  duration: 5,
+  				startVal: 50,
+				decimalPlaces: 0,
+				duration: 3,
+				useEasing: false,
+			};
+
+  			const options2 = {
+  				startVal: 0,
+				decimalPlaces: 1,
+				duration: 5,
+				useEasing: false,
+			};
+
+			const option3 = {
+  				startVal: 50,
+				decimalPlaces: 0,
+				duration: 7,
+				useEasing: false,
 			};
 
 			import { CountUp } from '../js/countUp.min.js';
 			window.onload = function() {
 			var c = new CountUp('target', 2, options);
 			c.start();
-			var d = new CountUp('rank', 2, options);
-			d.start();
+			new CountUp('rank', 2, options).start();
+			new CountUp('commute', 97.5, options2).start();
+			new CountUp('staterank', 4, option3).start();
 			}
 		</script>
 
