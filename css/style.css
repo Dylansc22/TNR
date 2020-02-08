@@ -470,7 +470,7 @@ text-align: center;
 }
 
 .hideleft {
-    margin-left: -100% !important;
+    display: none;
     -webkit-transition: all 0.4s;
     -moz-transition: all 0.4s;
     -o-transition: all 0.4s;
