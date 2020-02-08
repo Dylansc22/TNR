@@ -1557,6 +1557,33 @@ background-color:white;
     }   
     }
 
+#media {
+        padding: 4vh 3vw;
+        /*color: #8a8472;*/
+        /*color:#6c757d;*/
+        /*background-color:white;*/
+        display: flex; /*this is used to get the .slick-prev and .slick-next arrows in the same horizontal line, as the slick display carousel*/
+        justify-content: center;
+    }
+
+#media > a {
+    border-radius: 0px;
+    margin: 0 4vw;
+    justify-content: center;
+    flex-direction: column;
+}
+
+    #media > div {
+        justify-content: center;
+        margin-bottom: 1vw;
+    }
+    /*this does work, but I can't get the top bottom margin the way id like, so I'm just nixing this for now
+    #media > .slick-arrow:hover {
+        color:black;
+        transform: scale(1.3);
+        transition: all .2s ease-in-out;
+    }*/
+
 
 /* Timeline Stuff */
 #timeline {
