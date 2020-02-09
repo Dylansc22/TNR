@@ -138,6 +138,10 @@ h1, h2, h3, h4, h5, h6, p {
     top: 20px;
 }
 
+#geocoder .mapboxgl-ctrl-geocoder {
+    margin:0;
+}
+
 #geocoder .mapboxgl-ctrl-geocoder--icon-search {
     display: none;
 }
