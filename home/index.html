@@ -3,7 +3,7 @@
 <head>
 
     <title>Tucson's Safest Cycling Routes</title>
-    <meta name="description" content="A data-driven bicycle advocacy organization, focused on mapping the many  neighborhoods and residential streets that are interconnected through Tucson's signalled crosswalk network.">
+    <meta name="description" content="A data-driven bicycle advocacy organization, focused on mapping the many neighborhoods and residential streets that are interconnected through Tucson's signalled crosswalk network.">
     <meta charset='utf-8' />
     
     <!-- viewport for enabling zoom on mobile -->
@@ -26,11 +26,11 @@
     <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Shadows+Into+Light&display=swap" rel="stylesheet">
 
-    <!-- Mapbox CSS Libraries-->
-    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.52.0/mapbox-gl.css' rel='stylesheet'/>
+    <!-- Mapbox CSS Main Libraries-->
+		<link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.52.0/mapbox-gl.css' rel='stylesheet'/>
 
     <!--Mapbox Compare CSS Library-->
-    <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-compare/v0.1.0/mapbox-gl-compare.css' type='text/css' />
+		<link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-compare/v0.1.0/mapbox-gl-compare.css' type='text/css' />
 
     <!-- Slick Custom Carousel CSS Library 
     	Used for my whyride carousel -->
@@ -282,7 +282,7 @@ and some of my other scripts depend on JQuery
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
-<!--Load Main Mapbox JS Libraries
+<!--Load Mapbox Main JS Libraries
 ---------------------------------------------->
 	<script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.52.0/mapbox-gl.js'></script>
 
@@ -315,6 +315,7 @@ Not sure if I'm currently Using this(?)
 			/*interactive: false,*/
 		});
 
+		//Load data layers on the "make your own route" map that on the homepage.  
 		yourrideMap.on('load', function(){
 		    yourrideMap.setLayoutProperty('theloop-b2gq5f', 'visibility', 'visible');
 		    yourrideMap.setLayoutProperty('tnr_main_inner', 'visibility', 'visible');

@@ -95,7 +95,8 @@ var draw = new MapboxDraw({
 
 //Adds Mapbox Search Box
 var geocoder = new MapboxGeocoder({
-    accessToken: mapboxgl.accessToken,
+  accessToken: mapboxgl.accessToken,
+  mapboxgl: mapboxgl
 });
 
 //Add User-Geolocate Button
@@ -117,8 +118,7 @@ map.addControl(new mapboxgl.AttributionControl({
     compact: true,   
     }));
     
-
-//document.getElementById('topRightControls').appendChild(geocoder.onAdd(map)); //Manually locate the draw tool inside the topRightControls DIV id
+document.getElementById('geocoder').appendChild(geocoder.onAdd(map));
 document.getElementById('topRightControls').appendChild(geolocate.onAdd(map)); //Manually locate the draw tool inside the topRightControls DIV id
 document.getElementById('topRightControls').appendChild(draw.onAdd(map)); //Manually locate the draw tool inside the topRightControls DIV id
 document.getElementById('topRightControls').appendChild(zoom.onAdd(map)); //Manually locate the draw tool inside the topRightControls DIV id

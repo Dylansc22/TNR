@@ -110,11 +110,6 @@ h1, h2, h3, h4, h5, h6, p {
     align-items: end;
 }
 
-#topRightControls > div {
-    background-color: white;
-    color: red;
-}
-
 .mapboxgl-ctrl-group, .mapboxgl-ctrl-geocoder {
     border: solid 2px #8a8472;
     border-radius: 0px; 
@@ -129,9 +124,25 @@ h1, h2, h3, h4, h5, h6, p {
 }
 
 #topRightControls > .mapboxgl-ctrl-geocoder {
-    width:200px;
+    background-color: red;
+    width: 500px;
     margin-bottom: 15px;
 }
+
+.geocoder {
+    position: absolute;
+    z-index: 1;
+    width: 50%;
+    left: 50%;
+    margin-left: -25%;
+    top: 20px;
+}
+
+#geocoder .mapboxgl-ctrl-geocoder--icon-search {
+    display: none;
+}
+
+
 
     #slidenumber {
     text-align: end;

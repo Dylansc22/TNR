@@ -89,11 +89,6 @@ var draw = new MapboxDraw({
   ]
 });
 
-//Adds Mapbox Search Box
-var geocoder = new MapboxGeocoder({
-    accessToken: mapboxgl.accessToken,
-});
-
 //Add User-Geolocate Button
 var geolocate = new mapboxgl.GeolocateControl({
     accessToken: mapboxgl.accessToken,

@@ -27,11 +27,13 @@
     
     <!--Mapbox APIs-->
     <!--Mapbox Search Box-->
-    <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v2.3.0/mapbox-gl-geocoder.min.js'></script>
-    <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v2.3.0/mapbox-gl-geocoder.css' type='text/css' />
+        <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.4.2/mapbox-gl-geocoder.min.js"></script>
+        <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.4.2/mapbox-gl-geocoder.css" type="text/css" />
+
     <!--Mapbox Directions-->
-    <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.0.0/mapbox-gl-directions.js'></script>
-    <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.0.0/mapbox-gl-directions.css' type='text/css' />
+    <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.0.2/mapbox-gl-directions.js'></script>
+    <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.0.2/mapbox-gl-directions.css' type='text/css' />
+
     <!--Mapbox Draw-->
     <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.0.9/mapbox-gl-draw.js'></script>
     <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.0.9/mapbox-gl-draw.css' type='text/css'/>
@@ -40,42 +42,46 @@
 
 
 <div id='bootstrapoverrides' class='container-fluid'>
-    <div id='map'></div>
-    <div class="modal fade bd-example-modal-lg" id="TutorialModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h6 class="modal-title" id="exampleModalLongTitle">Use the Draw Tool <button class="mapbox-gl-draw_ctrl-draw-btn mapbox-gl-draw_line" style="width:24px; height:24px; background-color:white"></button> to point & click a cycling route</h6>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
+
+    <!-- Main Mapbox Map -->
+        <div id='map'></div>
+        <div id="geocoder" class="geocoder"></div>
+
+    <!-- Tutorial Modal -->
+        <div class="modal fade bd-example-modal-lg" id="TutorialModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h6 class="modal-title" id="exampleModalLongTitle">Use the Draw Tool <button class="mapbox-gl-draw_ctrl-draw-btn mapbox-gl-draw_line" style="width:24px; height:24px; background-color:white"></button> to point & click a cycling route</h6>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <img src="../img/Tutorial.gif" alt="Gif Tutorial Animation">
+              </div>
+              <!--<div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              </div>-->
+            </div>
           </div>
-          <div class="modal-body">
-            <img src="../img/Tutorial.gif" alt="Gif Tutorial Animation">
-          </div>
-          <!--<div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          </div>-->
         </div>
-      </div>
-    </div>
-    <div id="topRightControls" class="hideright"></div>
-    <div id="legend" class="hidebottom">
-      <div id='toolbar'></div>
-    </div>
-    <!--<div id="umber">
-        <h1>
-            <div class=" active"> 1/12</div>
-        
-        </h1>
-    </div>-->
 
-    <div id='maininfo'>
-        <a href=# data-toggle="tooltip" data-placement="top" title="Tutorial"><button type="button" class="btn btn-custom1" data-toggle="modal" data-target=".bd-example-modal-lg"><i class="fas fa-laptop"></i></button></a>
+    <!-- Primary Mapbox Window Controls in the Top Right (Zoom, Draw, Pitch, etc...) -->
+        <div id="topRightControls" class="hideright"></div>
 
-        <a href=# data-toggle="tooltip" data-placement="top" title="Toggle Sidebar"><button id="sidebarCollapse" type="button" class="btn btn-warning">
-            <i class="fas fa-align-right"></i></button></a>
-    </div>
+    <!-- Legend and Togglable Layer Buttons in the Bottom -->
+        <div id="legend" class="hidebottom">
+            <div id='toolbar'></div>
+        </div>
+
+    <!-- Tutorial and Toggle Sidebar Buttons in the Top Right -->
+        <div id='maininfo'>
+            <a href=# data-toggle="tooltip" data-placement="top" title="Tutorial"><button type="button" class="btn btn-custom1" data-toggle="modal" data-target=".bd-example-modal-lg"><i class="fas fa-laptop"></i></button></a>
+
+            <a href=# data-toggle="tooltip" data-placement="top" title="Toggle Sidebar"><button id="sidebarCollapse" type="button" class="btn btn-warning">
+                <i class="fas fa-align-right"></i></button></a>
+        </div>
 </div>
 
 <!--enables all animation behavior-->
