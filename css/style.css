@@ -1479,7 +1479,7 @@ background-color:white;
         /*color: #8a8472;*/
         /*color:#6c757d;*/
         /*background-color:white;*/
-        display: flex; /*this is used to get the .slick-prev and .slick-next arrows in the same horizontal line, as the slick display carousel*/
+        display: flex; /*this is used to get the .slick-prev and .slick-next arrows in the same horizontal line, as the slick display carousel*/      
     }
 
 #whyride > i {
@@ -1586,6 +1586,11 @@ background-color:white;
     margin: 0 4vw;
     justify-content: center;
     flex-direction: column;
+    box-shadow: 4px 4px 8px grey;
+}
+
+#media > a > h5 {
+    margin:1vmin;
 }
 
     #media > div {
