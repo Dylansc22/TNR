@@ -1369,7 +1369,7 @@ background-color:white;
 /*stats slick*/
     #stats {
         text-align: center;
-        padding: 0vh 3vw;
+        padding: 0vh 5vw;
         /*color: #8a8472;*/
         /*color:#6c757d;*/
         /*background-color:white;*/
@@ -1401,6 +1401,24 @@ background-color:white;
         font-size:15vmin;
         line-height:15vmin;
         color:grey;
+    }
+
+    #stats .cases {
+        height:37vh;
+    }
+
+        .cases {
+        z-index: 0;
+        width:25vw;
+        margin: 0vh 1.5vw;
+        border: solid 2px #6c757d;
+        padding: 1vw;
+        box-shadow: 4px 4px 8px grey;
+        background-color:white;
+        -webkit-transition: all 0.3s;
+        -moz-transition: all 0.3s;
+        -o-transition: all 0.3s;
+        transition:all 0.3s;
     }
 
 

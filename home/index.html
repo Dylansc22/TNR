@@ -49,11 +49,11 @@
 
 	
 	<div class="wrapper">
-    	<h2 class="sectiontitle wow fadeIn" data-wow-delay="0s" data-wow-duration="1s">the stats<span style="font-size: 3vmin; line-height: 3vmin;"> for tucson</span>
+    	<h2 class="sectiontitle wow fadeIn" data-wow-delay="0s" data-wow-duration="1s">the stats<span style="font-size: 3vmin; line-height: 3vmin;"> for ridership</span>
     	</h2>
     	<!--stats box -->
 			<div id="stats">
-				<div class="cases wow fadeIn" data-wow-delay="0.6s">
+				<div class="cases wow fadeIn" data-wow-delay="0.4s">
 		  			<div>
 		  				<h5>Tucson Ranks</h5>
 		  				<div id="rank" class="value"></div><h5>deadliest city in the nation for bike riders</h5>
@@ -61,25 +61,25 @@
 		  				<p></p>
 		  			</div>
 		  		</div>
-				<div class="cases wow fadeIn" data-wow-delay="0.4s">
+				<div class="cases wow fadeIn" data-wow-delay="0.8s">
 		  			<div>
 		  				<h5>Only</h5>
-		  				<div id="commute" class="value"></div><h5>percent of working population that commute by bike</h5>
+		  				<div id="commute" class="value"></div><h5>percent of population commute by bike for work</h5>
 		  				<a href="https://247wallst.com/special-report/2017/12/01/32-most-dangerous-and-safest-cities-for-cycling/8/">Source</a><br>
 		  				<p></p>
 		  			</div>
 		  		</div>
-		  		<div class="cases wow fadeIn" data-wow-delay="0.8s">
+		  		<div class="cases wow fadeIn" data-wow-delay="1.2s">
 		  			<div>
 		  				<h5>Arizona Ranks</h5>
 		  				<div id="staterank" class="value"></div><h5>deadliest state in the nation for bike riders</h5>
 		  				<a href="https://www.governing.com/gov-data/transportation-infrastructure/most-bicycle-cyclist-deaths-per-capita-by-state-data.html">Source</a>
 		  			</div>
 		  		</div>
-		  		<div class="cases wow fadeIn" data-wow-delay="1.0s">
+		  		<div class="cases wow fadeIn" data-wow-delay="1.6s">
 		  			<div>
 		  				<h5>On Average</h5>
-		  				<div id="percapdeath" class="value"></div><h5>people die per million residents</h5>
+		  				<div id="percapdeath" class="value"></div><h5>people die per million residents per year</h5>
 		  				<a href="https://www.governing.com/gov-data/transportation-infrastructure/most-bicycle-cyclist-deaths-per-capita-by-state-data.html">Source</a>
 		  			</div>
 		  		</div>
@@ -351,6 +351,13 @@ and some of my other scripts depend on JQuery
 				useEasing: false,
 			};
 
+			const option4 = {
+  				startVal: 0,
+				decimalPlaces: 0,
+				duration: 9,
+				useEasing: false,
+			};
+
 			import { CountUp } from '../js/countUp.min.js';
 			window.onload = function() {
 			var c = new CountUp('target', 2, options);
@@ -358,7 +365,7 @@ and some of my other scripts depend on JQuery
 			new CountUp('rank', 2, options).start();
 			new CountUp('commute', 2.5, options2).start();
 			new CountUp('staterank', 4, option3).start();
-			new CountUp('percapdeath', 7, option3).start();
+			new CountUp('percapdeath', 20, option3).start();
 			}
 		</script>
 
