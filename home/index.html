@@ -79,7 +79,7 @@
 		  		<div class="cases wow fadeIn" data-wow-delay="1.6s">
 		  			<div>
 		  				<h5>On Average</h5>
-		  				<div id="percapdeath" class="value"></div><h5>people die per million residents per year</h5>
+		  				<div id="percapdeath" class="value"></div><h5>people die per million residents per year in Arizona</h5>
 		  				<a href="https://www.governing.com/gov-data/transportation-infrastructure/most-bicycle-cyclist-deaths-per-capita-by-state-data.html">Source</a>
 		  			</div>
 		  		</div>
@@ -340,21 +340,21 @@ and some of my other scripts depend on JQuery
   			const options2 = {
   				startVal: 0,
 				decimalPlaces: 1,
-				duration: 5,
+				duration: 4,
 				useEasing: false,
 			};
 
 			const option3 = {
   				startVal: 50,
 				decimalPlaces: 0,
-				duration: 7,
+				duration: 5,
 				useEasing: false,
 			};
 
 			const option4 = {
   				startVal: 0,
 				decimalPlaces: 0,
-				duration: 9,
+				duration: 6,
 				useEasing: false,
 			};
 
@@ -365,7 +365,7 @@ and some of my other scripts depend on JQuery
 			new CountUp('rank', 2, options).start();
 			new CountUp('commute', 2.5, options2).start();
 			new CountUp('staterank', 4, option3).start();
-			new CountUp('percapdeath', 20, option3).start();
+			new CountUp('percapdeath', 20, option4).start();
 			}
 		</script>
 
