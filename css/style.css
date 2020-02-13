@@ -1416,10 +1416,12 @@ background-color:white;
         font-size:15vmin;
         line-height:15vmin;
         color:grey;
+        margin-bottom:2vh;
     }
 
     #stats .cases {
-        height:37vh;
+        height:35vh;
+        padding:0.5vw;
     }
 
         .cases {
