@@ -4,7 +4,7 @@
 // All parameter options such as attributionControl, minZoom, style, etc... are found here... https://docs.mapbox.com/mapbox-gl-js/api/#map
 
 //Activate Mapbox Map
-mapboxgl.accessToken = 'pk.eyJ1IjoiZHlsYW5jIiwiYSI6Im53UGgtaVEifQ.RJiPqXwEtCLTLl-Vmd1GWQ';
+mapboxgl.accessToken = API.mapbox;
 var map = new mapboxgl.Map({
     container: 'map', // container id
     style: 'mapbox://styles/dylanc/cjudqm16b1x3s1fmfjveo40q8',

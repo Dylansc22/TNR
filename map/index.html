@@ -22,20 +22,20 @@
     <link href="https://fonts.googleapis.com/css?family=Oswald" rel="stylesheet">
 
     <!--Mapbox JS & Mapbox CSS Libraries-->
-    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.52.0/mapbox-gl.js'></script>
+    
     <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.52.0/mapbox-gl.css' rel='stylesheet' />
     
     <!--Mapbox APIs-->
     <!--Mapbox Search Box-->
-        <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.4.2/mapbox-gl-geocoder.min.js"></script>
+        
         <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.4.2/mapbox-gl-geocoder.css" type="text/css" />
 
     <!--Mapbox Directions-->
-    <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.0.2/mapbox-gl-directions.js'></script>
+    
     <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.0.2/mapbox-gl-directions.css' type='text/css' />
 
     <!--Mapbox Draw-->
-    <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.0.9/mapbox-gl-draw.js'></script>
+    
     <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.0.9/mapbox-gl-draw.css' type='text/css'/>
 </head>
 <body>
@@ -84,6 +84,14 @@
         </div>
 </div>
 
+<!-- Load My Private API Keys -->
+    <script src="../js/apikeys.js"></script>
+
+<script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.52.0/mapbox-gl.js'></script>
+<script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.4.2/mapbox-gl-geocoder.min.js"></script>
+<script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.0.2/mapbox-gl-directions.js'></script>
+<script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.0.9/mapbox-gl-draw.js'></script>
+
 <!--enables all animation behavior-->
 <script>new WOW().init();</script>
 
@@ -111,10 +119,123 @@
     });
 </script>
     
-    <!--Bootstrap Scripts-->
+<!--Bootstrap Scripts-->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+<!-- Open Route Service Javascript API - For Improved Routing -->   
+    <script src="../js/dist/ors-js-client.js"></script>
+
+<!-- Proof Of Concept ORS Directions Call -->
+    <script>
+        //First Make a Special geojson point variable that holds some tester coordinates
+            var threePoints = {
+                "type": "FeatureCollection",
+                "features": [
+                    {
+                      "type": "Feature",
+                      "properties": {},
+                      "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                          -110.92714973449706,
+                          32.229700917377224
+                        ]
+                      }
+                    },
+                    {
+                      "type": "Feature",
+                      "properties": {
+                        "marker-color": "#7e7e7e",
+                        "marker-size": "medium",
+                        "marker-symbol": ""
+                      },
+                      "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                          -110.96839645385742,
+                          32.2666352810787
+                        ]
+                      }
+                    },
+                    {
+                      "type": "Feature",
+                      "properties": {
+                        "marker-color": "#7e7e7e",
+                        "marker-size": "medium",
+                        "marker-symbol": ""
+                      },
+                      "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                          -110.93341827392578,
+                          32.26913604087526
+                        ]
+                      }
+                    }
+                ]
+            };
+            var threePointsCoord0 = threePoints.features[0].geometry.coordinates;
+            var threePointsCoord1 = threePoints.features[1].geometry.coordinates;
+            var emptydirections = {};
+
+                // add it to the map
+    window.onload = function() {
+        map.addSource('whateverIWantAsAnASourceAsLongAsItMatches', { type: 'geojson', data: threePoints });
+        map.addLayer({
+            "id": "whateverIWantAsAnID",
+            "type": "circle",
+            "source": "whateverIWantAsAnASourceAsLongAsItMatches",
+            "paint": {
+                "circle-color": "red",
+                "circle-radius": 5
+            }
+        });
+
+        let orsDirections = new Openrouteservice.Directions({
+          api_key: API.ors
+        });
+
+        orsDirections.calculate({
+          //coordinates: [[-110.934277, 32.253168], [-110.8, 32.2]],
+          coordinates: [threePointsCoord0, threePointsCoord1],
+          profile: "cycling-regular",
+          extra_info: ["waytype", "steepness"],
+          format: "geojson"
+        })
+          .then(function(json) {
+                // Add your own result handling here
+                emptydirections = json;
+                console.log(JSON.stringify(json));
+
+                map.addSource('testdirections', { type: 'geojson', data: emptydirections });
+                map.addLayer({
+                    "id": "AnyIdThatIWant",
+                    "type": "line",
+                    "source": "testdirections",
+                    "paint": {
+                        "line-color": "black",
+                        "line-opacity": 0.75,
+                        "line-width": 3
+                    }
+                });
+
+          })
+          .catch(function(err) {
+              console.error(err);
+          });
+      }
+
+          //3. VISUALIZE THAT JSON on MAPBOX MAP
+
+
+     
+    // save full coordinate list for later
+    //var coordinates = emptydirections.features[0].geometry.coordinates;
+     
+
+    </script>
 
 </body>
 </html> 
