@@ -197,12 +197,18 @@
           api_key: API.ors
         });
 
+        //Cant find documentation on JS API
+        //Found the Python Documentation 
+        //Page 21 - https://readthedocs.org/projects/openrouteservice-py/downloads/pdf/latest/
         orsDirections.calculate({
           //coordinates: [[-110.934277, 32.253168], [-110.8, 32.2]],
           coordinates: [threePointsCoord0, threePointsCoord1],
           profile: "cycling-regular",
-          extra_info: ["waytype", "steepness"],
-          format: "geojson"
+          extra_info: ["waytype", "steepness"], //“steepness”, “suitability”, “surface”, “waycategory”, “waytype”, “tollways”, “traildifficulty”, “roadaccessrestrictions”
+          format: "geojson",
+          preference: "recommended", //fastest, shortest, recommended
+          units: "mi" //km, mi, m
+
         })
           .then(function(json) {
                 // Add your own result handling here
