@@ -1462,7 +1462,7 @@ background-color:white;
     #beforetext {
         position: absolute;
         color: black; /*#e0a800 yellow button color*/
-        bottom:0;
+        top:0;
         left:0;
         z-index: 3;
         margin:10px;
@@ -1474,7 +1474,7 @@ background-color:white;
     #aftertext {
         position: absolute;
         color: black; /*#e0a800 yellow button color*/
-        bottom:0;
+        top:0;
         right:0;
         z-index: 3;
         margin:10px;
