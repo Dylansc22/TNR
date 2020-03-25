@@ -176,6 +176,7 @@
                     }
                 ]
             };
+
             var threePointsCoord0 = threePoints.features[0].geometry.coordinates;
             var threePointsCoord1 = threePoints.features[1].geometry.coordinates;
             var emptydirections = {};
@@ -194,20 +195,31 @@
         });
 
         let orsDirections = new Openrouteservice.Directions({
-          api_key: API.ors
+          //api_key: API.ors,
+          host: "http://localhost:8080/openrouteservice_war"
         });
 
         //Cant find documentation on JS API
         //Found the Python Documentation 
         //Page 21 - https://readthedocs.org/projects/openrouteservice-py/downloads/pdf/latest/
         orsDirections.calculate({
+          host: "http://localhost:8080/openrouteservice_war",
           //coordinates: [[-110.934277, 32.253168], [-110.8, 32.2]],
           coordinates: [threePointsCoord0, threePointsCoord1],
           profile: "cycling-regular",
-          extra_info: ["waytype", "steepness"], //“steepness”, “suitability”, “surface”, “waycategory”, “waytype”, “tollways”, “traildifficulty”, “roadaccessrestrictions”
+          extra_info: ["waytype"], //“steepness”, “suitability”, “surface”, “waycategory”, “waytype”, “tollways”, “traildifficulty”, “roadaccessrestrictions”
           format: "geojson",
-          preference: "recommended", //fastest, shortest, recommended
-          units: "mi" //km, mi, m
+          elevation: false,
+          preference: "fastest", //fastest, shortest, recommended
+          units: "mi", //km, mi, m
+          // {\"profile_params\":{\"weightings\":{\"green\":1}}}
+          options: {
+            profile_params: {
+                weightings: {
+                    green: 0
+                }
+            }
+          }
 
         })
           .then(function(json) {
