@@ -129,128 +129,92 @@
 
 <!-- Proof Of Concept ORS Directions Call -->
     <script>
-        //First Make a Special geojson point variable that holds some tester coordinates
-            var threePoints = {
-                "type": "FeatureCollection",
-                "features": [
-                    {
-                      "type": "Feature",
-                      "properties": {},
-                      "geometry": {
-                        "type": "Point",
-                        "coordinates": [
-                          -110.92714973449706,
-                          32.229700917377224
-                        ]
-                      }
-                    },
-                    {
-                      "type": "Feature",
-                      "properties": {
-                        "marker-color": "#7e7e7e",
-                        "marker-size": "medium",
-                        "marker-symbol": ""
-                      },
-                      "geometry": {
-                        "type": "Point",
-                        "coordinates": [
-                          -110.96839645385742,
-                          32.2666352810787
-                        ]
-                      }
-                    },
-                    {
-                      "type": "Feature",
-                      "properties": {
-                        "marker-color": "#7e7e7e",
-                        "marker-size": "medium",
-                        "marker-symbol": ""
-                      },
-                      "geometry": {
-                        "type": "Point",
-                        "coordinates": [
-                          -110.93341827392578,
-                          32.26913604087526
-                        ]
-                      }
-                    }
-                ]
-            };
+      window.addEventListener("load", function() {
 
-            var threePointsCoord0 = threePoints.features[0].geometry.coordinates;
-            var threePointsCoord1 = threePoints.features[1].geometry.coordinates;
-            var emptydirections = {};
+        //Design and add two Mapbox Markers that can be dragged around map
+          var startMarker = new mapboxgl.Marker({
+            draggable: true,
+            color: '#139900',
+            })
+          startMarker.setLngLat([-110.92214973449706, 32.221700917377224])
+          startMarker.addTo(map);
 
-                // add it to the map
-    window.onload = function() {
-        map.addSource('whateverIWantAsAnASourceAsLongAsItMatches', { type: 'geojson', data: threePoints });
-        map.addLayer({
-            "id": "whateverIWantAsAnID",
-            "type": "circle",
-            "source": "whateverIWantAsAnASourceAsLongAsItMatches",
-            "paint": {
-                "circle-color": "red",
-                "circle-radius": 5
+          var endMarker = new mapboxgl.Marker({
+            draggable: true,
+            color: '#660000',
+            });
+          endMarker.setLngLat([-110.92714973449706, 32.229700917377224])
+          endMarker.addTo(map);
+
+        //This returns the first set of directions based on where the two Mapbox Markers are loaded
+          gimmeDirections();
+
+        //This re-calculates directions once a marker being 'done' being dragged around.
+        //I probably don't need the if-else statement, and could just remove the directions immediately
+        //but I'm keeping it in for now, as an added logical check, behavior is working as I want it to
+        //But yea, before it calc's the directions, it checks if directions are already loaded on screen
+        //if directions are loaded on screen, it removes them, then re-calc's the directions
+          function onDragEnd() {
+            var lng = this.getLngLat().lng; //I dont think I need this anymore
+            var lat = this.getLngLat().lat; //I dont think I need this anymore
+            // console.log("lng:" + lng);
+            // console.log("lat:" + lat);
+            if (map.isSourceLoaded("testdirections")) {
+              map.removeLayer("AnyIdThatIWant");
+              map.removeSource("testdirections");
+              gimmeDirections();
             }
-        });
-
-        let orsDirections = new Openrouteservice.Directions({
-          //api_key: API.ors,
-          host: "http://localhost:8080/openrouteservice_war"
-        });
-
-        //Cant find documentation on JS API
-        //Found the Python Documentation 
-        //Page 21 - https://readthedocs.org/projects/openrouteservice-py/downloads/pdf/latest/
-        orsDirections.calculate({
-          host: "http://localhost:8080/openrouteservice_war",
-          //coordinates: [[-110.934277, 32.253168], [-110.8, 32.2]],
-          coordinates: [threePointsCoord0, threePointsCoord1],
-          profile: "cycling-regular",
-          extra_info: ["waytype"], //“steepness”, “suitability”, “surface”, “waycategory”, “waytype”, “tollways”, “traildifficulty”, “roadaccessrestrictions”
-          format: "geojson",
-          elevation: false,
-          preference: "fastest", //fastest, shortest, recommended
-          units: "mi", //km, mi, m
-          // {\"profile_params\":{\"weightings\":{\"green\":1}}}
-          options: {
-            profile_params: {
-                weightings: {
-                    green: 0
-                }
+            else {
+              //I dont think it will ever reach this command, since 'testdirections' will always be loaded beforehand
+              gimmeDirections();
             }
           }
+          
+        //This initiates the above function. i.e. Anytime a Marker is dragged, run the onDragEnd Function
+          endMarker.on('dragend', onDragEnd);
+          startMarker.on('dragend', onDragEnd);
+          
+        //This calls the OpenRouteService Cycling Routing Algorthm API
+        //and calculates the route based on the start and end Mapbox Markers       
+          function gimmeDirections (){
+            let orsDirections = new Openrouteservice.Directions({
+              api_key: API.ors
+            });
 
-        })
-          .then(function(json) {
-                // Add your own result handling here
-                emptydirections = json;
-                console.log(JSON.stringify(json));
+            orsDirections.calculate({
+              //Various Paramaters for OpenRouteService Directions Calculation
+                coordinates: [Object.values(startMarker.getLngLat()), Object.values(endMarker.getLngLat())],
+                profile: "cycling-regular",
+                extra_info: ["waytype", "steepness"], //“steepness”, “suitability”, “surface”, “waycategory”, “waytype”, “tollways”, “traildifficulty”, “roadaccessrestrictions”
+                format: "geojson",
+                preference: "recommended", //fastest, shortest, recommended
+                units: "mi" //km, mi, m
+            })
 
-                map.addSource('testdirections', { type: 'geojson', data: emptydirections });
-                map.addLayer({
-                    "id": "AnyIdThatIWant",
-                    "type": "line",
-                    "source": "testdirections",
-                    "paint": {
+              //Sets the directions as a json 
+                .then(function(json) {
+                  emptydirections = json;
+                  console.log(JSON.stringify(json));
+
+                  //Use Mapbox to visualize json directions on Map
+                    map.addSource('testdirections', { type: 'geojson', data: emptydirections });
+                    map.addLayer({
+                      "id": "AnyIdThatIWant",
+                      "type": "line",
+                      "source": "testdirections",
+                      "paint": {
                         "line-color": "black",
                         "line-opacity": 0.75,
                         "line-width": 3
-                    }
+                      }
+                    });
+                })
+              //If error, throw error message
+                .catch(function(err) {
+                  console.error(err);
                 });
-
-          })
-          .catch(function(err) {
-              console.error(err);
-          });
-      }
-
-          //3. VISUALIZE THAT JSON on MAPBOX MAP
-
-
-     
-    // save full coordinate list for later
-    //var coordinates = emptydirections.features[0].geometry.coordinates;
+          };
+      });  //End window.addEventListener("load")
      
 
     </script>
