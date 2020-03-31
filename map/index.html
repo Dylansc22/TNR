@@ -71,7 +71,7 @@
           <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
               <div class="modal-header">
-                <h6 class="modal-title" id="exampleModalLongTitle">Directions and Route Text Here</h6>
+                <h3 class="modal-title" id="exampleModalLongTitle2"></h3>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
@@ -229,18 +229,23 @@
 
               //Sets the directions as a json 
                 .then(function(json) {
-                  orsReturnedJson = json;
-                  var orsReturnedSteps = orsReturnedJson.features[0].properties.segments[0].steps
+                  X = json;
+                  var orsDistance = X.features[0].properties.segments[0].distance;
+                  var orsDistance = orsDistance.toFixed(1); //round to tenth place
+                  var orsReturnedSteps = X.features[0].properties.segments[0].steps
                   var summaryDirections = "";
                   for (i = 0; i < orsReturnedSteps.length; i++) {
                     summaryDirections += orsReturnedSteps[i].instruction + "<br />";
                   }
+                  document.getElementById("exampleModalLongTitle2").innerHTML = "";
+                  document.getElementById("exampleModalLongTitle2").innerHTML = orsDistance + " Miles";                  
+
                   document.getElementById("routeDirections").innerHTML = "";
                   document.getElementById("routeDirections").innerHTML = summaryDirections;
                   // console.log(JSON.stringify(json));
 
                   //Use Mapbox to visualize json directions on Map
-                    map.addSource('testdirections', { type: 'geojson', data: orsReturnedJson });
+                    map.addSource('testdirections', { type: 'geojson', data: X });
                     map.addLayer({
                       "id": "AnyIdThatIWant",
                       "type": "line",
