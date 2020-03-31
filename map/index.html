@@ -66,6 +66,27 @@
             </div>
           </div>
         </div>
+    <!-- RouteInfo Modal -->
+        <div class="modal fade bd-example-modal-lg" id="routeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h6 class="modal-title" id="exampleModalLongTitle">Directions and Route Text Here</h6>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <div id=routeDirections></div>
+              </div>
+              <!--<div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              </div>-->
+            </div>
+          </div>
+        </div>
+
+
 
     <!-- Primary Mapbox Window Controls in the Top Right (Zoom, Draw, Pitch, etc...) -->
         <div id="topRightControls" class="hideright"></div>
@@ -81,6 +102,9 @@
 
             <a href=# data-toggle="tooltip" data-placement="top" title="Toggle Sidebar"><button id="sidebarCollapse" type="button" class="btn btn-warning">
                 <i class="fas fa-align-right"></i></button></a>
+        </div>
+        <div id='routeInfo'>
+            <a href=# data-toggle="tooltip" data-placement="bottom" title="Route"><button type="button" class="btn btn-custom1" data-toggle="modal" data-target="#routeModal"><i class="fas fa-directions"></i></button></a>
         </div>
 </div>
 
@@ -205,11 +229,18 @@
 
               //Sets the directions as a json 
                 .then(function(json) {
-                  emptydirections = json;
-                  console.log(JSON.stringify(json));
+                  orsReturnedJson = json;
+                  var orsReturnedSteps = orsReturnedJson.features[0].properties.segments[0].steps
+                  var summaryDirections = "";
+                  for (i = 0; i < orsReturnedSteps.length; i++) {
+                    summaryDirections += orsReturnedSteps[i].instruction + "<br />";
+                  }
+                  document.getElementById("routeDirections").innerHTML = "";
+                  document.getElementById("routeDirections").innerHTML = summaryDirections;
+                  // console.log(JSON.stringify(json));
 
                   //Use Mapbox to visualize json directions on Map
-                    map.addSource('testdirections', { type: 'geojson', data: emptydirections });
+                    map.addSource('testdirections', { type: 'geojson', data: orsReturnedJson });
                     map.addLayer({
                       "id": "AnyIdThatIWant",
                       "type": "line",

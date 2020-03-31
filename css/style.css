@@ -639,6 +639,16 @@ span.tooltip:hover {
     /*overflow-y: scroll;*/`
 }
 
+
+#routeInfo {
+    display: block;
+    text-align: left;
+    position: fixed;
+    top: 10px;
+    left:2%;
+    z-index: 3;
+}
+
 #mapPosition {
     border-top: solid 3px #A0A0A0;;
     word-wrap: break-word;
