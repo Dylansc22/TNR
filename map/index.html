@@ -1,42 +1,35 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Tucson's Best Cycling Routes</title>
-    <meta charset='utf-8' />
-    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
-    
+    <title>Tucson's Safest Cycling Routes</title>
+    <meta 
+        name="viewport" 
+        content="A data-driven bicycle advocacy organization, focused on mapping the many neighborhoods and residential streets that are interconnected through Tucson's signalled crosswalk network."
+        charset="utf-8"
+        content='initial-scale=1,maximum-scale=1,user-scalable=no'>
+
     <!--Bootstrap CSS (must come before other stylesheets)-->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
-    <!-- Custom CSS -->
-    <link href="../css/style.css" rel="stylesheet">
-
-    <!--Animation CSS and WOW.JS - Source: http://mynameismatthieu.com/WOW/docs.html-->
-    <link rel="stylesheet" href="../css/animate_minify.css">
-    <script src="../js/wow.min.js"></script>
+    <!--Animation CSS - Source: http://mynameismatthieu.com/WOW/docs.html-->
+        <link rel="stylesheet" href="../css/animate_minify.css">
 
     <!--Awesome Fonts Library - Source: https://fontawesome.com/start -->
-    <script src="https://kit.fontawesome.com/424cd50bdd.js"></script>
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 
    <!--Google Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Oswald" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Merriweather&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Shadows+Into+Light&display=swap" rel="stylesheet">
 
-    <!--Mapbox JS & Mapbox CSS Libraries-->
-    
-    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.52.0/mapbox-gl.css' rel='stylesheet' />
-    
-    <!--Mapbox APIs-->
-    <!--Mapbox Search Box-->
-        
-        <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.4.2/mapbox-gl-geocoder.css" type="text/css" />
+    <!-- Mapbox CSS Libraries-->
+        <!--Main --><link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.52.0/mapbox-gl.css' rel='stylesheet'/>
+        <!--Search--><link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.4.2/mapbox-gl-geocoder.css" type="text/css" />
+        <!--Directions--><link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.0.2/mapbox-gl-directions.css' type='text/css' />
+        <!--Draw--><link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.0.9/mapbox-gl-draw.css' type='text/css'/>
 
-    <!--Mapbox Directions-->
-    
-    <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.0.2/mapbox-gl-directions.css' type='text/css' />
-
-    <!--Mapbox Draw-->
-    
-    <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.0.9/mapbox-gl-draw.css' type='text/css'/>
+    <!-- Custom CSS -->
+        <link href="../css/style.css" rel="stylesheet">
 </head>
 <body>
 
@@ -108,50 +101,65 @@
         </div>
 </div>
 
-<!-- Load My Private API Keys -->
+<!-- Load My Private API Keys ---------------------------------------------->
     <script src="../js/apikeys.js"></script>
 
-<script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.52.0/mapbox-gl.js'></script>
-<script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.4.2/mapbox-gl-geocoder.min.js"></script>
-<script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.0.2/mapbox-gl-directions.js'></script>
-<script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.0.9/mapbox-gl-draw.js'></script>
+<!--Load Bootstrap Scripts
+I think this should be the first script to load, 
+because it will JQuery will be loaded in immediately
+and some of my other scripts depend on JQuery
+---------------------------------------------->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
-<!--enables all animation behavior-->
-<script>new WOW().init();</script>
+<!--Load Main Mapbox JS Libraries
+---------------------------------------------->
+    <!--Main--><script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.52.0/mapbox-gl.js'></script>
+    <!--Search--><script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.4.2/mapbox-gl-geocoder.min.js"></script>
+    <!--Directions--><script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.0.2/mapbox-gl-directions.js'></script>
+    <!--Draw--><script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.0.9/mapbox-gl-draw.js'></script>
 
-<!--Main Javascript File-->
-<script src="js/routing.js"></script>
+<!--Load WOW Animations
+Fade/Slide in/Slide out/etc...
+Source: http://mynameismatthieu.com/WOW/docs.html
+---------------------------------------------->
+    <script src="../js/wow.min.js"></script>
+    <script>new WOW().init();</script>
 
 <script type="text/javascript" src="https://code.jquery.com/jquery.min.js"></script>
 
-<script type="text/javascript">
-    $(document).ready(function () {
-        $('#sidebarCollapse').on('click', function () {
-            $('#presentation').toggleClass('hideleft');
-        });
-        $('#sidebarCollapse').on('click', function () {
-            $('#topRightControls').toggleClass('hideright');
-        });
-
-        //Want to be able to show/hide the bottom legend on click of the Toggle Sidebar Button
-        $('#sidebarCollapse').on('click', function () {
-            $('#legend').toggleClass('hidebottom');
-        });
-        $(function () {
-            $('[data-toggle="tooltip"]').tooltip()
-        });
-    });
-</script>
-    
-<!--Bootstrap Scripts-->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-
-<!-- Open Route Service Javascript API - For Improved Routing -->   
+<!--Load Open Route Service Javascript API
+---------------------------------------------->
     <script src="../js/dist/ors-js-client.js"></script>
 
-<!-- Proof Of Concept ORS Directions Call -->
+<!-- Custom JQuery Script
+---------------------------------------------->
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#sidebarCollapse').on('click', function () {
+                $('#presentation').toggleClass('hideleft');
+            });
+            $('#sidebarCollapse').on('click', function () {
+                $('#topRightControls').toggleClass('hideright');
+            });
+
+            //Want to be able to show/hide the bottom legend on click of the Toggle Sidebar Button
+            $('#sidebarCollapse').on('click', function () {
+                $('#legend').toggleClass('hidebottom');
+            });
+            $(function () {
+                $('[data-toggle="tooltip"]').tooltip()
+            });
+        });
+    </script>
+
+<!--Load Custom Javascript
+---------------------------------------------->
+    <script src="js/routing.js"></script>
+
+<!-- Load Custom ORS Directions Call
+---------------------------------------------->
     <script src="js/orsDirectionsCall.js"></script>
 
 </body>
