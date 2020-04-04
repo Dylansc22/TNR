@@ -47,23 +47,23 @@ window.addEventListener("load", function() {
   //and calculates the route based on the start and end Mapbox Markers       
     function gimmeDirections (){
       let orsDirections = new Openrouteservice.Directions({
-        api_key: API.ors //turn this off for custom API
-         // host: "http://localhost:8080/openrouteservice_war" //turn this on for custom API
+        // api_key: API.ors, //turn this off for custom API
+         host: "http://localhost:8080/ors" //turn this on for custom API
       });
 
       orsDirections.calculate({
-        //Various Paramaters for OpenRouteService Directions Calculation
-          // host: "http://localhost:8080/openrouteservice_war", //turn this on for custom API
-          // extra_info: ["waytype"], //turn this on for custom API
-          // elevation: false, //turn this on for custom API
-          // preference: "fastest", //turn this on for custom API
-          // options: {
-          //   profile_params: {
-          //       weightings: {
-          //           green: 0
-          //       }
-          //   }
-          // },
+        // Various Paramaters for OpenRouteService Directions Calculation
+          host: "http://localhost:8080/ors", //turn this on for custom API
+          extra_info: ["waytype"], //turn this on for custom API
+          elevation: false, //turn this on for custom API
+          preference: "fastest", //turn this on for custom API
+          options: {
+            profile_params: {
+                weightings: {
+                    green: 1
+                }
+            }
+          },
           coordinates: [Object.values(startMarker.getLngLat()), Object.values(endMarker.getLngLat())],
           profile: "cycling-regular",
           preference: "recommended", //fastest, shortest, recommended
