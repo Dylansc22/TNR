@@ -1,6 +1,8 @@
 window.addEventListener("load", function() {
 
-  //Design and add two Mapbox Markers that can be dragged around map
+  //Main Variable Declarations & Make two Dragable Mapbox Markers 
+    var hostAddress = "http://localhost:8080/ors";
+    
     var startMarker = new mapboxgl.Marker({
       draggable: true,
       color: '#139900',
@@ -15,8 +17,9 @@ window.addEventListener("load", function() {
     endMarker.setLngLat([-110.92714973449706, 32.229700917377224])
     endMarker.addTo(map);
 
-  //This returns the first set of directions based on where the two Mapbox Markers are loaded
+    //Generation initial route for the two markers 
     gimmeDirections();
+
 
   //This re-calculates directions once a marker being 'done' being dragged around.
   //I probably don't need the if-else statement, and could just remove the directions immediately
@@ -33,8 +36,8 @@ window.addEventListener("load", function() {
         map.removeSource("testdirections");
         gimmeDirections();
       }
+      //I dont think it will ever reach this else command, since 'testdirections' will always be loaded beforehand
       else {
-        //I dont think it will ever reach this command, since 'testdirections' will always be loaded beforehand
         gimmeDirections();
       }
     }
@@ -42,18 +45,21 @@ window.addEventListener("load", function() {
   //This initiates the above function. i.e. Anytime a Marker is dragged, run the onDragEnd Function
     endMarker.on('dragend', onDragEnd);
     startMarker.on('dragend', onDragEnd);
-    
+
   //This calls the OpenRouteService Cycling Routing Algorthm API
   //and calculates the route based on the start and end Mapbox Markers       
     function gimmeDirections (){
-      let orsDirections = new Openrouteservice.Directions({
-        // api_key: API.ors, //turn this off for custom API
-         host: "http://localhost:8080/ors" //turn this on for custom API
-      });
+      var RouterToggleStatus = document.getElementById('routerToggle').checked //Either True or False, Depending on routerToggle state
 
-      orsDirections.calculate({
+      //if statement - if Toggle Condition is True (i.e. Router Toggle Button is on Tucson Pathways)
+      //Run the orsDirections with custom API graph parameters
+      if (RouterToggleStatus) {
+        let orsDirections = new Openrouteservice.Directions({
+          host: hostAddress
+        });
+        orsDirections.calculate({
         // Various Paramaters for OpenRouteService Directions Calculation
-          host: "http://localhost:8080/ors", //turn this on for custom API
+          host: hostAddress, //turn this on for custom API
           extra_info: ["waytype"], //turn this on for custom API
           elevation: false, //turn this on for custom API
           preference: "fastest", //turn this on for custom API
@@ -70,8 +76,7 @@ window.addEventListener("load", function() {
           extra_info: ["waytype", "steepness"], //“steepness”, “suitability”, “surface”, “waycategory”, “waytype”, “tollways”, “traildifficulty”, “roadaccessrestrictions”
           format: "geojson",
           units: "mi" //km, mi, m
-      })
-
+        })
         //Sets the directions as a json 
           .then(function(json) {
             X = json;
@@ -106,5 +111,70 @@ window.addEventListener("load", function() {
           .catch(function(err) {
             console.error(err);
           });
+      }
+      //else - statement is False (i.e. Router Toggle is Button is on Regular Routing)
+      //Run orsDirections with regular ORS Cycling API
+      else {
+        let orsDirections = new Openrouteservice.Directions({
+          api_key: API.ors
+        });
+
+        orsDirections.calculate({
+          // Various Paramaters for OpenRouteService Directions Calculation
+            // host: hostAddress, //turn this on for custom API
+            extra_info: ["waytype"], //turn this on for custom API
+            elevation: false, //turn this on for custom API
+            coordinates: [Object.values(startMarker.getLngLat()), Object.values(endMarker.getLngLat())],
+            profile: "cycling-regular",
+            preference: "recommended", //fastest, shortest, recommended
+            extra_info: ["waytype", "steepness"], //“steepness”, “suitability”, “surface”, “waycategory”, “waytype”, “tollways”, “traildifficulty”, “roadaccessrestrictions”
+            format: "geojson",
+            units: "mi" //km, mi, m
+        })
+                //Sets the directions as a json 
+          .then(function(json) {
+            X = json;
+            var orsDistance = X.features[0].properties.segments[0].distance;
+            var orsDistance = orsDistance.toFixed(1); //round to tenth place
+            var orsReturnedSteps = X.features[0].properties.segments[0].steps
+            var summaryDirections = "";
+            for (i = 0; i < orsReturnedSteps.length; i++) {
+              summaryDirections += orsReturnedSteps[i].instruction + "<br />";
+            }
+            document.getElementById("exampleModalLongTitle2").innerHTML = "";
+            document.getElementById("exampleModalLongTitle2").innerHTML = orsDistance + " Miles";                  
+
+            document.getElementById("routeDirections").innerHTML = "";
+            document.getElementById("routeDirections").innerHTML = summaryDirections;
+            // console.log(JSON.stringify(json));
+
+            //Use Mapbox to visualize json directions on Map
+              map.addSource('testdirections', { type: 'geojson', data: X });
+              map.addLayer({
+                "id": "AnyIdThatIWant",
+                "type": "line",
+                "source": "testdirections",
+                "paint": {
+                  "line-color": "black",
+                  "line-opacity": 0.75,
+                  "line-width": 3
+                }
+              });
+          })
+        //If error, throw error message
+          .catch(function(err) {
+            console.error(err);
+          });
+      }
+
     };
+
+    //When routerToggle is clicked (i.e. toggled), re-run gimmeDirections
+      $(function() {
+          $('#routerToggle').change(function() {
+            map.removeLayer("AnyIdThatIWant");
+            map.removeSource("testdirections");
+            gimmeDirections();
+          })
+        })
 });  //End window.addEventListener("load")

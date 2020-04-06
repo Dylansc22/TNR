@@ -649,6 +649,30 @@ span.tooltip:hover {
     z-index: 3;
 }
 
+#routerposition {
+    display: inline-block;
+    position: relative;
+    top: 90px;
+    left:2%;
+    z-index: 3;
+}
+
+#routerposition .btn.btn-danger.toggle-off {
+    background-color: #bc5050;
+}
+#routerposition .btn.btn-success.toggle-on {
+    background-color:#589447;
+}
+
+#routerposition .btn {
+    border-radius: 0px;
+}
+
+#routerposition .btn-danger, #routerposition .btn-success {
+    border: none;
+    box-shadow: 4px 4px 8px grey;
+}
+
 #mapPosition {
     border-top: solid 3px #A0A0A0;;
     word-wrap: break-word;
