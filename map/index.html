@@ -83,30 +83,35 @@
           </div>
         </div>
 
-    <!-- Router Toggle Button -->
-    <div id="routerposition">
-        <input id="routerToggle" type="checkbox" checked data-toggle="toggle" data-on="Safest<br>Pathways" data-off="Standard<br>Routing" data-onstyle="success" data-offstyle="danger">
+    <div id="allControls">
+        <!-- Router Toggle Button -->
+        <div id="routerposition">
+            <input id="routerToggle" type="checkbox" checked data-toggle="toggle" data-on="Safest<br>Pathways" data-off="Standard<br>Routing" data-onstyle="success" data-offstyle="danger">
+        </div>
+
+
+        <!-- Primary Mapbox Window Controls in the Top Right (Zoom, Draw, Pitch, etc...) -->
+            <div id="topRightControls" class="hideright"></div>
+
+        <!-- Tutorial and Toggle Sidebar Buttons in the Top Right -->
+            <div id='maininfo'>
+                <a href=# data-toggle="tooltip" data-placement="top" title="Tutorial"><button type="button" class="btn btn-custom1" data-toggle="modal" data-target=".bd-example-modal-lg"><i class="fas fa-question-circle"></i></button></a>
+
+                <a href=# data-toggle="tooltip" data-placement="top" title="Toggle Sidebar"><button id="sidebarCollapse" type="button" class="btn btn-warning">
+                    <i class="fas fa-align-right"></i></button></a>
+            </div>
+            <div id='routeInfo'>
+                <a href=# data-toggle="tooltip" data-placement="bottom" title="Route"><button type="button" class="btn btn-custom1" data-toggle="modal" data-target="#routeModal"><i class="fas fa-directions"></i></button></a>
+            </div>
+        
+
+        <!-- Legend and Togglable Layer Buttons in the Bottom -->
+            <div id="legend" class="hidebottom">
+                <div id='toolbar'></div>
+            </div>
+
     </div>
 
-
-    <!-- Primary Mapbox Window Controls in the Top Right (Zoom, Draw, Pitch, etc...) -->
-        <div id="topRightControls" class="hideright"></div>
-
-    <!-- Legend and Togglable Layer Buttons in the Bottom -->
-        <div id="legend" class="hidebottom">
-            <div id='toolbar'></div>
-        </div>
-
-    <!-- Tutorial and Toggle Sidebar Buttons in the Top Right -->
-        <div id='maininfo'>
-            <a href=# data-toggle="tooltip" data-placement="top" title="Tutorial"><button type="button" class="btn btn-custom1" data-toggle="modal" data-target=".bd-example-modal-lg"><i class="fas fa-question-circle"></i></button></a>
-
-            <a href=# data-toggle="tooltip" data-placement="top" title="Toggle Sidebar"><button id="sidebarCollapse" type="button" class="btn btn-warning">
-                <i class="fas fa-align-right"></i></button></a>
-        </div>
-        <div id='routeInfo'>
-            <a href=# data-toggle="tooltip" data-placement="bottom" title="Route"><button type="button" class="btn btn-custom1" data-toggle="modal" data-target="#routeModal"><i class="fas fa-directions"></i></button></a>
-        </div>
 </div>
 
 <!-- Load My Private API Keys ---------------------------------------------->

@@ -646,7 +646,6 @@ span.tooltip:hover {
     position: fixed;
     top: 10px;
     left:2%;
-    z-index: 3;
 }
 
 #routerposition {
@@ -654,7 +653,6 @@ span.tooltip:hover {
     position: relative;
     top: 90px;
     left:2%;
-    z-index: 3;
 }
 
 #routerposition .btn.btn-danger.toggle-off {
@@ -1451,6 +1449,12 @@ background-color:white;
         line-height:15vmin;
         color:grey;
         margin-bottom:2vh;
+    }
+
+    #allControls {
+        /*Control all the buttons on the map screen with all controls*/
+        /*z-index:3;*/
+        /*opacity: 0.9;*/
     }
 
     #stats .cases {
