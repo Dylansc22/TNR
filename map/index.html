@@ -41,7 +41,10 @@
 
     <!-- Main Mapbox Map -->
         <div id='map'></div>
-        <div id="geocoder" class="geocoder"></div>
+        <div class="newbox">
+            <div id="geocoder" class="geocoder"></div>
+            <button id="directionhere" type="button" class="btn btn-info directionsbuttonhidden"></button>
+        </div>
 
     <!-- Tutorial Modal -->
         <div class="modal fade bd-example-modal-lg" id="TutorialModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -86,7 +89,7 @@
     <div id="allControls">
         <!-- Router Toggle Button -->
         <div id="routerposition">
-            <input id="routerToggle" type="checkbox" checked data-toggle="toggle" data-on="Safest<br>Pathways" data-off="Standard<br>Routing" data-onstyle="success" data-offstyle="danger">
+            <input id="routerToggle" type="checkbox" checked data-toggle="toggle" data-on="Safe Routing On" data-off="Safe Routing Off" data-onstyle="success" data-offstyle="danger">
         </div>
 
 
@@ -95,14 +98,22 @@
 
         <!-- Tutorial and Toggle Sidebar Buttons in the Top Right -->
             <div id='maininfo'>
+<!--                 <button id="AtoBRouter" type="button" class="btn btn-custom1" >
+                    <i class="fas fa-route"></i></button> -->
+
                 <a href=# data-toggle="tooltip" data-placement="top" title="Tutorial"><button type="button" class="btn btn-custom1" data-toggle="modal" data-target=".bd-example-modal-lg"><i class="fas fa-question-circle"></i></button></a>
 
                 <a href=# data-toggle="tooltip" data-placement="top" title="Toggle Sidebar"><button id="sidebarCollapse" type="button" class="btn btn-warning">
                     <i class="fas fa-align-right"></i></button></a>
+
             </div>
             <div id='routeInfo'>
                 <a href=# data-toggle="tooltip" data-placement="bottom" title="Route"><button type="button" class="btn btn-custom1" data-toggle="modal" data-target="#routeModal"><i class="fas fa-directions"></i></button></a>
             </div>
+
+<!--             <div id='myLocation'>
+                <a href=#  title="My Location"><button type="button" class="btn btn-custom1"><i class="fas fa-street-view"></i></button></a>
+            </div> -->
         
 
         <!-- Legend and Togglable Layer Buttons in the Bottom -->
