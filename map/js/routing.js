@@ -9,7 +9,6 @@ function illCleanThisFunctionUpLater() {
     map = new mapboxgl.Map({
         container: 'map', // container id
         style: 'mapbox://styles/dylanc/cjudqm16b1x3s1fmfjveo40q8',
-        //style: 'mapbox://styles/dylanc/cjsfuwcf00fby1fpnt4n5iokq', // stylesheet location
         center: [-110.93182, 32.23156], 
         zoom: 12.826,
         pitch: 0,
@@ -21,8 +20,31 @@ function illCleanThisFunctionUpLater() {
         //bearing: 10,
     });
 
+  //Add Zome & Rotation Controls 
+    var zoom = new mapboxgl.NavigationControl({
+        accessToken: mapboxgl.accessToken,    
+    })
+
+  //Adds Mapbox Search Box
+    geocoder = new MapboxGeocoder({
+      accessToken: mapboxgl.accessToken,
+      mapboxgl: mapboxgl,
+      marker: true,
+      placeholder: "Where to?"
+      //bbox: [long, lat, long lat]
+      //proximity: {
+      //   longitude: -110,
+      //   latitude: 32
+      // } 
+    });
+
+  // Shrinks Attribution to a small hover icon for displays 640px or less
+    map.addControl(new mapboxgl.AttributionControl({
+        compact: true,   
+        }));
+
   //Add Custom Mapbox Controls for Bicycle Routing
-    var draw = new MapboxDraw({
+    draw = new MapboxDraw({
       accessToken: mapboxgl.accessToken,
       displayControlsDefault: false,
       controls: {
@@ -95,38 +117,18 @@ function illCleanThisFunctionUpLater() {
       ]
     });
 
-  //Adds Mapbox Search Box
-    geocoder = new MapboxGeocoder({
-      accessToken: mapboxgl.accessToken,
-      mapboxgl: mapboxgl,
-      marker: true,
-      placeholder: "Where to?"
-      //bbox: [long, lat, long lat]
-      //proximity: {
-      //   longitude: -110,
-      //   latitude: 32
-      // } 
-    });
-
   //Add User-Geolocate Button
     geolocate = new mapboxgl.GeolocateControl({
         accessToken: mapboxgl.accessToken,
         positionOptions: {
             enableHighAccuracy: true
         },
-        trackUserLocation: false,
+        trackUserLocation: false, //Keep as False. When True, it automatically updates results in buggy behavior
+                                  //Bugginess is from geolocate.on("geolocate", ...) command, which as a result
+                                  //Will only fire at the very end of the javascript, and throws a lot of things
+                                  //out of order
         showAccuracyCircle: true,
     })
-
-  //Add Zome & Rotation Controls 
-    var zoom = new mapboxgl.NavigationControl({
-        accessToken: mapboxgl.accessToken,    
-    })
-
-  // Shrinks Attribution to a small hover icon for displays 640px or less
-    map.addControl(new mapboxgl.AttributionControl({
-        compact: true,   
-        }));
       
   document.getElementById('geocoder').appendChild(geocoder.onAdd(map));
   document.getElementById('topRightControls').appendChild(geolocate.onAdd(map)); //Manually locate the draw tool inside the topRightControls DIV id
@@ -166,11 +168,10 @@ function illCleanThisFunctionUpLater() {
         }  
 
     function isElementOnScreen(id) {
-    var element = document.getElementById(id);
-    var bounds = element.getBoundingClientRect();
-    return bounds.top < window.innerHeight && bounds.bottom > 0;
-    }
-
+        var element = document.getElementById(id);
+        var bounds = element.getBoundingClientRect();
+        return bounds.top < window.innerHeight && bounds.bottom > 0;
+      }  
     function removehighlight() {
         var mylist=document.getElementById("toolbar");
         var listitems= mylist.getElementsByTagName("button");
@@ -178,7 +179,6 @@ function illCleanThisFunctionUpLater() {
             listitems[i].setAttribute("class", "");
             }
         }
-
 
   /*
   //Return Map Coordinates, barring, and pitch on mouse move so 
@@ -196,70 +196,71 @@ function illCleanThisFunctionUpLater() {
      '<br/> bearing: ' + JSON.stringify(Math.round(1000*map.getBearing())/1000) + ',<br/>'
   });
   */
+
   //---------------------------------------------------------------------------------------
   // -------------    Step 2: Add Data Layers And Toggle    -------------------------------
   //---------------------------------------------------------------------------------------
 
   //Toggle High Stress Road Network
 
-  toggleLayer('tnrv5',
-      ['tnr_main_inner',
-      'tnr_main_outer', 
-      'hawk_roads',
-      'hawkroadscase'
-      //'tnr-v4-apmebo',
-      //'tnr-v3-9wi26p',
-      //'tnr-v2-06s5zd',
-      //'tnr-v1-c7wnkt'
-      ],
-      'Safest Bicycle Streets'); //Button Name
+    toggleLayer('tnrv5',
+        ['tnr_main_inner',
+        'tnr_main_outer', 
+        'hawk_roads',
+        'hawkroadscase'
+        //'tnr-v4-apmebo',
+        //'tnr-v3-9wi26p',
+        //'tnr-v2-06s5zd',
+        //'tnr-v1-c7wnkt'
+        ],
+        'Safest Bicycle Streets'); //Button Name
 
-  toggleLayer('hawks',
-      ['hawkdotsgeojson'],
-      'Signalled Crosswalks');
+    toggleLayer('hawks',
+        ['hawkdotsgeojson'],
+        'Signalled Crosswalks');
 
-  toggleLayer('theloop', 
-      ['theloop-b2gq5f'
-      ], 
-      'The Loop Pedestrian Path');
+    toggleLayer('theloop', 
+        ['theloop-b2gq5f'
+        ], 
+        'The Loop Pedestrian Path');
 
-  toggleLayer('osmbikes',
-      ['osm-bicycleinfras-5z6khj', 
-      //'hs_main_inner'
-      ],
-      'City Bicycle Lanes'); //Button Name
+    toggleLayer('osmbikes',
+        ['osm-bicycleinfras-5z6khj', 
+        //'hs_main_inner'
+        ],
+        'City Bicycle Lanes'); //Button Name
 
-  //Toggle All LS Original Road Network
-  toggleLayer('lowstress',
-      ['ls_main_inner', 
-      'ls_main_outer'], 'Low Stress Roads');
+    //Toggle All LS Original Road Network
+    toggleLayer('lowstress',
+        ['ls_main_inner', 
+        'ls_main_outer'], 'Low Stress Roads');
 
-  toggleLayer('highstress',
-      ['hs_main_inner', 
-      'hs_main_outer'],
-      'High Stress Roads');
+    toggleLayer('highstress',
+        ['hs_main_inner', 
+        'hs_main_outer'],
+        'High Stress Roads');
 
-  toggleLayer ('satellite', 
-    ['mapbox-satellite', 
-    'hawkdotsgeojson 1', 
-    'hawkroadscase 1', 
-    'tnr_main_outer 1'], 'Satallite Baselayer');
+    toggleLayer ('satellite', 
+      ['mapbox-satellite', 
+      'hawkdotsgeojson 1', 
+      'hawkroadscase 1', 
+      'tnr_main_outer 1'], 'Satallite Baselayer');
 
-  //Toggle Annotation
-  toggleLayer('annotation',
-      ['country-label',
-      'state-label', 
-      'settlement-label', 
-      'settlement-subdivision-label', 
-      'airport-label', 
-      'poi-label', 
-      'water-point-label', 
-      'water-line-label', 
-      'natural-point-label', 
-      'natural-line-label', 
-      'waterway-label', 
-      'road-label'], 
-      'Annotation'); //Button Name
+    //Toggle Annotation
+    toggleLayer('annotation',
+        ['country-label',
+        'state-label', 
+        'settlement-label', 
+        'settlement-subdivision-label', 
+        'airport-label', 
+        'poi-label', 
+        'water-point-label', 
+        'water-line-label', 
+        'natural-point-label', 
+        'natural-line-label', 
+        'waterway-label', 
+        'road-label'], 
+        'Annotation'); //Button Name
 
 
   function toggleLayer(htmlID, ids, name) {
@@ -291,32 +292,6 @@ function illCleanThisFunctionUpLater() {
   document.getElementById('tnrv5').setAttribute('class', 'active');        
   document.getElementById('hawks').setAttribute('class', 'active');        
   document.getElementById('theloop').setAttribute('class', 'active');      
-  //document.getElementById('osmbikes').setAttribute('class', 'active');        
-
-  /* http://stackoverflow.com/a/14438954/1934
-    function uniques(value, index, self) {
-      return self.indexOf(value) === index;
-    }
-    */
-
-  //Enable Toggle Layers Button Behavior for Satellite Imagery Specifically since its a Mapbox Baselayer and not a Geojson
-  /*I dont think I need this anymore?
-  map.on('load', function(){
-      var switchy = document.getElementById('remover');
-      switchy.addEventListener("click", function(){
-          switchy = document.getElementById('remover');
-          if (switchy.className === 'on') {
-              switchy.setAttribute('class', 'off');
-              map.setLayoutProperty('mapbox-satellite', 'visibility', 'none');
-              switchy.innerHTML = 'Add Satellite';
-          } else {
-              switchy.setAttribute('class', 'on');
-              map.setLayoutProperty('mapbox-satellite', 'visibility', 'visible');
-              switchy.innerHTML = 'Remove Satallite';
-          }
-      });
-  });
-  */
 
   //---------------------------------------------------------------------------------------
   // --------------------------- Step 3: Create Custom Controls -----------------------------
