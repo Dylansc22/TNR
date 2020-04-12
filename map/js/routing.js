@@ -1,4 +1,4 @@
-function funcrouting() {
+function illCleanThisFunctionUpLater() {
   //---------------------------------------------------------------------------------------
   // ------------------------------- Step 1: Create The Map -------------------------------
   //---------------------------------------------------------------------------------------
@@ -114,7 +114,7 @@ function funcrouting() {
         positionOptions: {
             enableHighAccuracy: true
         },
-        trackUserLocation: true
+        trackUserLocation: false
     })
 
   //Add Zome & Rotation Controls 
