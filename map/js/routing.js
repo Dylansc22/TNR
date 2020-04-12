@@ -114,7 +114,8 @@ function illCleanThisFunctionUpLater() {
         positionOptions: {
             enableHighAccuracy: true
         },
-        trackUserLocation: false
+        trackUserLocation: false,
+        showAccuracyCircle: true,
     })
 
   //Add Zome & Rotation Controls 

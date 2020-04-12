@@ -45,8 +45,7 @@ function addAllbuttonfunctionality(){
       $('#routerToggle').change(function() {
         if (checkRouteOnScreen()) {
           //route is on screen and subsequently source layer is loaded 
-          map.removeLayer("LayerName_CanBeAnything");
-          map.removeSource("routeSource");
+          removeRouteLayerAndSource();
         }
         generateRoute();
       })
@@ -54,7 +53,7 @@ function addAllbuttonfunctionality(){
 }
 
 function checkRouteOnScreen(){
-  if (typeof(map.getLayer('LayerName_CanBeAnything')) !== undefined) {
+  if (typeof(map.getLayer('R_layer')) !== "undefined") {
     //layer exists
     return true
   }
@@ -64,15 +63,22 @@ function checkRouteOnScreen(){
 }
 
 function SearchBarDirections(){ /*the new version of ComputerDirections()*/
+  //Test if A Route is already on Screen
+  if (checkRouteOnScreen()) {
+    //Route already exists on map
+      removeRouteLayerAndSource();
+      W.coordinates[0] = [];
+      W.coordinates[1] = [];
+  }
   findCurrentPosition(); //Saves the geotagged user position as a coordinate
   findTargetsPosition(); //Saves the searched POI as a coordinate
   //I eventually want generateRoute() to live here, but no matter what I do geolocate.on('geolocate', (...)) fires at the very end of the script
   //             so I have to have geolocate.on(){... generateRoute(){ addRouteLayer()}, and whatever else in there} 
+
 }
 
 function findCurrentPosition() {
   geolocate.trigger();
-
   geolocate.on('geolocate', function(e) {
     //THIS IS LIKE THE LAST THING EVER FIRED IN THE FUNCTION. THIS WILL NO MATTER
     //WHAT BE WHERE THE END OF THE JAVASCRIPT LIVES. 
@@ -81,7 +87,6 @@ function findCurrentPosition() {
       let lat = e.coords.latitude;
       W.coordinates[0] = [lng, lat];
       generateRoute(); //THIS NEEDS TO BE HERE
-      //addRouteLayer(); //This doesn't seem to work here...
     });
 
 }
@@ -113,7 +118,7 @@ function updatePoint(startOrFinish,longAndLat){
   if (startOrFinish == "finish") {
     W.coordinates[1] = longAndLat;
   }
-  removeRouteLayer();
+  removeRouteLayerAndSource();
   generateRoute();
 }
 
@@ -194,12 +199,15 @@ function generateDangerousRoute(){
 }
 
 function addRouteLayer(e){
+  if (checkRouteOnScreen()) { //Check if a route is already on screen, before this function trying to put another up and runs into an error
+    removeRouteLayerAndSource();
+  }
     //Use Mapbox to visualize json directions on Map
-    map.addSource('routeSource', { type: 'geojson', data: e });
+    map.addSource('R_source', { type: 'geojson', data: e });
     map.addLayer({
-      "id": "LayerName_CanBeAnything",
+      "id": "R_layer",
       "type": "line",
-      "source": "routeSource",
+      "source": "R_source",
       "paint": {
         "line-color": "black",
         "line-opacity": 0.75,
@@ -208,9 +216,10 @@ function addRouteLayer(e){
     });
 }
 
-function removeRouteLayer(){
-  map.removeSource("routeSource");
-  map.removeLayer("routeSource");
+function removeRouteLayerAndSource(){
+  map.removeLayer("R_layer");
+  map.removeSource("R_source");
+  delete R;
 }
 
 
