@@ -1,12 +1,6 @@
-window.addEventListener("load", everythingfunction2);//switch to everythingfunction2 when ready to make the leap to the cleaner code
+window.addEventListener("load", doEverything());//switch to everythingfunction2 when ready to make the leap to the cleaner code
 
-function everythingfunction() {
-  illCleanThisFunctionUpLater();
-  funcdirectcall();
-}
-
-function everythingfunction2(){
-
+function doEverything(){
   loadParameters();
   illCleanThisFunctionUpLater();
   addAllbuttonfunctionality();
@@ -22,7 +16,7 @@ function loadParameters(){
       extra_info: ["waytype"], //turn this on for custom API
       elevation: false, //turn this on for custom API
       profile: "cycling-regular",
-      preference: "recommended", //fastest, shortest, recommended
+      preference: "shortest", //fastest, shortest, recommended
       extra_info: ["waytype", "steepness"], //“steepness”, “suitability”, “surface”, “waycategory”, “waytype”, “tollways”, “traildifficulty”, “roadaccessrestrictions”
       format: "geojson",
       units: "mi" //km, mi, m
@@ -30,17 +24,19 @@ function loadParameters(){
 }
 
 function addAllbuttonfunctionality(){
-  //----------Search Bar------------//
+    //----------Search Bar------------//
     //When the geocoder (i.e. the search bar) is engaged/triggered/used/etc... dropdown the Button for Generating Directions
     geocoder.on('result', function(e) {
       document.getElementById("directionhere").classList.add("directionbuttonvisable");
       document.getElementById("directionhere").innerHTML = "Get Route to " + geocoder._typeahead.selected.text;
     });
 
+    //----------Get Route Button ------------// 
     //When the 'Get Route' Button is Clicked, Get Directions
-      document.getElementById("directionhere").addEventListener("click", SearchBarDirections);
-    
+    document.getElementById("directionhere").addEventListener("click", SearchBarDirections);
 
+    
+    //----------Safe Route Toggle ------------//
     $(function() {
       $('#routerToggle').change(function() {
         if (checkRouteOnScreen()) {
@@ -50,6 +46,157 @@ function addAllbuttonfunctionality(){
         generateRoute();
       })
     })
+
+    //----------Draw Route------------//
+    document.getElementById("drawRoute").addEventListener("click", drawUsingPoints);
+
+}
+
+function drawUsingPoints(){
+  if (checkRouteOnScreen()) {
+    //Route already exists on map
+      removeRouteLayerAndSource();
+      clearWCoordinates();
+  }
+  //Documentation: https://github.com/mapbox/mapbox-gl-draw/blob/master/docs/MODES.md
+  // document.body.style.cursor = "crosshair"; not working. I just wrote a css class that changes it to crosshair permanently for now..
+    var LotsOfPointsMode = {};
+
+  // When the mode starts this function will be called.
+  // The `opts` argument comes from `draw.changeMode('lotsofpoints', {count:7})`.
+  // The value returned should be an object and will be passed to all other lifecycle functions
+    LotsOfPointsMode.onSetup = function(opts) {
+      var state = {};
+      state.count = opts.count || 0;
+      return state;
+    };
+
+  // Whenever a user clicks on the map, Draw will call `onClick`
+    LotsOfPointsMode.onClick = function(state, e) {
+      // `this.newFeature` takes geojson and makes a DrawFeature
+      var point = this.newFeature({
+        type: 'Feature',
+        properties: {
+          count: state.count
+        },
+        geometry: {
+          type: 'Point',
+          coordinates: [e.lngLat.lng, e.lngLat.lat]
+        }
+      });
+      this.addFeature(point); // puts the point on the map
+    };
+
+  // Whenever a user clicks on a key while focused on the map, it will be sent here
+    LotsOfPointsMode.onKeyUp = function(state, e) {
+      if (e.keyCode === 27) return this.changeMode('simple_select');
+    };
+
+  // This is the only required function for a mode.
+  // It decides which features currently in Draw's data store will be rendered on the map.
+  // All features passed to `display` will be rendered, so you can pass multiple display features per internal feature.
+  // See `styling-draw` in `API.md` for advice on making display features
+    LotsOfPointsMode.toDisplayFeatures = function(state, geojson, display) {
+      display(geojson);
+    };
+
+  //Parameters of MapboxDraw Tool
+    var draw = new MapboxDraw({
+        displayControlsDefault: false, //default true - but I want custom controls (just points and trash)
+        accessToken: "pk.eyJ1IjoiZHlsYW5jIiwiYSI6Im53UGgtaVEifQ.RJiPqXwEtCLTLl-Vmd1GWQ",
+        defaultMode: 'lots_of_points',
+        modes: Object.assign({
+          lots_of_points: LotsOfPointsMode,
+        }, MapboxDraw.modes),
+        clickBuffer: 20, //default 2 - for mouse: # of pixels buffer around vertex that will respond to click
+        touchBuffer: 25, //default 25 - Same as above but for touch
+        // keybindings: true, //default true
+        // touchEnabled: true, //default true
+        // boxSelect: true, //default true
+        controls: {
+        //   point: true,
+          trash: true,
+        //   line_string: true
+        },
+        //styles examples : https://github.com/mapbox/mapbox-gl-draw/blob/master/docs/EXAMPLES.md
+        styles: [
+            {
+              'id': 'regular-points-halo-rim',
+              'type': 'circle',
+              'filter': ['all',
+                ['==', '$type', 'Point'],
+                ['==', 'meta', 'feature'],
+                ['==', 'active', 'false']],
+              'paint': {
+                'circle-radius': 10,
+                'circle-color': '#4f7ba4'
+              }
+            },
+            {
+              'id': 'regular-points-halo',
+              'type': 'circle',
+              'filter': ['all',
+                ['==', '$type', 'Point'],
+                ['==', 'meta', 'feature'],
+                ['==', 'active', 'false']],
+              'paint': {
+                'circle-radius': 9,
+                'circle-color': '#f9f9f9'
+              }
+            },
+            {
+              'id': 'regular-points',
+              'type': 'circle',
+              'filter': ['all',
+                ['==', '$type', 'Point'],
+                ['==', 'meta', 'feature'],
+                ['==', 'active', 'false']],
+              'paint': {
+                'circle-radius': 6,
+                'circle-color': '#4f7ba4'
+              }
+            },
+            {
+              'id': 'highlight-selected-points-halo-rim',
+              'type': 'circle',
+              'filter': ['all',
+                ['==', '$type', 'Point'],
+                ['==', 'meta', 'feature'],
+                ['==', 'active', 'true']],
+              'paint': {
+                'circle-radius': 14,
+                'circle-color': '#bc5050'
+              }
+            },
+            {
+              'id': 'highlight-selected-points-halo',
+              'type': 'circle',
+              'filter': ['all',
+                ['==', '$type', 'Point'],
+                ['==', 'meta', 'feature'],
+                ['==', 'active', 'true']],
+              'paint': {
+                'circle-radius': 13,
+                'circle-color': '#f9f9f9'
+              }
+            },
+            {
+              'id': 'highlight-selected-points',
+              'type': 'circle',
+              'filter': ['all',
+                ['==', '$type', 'Point'],
+                ['==', 'meta', 'feature'],
+                ['==', 'active', 'true']],
+              'paint': {
+                'circle-radius': 9,
+                'circle-color': '#bc5050'
+              }
+            },
+        ]
+      });
+
+  // Add the Draw control to your map
+    map.addControl(draw);
 }
 
 function checkRouteOnScreen(){
@@ -67,8 +214,7 @@ function SearchBarDirections(){ /*the new version of ComputerDirections()*/
   if (checkRouteOnScreen()) {
     //Route already exists on map
       removeRouteLayerAndSource();
-      W.coordinates[0] = [];
-      W.coordinates[1] = [];
+      clearWCoordinates();
   }
   findCurrentPosition(); //Saves the geotagged user position as a coordinate
   findTargetsPosition(); //Saves the searched POI as a coordinate
@@ -136,11 +282,11 @@ function generateRoute() {
 
 function generateSafeRoute(){
   //Add necessary parameters to list of parameters needed for ORS Directions call
-    W["preference"] = "fastest"; //I think it can't be recommended, needs to be fastest
+    W["preference"] = "recommended"; //I think it can't be recommended, needs to be fastest
     W["elevation"] = false; //Pretty sure it can't be true, needs to be false
     W["options"] = { //required for custom weighting
       profile_params: {
-        weightings: { green: 1 }
+        weightings: { green: .5 }
       }
     };
     W["host"] = myHostAddress; //required to point to my online graphs
@@ -176,7 +322,7 @@ function generateDangerousRoute(){
     delete W.host;
     delete W.options;
     W.elevation = true;
-    W.preference = "recommended";
+    W.preference = "shortest";
   }
 
   orsDirections = new Openrouteservice.Directions({
@@ -220,6 +366,11 @@ function removeRouteLayerAndSource(){
   map.removeLayer("R_layer");
   map.removeSource("R_source");
   delete R;
+}
+
+function clearWCoordinates(){
+  W.coordinates[0] = [];
+  W.coordinates[1] = [];
 }
 
 
