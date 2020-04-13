@@ -89,6 +89,10 @@ h1, h2, h3, h4, h5, h6, p {
     z-index: 0;
 }
 
+#map canvas {
+    cursor:crosshair;
+}
+
 .draw {
     position:relative;
     z-index:1;
@@ -668,14 +672,14 @@ span.tooltip:hover {
     display: block;
     text-align: left;
     position: fixed;
-    top: 10px;
+    top: 19vh;
     left:2%;
 }
 
 #routerposition {
     display: inline-block;
     position: relative;
-    top: 10vh;
+    top: 10px;
     left:2%;
 }
 
@@ -693,6 +697,13 @@ span.tooltip:hover {
 #routerposition .btn-danger, #routerposition .btn-success {
     border: none;
     box-shadow: 4px 4px 8px grey;
+}
+
+#drawRoute {
+    display: block;
+    position: fixed;
+    top:9vh;
+    left:2%;
 }
 
 #myLocation {
