@@ -13,6 +13,7 @@ function loadParameters(){
  
   // Various Paramaters for OpenRouteService Directions Calculation
     W = {
+      coordinates: [], //create the coordinates array
       extra_info: ["waytype"], //turn this on for custom API
       elevation: false, //turn this on for custom API
       profile: "cycling-regular",
@@ -21,6 +22,8 @@ function loadParameters(){
       format: "geojson",
       units: "mi" //km, mi, m
     }
+    W.coordinates[0] = []; //create the array in the array, that will hold the first coordinate
+    W.coordinates[1] = [];
 }
 
 function addAllbuttonfunctionality(){
@@ -53,11 +56,15 @@ function addAllbuttonfunctionality(){
 }
 
 function drawUsingPoints(){
-  if (checkRouteOnScreen()) {
-    //Route already exists on map
-      removeRouteLayerAndSource();
-      clearWCoordinates();
-  }
+  //Clear off the screen before drawing a route 
+    if (checkRouteOnScreen()) {
+      //Route already exists on map
+        removeRouteLayerAndSource();
+        clearWCoordinates();
+    }
+
+  wasRouteDrawnOrSearched = "drawn";
+
   //Documentation: https://github.com/mapbox/mapbox-gl-draw/blob/master/docs/MODES.md
   // document.body.style.cursor = "crosshair"; not working. I just wrote a css class that changes it to crosshair permanently for now..
     var LotsOfPointsMode = {};
@@ -85,6 +92,18 @@ function drawUsingPoints(){
         }
       });
       this.addFeature(point); // puts the point on the map
+      
+      nodecount = draw.getAll().features.length
+      if (nodecount >= 2) {
+        var startPoint = draw.getAll().features[nodecount-2].geometry.coordinates;
+        var endPoint = draw.getAll().features[nodecount-1].geometry.coordinates;
+        W.coordinates[0] = startPoint;
+        W.coordinates[1] = endPoint;
+        generateRoute();
+        console.log(R);
+        console.log("I think R should be defined here");
+        
+      }
     };
 
   // Whenever a user clicks on a key while focused on the map, it will be sent here
@@ -101,8 +120,8 @@ function drawUsingPoints(){
     };
 
   //Parameters of MapboxDraw Tool
-    var draw = new MapboxDraw({
-        displayControlsDefault: false, //default true - but I want custom controls (just points and trash)
+    draw = new MapboxDraw({
+        displayControlsDefault: true, //default true - but I want custom controls (just points and trash)
         accessToken: "pk.eyJ1IjoiZHlsYW5jIiwiYSI6Im53UGgtaVEifQ.RJiPqXwEtCLTLl-Vmd1GWQ",
         defaultMode: 'lots_of_points',
         modes: Object.assign({
@@ -113,11 +132,11 @@ function drawUsingPoints(){
         // keybindings: true, //default true
         // touchEnabled: true, //default true
         // boxSelect: true, //default true
-        controls: {
-        //   point: true,
-          trash: true,
-        //   line_string: true
-        },
+        // controls: {
+        // //   point: true,
+        //   trash: true,
+        // //   line_string: true
+        // },
         //styles examples : https://github.com/mapbox/mapbox-gl-draw/blob/master/docs/EXAMPLES.md
         styles: [
             {
@@ -210,6 +229,7 @@ function checkRouteOnScreen(){
 }
 
 function SearchBarDirections(){ /*the new version of ComputerDirections()*/
+  wasRouteDrawnOrSearched = "searched";
   //Test if A Route is already on Screen
   if (checkRouteOnScreen()) {
     //Route already exists on map
@@ -219,7 +239,7 @@ function SearchBarDirections(){ /*the new version of ComputerDirections()*/
   findCurrentPosition(); //Saves the geotagged user position as a coordinate
   findTargetsPosition(); //Saves the searched POI as a coordinate
   //I eventually want generateRoute() to live here, but no matter what I do geolocate.on('geolocate', (...)) fires at the very end of the script
-  //             so I have to have geolocate.on(){... generateRoute(){ addRouteLayer()}, and whatever else in there} 
+  //             so I have to have geolocate.on(){... generateRoute(){  newRouteLayer()}, and whatever else in there} 
 
 }
 
@@ -241,9 +261,7 @@ function findTargetsPosition(){
   //Set Finish Coordinates - geocoder was activated in the first few lines of addAllbuttonfunctionality 
   let lng = geocoder.mapMarker._lngLat.lng;
   let lat = geocoder.mapMarker._lngLat.lat 
-  W["coordinates"] = []; //create the coordinates array
-  W.coordinates[0] = []; //create the array in the array, that will hold the first coordinate
-  W.coordinates[1] = [];
+  
   W.coordinates[1] = [lng, lat];
 }
 
@@ -252,9 +270,10 @@ function coordinateChecker(){
     console.log("W.coordinate[0] is undefined");
     findCurrentPosition();
   }
-  else 
+  else {
     console.log("W.coordinate[0] is finally definied");
     //generateRoute();
+    }
 }
 
 function updatePoint(startOrFinish,longAndLat){
@@ -291,27 +310,26 @@ function generateSafeRoute(){
     };
     W["host"] = myHostAddress; //required to point to my online graphs
 
-    console.log("Open Route Service Input Parameters");
     console.log(JSON.stringify(W));
+    console.log("Above is W - ORS routing Input Parameter");
 
-    let orsDirections = new Openrouteservice.Directions({
+    orsDirections = new Openrouteservice.Directions({
       // api_key: myAPI,
       host: myHostAddress
     });
 
+
     orsDirections.calculate(W)
       .then(function(json) {
-        if (typeof R !== 'undefined') { //Okay, reminder: R is my variable I use for the returned ORS geojson route
-            delete R;                   //  If it is already defined, I need to delete it, so when it resaves in R = json
-        }                                // It will do so as a global variable. If its already defined, it will only save locally, which is bad.
         R = json;
-        console.log("Open Route Services Output Geojson")
         console.log(JSON.stringify(R));
-        addRouteLayer(R);
+        console.log("Above is R - ORS output geojson");
+        newRouteLayer(R, nodecount);
       })
       .catch(function(err) {
           console.error(err);
       });
+
   };
 
 function generateDangerousRoute(){
@@ -331,29 +349,24 @@ function generateDangerousRoute(){
 
   orsDirections.calculate(W)
     .then(function(json) {
-        if (typeof R !== 'undefined') { //Okay, reminder: R is my variable I use for the returned ORS geojson route
-            delete R;                   //  If it is already defined, I need to delete it, so when it resaves in R = json
-        }                                // It will do so as a global variable. If its already defined, it will only save locally, which is bad.
         R = json;
         console.log("Open Route Services Output Geojson")
         console.log(JSON.stringify(R));
-        addRouteLayer(R);
+          newRouteLayer(R);
       })
       .catch(function(err) {
           console.error(err);
       });
 }
 
-function addRouteLayer(e){
-  if (checkRouteOnScreen()) { //Check if a route is already on screen, before this function trying to put another up and runs into an error
-    removeRouteLayerAndSource();
-  }
+function newRouteLayer(e,f){
+    nodecount = nodecount || []; // nodecount will be set either to nodecount or to [].
     //Use Mapbox to visualize json directions on Map
-    map.addSource('R_source', { type: 'geojson', data: e });
+    map.addSource('R_source' + f.toString(), { type: 'geojson', data: e });
     map.addLayer({
-      "id": "R_layer",
+      "id": "R_layer"+ f.toString(),
       "type": "line",
-      "source": "R_source",
+      "source": "R_source" + f.toString(),
       "paint": {
         "line-color": "black",
         "line-opacity": 0.75,
@@ -362,10 +375,44 @@ function addRouteLayer(e){
     });
 }
 
+function amendToDrawnRoute(e){
+  if (checkRouteOnScreen() && wasRouteDrawnOrSearched == "drawn") { //A part of the route is already on screen.
+    // newR = {}
+    // newR.type = "FeatureCollection";
+    // newR.bbox = [Math.min(priorR.bbox[0],e.bbox[0]), Math.min(priorR.bbox[1],e.bbox[1]), Math.max(priorR.bbox[2],e.bbox[2]), Math.max(priorR.bbox[3],e.bbox[3])]
+    // newR.features = [];
+    // newR.features[0].bbox = newR.bbox;
+    // newR.features[0].type = "Feature";
+    // newR.features[0].properties.segments
+
+    // map.addSource('R_source2', { type: 'geojson', data: e });
+    // map.addLayer({
+    //   "id": "R_layer",
+    //   "type": "line",
+    //   "source": "R_source2",
+    //   "paint": {
+    //     "line-color": "black",
+    //     "line-opacity": 0.75,
+    //     "line-width": 3
+    //   }
+    // });
+
+    // newR.features = [priorR["features"], e["features"]];
+    // newR.metadata = e.metadata;
+    // newRouteLayer(newR);
+    // prior_Rfeatures = map.getSource("R_source")._data.features[0];
+    // new_Rfeatures = prior_Rfeatures.concat(R.features[0]);
+    // newRouteLayer(new_R);
+    // e.join(';'); //So amend to it..
+  }
+  else { //Otherwise this is the first 2 drawn points, and nothing is on screen yet. Thus NewRouteLayer, rather than 'amend' a route to literally nothing on screen yet. 
+    newRouteLayer(e);
+  }
+}
+
 function removeRouteLayerAndSource(){
   map.removeLayer("R_layer");
   map.removeSource("R_source");
-  delete R;
 }
 
 function clearWCoordinates(){
