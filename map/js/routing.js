@@ -1,7 +1,4 @@
-function illCleanThisFunctionUpLater(){
-
-
-
+function illCleanThisFunctionUpLater() {
   //---------------------------------------------------------------------------------------
   // ------------------------------- Step 1: Create The Map -------------------------------
   //---------------------------------------------------------------------------------------
@@ -11,7 +8,7 @@ function illCleanThisFunctionUpLater(){
     mapboxgl.accessToken = API.mapbox;
     map = new mapboxgl.Map({
         container: 'map', // container id
-        style: 'mapbox://styles/dylanc/cjudqm16b1x3s1fmfjveo40q8',
+        style: 'mapbox://styles/dylanc/ck911k4gg0rqu1ilnr0o0dk1m',
         center: [-110.93182, 32.23156], 
         zoom: 12.826,
         pitch: 0,
@@ -46,6 +43,80 @@ function illCleanThisFunctionUpLater(){
         compact: true,   
         }));
 
+  //Add Custom Mapbox Controls for Bicycle Routing
+    draw = new MapboxDraw({
+      accessToken: mapboxgl.accessToken,
+      displayControlsDefault: false,
+      controls: {
+        line_string: true,
+        trash: true,
+      },
+      styles: [
+            // For more info - Mapbox GL Style Spec - https://docs.mapbox.com/mapbox-gl-js/style-spec
+            // ACTIVE (being drawn)
+            // line stroke
+            {
+              "id": "gl-draw-line", // Required String - Unique layer name
+              "type": "line", //Required types: fill, line, symbol, circle, heatmap, fill-extrusion, raster, hillshade, background)
+              "filter": ["all", ["==", "$type", "LineString"], ["!=", "mode", "static"]], 
+              "layout": { 
+                "line-cap": "round", //e.g. butt (default), round, square
+                "line-join": "round" //miter (default), bevel, round
+              },
+              "paint": { 
+                "line-color": "#81A4CD", 
+                "line-dasharray": [2, 4],
+                "line-width": 2,
+                "line-opacity": 0.7
+                //line-translate
+                //line-gap-width
+                //line-gradient
+                //etc...
+              }
+            },
+            // vertex point halos - must come before vertex, because these are two layers of circles
+            {
+              "id": "gl-draw-polygon-and-line-vertex-halo-active",
+              "type": "circle",
+              "filter": ["all", ["==", "meta", "vertex"], ["==", "$type", "Point"], ["!=", "mode", "static"]],
+              "paint": {
+                "circle-radius": 8,
+                "circle-color": "#FFF" 
+              }
+            },
+            // vertex points
+            {
+              "id": "gl-draw-polygon-and-line-vertex-active",
+              "type": "circle",
+              "filter": ["all", ["==", "meta", "vertex"], ["==", "$type", "Point"], ["!=", "mode", "static"]],
+              "paint": {
+                "circle-radius": 5,
+                "circle-color": "#3E7CB1", 
+              }
+            },
+            // midpoint point halos
+            {
+              "id": "gl-draw-polygon-and-line-midpoint-halo-active",
+              "type": "circle",
+              "filter": ["all", ["==", "meta", "midpoint"], ["==", "$type", "Point"], ["!=", "mode", "static"]],
+              "paint": {
+                "circle-radius": 4,
+                "circle-color": "#FFF" 
+              }
+            },
+            // midpoint points
+            {
+                "id": "gl-draw-polygon-and-line-midpoint-active",
+                "type": "circle",
+                "filter": ["all", ["==", "meta", "midpoint"], ["==", "$type", "Point"], ["!=", "mode", "static"]],
+                "paint": {
+                    "circle-radius": 3,
+                    "circle-color": "#3E7CB1",
+                }
+            },
+      ]
+    });
+
   //Add User-Geolocate Button
     geolocate = new mapboxgl.GeolocateControl({
         accessToken: mapboxgl.accessToken,
@@ -61,6 +132,7 @@ function illCleanThisFunctionUpLater(){
       
   document.getElementById('geocoder').appendChild(geocoder.onAdd(map));
   document.getElementById('topRightControls').appendChild(geolocate.onAdd(map)); //Manually locate the draw tool inside the topRightControls DIV id
+  document.getElementById('topRightControls').appendChild(draw.onAdd(map)); //Manually locate the draw tool inside the topRightControls DIV id
   document.getElementById('topRightControls').appendChild(zoom.onAdd(map)); //Manually locate the draw tool inside the topRightControls DIV id
 
 
@@ -170,7 +242,7 @@ function illCleanThisFunctionUpLater(){
 
     toggleLayer ('satellite', 
       ['mapbox-satellite', 
-      'hawkdotsgeojson 1', 
+      'hawkdotsgeojson', 
       'hawkroadscase 1', 
       'tnr_main_outer 1'], 'Satallite Baselayer');
 
@@ -189,6 +261,14 @@ function illCleanThisFunctionUpLater(){
         'waterway-label', 
         'road-label'], 
         'Annotation'); //Button Name
+
+    toggleLayer('OSMID_LSHawkRoads',
+        ['ORS_HawkRoads75m_byOSMID'],
+        'Hawk Roads by OSMID');
+    
+    toggleLayer('hawkroads',
+        ['hawk_roads', 'hawkroadscase'],
+        'Hawk Roads');
 
 
   function toggleLayer(htmlID, ids, name) {
@@ -221,31 +301,10 @@ function illCleanThisFunctionUpLater(){
   document.getElementById('hawks').setAttribute('class', 'active');        
   document.getElementById('theloop').setAttribute('class', 'active');      
 
-
-//---------------------------------------------------------------------------------------
-// --------------------------- Step 3: Create Custom Controls -----------------------------
-//---------------------------------------------------------------------------------------
-
-  // map.on('draw.create', updateRoute);
-  // map.on('draw.update', updateRoute);
-  // map.on('draw.delete', removeRoute);
-
-  var drawingPOIs = {};
-  function updateRoute(){
-    //***To do: a feature that counts the number of nodes placed down,
-    //          in case I want to limit the number of points in a drawing
-    //          to 5. Something like:
-    //          var nodecount = draw.getAll().features[0].geometry.coordinates.length;
-    //          
-
-  drawingPOIs = draw.getALL();
+  //---------------------------------------------------------------------------------------
+  // --------------------------- Step 3: Create Custom Controls -----------------------------
+  //---------------------------------------------------------------------------------------
 
 
 
-
-
-
-
-
-  }
-};  //End illCleanThisFunctionUpLater
+}

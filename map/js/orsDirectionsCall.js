@@ -230,6 +230,7 @@ function checkRouteOnScreen(){
 
 function SearchBarDirections(){ /*the new version of ComputerDirections()*/
   wasRouteDrawnOrSearched = "searched";
+  nodecount = [];
   //Test if A Route is already on Screen
   if (checkRouteOnScreen()) {
     //Route already exists on map
