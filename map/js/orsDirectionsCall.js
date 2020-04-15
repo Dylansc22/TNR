@@ -406,7 +406,7 @@ function newRouteLayer(e,f){
       "type": "line",
       "source": "R_source" + f.toString(),
       "paint": {
-        "line-color": "black",
+        "line-color": "#4f7ba4",
         "line-opacity": 0.75,
         "line-width": 3
       }
