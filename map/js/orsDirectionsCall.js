@@ -4,8 +4,45 @@ function doEverything(){
   loadParameters();
   illCleanThisFunctionUpLater();
   addAllbuttonfunctionality();
+  garbageTesting();
   //all my other code here
 }
+
+function garbageTesting(){
+  //Design and add two Mapbox Markers that can be dragged around map
+    startMarker = new mapboxgl.Marker({
+      draggable: true,
+      color: '#139900',
+      })
+    startMarker.setLngLat([-110.92214973449706, 32.221700917377224])
+    startMarker.addTo(map);
+
+    endMarker = new mapboxgl.Marker({
+      draggable: true,
+      color: '#660000',
+      });
+    endMarker.setLngLat([-110.92714973449706, 32.229700917377224])
+    endMarker.addTo(map);
+
+
+
+    }
+    function onDragEnd() {
+        if (checkRouteOnScreen()) {
+          //Route already exists on map
+            removeRouteLayerAndSource();
+            clearWCoordinates();
+        };
+      nodecount = [];
+      W.coordinates[0] = [startMarker.getLngLat().lng,startMarker.getLngLat().lat]; 
+      W.coordinates[1] = [endMarker.getLngLat().lng,endMarker.getLngLat().lat];
+      generateRoute();
+}
+      //This initiates the above function. i.e. Anytime a Marker is dragged, run the onDragEnd Function
+    endMarker.on('dragend', onDragEnd);
+    startMarker.on('dragend', onDragEnd);
+
+
 
 function loadParameters(){
     myHostAddress = "http://localhost:8080/ors";
