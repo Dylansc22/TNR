@@ -398,7 +398,7 @@ function generateDangerousRoute(){
 }
 
 function newRouteLayer(e,f){
-    nodecount = nodecount || []; // nodecount will be set either to nodecount or to [].
+    f = f || []; // nodecount will be set either to nodecount or to [].
     //Use Mapbox to visualize json directions on Map
     map.addSource('R_source' + f.toString(), { type: 'geojson', data: e });
     map.addLayer({
