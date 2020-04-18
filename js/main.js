@@ -6,7 +6,7 @@
 mapboxgl.accessToken = 'pk.eyJ1IjoiZHlsYW5jIiwiYSI6Im53UGgtaVEifQ.RJiPqXwEtCLTLl-Vmd1GWQ';
 var map = new mapboxgl.Map({
     container: 'map', // container id
-    style: 'mapbox://styles/dylanc/cjudqm16b1x3s1fmfjveo40q8',
+    style: 'mapbox://styles/dylanc/ck911k4gg0rqu1ilnr0o0dk1m',
     center: [-110.926757, 35.215554 ], // starting position [lng, lat]
     zoom: 5, // starting zoom (0 = fully zoomed out, 22 = fully zoomed in)
     attributionControl: false, // Removed default attribution and put custom attribution in below to make it look nicer
