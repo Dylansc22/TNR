@@ -1,42 +1,38 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Tucson's Best Cycling Routes</title>
-    <meta charset='utf-8' />
-    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
-    
+    <title>Tucson's Safest Cycling Routes</title>
+    <meta 
+        name="viewport" 
+        content="A data-driven bicycle advocacy organization, focused on mapping the many neighborhoods and residential streets that are interconnected through Tucson's signalled crosswalk network."
+        charset="utf-8"
+        content='initial-scale=1,maximum-scale=1,user-scalable=no'>
+
     <!--Bootstrap CSS (must come before other stylesheets)-->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
-    <!-- Custom CSS -->
-    <link href="../css/style.css" rel="stylesheet">
-
-    <!--Animation CSS and WOW.JS - Source: http://mynameismatthieu.com/WOW/docs.html-->
-    <link rel="stylesheet" href="../css/animate_minify.css">
-    <script src="../js/wow.min.js"></script>
+    <!--Animation CSS - Source: http://mynameismatthieu.com/WOW/docs.html-->
+        <link rel="stylesheet" href="../css/animate_minify.css">
 
     <!--Awesome Fonts Library - Source: https://fontawesome.com/start -->
-    <script src="https://kit.fontawesome.com/424cd50bdd.js"></script>
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 
    <!--Google Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Oswald" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Merriweather&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Shadows+Into+Light&display=swap" rel="stylesheet">
 
-    <!--Mapbox JS & Mapbox CSS Libraries-->
-    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.52.0/mapbox-gl.js'></script>
-    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.52.0/mapbox-gl.css' rel='stylesheet' />
-    
-    <!--Mapbox APIs-->
-    <!--Mapbox Search Box-->
-        <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.4.2/mapbox-gl-geocoder.min.js"></script>
-        <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.4.2/mapbox-gl-geocoder.css" type="text/css" />
+    <!-- Mapbox CSS Libraries-->
+        <!--Main --><link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.52.0/mapbox-gl.css' rel='stylesheet'/>
+        <!--Search--><link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.4.2/mapbox-gl-geocoder.css" type="text/css" />
+        <!--Directions--><link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.0.2/mapbox-gl-directions.css' type='text/css' />
+        <!--Draw--><link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.0.9/mapbox-gl-draw.css' type='text/css'/>
 
-    <!--Mapbox Directions-->
-    <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.0.2/mapbox-gl-directions.js'></script>
-    <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.0.2/mapbox-gl-directions.css' type='text/css' />
+    <!-- Bootstrap 4 Toggle Button Feature -->
+        <link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css" rel="stylesheet">
 
-    <!--Mapbox Draw-->
-    <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.0.9/mapbox-gl-draw.js'></script>
-    <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.0.9/mapbox-gl-draw.css' type='text/css'/>
+    <!-- Custom CSS -->
+        <link href="../css/style.css" rel="stylesheet">
 </head>
 <body>
 
@@ -45,7 +41,10 @@
 
     <!-- Main Mapbox Map -->
         <div id='map'></div>
-        <div id="geocoder" class="geocoder"></div>
+        <div class="newbox">
+            <div id="geocoder" class="geocoder"></div>
+            <button id="directionhere" type="button" class="btn btn-info directionsbuttonhidden"></button>
+        </div>
 
     <!-- Tutorial Modal -->
         <div class="modal fade bd-example-modal-lg" id="TutorialModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -67,54 +66,128 @@
           </div>
         </div>
 
-    <!-- Primary Mapbox Window Controls in the Top Right (Zoom, Draw, Pitch, etc...) -->
-        <div id="topRightControls" class="hideright"></div>
-
-    <!-- Legend and Togglable Layer Buttons in the Bottom -->
-        <div id="legend" class="hidebottom">
-            <div id='toolbar'></div>
+    <!-- RouteInfo Modal -->
+        <div class="modal fade bd-example-modal-lg" id="routeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h3 class="modal-title" id="exampleModalLongTitle2"></h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <div id=routeDirections></div>
+              </div>
+              <!--<div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              </div>-->
+            </div>
+          </div>
         </div>
 
-    <!-- Tutorial and Toggle Sidebar Buttons in the Top Right -->
-        <div id='maininfo'>
-            <a href=# data-toggle="tooltip" data-placement="top" title="Tutorial"><button type="button" class="btn btn-custom1" data-toggle="modal" data-target=".bd-example-modal-lg"><i class="fas fa-question-circle"></i></button></a>
-
-            <a href=# data-toggle="tooltip" data-placement="top" title="Toggle Sidebar"><button id="sidebarCollapse" type="button" class="btn btn-warning">
-                <i class="fas fa-align-right"></i></button></a>
+    <div id="allControls">
+        <!-- Router Toggle Button -->
+        <div id="routerposition">
+            <input id="routerToggle" type="checkbox" checked data-toggle="toggle" data-on="Safe Routing On" data-off="Safe Routing Off" data-onstyle="success" data-offstyle="danger">
         </div>
+        <button id="drawRoute" type="button" class="btn btn-custom1"><i class="fas fa-route"></i>
+    </div>
+
+        <!-- Primary Mapbox Window Controls in the Top Right (Zoom, Draw, Pitch, etc...) -->
+            <div id="topRightControls" class="hideright"></div>
+
+        <!-- Tutorial and Toggle Sidebar Buttons in the Top Right -->
+            <div id='maininfo'>
+<!--                 <button id="AtoBRouter" type="button" class="btn btn-custom1" >
+                    <i class="fas fa-route"></i></button> -->
+
+                <a href=# data-toggle="tooltip" data-placement="top" title="Tutorial"><button type="button" class="btn btn-custom1" data-toggle="modal" data-target=".bd-example-modal-lg"><i class="fas fa-question-circle"></i></button></a>
+
+                <a href=# data-toggle="tooltip" data-placement="top" title="Toggle Sidebar"><button id="sidebarCollapse" type="button" class="btn btn-warning">
+                    <i class="fas fa-align-right"></i></button></a>
+
+            </div>
+            <div id='routeInfo'>
+                <a href=# data-toggle="tooltip" data-placement="bottom" title="Route"><button type="button" class="btn btn-custom1" data-toggle="modal" data-target="#routeModal"><i class="fas fa-directions"></i></button></a>
+            </div>
+
+<!--             <div id='myLocation'>
+                <a href=#  title="My Location"><button type="button" class="btn btn-custom1"><i class="fas fa-street-view"></i></button></a>
+            </div> -->
+        
+
+        <!-- Legend and Togglable Layer Buttons in the Bottom -->
+            <div id="legend" class="hidebottom">
+                <div id='toolbar'></div>
+            </div>
+
+    </div>
+
 </div>
 
-<!--enables all animation behavior-->
-<script>new WOW().init();</script>
+<!-- Load My Private API Keys ---------------------------------------------->
+    <script src="../js/apikeys.js"></script>
 
-<!--Main Javascript File-->
-<script src="js/routing.js"></script>
+<!--Load Bootstrap Scripts
+I think this should be the first script to load, 
+because it will JQuery will be loaded in immediately
+and some of my other scripts depend on JQuery
+---------------------------------------------->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
-<script type="text/javascript" src="https://code.jquery.com/jquery.min.js"></script>
+<!--Load Main Mapbox JS Libraries
+---------------------------------------------->
+    <!--Main--><script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.52.0/mapbox-gl.js'></script>
+    <!--Search--><script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.4.2/mapbox-gl-geocoder.min.js"></script>
+    <!--Directions--><script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.0.2/mapbox-gl-directions.js'></script>
+    <!--Draw--><script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.0.9/mapbox-gl-draw.js'></script>
 
-<script type="text/javascript">
-    $(document).ready(function () {
-        $('#sidebarCollapse').on('click', function () {
-            $('#presentation').toggleClass('hideleft');
-        });
-        $('#sidebarCollapse').on('click', function () {
-            $('#topRightControls').toggleClass('hideright');
-        });
+<!--Load WOW Animations
+Fade/Slide in/Slide out/etc...
+Source: http://mynameismatthieu.com/WOW/docs.html
+---------------------------------------------->
+    <script src="../js/wow.min.js"></script>
+    <script>new WOW().init();</script>
 
-        //Want to be able to show/hide the bottom legend on click of the Toggle Sidebar Button
-        $('#sidebarCollapse').on('click', function () {
-            $('#legend').toggleClass('hidebottom');
+<!--Load Open Route Service Javascript API
+---------------------------------------------->
+    <script src="../js/dist/ors-js-client.js"></script>
+
+<!-- Bootstrap 4 Toggle Button Feature
+---------------------------------------------->
+    <script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
+
+<!-- Custom JQuery Script
+---------------------------------------------->
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#sidebarCollapse').on('click', function () {
+                $('#presentation').toggleClass('hideleft');
+            });
+            $('#sidebarCollapse').on('click', function () {
+                $('#topRightControls').toggleClass('hideright');
+            });
+
+            //Want to be able to show/hide the bottom legend on click of the Toggle Sidebar Button
+            $('#sidebarCollapse').on('click', function () {
+                $('#legend').toggleClass('hidebottom');
+            });
+            $(function () {
+                $('[data-toggle="tooltip"]').tooltip()
+            });
         });
-        $(function () {
-            $('[data-toggle="tooltip"]').tooltip()
-        });
-    });
-</script>
-    
-    <!--Bootstrap Scripts-->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    </script>
+
+<!--Load Custom Javascript
+---------------------------------------------->
+    <script src="js/routing.js"></script>
+
+<!-- Load Custom ORS Directions Call
+---------------------------------------------->
+    <script src="js/orsDirectionsCall.js"></script>
 
 </body>
 </html> 
