@@ -45,7 +45,7 @@ function garbageTesting(){
 
 
 function loadParameters(){
-    myHostAddress = "http://localhost:8989/route";
+    myHostAddress = "http://localhost:8989";
     myAPI = API.ors;
     ghAPI = API.graphhopper;
  
