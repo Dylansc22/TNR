@@ -45,8 +45,9 @@ function garbageTesting(){
 
 
 function loadParameters(){
-    myHostAddress = "http://localhost:8080/ors";
+    myHostAddress = "http://localhost:8989/route";
     myAPI = API.ors;
+    ghAPI = API.graphhopper;
  
   // Various Paramaters for OpenRouteService Directions Calculation
     W = {
@@ -351,23 +352,26 @@ function generateSafeRoute(){
     console.log(JSON.stringify(W));
     console.log("Above is W - ORS routing Input Parameter");
 
-    orsDirections = new Openrouteservice.Directions({
-      // api_key: myAPI,
-      host: myHostAddress
+    var ghRouting = new GraphHopper.Routing({
+      //key: ghAPI,
+      host: myHostAddress, //*** LOCALHOST DOESNT CURRENTLY WORK YET, THIS WONT COMPUTE 
+      vehicle: "bike",
+      elevation: false
     });
 
+    ghRouting.addPoint(new GHInput(startMarker._lngLat.lat, startMarker._lngLat.lng));
+    ghRouting.addPoint(new GHInput(endMarker._lngLat.lat, endMarker._lngLat.lng));
 
-    orsDirections.calculate(W)
+    ghRouting.doRequest()
       .then(function(json) {
+        // Add your own result handling here
+        //console.log(json);
         R = json;
         console.log(JSON.stringify(R));
-        console.log("Above is R - ORS output geojson");
-        newRouteLayer(R, nodecount);
       })
       .catch(function(err) {
-          console.error(err);
+        console.error(err.message);
       });
-
   };
 
 function generateDangerousRoute(){
@@ -381,19 +385,25 @@ function generateDangerousRoute(){
     W.preference = "shortest";
   }
 
-  orsDirections = new Openrouteservice.Directions({
-    api_key: myAPI,
-  });
+    var ghRouting = new GraphHopper.Routing({
+      key: ghAPI,
+      //host: myHostAddress,
+      vehicle: "bike",
+      elevation: false
+    });
 
-  orsDirections.calculate(W)
-    .then(function(json) {
+    ghRouting.addPoint(new GHInput(startMarker._lngLat.lat, startMarker._lngLat.lng));
+    ghRouting.addPoint(new GHInput(endMarker._lngLat.lat, endMarker._lngLat.lng));
+
+    ghRouting.doRequest()
+      .then(function(json) {
+        // Add your own result handling here
+        //console.log(json);
         R = json;
-        console.log("Open Route Services Output Geojson")
         console.log(JSON.stringify(R));
-          newRouteLayer(R);
       })
       .catch(function(err) {
-          console.error(err);
+        console.error(err.message);
       });
 }
 
