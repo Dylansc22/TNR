@@ -368,6 +368,7 @@ function generateSafeRoute(){
         //console.log(json);
         R = json;
         console.log(JSON.stringify(R));
+        newRouteLayer(R);
       })
       .catch(function(err) {
         console.error(err.message);
@@ -401,6 +402,7 @@ function generateDangerousRoute(){
         //console.log(json);
         R = json;
         console.log(JSON.stringify(R));
+        newRouteLayer(R);
       })
       .catch(function(err) {
         console.error(err.message);
@@ -410,13 +412,13 @@ function generateDangerousRoute(){
 function newRouteLayer(e,f){
     f = f || []; // nodecount will be set either to nodecount or to [].
     //Use Mapbox to visualize json directions on Map
-    map.addSource('R_source' + f.toString(), { type: 'geojson', data: e });
+    map.addSource('R_source' + f.toString(), { type: 'geojson', data: e.paths[0].points });
     map.addLayer({
       "id": "R_layer"+ f.toString(),
       "type": "line",
       "source": "R_source" + f.toString(),
       "paint": {
-        "line-color": "#4f7ba4",
+        "line-color": "black", //"#4f7ba4",
         "line-opacity": 0.75,
         "line-width": 3
       }
