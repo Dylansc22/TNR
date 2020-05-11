@@ -270,6 +270,9 @@ function illCleanThisFunctionUpLater() {
         ['hawk_roads', 'hawkroadscase'],
         'Hawk Roads');
 
+    toggleLayer('ls-nonhawkroads-4dyda7',
+        ['ls-nonhawkroads-4dyda7', 'ls-nonhawkroads-4dyda7 copy'],
+        'Non-Crosswalk Roads');
 
   function toggleLayer(htmlID, ids, name) {
       var link = document.createElement('button');
