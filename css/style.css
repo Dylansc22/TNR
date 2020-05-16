@@ -138,20 +138,29 @@ h1, h2, h3, h4, h5, h6, p {
     width: 50vw;
     margin: 0 25vw;
     text-align:center;
+    top: 10px;
 }
 
 .geocoder {
     position: relative;
     z-index: 1;
     width: 50vw;
-    top: 20px;
 }
 
 #geocoder .mapboxgl-ctrl-geocoder{
+    box-shadow: 3px 3px 6px grey;
     margin: 0 20px;
+    height: 6vh;
 }
+
 #geocoder .mapboxgl-ctrl-geocoder--icon-search {
     display: none;
+}
+
+.mapboxgl-ctrl-geocoder input[type='text'] {
+    font-size: 3vh;
+    margin:0px 5px;
+    height:100%;
 }
 
 #directionhere {
@@ -159,7 +168,7 @@ h1, h2, h3, h4, h5, h6, p {
 }
 
 .directionsbuttonhidden {
-    top:-20px;
+    top:-30px;
     -webkit-transition: all 0.4s;
     -moz-transition: all 0.4s;
     -o-transition: all 0.4s;
@@ -167,7 +176,7 @@ h1, h2, h3, h4, h5, h6, p {
 }
 
 .directionbuttonvisable {
-    top: 30px;
+    top: 20px;
     -webkit-transition: all 0.4s;
     -moz-transition: all 0.4s;
     -o-transition: all 0.4s;
