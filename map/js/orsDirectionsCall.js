@@ -53,7 +53,7 @@ function loadParameters(){
       coordinates: [], //create the coordinates array
       extra_info: ["waytype"], //turn this on for custom API
       elevation: false, //turn this on for custom API
-      profile: "cycling-regular", //driving-car, driving-hgv, foot-walking, foot-hiking, cycling-regular, cycling-road,cycling-mountain, cycling-electric
+      profile: "cycling-regular", //“driving-car”, “driving-hgv”, “foot-walking”, “foot-hiking”, “cycling-regular”, “cycling-road”,”cycling-mountain”, “cycling-electric”
       preference: "recommended", //fastest, shortest, recommended
       extra_info: ["waytype", "steepness"], //“steepness”, “suitability”, “surface”, “waycategory”, “waytype”, “tollways”, “traildifficulty”, “roadaccessrestrictions”
       format: "geojson",
@@ -351,7 +351,11 @@ function generateSafeRoute(){
     console.log(JSON.stringify(W));
     console.log("Above is W - ORS routing Input Parameter");
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 
+=======
+sdfsf
+>>>>>>> Stashed changes
 =======
 sdfsf
 >>>>>>> Stashed changes
