@@ -53,8 +53,8 @@ function loadParameters(){
       coordinates: [], //create the coordinates array
       extra_info: ["waytype"], //turn this on for custom API
       elevation: false, //turn this on for custom API
-      profile: "cycling-regular",
-      preference: "shortest", //fastest, shortest, recommended
+      profile: "cycling-regular", //driving-car, driving-hgv, foot-walking, foot-hiking, cycling-regular, cycling-road,cycling-mountain, cycling-electric
+      preference: "recommended", //fastest, shortest, recommended
       extra_info: ["waytype", "steepness"], //“steepness”, “suitability”, “surface”, “waycategory”, “waytype”, “tollways”, “traildifficulty”, “roadaccessrestrictions”
       format: "geojson",
       units: "mi" //km, mi, m
@@ -343,7 +343,7 @@ function generateSafeRoute(){
     W["elevation"] = false; //Pretty sure it can't be true, needs to be false
     W["options"] = { //required for custom weighting
       profile_params: {
-        weightings: { green: .5 }
+        weightings: { green: 1 }
       }
     };
     W["host"] = myHostAddress; //required to point to my online graphs
