@@ -351,7 +351,6 @@ function generateSafeRoute(){
     console.log(JSON.stringify(W));
     console.log("Above is W - ORS routing Input Parameter");
 
-sdfsf
     orsDirections = new Openrouteservice.Directions({
       // api_key: myAPI,
       host: myHostAddress
