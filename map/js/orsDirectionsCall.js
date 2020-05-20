@@ -429,6 +429,14 @@ function newRouteLayer(e,f){
         "line-width": 3
       }
     });
+
+    var boundary = []
+    boundary[0] = R.paths[0].bbox[0] - 0.008;
+    boundary[1] = R.paths[0].bbox[1] - 0.008;
+    boundary[2] = R.paths[0].bbox[2] + 0.008;
+    boundary[3] = R.paths[0].bbox[3] + 0.008;
+    map.fitBounds(boundary);
+    
 }
 
 function amendToDrawnRoute(e){
