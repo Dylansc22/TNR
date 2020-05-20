@@ -158,8 +158,8 @@ h1, h2, h3, h4, h5, h6, p {
 }
 
 .mapboxgl-ctrl-geocoder input[type='text'] {
-    font-size: 3vh;
-    margin:0px 5px;
+    font-size: 2vh;
+    margin:0px 3px;
     height:100%;
 }
 
@@ -176,7 +176,7 @@ h1, h2, h3, h4, h5, h6, p {
 }
 
 .directionbuttonvisable {
-    top: 20px;
+    top: 30px;
     -webkit-transition: all 0.4s;
     -moz-transition: all 0.4s;
     -o-transition: all 0.4s;
