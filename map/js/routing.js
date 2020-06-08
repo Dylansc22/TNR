@@ -43,78 +43,88 @@ function illCleanThisFunctionUpLater() {
         compact: true,   
         }));
 
-  //Add Custom Mapbox Controls for Bicycle Routing
+  // Lots of Points
+    var LotsOfPointsMode = {};
+
+    // When the mode starts this function will be called.
+    // The `opts` argument comes from `draw.changeMode('lotsofpoints', {count:7})`.
+    // The value returned should be an object and will be passed to all other lifecycle functions
+    LotsOfPointsMode.onSetup = function(opts) {
+      var state = {};
+      state.count = opts.count || 0;
+      return state;
+    };
+
+    // Whenever a user clicks on the map, Draw will call `onClick`
+    LotsOfPointsMode.onClick = function(state, e) {
+      // `this.newFeature` takes geojson and makes a DrawFeature
+      var point = this.newFeature({
+        type: 'Feature',
+        properties: {
+          count: state.count
+        },
+        geometry: {
+          type: 'Point',
+          coordinates: [e.lngLat.lng, e.lngLat.lat]
+        }
+      });
+      this.addFeature(point); // puts the point on the map
+    };
+
+    // Whenever a user clicks on a key while focused on the map, it will be sent here
+    LotsOfPointsMode.onKeyUp = function(state, e) {
+      if (e.keyCode === 27) return this.changeMode('simple_select');
+    };
+
+    // This is the only required function for a mode.
+    // It decides which features currently in Draw's data store will be rendered on the map.
+    // All features passed to `display` will be rendered, so you can pass multiple display features per internal feature.
+    // See `styling-draw` in `API.md` for advice on making display features
+    LotsOfPointsMode.toDisplayFeatures = function(state, geojson, display) {
+      display(geojson);
+    };
+
+  // Add the new draw mode to the MapboxDraw object
     draw = new MapboxDraw({
+      defaultMode: 'lots_of_points',
+      // Adds the LotsOfPointsMode to the built-in set of modes
+      modes: Object.assign({
+        lots_of_points: LotsOfPointsMode,
+      }, MapboxDraw.modes),
       accessToken: mapboxgl.accessToken,
-      displayControlsDefault: false,
-      controls: {
-        line_string: true,
-        trash: true,
-      },
-      styles: [
-            // For more info - Mapbox GL Style Spec - https://docs.mapbox.com/mapbox-gl-js/style-spec
-            // ACTIVE (being drawn)
-            // line stroke
+          displayControlsDefault: false,
+          controls: {
+            //point, line_string, polygon, trash, combine_features and uncombine_features
+            point: true,
+            line_string: true,
+            trash: true,
+          },
+          styles: [
             {
-              "id": "gl-draw-line", // Required String - Unique layer name
-              "type": "line", //Required types: fill, line, symbol, circle, heatmap, fill-extrusion, raster, hillshade, background)
-              "filter": ["all", ["==", "$type", "LineString"], ["!=", "mode", "static"]], 
-              "layout": { 
-                "line-cap": "round", //e.g. butt (default), round, square
-                "line-join": "round" //miter (default), bevel, round
-              },
-              "paint": { 
-                "line-color": "#81A4CD", 
-                "line-dasharray": [2, 4],
-                "line-width": 2,
-                "line-opacity": 0.7
-                //line-translate
-                //line-gap-width
-                //line-gradient
-                //etc...
+              'id': 'highlight-active-points',
+              'type': 'circle',
+              'filter': ['all',
+                ['==', '$type', 'Point'],
+                ['==', 'meta', 'feature'],
+                ['==', 'active', 'true']],
+              'paint': {
+                'circle-radius': 8,
+                'circle-color': '#000000'
               }
             },
-            // vertex point halos - must come before vertex, because these are two layers of circles
             {
-              "id": "gl-draw-polygon-and-line-vertex-halo-active",
-              "type": "circle",
-              "filter": ["all", ["==", "meta", "vertex"], ["==", "$type", "Point"], ["!=", "mode", "static"]],
-              "paint": {
-                "circle-radius": 8,
-                "circle-color": "#FFF" 
+              'id': 'points-are-blue',
+              'type': 'circle',
+              'filter': ['all',
+                ['==', '$type', 'Point'],
+                ['==', 'meta', 'feature'],
+                ['==', 'active', 'false']],
+              'paint': {
+                'circle-radius': 7,
+                'circle-color': 'green'
               }
-            },
-            // vertex points
-            {
-              "id": "gl-draw-polygon-and-line-vertex-active",
-              "type": "circle",
-              "filter": ["all", ["==", "meta", "vertex"], ["==", "$type", "Point"], ["!=", "mode", "static"]],
-              "paint": {
-                "circle-radius": 5,
-                "circle-color": "#3E7CB1", 
-              }
-            },
-            // midpoint point halos
-            {
-              "id": "gl-draw-polygon-and-line-midpoint-halo-active",
-              "type": "circle",
-              "filter": ["all", ["==", "meta", "midpoint"], ["==", "$type", "Point"], ["!=", "mode", "static"]],
-              "paint": {
-                "circle-radius": 4,
-                "circle-color": "#FFF" 
-              }
-            },
-            // midpoint points
-            {
-                "id": "gl-draw-polygon-and-line-midpoint-active",
-                "type": "circle",
-                "filter": ["all", ["==", "meta", "midpoint"], ["==", "$type", "Point"], ["!=", "mode", "static"]],
-                "paint": {
-                    "circle-radius": 3,
-                    "circle-color": "#3E7CB1",
-                }
-            },
-      ]
+            }
+          ]
     });
 
   //Add User-Geolocate Button
@@ -307,7 +317,5 @@ function illCleanThisFunctionUpLater() {
   //---------------------------------------------------------------------------------------
   // --------------------------- Step 3: Create Custom Controls -----------------------------
   //---------------------------------------------------------------------------------------
-
-
 
 }
