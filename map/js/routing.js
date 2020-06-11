@@ -43,90 +43,6 @@ function illCleanThisFunctionUpLater() {
         compact: true,   
         }));
 
-  // Lots of Points
-    var LotsOfPointsMode = {};
-
-    // When the mode starts this function will be called.
-    // The `opts` argument comes from `draw.changeMode('lotsofpoints', {count:7})`.
-    // The value returned should be an object and will be passed to all other lifecycle functions
-    LotsOfPointsMode.onSetup = function(opts) {
-      var state = {};
-      state.count = opts.count || 0;
-      return state;
-    };
-
-    // Whenever a user clicks on the map, Draw will call `onClick`
-    LotsOfPointsMode.onClick = function(state, e) {
-      // `this.newFeature` takes geojson and makes a DrawFeature
-      var point = this.newFeature({
-        type: 'Feature',
-        properties: {
-          count: state.count
-        },
-        geometry: {
-          type: 'Point',
-          coordinates: [e.lngLat.lng, e.lngLat.lat]
-        }
-      });
-      this.addFeature(point); // puts the point on the map
-    };
-
-    // Whenever a user clicks on a key while focused on the map, it will be sent here
-    LotsOfPointsMode.onKeyUp = function(state, e) {
-      if (e.keyCode === 27) return this.changeMode('simple_select');
-    };
-
-    // This is the only required function for a mode.
-    // It decides which features currently in Draw's data store will be rendered on the map.
-    // All features passed to `display` will be rendered, so you can pass multiple display features per internal feature.
-    // See `styling-draw` in `API.md` for advice on making display features
-    LotsOfPointsMode.toDisplayFeatures = function(state, geojson, display) {
-      display(geojson);
-    };
-
-  // Add the new draw mode to the MapboxDraw object
-    draw = new MapboxDraw({
-      defaultMode: 'lots_of_points',
-      // Adds the LotsOfPointsMode to the built-in set of modes
-      modes: Object.assign({
-        lots_of_points: LotsOfPointsMode,
-      }, MapboxDraw.modes),
-      accessToken: mapboxgl.accessToken,
-          displayControlsDefault: false,
-          controls: {
-            //point, line_string, polygon, trash, combine_features and uncombine_features
-            point: true,
-            line_string: true,
-            trash: true,
-          },
-          styles: [
-            {
-              'id': 'highlight-active-points',
-              'type': 'circle',
-              'filter': ['all',
-                ['==', '$type', 'Point'],
-                ['==', 'meta', 'feature'],
-                ['==', 'active', 'true']],
-              'paint': {
-                'circle-radius': 8,
-                'circle-color': '#000000'
-              }
-            },
-            {
-              'id': 'points-are-blue',
-              'type': 'circle',
-              'filter': ['all',
-                ['==', '$type', 'Point'],
-                ['==', 'meta', 'feature'],
-                ['==', 'active', 'false']],
-              'paint': {
-                'circle-radius': 7,
-                'circle-color': 'green'
-              }
-            }
-          ]
-    });
-
   //Add User-Geolocate Button
     geolocate = new mapboxgl.GeolocateControl({
         accessToken: mapboxgl.accessToken,
@@ -142,7 +58,7 @@ function illCleanThisFunctionUpLater() {
       
   document.getElementById('geocoder').appendChild(geocoder.onAdd(map));
   document.getElementById('topRightControls').appendChild(geolocate.onAdd(map)); //Manually locate the draw tool inside the topRightControls DIV id
-  document.getElementById('topRightControls').appendChild(draw.onAdd(map)); //Manually locate the draw tool inside the topRightControls DIV id
+  //document.getElementById('topRightControls').appendChild(draw.onAdd(map)); //Manually locate the draw tool inside the topRightControls DIV id
   document.getElementById('topRightControls').appendChild(zoom.onAdd(map)); //Manually locate the draw tool inside the topRightControls DIV id
 
 
