@@ -15,7 +15,6 @@ let draw = new MapboxDraw({
 
 map.addControl(draw);
 
-
 let APIs = {
     ors: API.ors,
     gh: API.graphhopper
@@ -27,37 +26,29 @@ function Route(){
   this.startPoint = this.POIs[0]; 
   this.endPoint = this.POIs[this.POIs.length-1];
 
-  this.markAs = function(_currently){
-    this.currently = _currently;
-  }
-
-  this.addPOI = function(_coordinate) {
-    this.POIs.push(_coordinate);
-  }
-
-  this.calculateGH = function(){
+  this.calculateGHArray = function(){
     let ghRouting = new GraphHopper.Routing(parametersGH);
-    ghRouting.addPoint(new GHInput(myRoute.POIs[0][1], myRoute.POIs[0][0]));
-    ghRouting.addPoint(new GHInput(myRoute.POIs[1][1], myRoute.POIs[1][0]));
-
+    ghRouting.addPoint(new GHInput(this.POIs[this.POIs.length-2].coordinates[0],this.POIs[this.POIs.length-2].coordinates[1]));
+    ghRouting.addPoint(new GHInput(this.POIs[this.POIs.length-1].coordinates[0],this.POIs[this.POIs.length-1].coordinates[1]));
     ghRouting.doRequest()
       .then(function(json) {
         // Add your own result handling here
         myRoute.geojson = json; //***This needs to be fixed. I shouldn't refer to the instance of the object, but the this.geojson doesn't work because this is currently referring to the window. 
-        myRoute.showOnMap();
-        myRoute.zoomToRoute();
+        myRoute.showOnMap(myRoute.POIs.length-1);
+        //myRoute.zoomToRoute();
       })
       .catch(function(err) {
         console.error(err.message);
       });
   };
 
-  this.showOnMap = function(){
-    map.addSource('uniquesource', { type: 'geojson', data: myRoute.geojson.paths[0].points });
+  this.showOnMap = function(_counter){
+    let e = _counter;
+    map.addSource('uniquesource' + e.toString(), { type: 'geojson', data: myRoute.geojson.paths[0].points });
     map.addLayer({
-      "id": "uniquelayerid",
+      "id": "uniquelayerid" + e.toString(),
       "type": "line",
-      "source": "uniquesource",
+      "source": "uniquesource" + e.toString(),
       "paint": {
         "line-color": "black", //"#4f7ba4",
         "line-opacity": 0.75,
@@ -75,86 +66,41 @@ function Route(){
     map.fitBounds(boundary);
   }
 
-  this.updateDraggedDrawing = function(){
-
-  }
-
-
-
-  // this.ImportPOIs = function (){
-  //   if (this.currently === 'drawn') {
-  //     let drawingLength = draw.getAll().features.length
-  //     let lastpoint = draw.getAll().features[drawingLength-1]
-  //     this.POIs.push(lastpoint);
-  //   }
-  // }
-
 }
 
 
 
+                                                                          // map.on('draw.create', IllustrateRoute);
+                                                                          // map.on('draw.delete', IllustrateRoute);
+                                                                          // map.on('draw.update', IllustrateRoute);
 
-map.on('draw.create', IllustrateRoute);
-map.on('draw.delete', IllustrateRoute);
-map.on('draw.update', IllustrateRoute);
+                                                                          // function IllustrateRoute(){
+                                                                          //   myRoute.markAs('drawn');
+                                                                          //   let arrayLength = draw.getAll().features.length;
+                                                                          //   let lastDrawnPointCoordinates = draw.getAll().features[arrayLength-1].geometry.coordinates;
+                                                                          //   myRoute.addPOI(lastDrawnPointCoordinates);
+                                                                          //   if (arrayLength > 1) {
+                                                                          //     myRoute.calculateGH();
+                                                                          //   }
+                                                                          // }
 
-let markerObject = {}
-map.on('click', function(e) {
-  console.log('A click event has occursdfsdfsdfred at ' + e.lngLat);
-  
-  marker = new mapboxgl.Marker({
-    draggable: true,
-    color: 'grey',
-  })
-    .setLngLat(e.lngLat)
-    .addTo(map);
-  // myRoute.addPOI([e.lngLat.lat,e.lngLat.lng]);
-});
+  let counter = 0;
+  map.on('click', function(e) {
+    let marker = new mapboxgl.Marker({
+      draggable: true,
+      color: 'grey',
+    })
 
-// map.on('click', addMarker);
-
-// function addMarker(e){
-//   if (typeof circleMarker !== "undefined" ){ 
-//     map.removeLayer(circleMarker);         
-//   }
-//   //add marker
-//   circleMarker = new  Mapbox.circle(e.latlng, 200, {
-//                 color: 'red',
-//                 fillColor: '#f03',
-//                 fillOpacity: 0.5
-//             }).addTo(map);
-// }
-
-function IllustrateRoute(){
-  myRoute.markAs('drawn');
-  let arrayLength = draw.getAll().features.length;
-  let lastDrawnPointCoordinates = draw.getAll().features[arrayLength-1].geometry.coordinates;
-  myRoute.addPOI(lastDrawnPointCoordinates);
-  if (arrayLength > 1) {
-    myRoute.calculateGH();
-  }
-}
- 
-function updateArea(e) {
-  var data = draw.getAll();
-  var answer = document.getElementById('calculated-area');
-    if (data.features.length > 0) {
-      var area = turf.area(data);
-        // restrict to area to 2 decimal points
-        var rounded_area = Math.round(area * 100) / 100;
-        answer.innerHTML =
-        '<p><strong>' +
-        rounded_area +
-        '</strong></p><p>square meters</p>';
-    } else {
-      answer.innerHTML = '';
-    if (e.type !== 'draw.delete')
-      alert('Use the draw tools to draw a polygon!');
+    marker.setLngLat(e.lngLat)
+    marker.addTo(map);
+    myRoute.POIs[counter] = {};
+    myRoute.POIs[counter].name = ('marker' + [counter+1].toString());
+    myRoute.POIs[counter].coordinates = [marker.getLngLat().lat,marker.getLngLat().lng];
+    counter++;
+    if (counter > 1) {
+      myRoute.calculateGHArray();
     }
-  }
-
-
-
+  });
 
 
 
