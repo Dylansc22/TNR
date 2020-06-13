@@ -1,5 +1,174 @@
 window.addEventListener("load", doEverything());//switch to everythingfunction2 when ready to make the leap to the cleaner code
 
+let parametersGH = {
+  host: "http://localhost:8989",
+  vehicle: "bike",
+  elevation: false,
+  details: ["road_class", "distance"]
+}
+
+let myRoute = new Route();
+
+let draw = new MapboxDraw({
+  displayControlsDefault: true,
+  });
+
+map.addControl(draw);
+
+
+let APIs = {
+    ors: API.ors,
+    gh: API.graphhopper
+  }
+
+function Route(){
+  this.markAs = '';
+  this.POIs = []; 
+  this.startPoint = this.POIs[0]; 
+  this.endPoint = this.POIs[this.POIs.length-1];
+
+  this.markAs = function(_currently){
+    this.currently = _currently;
+  }
+
+  this.addPOI = function(_coordinate) {
+    this.POIs.push(_coordinate);
+  }
+
+  this.calculateGH = function(){
+    let ghRouting = new GraphHopper.Routing(parametersGH);
+    ghRouting.addPoint(new GHInput(myRoute.POIs[0][1], myRoute.POIs[0][0]));
+    ghRouting.addPoint(new GHInput(myRoute.POIs[1][1], myRoute.POIs[1][0]));
+
+    ghRouting.doRequest()
+      .then(function(json) {
+        // Add your own result handling here
+        myRoute.geojson = json; //***This needs to be fixed. I shouldn't refer to the instance of the object, but the this.geojson doesn't work because this is currently referring to the window. 
+        myRoute.showOnMap();
+        myRoute.zoomToRoute();
+      })
+      .catch(function(err) {
+        console.error(err.message);
+      });
+  };
+
+  this.showOnMap = function(){
+    map.addSource('uniquesource', { type: 'geojson', data: myRoute.geojson.paths[0].points });
+    map.addLayer({
+      "id": "uniquelayerid",
+      "type": "line",
+      "source": "uniquesource",
+      "paint": {
+        "line-color": "black", //"#4f7ba4",
+        "line-opacity": 0.75,
+        "line-width": 3
+      }
+    });
+  }
+
+  this.zoomToRoute = function(){
+    let boundary = []
+    boundary[0] = this.geojson.paths[0].bbox[0] - 0.008;
+    boundary[1] = this.geojson.paths[0].bbox[1] - 0.008;
+    boundary[2] = this.geojson.paths[0].bbox[2] + 0.008;
+    boundary[3] = this.geojson.paths[0].bbox[3] + 0.008;
+    map.fitBounds(boundary);
+  }
+
+  this.updateDraggedDrawing = function(){
+
+  }
+
+
+
+  // this.ImportPOIs = function (){
+  //   if (this.currently === 'drawn') {
+  //     let drawingLength = draw.getAll().features.length
+  //     let lastpoint = draw.getAll().features[drawingLength-1]
+  //     this.POIs.push(lastpoint);
+  //   }
+  // }
+
+}
+
+
+
+
+map.on('draw.create', IllustrateRoute);
+map.on('draw.delete', IllustrateRoute);
+map.on('draw.update', IllustrateRoute);
+
+let markerObject = {}
+map.on('click', function(e) {
+  console.log('A click event has occursdfsdfsdfred at ' + e.lngLat);
+  
+  marker = new mapboxgl.Marker({
+    draggable: true,
+    color: 'grey',
+  })
+    .setLngLat(e.lngLat)
+    .addTo(map);
+  // myRoute.addPOI([e.lngLat.lat,e.lngLat.lng]);
+});
+
+// map.on('click', addMarker);
+
+// function addMarker(e){
+//   if (typeof circleMarker !== "undefined" ){ 
+//     map.removeLayer(circleMarker);         
+//   }
+//   //add marker
+//   circleMarker = new  Mapbox.circle(e.latlng, 200, {
+//                 color: 'red',
+//                 fillColor: '#f03',
+//                 fillOpacity: 0.5
+//             }).addTo(map);
+// }
+
+function IllustrateRoute(){
+  myRoute.markAs('drawn');
+  let arrayLength = draw.getAll().features.length;
+  let lastDrawnPointCoordinates = draw.getAll().features[arrayLength-1].geometry.coordinates;
+  myRoute.addPOI(lastDrawnPointCoordinates);
+  if (arrayLength > 1) {
+    myRoute.calculateGH();
+  }
+}
+ 
+function updateArea(e) {
+  var data = draw.getAll();
+  var answer = document.getElementById('calculated-area');
+    if (data.features.length > 0) {
+      var area = turf.area(data);
+        // restrict to area to 2 decimal points
+        var rounded_area = Math.round(area * 100) / 100;
+        answer.innerHTML =
+        '<p><strong>' +
+        rounded_area +
+        '</strong></p><p>square meters</p>';
+    } else {
+      answer.innerHTML = '';
+    if (e.type !== 'draw.delete')
+      alert('Use the draw tools to draw a polygon!');
+    }
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 function doEverything(){
   loadParameters();
   illCleanThisFunctionUpLater();
