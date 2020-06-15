@@ -7,67 +7,210 @@ let parametersGH = {
   details: ["road_class", "distance"]
 }
 
-let myRoute = new Route();
-
-let draw = new MapboxDraw({
-  displayControlsDefault: true,
-  });
-
-map.addControl(draw);
-
 let APIs = {
-    ors: API.ors,
-    gh: API.graphhopper
-  }
+  ors: API.ors,
+  gh: API.graphhopper
+}
+
+
+let myPOI = new POI();
+let counter = 0;
+let AllPOIs = {}; //delete markerlist
+let MarkerList = {};
+let myRoute = new Route(); 
+
+//  I don't think I need Mapbox Draw Tool for Anything Anymore! YAY!            let draw = new MapboxDraw({displayControlsDefault: true,});
+//  I don't think I need Mapbox Draw Tool for Anything Anymore! YAY!            map.addControl(draw);
 
 function Route(){
-  this.markAs = '';
-  this.POIs = []; 
-  this.startPoint = this.POIs[0]; 
-  this.endPoint = this.POIs[this.POIs.length-1];
+  //Parameters
+    this.markAs = '';
+    this.POIs = {}; 
+    this.startPoint = this.POIs[0]; 
+    this.endPoint = this.POIs[this.POIs.length-1];
+    this.geojson = {}
 
-  this.calculateGHArray = function(){
-    let ghRouting = new GraphHopper.Routing(parametersGH);
-    ghRouting.addPoint(new GHInput(this.POIs[this.POIs.length-2].coordinates[0],this.POIs[this.POIs.length-2].coordinates[1]));
-    ghRouting.addPoint(new GHInput(this.POIs[this.POIs.length-1].coordinates[0],this.POIs[this.POIs.length-1].coordinates[1]));
-    ghRouting.doRequest()
-      .then(function(json) {
-        // Add your own result handling here
-        myRoute.geojson = json; //***This needs to be fixed. I shouldn't refer to the instance of the object, but the this.geojson doesn't work because this is currently referring to the window. 
-        myRoute.showOnMap(myRoute.POIs.length-1);
-        //myRoute.zoomToRoute();
-      })
-      .catch(function(err) {
-        console.error(err.message);
+  //Methods
+    this.calculateGHArray = function(_startPOIcoordinates, _endPOIcoordinates){
+
+      let startPOIcoordinates = _startPOIcoordinates;
+      let endPOIcoordinates = _endPOIcoordinates;
+
+      let ghRouting = new GraphHopper.Routing(parametersGH);
+
+      ghRouting.addPoint(new GHInput(startPOIcoordinates.lat, startPOIcoordinates.lng));
+      ghRouting.addPoint(new GHInput(endPOIcoordinates.lat, endPOIcoordinates.lng));
+      ghRouting.doRequest()
+        .then(function(json) {
+          // Add your own result handling here
+          myRoute.geojson[counter-1] = json; //***This needs to be fixed. I shouldn't refer to the instance of the object, but the this.geojson doesn't work because this is currently referring to the window. 
+          myRoute.showOnMap(counter-1);
+          //myRoute.zoomToRoute();
+        })
+        .catch(function(err) {
+          console.error(err.message);
+        });
+    };
+
+    this.showOnMap = function(_counter){
+      let e = _counter;
+      map.addSource('uniquesource' + e.toString(), { type: 'geojson', data: myRoute.geojson[e].paths[0].points });
+      map.addLayer({
+        "id": "uniquelayerid" + e.toString(),
+        "type": "line",
+        "source": "uniquesource" + e.toString(),
+        "paint": {
+          "line-color": "brown", //"#4f7ba4",
+          "line-opacity": 0.75,
+          "line-width": 3
+        }
       });
-  };
+    }
 
-  this.showOnMap = function(_counter){
-    let e = _counter;
-    map.addSource('uniquesource' + e.toString(), { type: 'geojson', data: myRoute.geojson.paths[0].points });
-    map.addLayer({
-      "id": "uniquelayerid" + e.toString(),
-      "type": "line",
-      "source": "uniquesource" + e.toString(),
-      "paint": {
-        "line-color": "black", //"#4f7ba4",
-        "line-opacity": 0.75,
-        "line-width": 3
-      }
+    this.RemoveRouteToMarker = function(_routeid) {
+      let routeid = _routeid
+      alert('Write code that deletes route geojson-' + routeid + ' from marker-' + (routeid-1) + ' to marker-' + routeid + '.');
+    }
+
+    this.clearMap = function() {
+
+    }
+
+    this.zoomToRoute = function(){
+      let boundary = []
+      boundary[0] = this.geojson.paths[0].bbox[0] - 0.008;
+      boundary[1] = this.geojson.paths[0].bbox[1] - 0.008;
+      boundary[2] = this.geojson.paths[0].bbox[2] + 0.008;
+      boundary[3] = this.geojson.paths[0].bbox[3] + 0.008;
+      map.fitBounds(boundary);
+    }
+}
+
+function POI(){
+  
+  //Method
+  this.AddPOI = function(e){
+
+    let marker = new mapboxgl.Marker({
+      //This doesn't work and I don't understand why >> scale: 0.75, - https://docs.mapbox.com/mapbox-gl-js/api/markers/#marker
+      // element: el,
+      draggable: true,
+      color: 'grey',
+    })
+
+    marker.setLngLat(e.lngLat);
+    marker.addTo(map);
+    marker.id = counter;
+    AllPOIs[counter] = marker;
+    counter++;
+    //     If I would like to have marker delete be held inside of a popup use this code         marker.setPopup(new mapboxgl.Popup().setHTML("<h6>Undo</h6>"))
+    //     If I would like to have marker delete be held inside of a popup use this code         marker.togglePopup(); // toggle popup open or closed
+
+
+    //give the markers behavior for being dragged
+      marker.on('dragend', onDragEnd);
+
+    //give the markers behavior for being dragged
+      marker.getElement().addEventListener('click', function(e){
+        //alert("hover over marker: " + marker.id);
+        let key = marker.id
+        this.remove();                           //remove marker
+        delete AllPOIs[key];                     //remove marker from AllPOIs List                                
+        myRoute.RemoveRouteToMarker(key);        //remove route to marker
+        myRoute.calculateGHArray(key-1, key+1); //recalculate route from previous marker to following marker 
+        e.stopPropagation();                                //Stop all other code, ie, stop map.on("click") from trying to put down a new marker
+
+                                                                            //this will be for removing the route associated with the marker that is removed
+                                                                            // map.removeLayer("uniquelayerid" + marker.id.toString());
+                                                                            // map.removeSource("uniquesource" + marker.id.toString());
+                                                                            // map.removeLayer("uniquelayerid" + (marker.id+1).toString());
+                                                                            // map.removeSource("uniquesource" + (marker.id+1).toString());
+    });
+  }
+} //end POI Constructor
+
+
+
+//Add a marker on mouse click, and create a route if two or more markers exist
+  map.on('click', function(e) {
+    myPOI.AddPOI(e);
+    if (Object.keys(AllPOIs).length >= 2) {
+
+
+      //***Generate Route Here
+      //If AllPOIs.length = 2, then the Marker IDs for the markers on screen will be 0 and 1, 
+      //So set the geojson route id to 1 so that it matches the last marker
+      //so when you hypothetically delete a Marker-1, you will also delete route-1
+      //Basically I'm just trying to make it easy to keep track of what markers are associated with what route segements
+    
+
+    }
+  });
+
+
+  function onDragEnd() {
+    alert('I just dragged marker-'+this.id+'.');
+    // // map.removeLayer("uniquelayerid" + this.id.toString());
+    // // map.removeSource("uniquesource" + this.id.toString());
+    // // map.removeLayer("uniquelayerid" + (this.id+1).toString());
+    // // map.removeSource("uniquesource" + (this.id+1).toString());
+    // counter = this.id;
+    // myRoute.calculateGHArray(myRoute.POIs[this.id-1].getLngLat(),myRoute.POIs[this.id].getLngLat());
+    // myRoute.calculateGHArray(myRoute.POIs[this.id].getLngLat(),myRoute.POIs[this.id+1].getLngLat());
+
+    //map.removeLayer()
+                                    // var lngLat = marker.getLngLat();
+                                    // coordinates.style.display = 'block';
+                                    // coordinates.innerHTML =
+                                    // 'Longitude: ' + lngLat.lng + '<br />Latitude: ' + lngLat.lat;
+  }
+
+
+function TNRMarkers() {
+  this.AddCrosshairMarker = function(){
+    //If I want a crosshair instead of the Marker
+    // create a HTML element for each feature
+    // var el = document.createElement('div');
+    // el.className = 'crosshair';
+
+    let centerdot = new mapboxgl.Marker({
+      //element: el, if I want a crosshair instead of the marker
+      draggable: false,
+      color: 'brown',
+    })
+
+    centerdot.setLngLat(map.getCenter())
+    centerdot.addTo(map);
+
+    map.on('move', function(e) {
+      centerdot.setLngLat(map.getCenter());
     });
   }
 
-  this.zoomToRoute = function(){
-    let boundary = []
-    boundary[0] = this.geojson.paths[0].bbox[0] - 0.008;
-    boundary[1] = this.geojson.paths[0].bbox[1] - 0.008;
-    boundary[2] = this.geojson.paths[0].bbox[2] + 0.008;
-    boundary[3] = this.geojson.paths[0].bbox[3] + 0.008;
-    map.fitBounds(boundary);
+  this.DropCrosshairMarker = function(){
+    let numberOfMarkers = 0;
+    map.on('click', function() {
+      let marker = new mapboxgl.Marker({
+        element: el,
+        draggable: true,
+        color: 'blue',
+      })
+
+      marker.setLngLat(map.getCenter())
+      marker.addTo(map);
+      myRoute.POIs = [];
+      myRoute.POIs[numberOfMarkers] = {};
+      myRoute.POIs[numberOfMarkers].name = ('marker' + [numberOfMarkers+1].toString());
+      myRoute.POIs[numberOfMarkers].coordinates = [marker.getLngLat().lat,marker.getLngLat().lng];
+      counter++;
+
+      if (numberOfMarkers > 1) {
+        myRoute.calculateGHArray();
+      }
+    });
+
   }
-
 }
-
 
 
                                                                           // map.on('draw.create', IllustrateRoute);
@@ -84,23 +227,6 @@ function Route(){
                                                                           //   }
                                                                           // }
 
-  let counter = 0;
-  map.on('click', function(e) {
-    let marker = new mapboxgl.Marker({
-      draggable: true,
-      color: 'grey',
-    })
-
-    marker.setLngLat(e.lngLat)
-    marker.addTo(map);
-    myRoute.POIs[counter] = {};
-    myRoute.POIs[counter].name = ('marker' + [counter+1].toString());
-    myRoute.POIs[counter].coordinates = [marker.getLngLat().lat,marker.getLngLat().lng];
-    counter++;
-    if (counter > 1) {
-      myRoute.calculateGHArray();
-    }
-  });
 
 
 
