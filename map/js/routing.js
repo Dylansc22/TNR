@@ -188,17 +188,17 @@ function illCleanThisFunctionUpLater() {
         'road-label'], 
         'Annotation'); //Button Name
 
-    toggleLayer('OSMID_LSHawkRoads',
-        ['ORS_HawkRoads75m_byOSMID'],
-        'Hawk Roads by OSMID');
+    // toggleLayer('OSMID_LSHawkRoads',
+    //     ['ORS_HawkRoads75m_byOSMID'],
+    //     'Hawk Roads by OSMID');
     
-    toggleLayer('hawkroads',
-        ['hawk_roads', 'hawkroadscase'],
-        'Hawk Roads');
+    // toggleLayer('hawkroads',
+    //     ['hawk_roads', 'hawkroadscase'],
+    //     'Hawk Roads');
 
-    toggleLayer('ls-nonhawkroads-4dyda7',
-        ['ls-nonhawkroads-4dyda7', 'ls-nonhawkroads-4dyda7 copy'],
-        'Non-Crosswalk Roads');
+    // toggleLayer('ls-nonhawkroads-4dyda7',
+    //     ['ls-nonhawkroads-4dyda7', 'ls-nonhawkroads-4dyda7 copy'],
+    //     'Non-Crosswalk Roads');
 
   function toggleLayer(htmlID, ids, name) {
       var link = document.createElement('button');
