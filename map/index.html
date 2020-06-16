@@ -91,7 +91,10 @@
         <div id="routerposition">
             <input id="routerToggle" type="checkbox" checked data-toggle="toggle" data-on="Safe Routing On" data-off="Safe Routing Off" data-onstyle="success" data-offstyle="danger">
         </div>
-        <button id="drawRoute" type="button" class="btn btn-custom1"><i class="fas fa-route"></i></button>
+        <button id="drawRoute" type="button" class="btn btn-warning"><i class="fas fa-route"></i></button>
+        <button id="dropCrosshairMarker" type="button" class="btn btn-custom1 btn-circle"><i class="fas fa-check"></i></button>
+        <button id="undoCrosshairMarker" type="button" class="btn btn-custom1 btn-circle"><i class="fas fa-undo-alt"></i></button>
+        <button id="cancelCrosshairMarker" type="button" class="btn btn-custom1 btn-circle"><i class="fas fa-times"></i></button>
     </div>
 
         <!-- Primary Mapbox Window Controls in the Top Right (Zoom, Draw, Pitch, etc...) -->
@@ -175,9 +178,9 @@ Source: http://mynameismatthieu.com/WOW/docs.html
             $('#sidebarCollapse').on('click', function () {
                 $('#legend').toggleClass('hidebottom');
             });
-            $(function () {
-                $('[data-toggle="tooltip"]').tooltip()
-            });
+            // $(function () {
+            //     $('[data-toggle="tooltip"]').tooltip()
+            // });
         });
     </script>
 

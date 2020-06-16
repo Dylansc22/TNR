@@ -14,7 +14,6 @@ let APIs = {
 
 
 let myPOI = new POI();
-let counter = 0;
 let AllPOIs = {}; //delete markerlist
 let MarkerList = {};
 let myRoute = new Route(); 
@@ -32,7 +31,7 @@ function Route(){
 
   //Methods
     this.calculateGHArray = function(_startPOIcoordinates, _endPOIcoordinates){
-
+      let counter = Object.keys(AllPOIs).length;
       let startPOIcoordinates = _startPOIcoordinates;
       let endPOIcoordinates = _endPOIcoordinates;
 
@@ -68,7 +67,17 @@ function Route(){
     }
 
     this.RemoveRouteToMarker = function(_routeid) {
-      let routeid = _routeid
+      let routeid = _routeid;
+      delete myRoute.geojson[routeid];
+      delete myRoute.geojson[routeid+1];
+      map.removeLayer("uniquelayerid" + routeid.toString());
+      map.removeSource("uniquesource" + routeid.toString());
+      map.removeLayer("uniquelayerid" + (routeid+1).toString());
+      map.removeSource("uniquesource" + (routeid+1).toString());
+      let startPOI = AllPOIs[routeid-1].getLngLat();
+      let endPOI = AllPOIs[routeid+1].getLngLat();
+      this.calculateGHArray(startPOI, endPOI);
+
       alert('Write code that deletes route geojson-' + routeid + ' from marker-' + (routeid-1) + ' to marker-' + routeid + '.');
     }
 
@@ -97,7 +106,7 @@ function POI(){
       draggable: true,
       color: 'grey',
     })
-
+    let counter = Object.keys(AllPOIs).length;
     marker.setLngLat(e.lngLat);
     marker.addTo(map);
     marker.id = counter;
@@ -114,7 +123,7 @@ function POI(){
       marker.getElement().addEventListener('click', function(e){
         //alert("hover over marker: " + marker.id);
         let key = marker.id
-        this.remove();                           //remove marker
+        marker.remove();                           //remove marker
         delete AllPOIs[key];                     //remove marker from AllPOIs List                                
         myRoute.RemoveRouteToMarker(key);        //remove route to marker
         myRoute.calculateGHArray(key-1, key+1); //recalculate route from previous marker to following marker 
@@ -134,16 +143,11 @@ function POI(){
 //Add a marker on mouse click, and create a route if two or more markers exist
   map.on('click', function(e) {
     myPOI.AddPOI(e);
-    if (Object.keys(AllPOIs).length >= 2) {
-
-
-      //***Generate Route Here
-      //If AllPOIs.length = 2, then the Marker IDs for the markers on screen will be 0 and 1, 
-      //So set the geojson route id to 1 so that it matches the last marker
-      //so when you hypothetically delete a Marker-1, you will also delete route-1
-      //Basically I'm just trying to make it easy to keep track of what markers are associated with what route segements
-    
-
+    let i = Object.keys(AllPOIs).length; 
+    if (i >= 2) {
+      let startPOIcoordinates = AllPOIs[i-2].getLngLat(); 
+      let endPOIcoordinates = AllPOIs[i-1].getLngLat(); 
+      myRoute.calculateGHArray(startPOIcoordinates, endPOIcoordinates);
     }
   });
 
@@ -166,67 +170,98 @@ function POI(){
   }
 
 
-function TNRMarkers() {
-  this.AddCrosshairMarker = function(){
+function MobileMarkers() {
+  this.ToggleCrosshair = function(){
     //If I want a crosshair instead of the Marker
     // create a HTML element for each feature
     // var el = document.createElement('div');
     // el.className = 'crosshair';
-
-    let centerdot = new mapboxgl.Marker({
+    if (typeof centerdot !== 'undefined') {
+      centerdot.remove();
+      delete centerdot;
+    }
+    else {
+      centerdot = new mapboxgl.Marker({
       //element: el, if I want a crosshair instead of the marker
       draggable: false,
       color: 'brown',
-    })
+      scale: 0.5,
+      })
 
-    centerdot.setLngLat(map.getCenter())
-    centerdot.addTo(map);
+      centerdot.setLngLat(map.getCenter())
+      centerdot.addTo(map);
 
-    map.on('move', function(e) {
-      centerdot.setLngLat(map.getCenter());
-    });
+      map.on('move', function(e) {
+        centerdot.setLngLat(map.getCenter());
+      });
+    }
+    
   }
 
   this.DropCrosshairMarker = function(){
-    let numberOfMarkers = 0;
     map.on('click', function() {
       let marker = new mapboxgl.Marker({
-        element: el,
         draggable: true,
         color: 'blue',
       })
 
       marker.setLngLat(map.getCenter())
       marker.addTo(map);
-      myRoute.POIs = [];
-      myRoute.POIs[numberOfMarkers] = {};
-      myRoute.POIs[numberOfMarkers].name = ('marker' + [numberOfMarkers+1].toString());
-      myRoute.POIs[numberOfMarkers].coordinates = [marker.getLngLat().lat,marker.getLngLat().lng];
-      counter++;
-
-      if (numberOfMarkers > 1) {
-        myRoute.calculateGHArray();
-      }
     });
 
   }
+  this.AddMarker = function(e){
+    let marker = new mapboxgl.Marker({
+      //This doesn't work and I don't understand why >> scale: 0.75, - https://docs.mapbox.com/mapbox-gl-js/api/markers/#marker
+      // element: el,
+      draggable: true,
+      color: 'blue',
+    })
+
+    marker.setLngLat(map.getCenter());
+    marker.addTo(map);
+    marker.id = counter;
+    AllPOIs[counter] = marker;
+    counter++;
+    //     If I would like to have marker delete be held inside of a popup use this code         marker.setPopup(new mapboxgl.Popup().setHTML("<h6>Undo</h6>"))
+    //     If I would like to have marker delete be held inside of a popup use this code         marker.togglePopup(); // toggle popup open or closed
+
+
+    //give the markers behavior for being dragged
+      marker.on('dragend', onDragEnd);
+
+    //give the markers behavior for being dragged
+      marker.getElement().addEventListener('click', function(e){
+        //alert("hover over marker: " + marker.id);
+        this.remove();                           //remove marker
+        delete AllPOIs[marker.id];                     //remove marker from AllPOIs List                                
+        myRoute.RemoveRouteToMarker(marker.id);        //remove route to marker
+        myRoute.calculateGHArray(key-1, key+1); //recalculate route from previous marker to following marker 
+        e.stopPropagation();                                //Stop all other code, ie, stop map.on("click") from trying to put down a new marker
+
+                                                                            //this will be for removing the route associated with the marker that is removed
+                                                                            // map.removeLayer("uniquelayerid" + marker.id.toString());
+                                                                            // map.removeSource("uniquesource" + marker.id.toString());
+                                                                            // map.removeLayer("uniquelayerid" + (marker.id+1).toString());
+                                                                            // map.removeSource("uniquesource" + (marker.id+1).toString());
+    });
+  }
+  this.undoLastMarker = function(e){
+    alert("Undo the Last Marker");
+    e.stopPropagation;
+  }
+  this.CancelAllMarkers = function(){
+    alert("Delete All Markers, remove crosshair (via crosshair.ToggleCrosshair), and hide buttons");
+  }
 }
 
+let crosshair = new MobileMarkers();
 
-                                                                          // map.on('draw.create', IllustrateRoute);
-                                                                          // map.on('draw.delete', IllustrateRoute);
-                                                                          // map.on('draw.update', IllustrateRoute);
-
-                                                                          // function IllustrateRoute(){
-                                                                          //   myRoute.markAs('drawn');
-                                                                          //   let arrayLength = draw.getAll().features.length;
-                                                                          //   let lastDrawnPointCoordinates = draw.getAll().features[arrayLength-1].geometry.coordinates;
-                                                                          //   myRoute.addPOI(lastDrawnPointCoordinates);
-                                                                          //   if (arrayLength > 1) {
-                                                                          //     myRoute.calculateGH();
-                                                                          //   }
-                                                                          // }
-
+//Add Button Behavior for Crosshair Routing
+  document.getElementById("drawRoute").addEventListener("click", crosshair.ToggleCrosshair);
+  document.getElementById("dropCrosshairMarker").addEventListener("click", crosshair.AddMarker);
+  document.getElementById("undoCrosshairMarker").addEventListener("click", crosshair.undoLastMarker);
+  document.getElementById("cancelCrosshairMarker").addEventListener("click", crosshair.CancelAllMarkers);
 
 
 
@@ -294,7 +329,7 @@ function addAllbuttonfunctionality(){
     })
 
     //----------Draw Route------------//
-    document.getElementById("drawRoute").addEventListener("click", drawUsingPoints);
+    // document.getElementById("drawRoute").addEventListener("click", drawUsingPoints);
 
 }
 

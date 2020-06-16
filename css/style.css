@@ -5,7 +5,7 @@
     width: 100%;
     margin:0px;
     padding:0px;
-    border-radius: 0px !important;
+    /*border-radius: 0px !important;*/
     /*color:#606060;*/
     /*background-color:#E8E8E8;*/
     /*font-family: ""Source Sans Pro","Helvetica Neue",Helvetica,Arial,sans-serif";*/
@@ -21,7 +21,7 @@
     width: 100%;
     margin:0px;
     padding:0px;
-    border-radius: 0px !important;
+    /*border-radius: 0px !important;*/
     /*color:#606060;*/
     /*background-color:#E8E8E8;*/
     /*font-family: ""Source Sans Pro","Helvetica Neue",Helvetica,Arial,sans-serif";*/
@@ -45,9 +45,9 @@ h1, h2, h3, h4, h5, h6, p {
     /*font-family: 'Lato', sans-serif*/
 }
 
-#bootstrapoverrides button {
+/*#bootstrapoverrides button {
     border-radius: 0 !important;
-}
+}*/
 
 .row {
     width:100vw;
@@ -714,6 +714,35 @@ span.tooltip:hover {
     top:9vh;
     left:2%;
 }
+
+#dropCrosshairMarker{
+    display: block;
+    position: fixed;
+    top:29vh;
+    left:2%;
+}
+#undoCrosshairMarker{
+    display: block;
+    position: fixed;
+    top:39vh;
+    left:2%;
+}
+#cancelCrosshairMarker{
+    display: block;
+    position: fixed;
+    top:49vh;
+    left:2%;
+}
+
+.btn-circle {
+    width: 70px;
+    height: 70px;
+    padding: 10px 16px;
+    border-radius: 35px;
+    font-size: 24px;
+    line-height: 1.33;
+}
+
 
 #myLocation {
     display: block;
@@ -1588,12 +1617,14 @@ background-color:white;
     }
 
 #bootstrapoverrides .btn-warning, #bootstrapoverrides .btn-custom1 {
+    width: 70px;
+    height: 70px;
+    border-radius: 35px;
     box-shadow: 4px 4px 8px grey;
-    border-radius: 0px;
     font-size: 3vmin;
     line-height: 3vmin;
     margin:0px;
-    padding: 2vh 3vw;
+    /*padding: 2vh 3vw;*/
 }
 
 #yourride {
