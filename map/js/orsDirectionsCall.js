@@ -16,7 +16,8 @@ let APIs = {
 let myPOI = new POI();
 let AllPOIs = {}; //delete markerlist
 let MarkerList = {};
-let myRoute = new Route(); 
+let myRoute = new Route();
+let counter = 0; 
 
 //  I don't think I need Mapbox Draw Tool for Anything Anymore! YAY!            let draw = new MapboxDraw({displayControlsDefault: true,});
 //  I don't think I need Mapbox Draw Tool for Anything Anymore! YAY!            map.addControl(draw);
@@ -30,20 +31,19 @@ function Route(){
     this.geojson = {}
 
   //Methods
-    this.calculateGHArray = function(_startPOIcoordinates, _endPOIcoordinates){
-      let counter = Object.keys(AllPOIs).length;
-      let startPOIcoordinates = _startPOIcoordinates;
-      let endPOIcoordinates = _endPOIcoordinates;
+    this.calculateGHArray = function(_startPOI, _endPOI){
+      let startPOI = _startPOI;
+      let endPOI = _endPOI;
 
       let ghRouting = new GraphHopper.Routing(parametersGH);
 
-      ghRouting.addPoint(new GHInput(startPOIcoordinates.lat, startPOIcoordinates.lng));
-      ghRouting.addPoint(new GHInput(endPOIcoordinates.lat, endPOIcoordinates.lng));
+      ghRouting.addPoint(new GHInput(startPOI.getLngLat().lat, startPOI.getLngLat().lng));
+      ghRouting.addPoint(new GHInput(endPOI.getLngLat().lat, endPOI.getLngLat().lng));
       ghRouting.doRequest()
         .then(function(json) {
           // Add your own result handling here
-          myRoute.geojson[counter-1] = json; //***This needs to be fixed. I shouldn't refer to the instance of the object, but the this.geojson doesn't work because this is currently referring to the window. 
-          myRoute.showOnMap(counter-1);
+          AllPOIs[endPOI.id].geojson = json; //***This needs to be fixed. I shouldn't refer to the instance of the object, but the this.geojson doesn't work because this is currently referring to the window. 
+          myRoute.showOnMap(endPOI.id);
           //myRoute.zoomToRoute();
         })
         .catch(function(err) {
@@ -51,13 +51,13 @@ function Route(){
         });
     };
 
-    this.showOnMap = function(_counter){
-      let e = _counter;
-      map.addSource('uniquesource' + e.toString(), { type: 'geojson', data: myRoute.geojson[e].paths[0].points });
+    this.showOnMap = function(_markerID){
+      let id = _markerID;
+      map.addSource('uniquesource' + id.toString(), { type: 'geojson', data: AllPOIs[id].geojson.paths[0].points });
       map.addLayer({
-        "id": "uniquelayerid" + e.toString(),
+        "id": "uniquelayerid" + id.toString(),
         "type": "line",
-        "source": "uniquesource" + e.toString(),
+        "source": "uniquesource" + id.toString(),
         "paint": {
           "line-color": "brown", //"#4f7ba4",
           "line-opacity": 0.75,
@@ -66,19 +66,17 @@ function Route(){
       });
     }
 
-    this.RemoveRouteToMarker = function(_routeid) {
-      let routeid = _routeid;
-      delete myRoute.geojson[routeid];
-      delete myRoute.geojson[routeid+1];
-      map.removeLayer("uniquelayerid" + routeid.toString());
-      map.removeSource("uniquesource" + routeid.toString());
-      map.removeLayer("uniquelayerid" + (routeid+1).toString());
-      map.removeSource("uniquesource" + (routeid+1).toString());
-      let startPOI = AllPOIs[routeid-1].getLngLat();
-      let endPOI = AllPOIs[routeid+1].getLngLat();
-      this.calculateGHArray(startPOI, endPOI);
-
-      alert('Write code that deletes route geojson-' + routeid + ' from marker-' + (routeid-1) + ' to marker-' + routeid + '.');
+    this.RemoveRoute = function(_routeid) {
+      let id = _routeid;
+      delete myRoute.geojson[id];
+      let currentRoutePosition = Object.keys(AllPOIs).indexOf(id.toString());
+      let subsequentRoutePosition = currentRoutePosition + 1;
+      let nextid = Object.keys(AllPOIs)[subsequentRoutePosition];
+      map.removeLayer("uniquelayerid" + id.toString());
+      map.removeSource("uniquesource" + id.toString());
+      map.removeLayer("uniquelayerid" + (nextid).toString());
+      map.removeSource("uniquesource" + (nextid).toString());
+      delete myRoute.geojson[id];
     }
 
     this.clearMap = function() {
@@ -98,6 +96,30 @@ function Route(){
 function POI(){
   
   //Method
+  this.Delete = function(_marker) {
+    let id = _marker.id;
+    delete AllPOIs[id];
+  }
+
+  this.GetPosition = function () {
+  }
+
+  this.PriorMarker = function(_id) {
+    let id = _id;
+    let currentMarkerPosition = Object.keys(AllPOIs).indexOf(id.toString()); //Find where the unique ID of the current marker, occurs in the ALLPOIs list
+    let priorMarkerPosition = currentMarkerPosition - 1; //Move one prior from that current marker
+    let priorid = Object.keys(AllPOIs)[priorMarkerPosition];
+    return AllPOIs[priorid]; //Return that Marker Object
+  }
+
+  this.SubsequentMarker = function (_id) {
+    let id = _id;
+    let currentMarkerPosition = Object.keys(AllPOIs).indexOf(id.toString()); //Find where the unique ID of the current marker, occurs in the ALLPOIs list
+    let subsequentMarkerPosition = currentMarkerPosition + 1; //Move one prior from that current marker
+    let subsequentid = Object.keys(AllPOIs)[subsequentMarkerPosition];
+    return AllPOIs[subsequentid]; //Return that Marker Object
+  }
+
   this.AddPOI = function(e){
 
     let marker = new mapboxgl.Marker({
@@ -106,12 +128,16 @@ function POI(){
       draggable: true,
       color: 'grey',
     })
-    let counter = Object.keys(AllPOIs).length;
     marker.setLngLat(e.lngLat);
     marker.addTo(map);
     marker.id = counter;
     AllPOIs[counter] = marker;
     counter++;
+    if (Object.keys(AllPOIs).length >= 2) {
+      let startPOI = AllPOIs[counter-2];
+      let endPOI = AllPOIs[counter-1];
+      myRoute.calculateGHArray(startPOI, endPOI);
+    }
     //     If I would like to have marker delete be held inside of a popup use this code         marker.setPopup(new mapboxgl.Popup().setHTML("<h6>Undo</h6>"))
     //     If I would like to have marker delete be held inside of a popup use this code         marker.togglePopup(); // toggle popup open or closed
 
@@ -122,11 +148,27 @@ function POI(){
     //give the markers behavior for being dragged
       marker.getElement().addEventListener('click', function(e){
         //alert("hover over marker: " + marker.id);
-        let key = marker.id
+        let id = marker.id;
+        let position = Object.keys(AllPOIs).indexOf(id.toString());
+        if (position > 0 && position < Object.keys(AllPOIs).length - 1) {
+          alert ("marker is not the first or last marker in AllPOIs, so if this marker is deleted a bridge route needs to be made");
+          let startPOI = myPOI.PriorMarker(id);
+          let endPOI = myPOI.SubsequentMarker(id);
+          myRoute.RemoveRoute(marker.id);
+          myPOI.Delete(marker.id);
+          myRoute.calculateGHArray(startPOI, endPOI);
+          e.stopPropagation();
+        }
+        else if (position == 0) {
+          alert ("marker is the first marker, so delete it, delete the first geojson route, but don't generate a new route");
+        }
+        else if (position == Object.keys(AllPOIs).length - 1) {
+          alert ("marker is the last marker, so delete it, delete its associated geojson route, but don't generate a new route");
+        }
+        else {
+          alert ("Something is definitely wrong with the code. Likely in GetPosition() method.");
+        }
         marker.remove();                           //remove marker
-        delete AllPOIs[key];                     //remove marker from AllPOIs List                                
-        myRoute.RemoveRouteToMarker(key);        //remove route to marker
-        myRoute.calculateGHArray(key-1, key+1); //recalculate route from previous marker to following marker 
         e.stopPropagation();                                //Stop all other code, ie, stop map.on("click") from trying to put down a new marker
 
                                                                             //this will be for removing the route associated with the marker that is removed
@@ -143,12 +185,6 @@ function POI(){
 //Add a marker on mouse click, and create a route if two or more markers exist
   map.on('click', function(e) {
     myPOI.AddPOI(e);
-    let i = Object.keys(AllPOIs).length; 
-    if (i >= 2) {
-      let startPOIcoordinates = AllPOIs[i-2].getLngLat(); 
-      let endPOIcoordinates = AllPOIs[i-1].getLngLat(); 
-      myRoute.calculateGHArray(startPOIcoordinates, endPOIcoordinates);
-    }
   });
 
 
