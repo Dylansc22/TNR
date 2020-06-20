@@ -408,9 +408,12 @@ function MobileMarkers() {
       lastmarker.remove()
     }
   }
-  this.CancelAllMarkers = function(){
-    alert("Delete All Markers, remove crosshair (via crosshair.ToggleCrosshair), and hide buttons");
+  this.ClearAll = function(){
+    let allPOIvalues = Object.values(AllPOIs);
+    for (i = 0; i < allPOIvalues.length; i++ ) {
+      crosshair.undoLastMarker();
   }
+}
 }
 
 let crosshair = new MobileMarkers();
@@ -419,7 +422,7 @@ let crosshair = new MobileMarkers();
   document.getElementById("drawRoute").addEventListener("click", crosshair.ToggleCrosshair);
   document.getElementById("dropCrosshairMarker").addEventListener("click", crosshair.AddMarker);
   document.getElementById("undoCrosshairMarker").addEventListener("click", crosshair.undoLastMarker);
-  document.getElementById("cancelCrosshairMarker").addEventListener("click", crosshair.CancelAllMarkers);
+  document.getElementById("cancelCrosshairMarker").addEventListener("click", crosshair.ClearAll);
 
 
 
