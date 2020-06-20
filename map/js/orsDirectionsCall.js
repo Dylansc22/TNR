@@ -336,33 +336,77 @@ function MobileMarkers() {
       //This doesn't work and I don't understand why >> scale: 0.75, - https://docs.mapbox.com/mapbox-gl-js/api/markers/#marker
       // element: el,
       draggable: true,
-      color: 'blue',
+      color: 'grey',
     })
-
     marker.setLngLat(map.getCenter());
     marker.addTo(map);
     marker.id = counter;
+    marker.source = "source" + marker.id.toString();
+    marker.layer = "layer" + marker.id.toString();
     AllPOIs[counter] = marker;
     counter++;
+    if (Object.keys(AllPOIs).length >= 2) {
+      let startPOI = myPOI.PriorMarker(marker);
+      myRoute.calculateGHArray(startPOI, marker);
+    }
     //     If I would like to have marker delete be held inside of a popup use this code         marker.setPopup(new mapboxgl.Popup().setHTML("<h6>Undo</h6>"))
     //     If I would like to have marker delete be held inside of a popup use this code         marker.togglePopup(); // toggle popup open or closed
 
 
     //give the markers behavior for being dragged
-      marker.on('dragend', onDragEnd);
+      marker.on('dragend', myPOI.onDragEnd);
 
     //give the markers behavior for being dragged
       marker.getElement().addEventListener('click', function(e){
-        this.remove();                           //remove marker
-        delete AllPOIs[marker.id];                     //remove marker from AllPOIs List                                
-        myRoute.RemoveRoute(marker.id);        //remove route to marker
-        myRoute.calculateGHArray(key-1, key+1); //recalculate route from previous marker to following marker 
+        let id = marker.id;
+        let markerPosition = Object.keys(AllPOIs).indexOf(id.toString());
+        let numberOfPOIs = Object.keys(AllPOIs).length - 1;
+        if (markerPosition == 0 && numberOfPOIs == 0){
+          myPOI.Delete(marker);
+          e.stopPropagation();
+        }
+        else if (0 < markerPosition && markerPosition < numberOfPOIs) {
+          let startPOI = myPOI.PriorMarker(marker);
+          let endPOI = myPOI.SubsequentMarker(marker);
+          myRoute.RemoveRoute(marker.id);
+          myPOI.Delete(marker);
+          myRoute.calculateGHArray(startPOI, endPOI);
+          e.stopPropagation();
+        }
+        else if (markerPosition == 0 && markerPosition != numberOfPOIs) {
+          let nextid = myPOI.SubsequentMarker(marker);
+          myRoute.RemoveRoute(marker.id);
+          myPOI.Delete(marker);
+          e.stopPropagation();
+        }
+        else if (markerPosition == numberOfPOIs) {
+          myRoute.RemoveRoute(marker.id);
+          myPOI.Delete(marker);
+          e.stopPropagation();
+        }
+        else {
+          alert("somehow you clicked something that broke something... I say just refresh the page and start over =P");                           //Stop all other code, ie, stop map.on("click") from trying to put down a new marker
+        }
+        myPOI.Delete(this);
+        marker.remove();
+        delete AllPOIs[marker.id];                           //remove marker
         e.stopPropagation();                                //Stop all other code, ie, stop map.on("click") from trying to put down a new marker
     });
   }
-  this.undoLastMarker = function(e){
-    alert("Undo the Last Marker");
-    e.stopPropagation;
+
+  this.undoLastMarker = function(){
+    let numberofPOIs = Object.keys(AllPOIs).length - 1;
+    let lastmarkeridstring = Object.keys(AllPOIs)[numberofPOIs];
+    let lastmarker = AllPOIs[Number(lastmarkeridstring)];
+    if (Object.keys(AllPOIs).length == 1) {
+      myPOI.Delete(lastmarker);
+      lastmarker.remove()
+    }
+    else if (Object.keys(AllPOIs).length != 1) {
+      myRoute.RemoveRoute(Number(lastmarker.id));
+      myPOI.Delete(lastmarker);
+      lastmarker.remove()
+    }
   }
   this.CancelAllMarkers = function(){
     alert("Delete All Markers, remove crosshair (via crosshair.ToggleCrosshair), and hide buttons");
