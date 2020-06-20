@@ -27,6 +27,44 @@ function AllPOIsconstructor(){};
 function POI(){
   
   //Method
+  this.onDragEnd = function () {
+    // alert('I just dragged marker-'+this.id+'.');
+    let marker = this;
+    let currentMarkerPosition = Object.keys(AllPOIs).indexOf(marker.id.toString());
+    let subsequentMarkerPosition = currentMarkerPosition + 1;
+    let priorMarkerPosition = currentMarkerPosition - 1;
+    let nextmarker = AllPOIs[Object.keys(AllPOIs)[subsequentMarkerPosition]];
+    let priormarker = AllPOIs[Object.keys(AllPOIs)[priorMarkerPosition]];
+      if (currentMarkerPosition == 0) {
+        //Marker is first marker, and doesn't have a layer assigned to it. The mext marker (nextid) does.
+          let nextmarker = AllPOIs[Object.keys(AllPOIs)[subsequentMarkerPosition]];
+          map.removeLayer(nextmarker.layer);
+          map.removeSource(nextmarker.source);
+          delete myRoute.geojson[nextmarker.id];
+          myRoute.calculateGHArray(marker,nextmarker);
+      }
+      else if (currentMarkerPosition == Object.keys(AllPOIs).length-1) {
+        //Marker is last marker, and there is no subsequent marker (ie no nextid) 
+          let priormarker = AllPOIs[Object.keys(AllPOIs)[priorMarkerPosition]];
+          map.removeLayer(marker.layer);
+          map.removeSource(marker.source);
+          delete myRoute.geojson[marker.id];
+          myRoute.calculateGHArray(priormarker,marker);
+      }
+      else {
+        //Marker is a "bridge marker" and has a marker before and after it.
+          let nextmarker = AllPOIs[Object.keys(AllPOIs)[subsequentMarkerPosition]];
+          let priormarker = AllPOIs[Object.keys(AllPOIs)[priorMarkerPosition]];
+          map.removeLayer(marker.layer);
+          map.removeSource(marker.source);
+          map.removeLayer(nextmarker.layer);
+          map.removeSource(nextmarker.source);
+          delete myRoute.geojson[marker.id];
+          myRoute.calculateGHArray(priormarker,marker);
+          myRoute.calculateGHArray(marker,nextmarker);
+      }
+  }
+
   this.Delete = function(_marker) {
     let id = _marker.id;
     delete AllPOIs[id];
@@ -43,8 +81,8 @@ function POI(){
     return AllPOIs[priorid]; //Return that Marker Object
   }
 
-  this.SubsequentMarker = function (_id) {
-    let id = _id;
+  this.SubsequentMarker = function (_marker) {
+    let id = _marker.id;
     let currentMarkerPosition = Object.keys(AllPOIs).indexOf(id.toString()); //Find where the unique ID of the current marker, occurs in the ALLPOIs list
     let subsequentMarkerPosition = currentMarkerPosition + 1; //Move one prior from that current marker
     let subsequentid = Object.keys(AllPOIs)[subsequentMarkerPosition];
@@ -67,8 +105,6 @@ function POI(){
     counter++;
     if (Object.keys(AllPOIs).length >= 2) {
       let startPOI = myPOI.PriorMarker(marker);
-      console.log(marker);
-      console.log(startPOI);
       myRoute.calculateGHArray(startPOI, marker);
     }
     //     If I would like to have marker delete be held inside of a popup use this code         marker.setPopup(new mapboxgl.Popup().setHTML("<h6>Undo</h6>"))
@@ -76,33 +112,34 @@ function POI(){
 
 
     //give the markers behavior for being dragged
-      marker.on('dragend', onDragEnd);
+      marker.on('dragend', myPOI.onDragEnd);
 
     //give the markers behavior for being dragged
       marker.getElement().addEventListener('click', function(e){
-        //alert("hover over marker: " + self);
         let id = marker.id;
-        let position = Object.keys(AllPOIs).indexOf(id.toString());
-        if (position > 0 && position < Object.keys(AllPOIs).length - 1) {
-          alert ("marker is not the first or last marker in AllPOIs, so if this marker is deleted a bridge route needs to be made");
+        let markerPosition = Object.keys(AllPOIs).indexOf(id.toString());
+        let numberOfPOIs = Object.keys(AllPOIs).length - 1;
+        if (markerPosition == 0 && numberOfPOIs == 0){
+          myPOI.Delete(marker);
+          e.stopPropagation();
+        }
+        else if (0 < markerPosition && markerPosition < numberOfPOIs) {
           let startPOI = myPOI.PriorMarker(marker);
-          let endPOI = myPOI.SubsequentMarker(id);
+          let endPOI = myPOI.SubsequentMarker(marker);
           myRoute.RemoveRoute(marker.id);
           myPOI.Delete(marker);
           myRoute.calculateGHArray(startPOI, endPOI);
           e.stopPropagation();
         }
-        else if (position == 0) {
-          alert ("marker is the first marker, so delete it, delete the first geojson route, but don't generate a new route");
-          let nextid = myPOI.SubsequentMarker(marker.id);
+        else if (markerPosition == 0 && markerPosition != numberOfPOIs) {
+          let nextid = myPOI.SubsequentMarker(marker);
           myRoute.RemoveRoute(marker.id);
           myPOI.Delete(marker);
           e.stopPropagation();
         }
-        else if (position == Object.keys(AllPOIs).length - 1) {
-          alert ("marker is the last marker, so delete it, delete its associated geojson route, but don't generate a new route");
+        else if (markerPosition == numberOfPOIs) {
           myRoute.RemoveRoute(marker.id);
-          myPOI.Delete(marker.id);
+          myPOI.Delete(marker);
           e.stopPropagation();
         }
         else {
@@ -162,28 +199,28 @@ function Route(){
 
     this.RemoveRoute = function(_routeid) {
       let marker = AllPOIs[_routeid];
-      let currentRoutePosition = Object.keys(AllPOIs).indexOf(marker.id.toString());
-      let subsequentRoutePosition = currentRoutePosition + 1;
-      let nextmarker = AllPOIs[Object.keys(AllPOIs)[subsequentRoutePosition]];  
-      if (currentRoutePosition == 0) {
+      let currentMarkerPosition = Object.keys(AllPOIs).indexOf(marker.id.toString());
+      let subsequentMarkerPosition = currentMarkerPosition + 1;
+      let nextmarker = AllPOIs[Object.keys(AllPOIs)[subsequentMarkerPosition]];  
+      if (currentMarkerPosition == 0) {
         //Marker is first marker, and doesn't have a layer assigned to it. The mext marker (nextid) does.
           delete myRoute.geojson[marker.id];
           map.removeLayer(nextmarker.layer);
           map.removeSource(nextmarker.source);
       }
-      else if (currentRoutePosition == Object.keys(AllPOIs).length-1) {
+      else if (currentMarkerPosition == Object.keys(AllPOIs).length-1) {
         //Marker is last marker, and there is no subsequent marker (ie no nextid) 
           delete myRoute.geojson[marker.id];
-          let subsequentRoutePosition = currentRoutePosition + 1;
-          let nextid = Object.keys(AllPOIs)[subsequentRoutePosition];
+          let subsequentMarkerPosition = currentMarkerPosition + 1;
+          let nextid = Object.keys(AllPOIs)[subsequentMarkerPosition];
           map.removeLayer(marker.layer);
           map.removeSource(marker.source);
       }
       else {
         //Marker is a "bridge marker" and has a marker before and after it.
           delete myRoute.geojson[marker.id];
-          let subsequentRoutePosition = currentRoutePosition + 1;
-          let nextid = Object.keys(AllPOIs)[subsequentRoutePosition];
+          let subsequentMarkerPosition = currentMarkerPosition + 1;
+          let nextid = Object.keys(AllPOIs)[subsequentMarkerPosition];
           map.removeLayer(marker.layer);
           map.removeSource(marker.source);
           map.removeLayer(nextmarker.layer);
@@ -215,9 +252,43 @@ function Route(){
   });
 
 
-  function onDragEnd() {
-    alert('I just dragged marker-'+this.id+'.');
-  }
+  // function onDragEnd() {
+  //   // alert('I just dragged marker-'+this.id+'.');
+  //   let marker = AllPOIs[currentMarkerPosition];
+  //   let currentMarkerPosition = Object.keys(AllPOIs).indexOf(marker.id.toString());
+  //   let subsequentMarkerPosition = currentMarkerPosition + 1;
+  //   let priorMarkerPosition = currentMarkerPosition - 1;
+  //   let nextmarker = AllPOIs[Object.keys(AllPOIs)[subsequentMarkerPosition]];
+  //   let priormarker = AllPOIs[Object.keys(AllPOIs)[priorMarkerPosition]];
+  //     if (currentMarkerPosition == 0) {
+  //       //Marker is first marker, and doesn't have a layer assigned to it. The mext marker (nextid) does.
+  //         let nextmarker = AllPOIs[Object.keys(AllPOIs)[subsequentMarkerPosition]];
+  //         map.removeLayer(nextmarker.layer);
+  //         map.removeSource(nextmarker.source);
+  //         delete myRoute.geojson[nextmarker.id];
+  //         myRoute.calculateGHArray(marker,nextmarker);
+  //     }
+  //     else if (currentMarkerPosition == Object.keys(AllPOIs).length-1) {
+  //       //Marker is last marker, and there is no subsequent marker (ie no nextid) 
+  //         let priormarker = AllPOIs[Object.keys(AllPOIs)[priorMarkerPosition]];
+  //         map.removeLayer(marker.layer);
+  //         map.removeSource(marker.source);
+  //         delete myRoute.geojson[marker.id];
+  //         myRoute.calculateGHArray(priormarker,marker);
+  //     }
+  //     else {
+  //       //Marker is a "bridge marker" and has a marker before and after it.
+  //         let nextmarker = AllPOIs[Object.keys(AllPOIs)[subsequentMarkerPosition]];
+  //         let priormarker = AllPOIs[Object.keys(AllPOIs)[priorMarkerPosition]];
+  //         map.removeLayer(marker.layer);
+  //         map.removeSource(marker.source);
+  //         map.removeLayer(nextmarker.layer);
+  //         map.removeSource(nextmarker.source);
+  //         delete myRoute.geojson[marker.id];
+  //         myRoute.calculateGHArray(priormarker,marker);
+  //         myRoute.calculateGHArray(marker,nextmarker);
+  //     }
+  // }
 
 
 function MobileMarkers() {
@@ -282,7 +353,6 @@ function MobileMarkers() {
 
     //give the markers behavior for being dragged
       marker.getElement().addEventListener('click', function(e){
-        //alert("hover over marker: " + marker.id);
         this.remove();                           //remove marker
         delete AllPOIs[marker.id];                     //remove marker from AllPOIs List                                
         myRoute.RemoveRoute(marker.id);        //remove route to marker
