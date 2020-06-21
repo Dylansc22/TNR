@@ -313,7 +313,9 @@ function MobileMarkers() {
       centerdot.addTo(map);
 
       map.on('move', function(e) {
-        centerdot.setLngLat(map.getCenter());
+        if (typeof centerdot != 'undefined') {
+          centerdot.setLngLat(map.getCenter());
+        }
       });
     }
     
@@ -413,6 +415,7 @@ function MobileMarkers() {
     for (i = 0; i < allPOIvalues.length; i++ ) {
       crosshair.undoLastMarker();
   }
+    crosshair.ToggleCrosshair();
 }
 }
 
