@@ -427,7 +427,7 @@ text-align: center;
     transition:all 0.4s;
 }
 
-#legend {
+    #legend {
     z-index: 3;
     position:fixed;
     height:100px;
@@ -449,6 +449,13 @@ text-align: center;
         -o-transition: all 0.4s;
         transition:all 0.4s;
 }
+
+@media (min-width:1081px) {
+    #legend {
+        bottom:100px;
+    }
+}
+
 
 #toolbar {
     text-align: center;
@@ -795,8 +802,6 @@ span.tooltip:hover {
         bottom: 6vh;
         right:2%;
         z-index: 2;
-        color:grey;
-        background-color:white;
         text-align: center;
         width: 100%;
     }
@@ -809,25 +814,37 @@ span.tooltip:hover {
 
 /* the toggling classes for the Draw Controls that are controlled via jQuery in the bottom of the index.html*/
     .hideDrawRoute{
-        opacity: 0 !important;
-        z-index: 0 !important;
+        opacity: 0;
+        z-index: 0;
     }
 
     .drawSlideRight{
-        bottom:26vh !important;
+        bottom:440px !important;
     }
 
-    .drawSlideUp{
-        bottom: 16vh !important; 
+    .undoSlideUp{
+        bottom: 280px !important; 
     }
 
     .tutorialSlideUp {
-        bottom:16vh !important;
+        bottom:280px !important;
     }
 
-    .buttonSlideRight {
-        left: 14vh !important;
+    .RouteInfoSlideRight {
+        bottom: 600px !important;
     }
+
+@media (min-width: 1080px) {
+    .drawSlideRight{ bottom:120px !important; }
+    .undoSlideUp{ bottom: 195px !important; }
+    .tutorialSlideUp { bottom:150px !important; }
+    .RouteInfoSlideRight { bottom: 270px !important; }
+}
+
+.darkbutton {
+    color:white !important;
+    background-color:#696969 !important;
+}
 
 
 

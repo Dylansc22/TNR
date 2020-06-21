@@ -1,28 +1,27 @@
 window.addEventListener("load", doEverything());//switch to everythingfunction2 when ready to make the leap to the cleaner code
 
-let parametersGH = {
+let parametersGHsafe = {
   host: "http://localhost:8989",
   vehicle: "bike",
   elevation: false,
   details: ["road_class", "distance"]
 }
 
-let APIs = {
-  ors: API.ors,
-  gh: API.graphhopper
+let parametersGHdangerous = {
+  key: ghAPI,
+  vehicle: "bike",
+  elevation: false,
+  details: ["road_class", "distance"]
 }
 
+let parameters = parametersGHsafe;
 
 let myPOI = new POI();
 let AllPOIs = new AllPOIsconstructor();
 let myRoute = new Route();
 let counter = 0; 
 
-
-//  I don't think I need Mapbox Draw Tool for Anything Anymore! YAY!            let draw = new MapboxDraw({displayControlsDefault: true,});
-//  I don't think I need Mapbox Draw Tool for Anything Anymore! YAY!            map.addControl(draw);
-
-function AllPOIsconstructor(){};
+function AllPOIsconstructor(){}; //Empty Constructor to hold the AllPOIs 
 
 function POI(){
   
@@ -126,19 +125,19 @@ function POI(){
         else if (0 < markerPosition && markerPosition < numberOfPOIs) {
           let startPOI = myPOI.PriorMarker(marker);
           let endPOI = myPOI.SubsequentMarker(marker);
-          myRoute.RemoveRoute(marker.id);
+          myRoute.RemoveRoute(marker);
           myPOI.Delete(marker);
           myRoute.calculateGHArray(startPOI, endPOI);
           e.stopPropagation();
         }
         else if (markerPosition == 0 && markerPosition != numberOfPOIs) {
           let nextid = myPOI.SubsequentMarker(marker);
-          myRoute.RemoveRoute(marker.id);
+          myRoute.RemoveRoute(marker);
           myPOI.Delete(marker);
           e.stopPropagation();
         }
         else if (markerPosition == numberOfPOIs) {
-          myRoute.RemoveRoute(marker.id);
+          myRoute.RemoveRoute(marker);
           myPOI.Delete(marker);
           e.stopPropagation();
         }
@@ -160,13 +159,13 @@ function Route(){
     this.startPoint = this.POIs[0]; 
     this.endPoint = this.POIs[this.POIs.length-1];
     this.geojson = {}
+    this.safe = true;
 
   //Methods
     this.calculateGHArray = function(_startPOI, _endPOI){
       let startPOI = _startPOI;
       let endPOI = _endPOI;
-
-      let ghRouting = new GraphHopper.Routing(parametersGH);
+      let ghRouting = new GraphHopper.Routing(parameters);
 
       ghRouting.addPoint(new GHInput(startPOI.getLngLat().lat, startPOI.getLngLat().lng));
       ghRouting.addPoint(new GHInput(endPOI.getLngLat().lat, endPOI.getLngLat().lng));
@@ -197,8 +196,8 @@ function Route(){
       });
     }
 
-    this.RemoveRoute = function(_routeid) {
-      let marker = AllPOIs[_routeid];
+    this.RemoveRoute = function(_marker) {
+      let marker = AllPOIs[_marker.id];
       let currentMarkerPosition = Object.keys(AllPOIs).indexOf(marker.id.toString());
       let subsequentMarkerPosition = currentMarkerPosition + 1;
       let nextmarker = AllPOIs[Object.keys(AllPOIs)[subsequentMarkerPosition]];  
@@ -228,11 +227,6 @@ function Route(){
       }
     }
 
-
-    this.clearMap = function() {
-
-    }
-
     this.zoomToRoute = function(){
       let boundary = []
       boundary[0] = this.geojson.paths[0].bbox[0] - 0.008;
@@ -240,6 +234,47 @@ function Route(){
       boundary[2] = this.geojson.paths[0].bbox[2] + 0.008;
       boundary[3] = this.geojson.paths[0].bbox[3] + 0.008;
       map.fitBounds(boundary);
+    }
+
+    this.ToggleSafeRouting = function(){
+      if (myRoute.safe == true) {
+        myRoute.safe = false;
+      }
+      else {
+        myRoute.safe = true;
+      }
+      if (myRoute.safe == true) {
+        myRoute.ClearAllRoutes();
+        parameters = parametersGHsafe;
+        myRoute.RouteAll();
+      }
+      else if (myRoute.safe == false) {
+        myRoute.ClearAllRoutes();
+        parameters = parametersGHdangerous;
+        myRoute.RouteAll();
+      }
+    } 
+
+    this.ClearAllMarkers = function(){
+      let allPOIvalues = Object.values(AllPOIs);
+      for (i = 0; i < allPOIvalues.length; i++ ) {
+        crosshair.undoLastMarker();
+      } 
+    }
+
+    this.RouteAll = function(){
+      let allPOIvalues = Object.values(AllPOIs);
+      for (i = 0; i < allPOIvalues.length-1; i++ ) {
+        myRoute.calculateGHArray(AllPOIs[i],AllPOIs[i+1])
+      } 
+    }
+
+    this.ClearAllRoutes = function(){
+      let allPOIvalues = Object.values(AllPOIs);
+      for (i = 1; i < allPOIvalues.length; i++ ) {
+        map.removeLayer(AllPOIs[i].layer);
+        map.removeSource(AllPOIs[i].source);
+      } 
     }
 }
 
@@ -370,19 +405,19 @@ function MobileMarkers() {
         else if (0 < markerPosition && markerPosition < numberOfPOIs) {
           let startPOI = myPOI.PriorMarker(marker);
           let endPOI = myPOI.SubsequentMarker(marker);
-          myRoute.RemoveRoute(marker.id);
+          myRoute.RemoveRoute(marker);
           myPOI.Delete(marker);
           myRoute.calculateGHArray(startPOI, endPOI);
           e.stopPropagation();
         }
         else if (markerPosition == 0 && markerPosition != numberOfPOIs) {
           let nextid = myPOI.SubsequentMarker(marker);
-          myRoute.RemoveRoute(marker.id);
+          myRoute.RemoveRoute(marker);
           myPOI.Delete(marker);
           e.stopPropagation();
         }
         else if (markerPosition == numberOfPOIs) {
-          myRoute.RemoveRoute(marker.id);
+          myRoute.RemoveRoute(marker);
           myPOI.Delete(marker);
           e.stopPropagation();
         }
@@ -405,18 +440,11 @@ function MobileMarkers() {
       lastmarker.remove()
     }
     else if (Object.keys(AllPOIs).length != 1) {
-      myRoute.RemoveRoute(Number(lastmarker.id));
+      myRoute.RemoveRoute(lastmarker);
       myPOI.Delete(lastmarker);
       lastmarker.remove()
     }
   }
-  this.ClearAll = function(){
-    let allPOIvalues = Object.values(AllPOIs);
-    for (i = 0; i < allPOIvalues.length; i++ ) {
-      crosshair.undoLastMarker();
-  }
-    crosshair.ToggleCrosshair();
-}
 }
 
 let crosshair = new MobileMarkers();
@@ -425,8 +453,13 @@ let crosshair = new MobileMarkers();
   document.getElementById("drawRoute").addEventListener("click", crosshair.ToggleCrosshair);
   document.getElementById("dropCrosshairMarker").addEventListener("click", crosshair.AddMarker);
   document.getElementById("undoCrosshairMarker").addEventListener("click", crosshair.undoLastMarker);
-  document.getElementById("cancelCrosshairMarker").addEventListener("click", crosshair.ClearAll);
-
+  document.getElementById("cancelCrosshairMarker").addEventListener("click", function() { myRoute.ClearAllMarkers;crosshair.ToggleCrosshair();});
+  document.getElementById("routerToggle").addEventListener("click", myRoute.ToggleSafeRouting);
+  $(function() {
+      $('#routerToggle').change(function() {
+        myRoute.ToggleSafeRouting();
+      });
+    });
 
 
 

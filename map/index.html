@@ -105,7 +105,7 @@
             <div id='maininfo'>
                 <button id="tutorialButton" type="button" class="btn btn-custom1 btn-circle" title="Tutorial" data-toggle="tooltip" data-placement="top" data-target=".bd-example-modal-lg"><i class="fas fa-question-circle"></i></button>
 
-                <button id="sidebarCollapse" type="button" class="btn btn-warning btn-circle" title="Toggle Controls" data-toggle="tooltip" data-placement="top"><i class="fas fa-user-astronaut fa-2x"></i></button>
+                <button id="sidebarCollapse" type="button" class="btn btn-warning btn-circle" title="Toggle Controls" data-toggle="tooltip" data-placement="top"><i id="astronauticon" class="fas fa-user fa-2x"></i></button>
             </div>
 <!--             <div id='myLocation'>
                 <a href=#  title="My Location"><button type="button" class="btn btn-custom1"><i class="fas fa-street-view"></i></button></a>
@@ -164,6 +164,10 @@ Source: http://mynameismatthieu.com/WOW/docs.html
                 $('#topRightControls').toggleClass('hideright');
                 $('#legend').toggleClass('hidebottom');
                 $('#tutorialButton').toggleClass('tutorialSlideUp');
+                $('#astronauticon').toggleClass('fa-user-astronaut');
+                $('#astronauticon').toggleClass('fa-user');
+                $('#sidebarCollapse').toggleClass('darkbutton');
+
             });
 
             $(function () {
@@ -174,14 +178,14 @@ Source: http://mynameismatthieu.com/WOW/docs.html
                 $('#drawRoute').on('click', function() {
                     $('#drawRoute').toggleClass('hideDrawRoute');
                     $('#dropCrosshairMarker').toggleClass('drawSlideRight');
-                    $('#undoCrosshairMarker').toggleClass('drawSlideUp');
-                    $('#routeInfo').toggleClass('buttonSlideRight');
+                    $('#undoCrosshairMarker').toggleClass('undoSlideUp');
+                    $('#routeInfo').toggleClass('RouteInfoSlideRight');
                 })
                 $('#cancelCrosshairMarker').on('click', function() {
                     $('#drawRoute').toggleClass('hideDrawRoute');
                     $('#dropCrosshairMarker').toggleClass('drawSlideRight');
-                    $('#undoCrosshairMarker').toggleClass('drawSlideUp');
-                    $('#routeInfo').toggleClass('buttonSlideRight');
+                    $('#undoCrosshairMarker').toggleClass('undoSlideUp');
+                    $('#routeInfo').toggleClass('RouteInfoSlideRight');
                 })
         });
     </script>
