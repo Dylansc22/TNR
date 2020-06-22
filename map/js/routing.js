@@ -29,7 +29,7 @@ function illCleanThisFunctionUpLater() {
     geocoder = new MapboxGeocoder({
       accessToken: mapboxgl.accessToken,
       mapboxgl: mapboxgl,
-      marker: true,
+      marker: false,
       placeholder: "Where to?"
       //bbox: [long, lat, long lat]
       //proximity: {
