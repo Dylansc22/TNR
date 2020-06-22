@@ -101,6 +101,7 @@ function POI(){
       // element: el,
       draggable: true,
       color: 'grey',
+      scale: 0.75,
     })
     marker.setLngLat(e.lngLat);
     marker.addTo(map);
@@ -196,7 +197,7 @@ function Route(){
         "type": "line",
         "source": marker.source,
         "paint": {
-          "line-color": "brown", //"#4f7ba4",
+          "line-color": "brown",//"#FF6600" //, //"#4f7ba4",
           "line-opacity": 0.75,
           "line-width": 3
         }
@@ -522,7 +523,7 @@ function MobileMarkers() {
       //element: el, if I want a crosshair instead of the marker
       draggable: false,
       color: 'brown',
-      scale: 0.5,
+      scale: 0.8,
       })
 
       centerdot.setLngLat(map.getCenter())
@@ -555,6 +556,7 @@ function MobileMarkers() {
       // element: el,
       draggable: true,
       color: 'grey',
+      scale: 0.9,
     })
     marker.setLngLat(map.getCenter());
     marker.addTo(map);
