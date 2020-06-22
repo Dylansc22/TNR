@@ -160,7 +160,7 @@ h1, h2, h3, h4, h5, h6, p {
 }
 
 @media (min-width: 1081px) {
-    #bootstrapoverrides .btn-warning, #bootstrapoverrides .btn-custom1, .btn-secondary {
+    #bootstrapoverrides .btn-warning, #bootstrapoverrides .btn-custom1, .btn-secondary, .btn-info {
         width: 70px !important;
         height: 70px !important;
         border-radius: 35px !important;
@@ -796,12 +796,23 @@ span.tooltip:hover {
         color:white;
         background-color:#4f7ba4;
     }
+
     #sidebarCollapse {
         display: block;
         position: fixed;
         bottom: 6vh;
         right:2%;
         z-index: 2;
+        text-align: center;
+        width: 100%;
+    }
+
+    #isochroneButton {
+        display: block;
+        position: fixed;
+        bottom: 6vh;
+        right:2%;
+        z-index: 1;
         text-align: center;
         width: 100%;
     }
@@ -834,11 +845,17 @@ span.tooltip:hover {
         bottom: 600px !important;
     }
 
+    .isochroneSlideUp{
+        bottom: 280px !important; 
+    }
+
 @media (min-width: 1080px) {
     .drawSlideRight{ bottom:120px !important; }
     .undoSlideUp{ bottom: 195px !important; }
-    .tutorialSlideUp { bottom:150px !important; }
+    .tutorialSlideUp { bottom:120px !important; }
     .RouteInfoSlideRight { bottom: 270px !important; }
+    .isochroneSlideUp{ bottom: 195px !important; }
+
 }
 
 .darkbutton {
@@ -1731,7 +1748,7 @@ background-color:white;
         background-color:grey;
     }
 
-#bootstrapoverrides .btn-warning, #bootstrapoverrides .btn-custom1, .btn-secondary {
+#bootstrapoverrides .btn-warning, #bootstrapoverrides .btn-custom1, .btn-secondary, .btn-info {
     width: 150px;
     height: 150px;
     border-radius: 75px;

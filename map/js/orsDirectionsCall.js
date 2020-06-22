@@ -19,7 +19,14 @@ let parameters = parametersGHsafe;
 let myPOI = new POI();
 let AllPOIs = new AllPOIsconstructor();
 let myRoute = new Route();
-let counter = 0; 
+let counter = 0;
+
+let myIsochrone = new Isochrone();
+
+// var request = require('superagent');
+// var Promise = require("bluebird");
+// var GHUtil = require("./../../js/GHUtil");
+// var ghUtil = new GHUtil();
 
 function AllPOIsconstructor(){}; //Empty Constructor to hold the AllPOIs 
 
@@ -278,6 +285,180 @@ function Route(){
     }
 }
 
+function Isochrone(){
+  let IsochroneActive = false;
+
+    let isoMarker = new mapboxgl.Marker({
+      //This doesn't work and I don't understand why >> scale: 0.75, - https://docs.mapbox.com/mapbox-gl-js/api/markers/#marker
+      // element: el,
+      draggable: true,
+    })
+    isoMarker.setLngLat({lng: -110.92, lat: 32.222});
+    isoMarker.addTo(map);
+
+  this.generate = function() {
+    if (IsochroneActive == false){
+      IsochroneActive = true;
+    }
+    else {
+      IsochroneActive = false;
+      map.removeLayer('maine0');
+      map.removeSource('maine0');
+      map.removeLayer('maine1');
+      map.removeSource('maine1');
+      map.removeLayer('maine2');
+      map.removeSource('maine2');
+    }
+
+    isoMarker.on('dragend', myIsochrone.regenerate);
+
+    if (IsochroneActive == true) {
+            // alert("yo, isochrone coming attcha");
+            var ghIsochrone = new GraphHopper.Isochrone({
+              key: ghAPI, 
+              host: myHostAddress, 
+              vehicle: "bike"});
+
+
+                var pointStr = isoMarker.getLngLat().lat + "," + isoMarker.getLngLat().lng // var pointStr = e.latlng.lat + "," + e.latlng.lng;
+
+                    ghIsochrone.doRequest({point: pointStr, buckets: 3, time_limit: 1000})
+                        .then(function (json) {
+                            ABC = json;
+                            console.log(ABC);
+                            map.addSource('maine0', {
+                              'type': 'geojson',
+                              'data': ABC.polygons[0]
+                            });
+                            map.addLayer({
+                              'id': 'maine0',
+                              'type': 'fill',
+                              'source': 'maine0',
+                              'layout': {},
+                              'paint': {
+                                'fill-color': '#088',
+                                'fill-opacity': 0.4
+                              }
+                            });
+                            map.addSource('maine1', {
+                              'type': 'geojson',
+                              'data': ABC.polygons[1]
+                            });
+                            map.addLayer({
+                              'id': 'maine1',
+                              'type': 'fill',
+                              'source': 'maine1',
+                              'layout': {},
+                              'paint': {
+                                'fill-color': '#058',
+                                'fill-opacity': 0.4
+                              }
+                            });
+                            map.addSource('maine2', {
+                              'type': 'geojson',
+                              'data': ABC.polygons[2]
+                            });
+                            map.addLayer({
+                              'id': 'maine2',
+                              'type': 'fill',
+                              'source': 'maine2',
+                              'layout': {},
+                              'paint': {
+                                'fill-color': '#028',
+                                'fill-opacity': 0.4
+                              }
+                            });
+
+        //Use this is how I had routes to the map. use this as a guide for how i should add isochrone polygons to the map
+              //               map.addSource(marker.source, { type: 'geojson', data: AllPOIs[marker.id].geojson.paths[0].points });
+              // map.addLayer({
+              //   "id": marker.layer,
+              //   "type": "line",
+              //   "source": marker.source,
+              //   "paint": {
+              //     "line-color": "brown", //"#4f7ba4",
+              //     "line-opacity": 0.75,
+              //     "line-width": 3
+              //   }
+              // });
+
+
+                        })
+                        .catch(function (err) {
+                            $('#isochrone-response').text("An error occured: " + err.message);
+                        });
+      }
+
+    }
+
+  this.regenerate = function (){
+    map.removeLayer('maine0');
+    map.removeSource('maine0');
+    map.removeLayer('maine1');
+    map.removeSource('maine1');
+    map.removeLayer('maine2');
+    map.removeSource('maine2');
+    myIsochrone.generate();
+  } 
+}
+
+
+  GraphHopperIsochrone = function (args) {
+    this.time_limit = 2000;
+    this.distance_limit = 0;
+    this.buckets = 3;
+    this.vehicle = "bike";
+    this.point = [];
+    this.host = "https://graphhopper.com/api/1";
+    this.debug = false;
+    this.basePath = '/isochrone';
+    this.timeout = 30000;
+    this.reverse_flow = false;
+
+    ghUtil.copyProperties(args, this);
+  };
+
+  GraphHopperIsochrone.prototype.getParametersAsQueryString = function (args) {
+      var qString = "point=" + args.point;
+      qString += "&time_limit=" + args.time_limit;
+      qString += "&distance_limit=" + args.distance_limit;
+      qString += "&buckets=" + args.buckets;
+      qString += "&vehicle=" + args.vehicle;
+      qString += "&reverse_flow=" + args.reverse_flow;
+
+      if (args.debug)
+          qString += "&debug=true";
+
+      return qString;
+  };
+
+  GraphHopperIsochrone.prototype.doRequest = function (reqArgs) {
+      var that = this;
+
+      return new Promise(function(resolve, reject) {
+          var args = ghUtil.clone(that);
+          if (reqArgs)
+              args = ghUtil.copyProperties(reqArgs, args);
+
+          var url = args.host + args.basePath + "?" + that.getParametersAsQueryString(args) + "&key=" + args.key;
+
+          request
+              .get(url)
+              .accept('application/json')
+              .timeout(args.timeout)
+              .end(function (err, res) {
+                  if (err || !res.ok) {
+                      reject(ghUtil.extractError(res, url));
+                  } else if (res) {
+                      resolve(res.body);
+                  }
+              });
+      });
+  };
+
+
+
+
 
 
 
@@ -454,7 +635,9 @@ let crosshair = new MobileMarkers();
   document.getElementById("dropCrosshairMarker").addEventListener("click", crosshair.AddMarker);
   document.getElementById("undoCrosshairMarker").addEventListener("click", crosshair.undoLastMarker);
   document.getElementById("cancelCrosshairMarker").addEventListener("click", function() { myRoute.ClearAllMarkers;crosshair.ToggleCrosshair();});
+  document.getElementById("isochroneButton").addEventListener("click", myIsochrone.generate);
   document.getElementById("routerToggle").addEventListener("click", myRoute.ToggleSafeRouting);
+
   $(function() {
       $('#routerToggle').change(function() {
         myRoute.ToggleSafeRouting();
