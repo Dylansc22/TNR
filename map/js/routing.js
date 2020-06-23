@@ -69,7 +69,7 @@ function illCleanThisFunctionUpLater() {
       map.setLayoutProperty('hawkdotsgeojson', 'visibility', 'visible');
       map.setLayoutProperty('hawk_roads', 'visibility', 'visible');
       map.setLayoutProperty('hawkroadscase', 'visibility', 'visible');
-      map.setLayoutProperty('theloop-b2gq5f', 'visibility', 'visible');
+      // map.setLayoutProperty('theloop-b2gq5f', 'visibility', 'visible');
     });
 
   // On every scroll event, check which element is on screen
@@ -228,7 +228,7 @@ function illCleanThisFunctionUpLater() {
 
   document.getElementById('tnrv5').setAttribute('class', 'active');        
   document.getElementById('hawks').setAttribute('class', 'active');        
-  document.getElementById('theloop').setAttribute('class', 'active');      
+  // document.getElementById('theloop').setAttribute('class', 'active');      
 
   //---------------------------------------------------------------------------------------
   // --------------------------- Step 3: Create Custom Controls -----------------------------
