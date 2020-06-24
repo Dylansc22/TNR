@@ -21,6 +21,7 @@
         <link href="https://fonts.googleapis.com/css?family=Merriweather&display=swap" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Shadows+Into+Light&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap" rel="stylesheet">
 
     <!-- Mapbox CSS Libraries-->
         <!--Main --><link href='https://api.mapbox.com/mapbox-gl-js/v1.11.0/mapbox-gl.css' rel='stylesheet'/>
@@ -41,10 +42,9 @@
 
     <!-- Main Mapbox Map -->
         <div id='map'></div>
-        <div class="newbox">
-            <div id="geocoder" class="geocoder"></div>
-            <button id="directionhere" type="button" class="btn btn-info directionsbuttonhidden"></button>
-        </div>
+        <a href="../home/index.html"><div id="logo">Tp</div></a>
+        <div id="geocoder" class="geocoder"></div>
+        <button id="directionhere" type="button" class="btn btn-info directionsbuttonhidden"></button>
 
     <!-- Tutorial Modal -->
         <div class="modal fade bd-example-modal-lg" id="TutorialModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -88,7 +88,7 @@
 
     <div id="allControls">
         <!-- Router Toggle Button -->
-        <div id="routerposition">
+        <div id="toggleSwitch">
             <input id="routerToggle" type="checkbox" checked data-toggle="toggle" data-on="Safe Routing On" data-off="Safe Routing Off" data-onstyle="success" data-offstyle="danger">
         </div>
         <button id="drawRoute" type="button" class="btn btn-secondary" title="Draw Route" data-toggle="tooltip" data-placement="right"><i class="fas fa-map-marked-alt"></i></button>
@@ -117,6 +117,9 @@
         <!-- Legend and Togglable Layer Buttons in the Bottom -->
             <div id="legend" class="hidebottom">
                 <div id='toolbar'></div>
+            </div>
+            <div id="bottomControl">
+                
             </div>
 
     </div>

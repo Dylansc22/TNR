@@ -11,6 +11,11 @@
     /*font-family: ""Source Sans Pro","Helvetica Neue",Helvetica,Arial,sans-serif";*/
 }
 
+/*Google Fonts Loaded
+font-family: 'Playfair Display', serif;
+
+*/
+
 .wrapper {
     margin: 50px 0vw;
 }
@@ -87,6 +92,8 @@ h1, h2, h3, h4, h5, h6, p {
     bottom:0;
     width: 100%; /*width 80% with right:0*/;
     z-index: 0;
+    /*border: solid 10px black;*/
+
 }
 
 #map canvas {
@@ -104,8 +111,8 @@ h1, h2, h3, h4, h5, h6, p {
 #topRightControls {
     position: fixed;
     width:50px;
-    top: 2vh;
-    right: 2vh;
+    top: 1.5vh;
+    right: 1.5vh;
     z-index: 2;
     -webkit-transition: all 0.3s;
     -moz-transition: all 0.3s;
@@ -120,23 +127,30 @@ h1, h2, h3, h4, h5, h6, p {
     box-shadow: 0px;
 }
 
-
-
 #topRightControls > .mapboxgl-ctrl-group {
     float:right;
-    margin-bottom: 15px;
+    margin-bottom: 1.5vh;
+    padding:10px;
 }
 
+#topRightControls > .mapboxgl-ctrl-group > button {
+    width:100px;
+    height:100px;
+}
+
+#topRightControls > .mapboxgl-ctrl-group > button > span {
+    background-size:contain;
+}
+
+
 #topRightControls > .mapboxgl-ctrl-geocoder {
-    background-color: red;
     width: 500px;
     margin-bottom: 15px;
 }
 
 @media (max-width: 1080px) {
     .mapboxgl-ctrl-group > button {
-        width: 100px;
-        height: 100px;
+
     }
 
     #maininfo > .btn-circle {
@@ -152,11 +166,6 @@ h1, h2, h3, h4, h5, h6, p {
         width:70px;
         height:70px;
     }
-
-    #routerposition > div {
-        width: 400px !important;
-        height:70px !important;
-    }
 }
 
 @media (min-width: 1081px) {
@@ -166,70 +175,173 @@ h1, h2, h3, h4, h5, h6, p {
         border-radius: 35px !important;
     }
 
-    .newbox {
-        position: fixed;
-        width: 50vw;
-        margin: 0 25vw;
-        text-align:center;
-        top: 2%;
+
+}
+
+/*Logo*/
+    #logo {
+        position: absolute;
+        left: 3vw;
+        z-index: 4;
+        background: #000000;
+        width: 14vw;
+        height: 14vw;
+        font-size: 8vw;
+        color: white;
+        text-align: center;
+        font-family: auto;
+        line-height: 14vw;
+        box-shadow: 3px 3px 6px grey;
+
     }
 
-    .geocoder {
-        position: relative;
+    @media (min-width: 1081px) {
+        #logo{
+            width:80px;
+            height:80px;
+            font-size:40px;
+            line-height: 80px;            
+        }
+    }
+
+/*Search Bar*/
+    #geocoder {
+        position: absolute;
         z-index: 1;
-        width: 50vw;
+        width: 82vw;
+        left:15vw;
+        top:2vw;
     }
 
-    #routerposition .btn.btn-danger.toggle-off {
-        height: 40px !important;
-        background-color: #bc5050 !important;
-        font-size:20px !important;
+    #geocoder .mapboxgl-ctrl-geocoder{
+        box-shadow: 3px 3px 6px grey;
+        height: 10vw;
     }
 
-    #routerposition .btn.btn-success.toggle-on {
-        height: 40px !important;
-        background-color:#5f8056 !important;
-        font-size:20px !important;
+    #geocoder .mapboxgl-ctrl-geocoder--icon-search {
+        display: none;
     }
 
-    #routerposition > div {
-        width: 400px !important;
-        height:40px !important;
+    #geocoder .mapboxgl-ctrl-geocoder input[type='text'] {
+        font-size: 2vh;
+        margin-left: 1vw;
+        height:100%;
     }
-}
 
-.newbox {
-    position: fixed;
-    width: 70vw;
-    margin: 0 15vw;
-    text-align:center;
-    top: 2%;
-}
+        @media (min-width: 1081px) {
+        #geocoder{
+            position: absolute;
+            width: calc(100vw - 12vw - 120px);
+            left: calc(6vw + 40px); /*there are 40px margin, from some weird mapbox thing that I don't want to overwrite. trust me this is the correct spacing*/
+            top:10px;           
+        }
 
-.geocoder {
-    position: relative;
-    z-index: 1;
-    width: 70vw;
-}
+        #geocoder .mapboxgl-ctrl-geocoder{
+            height: 60px;
+    }
+    }
 
-#geocoder .mapboxgl-ctrl-geocoder{
-    box-shadow: 3px 3px 6px grey;
-    margin: 0 20px;
-    height: 6vh;
-}
+/*Buttons*/
+    #bottomControl {
+        position: absolute;
+        width:100%;
+        height:200px;
+        bottom:0px;
+        background-color:black;
+    }
 
-#geocoder .mapboxgl-ctrl-geocoder--icon-search {
-    display: none;
-}
 
-.mapboxgl-ctrl-geocoder input[type='text'] {
-    font-size: 2vh;
-    margin:0px 3px;
-    height:100%;
-}
+    #drawRoute {
+        display: block;
+        position: absolute;
+        bottom:125px;
+        left:2%;
+        z-index: 4;
+    }
+
+    #dropCrosshairMarker{
+        background-color: #5a6268;
+        color: white;
+        display: block;
+        position: absolute;
+        bottom:125px;
+        left:2%;
+        z-index: 1;
+    }
+    #undoCrosshairMarker{
+        background-color: orange;
+        color:white;
+        display: block;
+        position: absolute;
+        bottom:125px;
+        left:2%;
+        z-index: 0
+    }
+
+    #cancelCrosshairMarker{
+        display: block;
+        position: absolute;
+        bottom:125px;
+        left:2%;
+        z-index: 1;
+    }
+
+    #routeInfo {
+        display: block;
+        position: absolute;
+        bottom: 125px;
+        left:2%;
+        z-index: 1;
+    }
+
+    #tutorialButton {
+        display: block;
+        position: absolute;
+        bottom: 125px;
+        right:2%;
+        z-index: 1;
+        color:white;
+        background-color:#4f7ba4;
+    }
+
+    #sidebarCollapse {
+        background-color:black;
+        color:white;
+        display: block;
+        position: fixed;
+        z-index: 2;
+        text-align: center;
+        width: 100%;
+        bottom: 125px;
+        left: 50%;
+        transform: translate(-50%, 0);
+        /*bottom: 6vh;
+        right:2%;*/
+    }
+
+    #isochroneButton {
+        display: block;
+        position: fixed;
+        bottom: 125px;
+        right:2%;
+        z-index: 1;
+        text-align: center;
+        width: 100%;
+    }
+
+    #sidebarCollapse > i {
+        position:relative;
+        right:2px;
+    }
+
 
 #directionhere {
-    position: relative;
+    position: absolute;
+    border-radius: 0px;
+    width: 50vw;
+    left: 25vw;
+    top: 21px;
+    height: 80px;
 }
 
 .directionsbuttonhidden {
@@ -495,7 +607,7 @@ text-align: center;
     }
 
     #toolbar > .active, #toolbar > button:active, #toolbar > button:visited {
-        height:7.5vw;
+        height:5vw;
         border-width: 3px;
         font-weight:900;
         -webkit-transition: all 0.2s;
@@ -524,7 +636,7 @@ text-align: center;
 
         /*and make them bigger when clicked*/
         #toolbar > .active, #toolbar > button:active, #toolbar > button:visited {
-            height:22vw;
+            height:14vw;
             font-weight:900;
         }
 
@@ -714,114 +826,35 @@ span.tooltip:hover {
     /* If max-width does not work, try using width instead */
 }
 
-#routerposition {
+#toggleSwitch {
     display: inline-block;
     position: absolute;
+    box-shadow: 4px 4px 8px grey;
+    bottom: 30px;
+    left: 2%;
+    z-index: 3;
+
+    /*For centering div
     bottom: 50px;
     left: 50%;
-    transform: translate(-50%, 0);
+    transform: translate(-50%, 0);*/
 }
 
-#routerposition .btn.btn-danger.toggle-off {
-    height: 200px;
-    background-color: #bc5050;
-    font-size:35px;
-}
-
-#routerposition .btn.btn-success.toggle-on {
-    height: 200px;
-    background-color:#5f8056;
-    font-size:35px;
-}
-
-#routerposition .btn {
+#toggleSwitch .btn {
     border-radius: 0px;
+    height: 50px;
+    border:none;
+    font-size:20px;
+    line-height: 35px;
 }
 
-#routerposition .btn-danger, #routerposition .btn-success {
-    border: none;
-    box-shadow: 4px 4px 8px grey;
+#toggleSwitch .btn.btn-success {
+    background-color: black;   /*#5f8056;*/
 }
 
-/*Buttons*/
-    #drawRoute {
-        display: block;
-        position: absolute;
-        bottom:6vh;
-        left:2%;
-        z-index: 4;
-    }
-
-    #dropCrosshairMarker{
-        background-color: #5a6268;
-        color: white;
-        display: block;
-        position: absolute;
-        bottom:6vh;
-        left:2%;
-        z-index: 1;
-    }
-    #undoCrosshairMarker{
-        background-color: orange;
-        color:white;
-        display: block;
-        position: absolute;
-        bottom:6vh;
-        left:2%;
-        z-index: 0
-    }
-
-    #cancelCrosshairMarker{
-        display: block;
-        position: absolute;
-        bottom:6vh;
-        left:2%;
-        z-index: 1;
-    }
-
-    #routeInfo {
-        display: block;
-        position: absolute;
-        bottom: 6vh;
-        left:2%;
-        z-index: 1;
-    }
-
-    #tutorialButton {
-        display: block;
-        position: absolute;
-        bottom: 6vh;
-        right:2%;
-        z-index: 1;
-        color:white;
-        background-color:#4f7ba4;
-    }
-
-    #sidebarCollapse {
-        display: block;
-        position: fixed;
-        bottom: 6vh;
-        right:2%;
-        z-index: 2;
-        text-align: center;
-        width: 100%;
-    }
-
-    #isochroneButton {
-        display: block;
-        position: fixed;
-        bottom: 6vh;
-        right:2%;
-        z-index: 1;
-        text-align: center;
-        width: 100%;
-    }
-
-    #sidebarCollapse > i {
-        position:relative;
-        right:2px;
-    }
-
+#toggleSwitch .btn.btn-danger {
+    background-color: #bc5050;
+}
 
 /* the toggling classes for the Draw Controls that are controlled via jQuery in the bottom of the index.html*/
     .hideDrawRoute{
@@ -849,7 +882,7 @@ span.tooltip:hover {
         bottom: 280px !important; 
     }
 
-@media (min-width: 1080px) {
+@media (min-width: 1081px) {
     .drawSlideRight{ bottom:120px !important; }
     .undoSlideUp{ bottom: 195px !important; }
     .tutorialSlideUp { bottom:120px !important; }
@@ -857,14 +890,6 @@ span.tooltip:hover {
     .isochroneSlideUp{ bottom: 195px !important; }
 
 }
-
-.darkbutton {
-    color:white !important;
-    background-color:#696969 !important;
-}
-
-
-
 
 .btn-circle {
     width: 70px;
@@ -899,16 +924,16 @@ textarea {
     position: relative;
 }
 
-#instructions {
-    /*height: 50px;
+
+/*#instructions {
+    height: 50px;
     min-height: 80px;
     position: relative;
     text-align: left;
     margin: 10;
-    padding: 15px;*/
+    padding: 15px;
     width: auto;
-    /*scroll after max height is reached*/
-}
+}*/
 
 #geojsonbox {
     /*height: 30px;
@@ -917,25 +942,11 @@ textarea {
     padding: 15px;
     text-align: left;
         margin: 10;*/
-        width: auto;
+    width: auto;
     background-color: rgba(255, 255, 255, .4);
     font-size: 13px;
-    /*scroll after max height is reached*/
     word-wrap: break-word;
 }
-
-
-#scrolltest {
-    font-size:25px;
-    background-color:red;
-}
-
-#testbutton {
-    position: absolute;
-    left:600px;
-    z-index: 4;
-}
-
 
 /* Landing Page Stuff */
 /*!
@@ -1456,15 +1467,6 @@ background-color:white;
     -o-transition: all 0.4s ease 0s;
     transition: all 0.4s ease 0s;
 }
-
-.toggle {
-    margin: 5px 5px 0 0;
-}
-
-
-
-
-
 
 .projectsgroup {
   margin-top: 150px;
