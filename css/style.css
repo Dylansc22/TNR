@@ -110,9 +110,8 @@ h1, h2, h3, h4, h5, h6, p {
 
 #topRightControls {
     position: fixed;
-    width:50px;
-    top: 1.5vh;
-    right: 1.5vh;
+    top: 16vw;
+    left: 2vh;
     z-index: 2;
     -webkit-transition: all 0.3s;
     -moz-transition: all 0.3s;
@@ -122,7 +121,7 @@ h1, h2, h3, h4, h5, h6, p {
 }
 
 .mapboxgl-ctrl-group, .mapboxgl-ctrl-geocoder {
-    border: solid 2px #8a8472;
+    border: solid 1px #8a8472;
     border-radius: 0px; 
     box-shadow: 0px;
 }
@@ -131,6 +130,7 @@ h1, h2, h3, h4, h5, h6, p {
     float:right;
     margin-bottom: 1.5vh;
     padding:10px;
+    box-shadow: 3px 3px 6px grey;
 }
 
 #topRightControls > .mapboxgl-ctrl-group > button {
@@ -154,8 +154,8 @@ h1, h2, h3, h4, h5, h6, p {
     }
 
     #maininfo > .btn-circle {
-        width: 200px;
-        height: 200px;
+        width: 150px;
+        height: 150px;
         padding: 10px 16px;
         border-radius: 100px;
         font-size: 24px;
@@ -211,6 +211,11 @@ h1, h2, h3, h4, h5, h6, p {
         width: 82vw;
         left:15vw;
         top:2vw;
+        -webkit-transition: all 0.4s;
+        -moz-transition: all 0.4s;
+        -o-transition: all 0.4s;
+        transition:all 0.4s;
+
     }
 
     #geocoder .mapboxgl-ctrl-geocoder{
@@ -226,6 +231,13 @@ h1, h2, h3, h4, h5, h6, p {
         font-size: 2vh;
         margin-left: 1vw;
         height:100%;
+        padding-right:10vw;
+
+    }
+
+    #geocoder .mapboxgl-ctrl-geocoder--icon .mapboxgl-ctrl-geocoder--icon-close {
+        position: relative;
+        transform: scale(4);
     }
 
         @media (min-width: 1081px) {
@@ -238,23 +250,80 @@ h1, h2, h3, h4, h5, h6, p {
 
         #geocoder .mapboxgl-ctrl-geocoder{
             height: 60px;
+        }
     }
+        @media (max-width: 1080px) {
+            #geocoder .suggestions {
+                font-size:40px;
+                line-height: 55px;
+            }
+
+            #geocoder svg {
+                transform: scale(2.5);
+                z-index: 5;
+/*                top:20px;
+                right:20px;
+*/                margin:25px;
+
+            }
+        }
+
+/*Toggle Switch*/
+    #toggleSwitch {
+        position: absolute;
+        box-shadow: 4px 4px 8px grey;
+        top:50vw;
+        z-index: 3;
+        font-family:auto;
+
+        /*For centering div
+        bottom: 50px;
+        left: 50%;
+        transform: translate(-50%, 0);*/
     }
 
-/*Buttons*/
+    #toggleSwitch .btn {
+        border-radius: 0px;
+        border:none;
+        font-size:20px;
+        height:110px;
+        border: 1px solid grey;
+    }
+
+    #toggleSwitch .btn.btn-success {
+        background-color: white;   /*#5f8056;*/
+        color:black;
+        line-height: 120px;
+        width:120px;
+    }
+
+    #toggleSwitch .btn.btn-danger {
+        background-color: white; /*#bc5050;*/
+        color:black;
+        line-height: 120px;
+    }
+
+    #toggleSwitch .btn .btn-danger .toggle-off {
+        width:140px;
+    }
+
+    #toggleSwitch .toggle-handle {
+        height: 140px;
+        background-color: black;
+    }
+
     #bottomControl {
         position: absolute;
         width:100%;
-        height:200px;
+        height:100px;
         bottom:0px;
         background-color:black;
     }
-
-
+/*Buttons*/
     #drawRoute {
         display: block;
         position: absolute;
-        bottom:125px;
+        bottom:50px;
         left:2%;
         z-index: 4;
     }
@@ -264,7 +333,7 @@ h1, h2, h3, h4, h5, h6, p {
         color: white;
         display: block;
         position: absolute;
-        bottom:125px;
+        bottom:50px;
         left:2%;
         z-index: 1;
     }
@@ -273,7 +342,7 @@ h1, h2, h3, h4, h5, h6, p {
         color:white;
         display: block;
         position: absolute;
-        bottom:125px;
+        bottom:50px;
         left:2%;
         z-index: 0
     }
@@ -281,7 +350,7 @@ h1, h2, h3, h4, h5, h6, p {
     #cancelCrosshairMarker{
         display: block;
         position: absolute;
-        bottom:125px;
+        bottom:50px;
         left:2%;
         z-index: 1;
     }
@@ -289,7 +358,7 @@ h1, h2, h3, h4, h5, h6, p {
     #routeInfo {
         display: block;
         position: absolute;
-        bottom: 125px;
+        bottom: 50px;
         left:2%;
         z-index: 1;
     }
@@ -297,7 +366,7 @@ h1, h2, h3, h4, h5, h6, p {
     #tutorialButton {
         display: block;
         position: absolute;
-        bottom: 125px;
+        bottom: 50px;
         right:2%;
         z-index: 1;
         color:white;
@@ -312,7 +381,7 @@ h1, h2, h3, h4, h5, h6, p {
         z-index: 2;
         text-align: center;
         width: 100%;
-        bottom: 125px;
+        bottom: 30px;
         left: 50%;
         transform: translate(-50%, 0);
         /*bottom: 6vh;
@@ -322,7 +391,7 @@ h1, h2, h3, h4, h5, h6, p {
     #isochroneButton {
         display: block;
         position: fixed;
-        bottom: 125px;
+        bottom: 50px;
         right:2%;
         z-index: 1;
         text-align: center;
@@ -544,7 +613,7 @@ text-align: center;
     position:fixed;
     height:100px;
     width:68vw;
-    bottom:150px;
+    bottom:200px;
     /*center the div*/
         left: 50%;
         transform: translate(-50%, 0);
@@ -714,7 +783,15 @@ text-align: center;
 }
 
 .hideright {
-    margin-right: -100% !important;
+    margin-left: -100% !important;
+    -webkit-transition: all 0.4s;
+    -moz-transition: all 0.4s;
+    -o-transition: all 0.4s;
+    transition:all 0.4s;
+}
+
+.hidetop {
+    margin-top: -100% !important;
     -webkit-transition: all 0.4s;
     -moz-transition: all 0.4s;
     -o-transition: all 0.4s;
@@ -826,36 +903,6 @@ span.tooltip:hover {
     /* If max-width does not work, try using width instead */
 }
 
-#toggleSwitch {
-    display: inline-block;
-    position: absolute;
-    box-shadow: 4px 4px 8px grey;
-    bottom: 30px;
-    left: 2%;
-    z-index: 3;
-
-    /*For centering div
-    bottom: 50px;
-    left: 50%;
-    transform: translate(-50%, 0);*/
-}
-
-#toggleSwitch .btn {
-    border-radius: 0px;
-    height: 50px;
-    border:none;
-    font-size:20px;
-    line-height: 35px;
-}
-
-#toggleSwitch .btn.btn-success {
-    background-color: black;   /*#5f8056;*/
-}
-
-#toggleSwitch .btn.btn-danger {
-    background-color: #bc5050;
-}
-
 /* the toggling classes for the Draw Controls that are controlled via jQuery in the bottom of the index.html*/
     .hideDrawRoute{
         opacity: 0;
@@ -863,19 +910,19 @@ span.tooltip:hover {
     }
 
     .drawSlideRight{
-        bottom:440px !important;
+        bottom:380px !important;
     }
 
     .undoSlideUp{
-        bottom: 280px !important; 
+        bottom: 220px !important; 
     }
 
     .tutorialSlideUp {
-        bottom:280px !important;
+        bottom:220px !important;
     }
 
     .RouteInfoSlideRight {
-        bottom: 600px !important;
+        bottom: 540px !important;
     }
 
     .isochroneSlideUp{
@@ -884,7 +931,7 @@ span.tooltip:hover {
 
 @media (min-width: 1081px) {
     .drawSlideRight{ bottom:120px !important; }
-    .undoSlideUp{ bottom: 195px !important; }
+    .undoSlideUp{ bottom: 165px !important; }
     .tutorialSlideUp { bottom:120px !important; }
     .RouteInfoSlideRight { bottom: 270px !important; }
     .isochroneSlideUp{ bottom: 195px !important; }

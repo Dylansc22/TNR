@@ -43,8 +43,8 @@
     <!-- Main Mapbox Map -->
         <div id='map'></div>
         <a href="../home/index.html"><div id="logo">Tp</div></a>
-        <div id="geocoder" class="geocoder"></div>
-        <button id="directionhere" type="button" class="btn btn-info directionsbuttonhidden"></button>
+        <div id="geocoder" class="geocoder hidetop"></div>
+        <button id="directionhere" type="button" class="btn btn-info directionsbuttonhidden hidetop"></button>
 
     <!-- Tutorial Modal -->
         <div class="modal fade bd-example-modal-lg" id="TutorialModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -88,9 +88,6 @@
 
     <div id="allControls">
         <!-- Router Toggle Button -->
-        <div id="toggleSwitch">
-            <input id="routerToggle" type="checkbox" checked data-toggle="toggle" data-on="Safe Routing On" data-off="Safe Routing Off" data-onstyle="success" data-offstyle="danger">
-        </div>
         <button id="drawRoute" type="button" class="btn btn-secondary" title="Draw Route" data-toggle="tooltip" data-placement="right"><i class="fas fa-map-marked-alt"></i></button>
         <button id="dropCrosshairMarker" type="button" class="btn btn-custom1 btn-circle" title="Drop Marker" data-toggle="tooltip" data-placement="right"><i class="fas fa-map-marker-alt"></i></button>
         <button id="undoCrosshairMarker" type="button" class="btn btn-custom1 btn-circle" title="Undo" data-toggle="tooltip" data-placement="right"><i class="fas fa-undo-alt"></i></button>
@@ -99,7 +96,11 @@
     </div>
 
         <!-- Primary Mapbox Window Controls in the Top Right (Zoom, Draw, Pitch, etc...) -->
-            <div id="topRightControls" class="hideright"></div>
+            <div id="topRightControls" class="hideright">
+                        <div id="toggleSwitch">
+            <input id="routerToggle" type="checkbox" checked data-toggle="toggle" data-on='<i class="fas fa-route fa-3x"></i>' data-off='<i class="fas fa-exclamation-circle fa-3x"></i>'data-onstyle="success" data-offstyle="danger">
+        </div>
+            </div>
 
         <!-- Tutorial and Toggle Sidebar Buttons in the Top Right -->
             <div id='maininfo'>
@@ -176,7 +177,9 @@ Source: http://mynameismatthieu.com/WOW/docs.html
                 $('#astronauticon').toggleClass('fa-user-astronaut');
                 $('#astronauticon').toggleClass('fa-user');
                 $('#sidebarCollapse').toggleClass('darkbutton');
-                $('#isochroneButton').toggleClass('isochroneSlideUp');
+                $('#geocoder').toggleClass('hidetop');
+                $('#directionshere').toggleClass('hidetop');
+                // $('#isochroneButton').toggleClass('isochroneSlideUp');
 
             });
 

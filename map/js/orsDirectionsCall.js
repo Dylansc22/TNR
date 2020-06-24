@@ -632,6 +632,8 @@ function MobileMarkers() {
 
 let crosshair = new MobileMarkers();
 
+
+
 //Add Button Behavior for Crosshair Routing
   document.getElementById("drawRoute").addEventListener("click", crosshair.ToggleCrosshair);
   document.getElementById("dropCrosshairMarker").addEventListener("click", crosshair.AddMarker);
@@ -646,10 +648,7 @@ let crosshair = new MobileMarkers();
       });
     });
 
-
-
-
-
+document.getElementById("drawRoute").addEventListener("click", crosshair.ToggleCross)
 
 
 
