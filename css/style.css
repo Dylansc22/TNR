@@ -148,11 +148,7 @@ h1, h2, h3, h4, h5, h6, p {
     margin-bottom: 15px;
 }
 
-@media (max-width: 1080px) {
-    .mapboxgl-ctrl-group > button {
-
-    }
-
+@media (min-width: 1080px) {
     #maininfo > .btn-circle {
         width: 150px;
         height: 150px;
@@ -175,6 +171,19 @@ h1, h2, h3, h4, h5, h6, p {
         border-radius: 35px !important;
     }
 
+    #topRightControls > .mapboxgl-ctrl-group > button {
+        width:40px;
+        height:40px;
+    }
+
+    #topRightControls > .mapboxgl-ctrl-group {
+        padding:0px;
+    }
+
+    #topRightControls {
+        top:100px;
+        left:calc(3vw + 20px);
+    }
 
 }
 
@@ -931,7 +940,7 @@ span.tooltip:hover {
 
 @media (min-width: 1081px) {
     .drawSlideRight{ bottom:120px !important; }
-    .undoSlideUp{ bottom: 165px !important; }
+    .undoSlideUp{ bottom: 195px !important; }
     .tutorialSlideUp { bottom:120px !important; }
     .RouteInfoSlideRight { bottom: 270px !important; }
     .isochroneSlideUp{ bottom: 195px !important; }
@@ -1801,7 +1810,7 @@ background-color:white;
     width: 150px;
     height: 150px;
     border-radius: 75px;
-    box-shadow: 4px 4px 8px grey;
+    /*box-shadow: 4px 4px 8px grey;*/
     font-size: 3vmin;
     line-height: 3vmin;
     margin:0px;
