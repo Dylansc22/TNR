@@ -172,7 +172,7 @@ h1, h2, h3, h4, h5, h6, p {
     }
 
     #topRightControls > .mapboxgl-ctrl-group > button {
-        width:40px;
+        width:58px;
         height:40px;
     }
 
@@ -182,7 +182,7 @@ h1, h2, h3, h4, h5, h6, p {
 
     #topRightControls {
         top:100px;
-        left:calc(3vw + 20px);
+        left:calc(3vw + 10px);
     }
 
 }
@@ -281,10 +281,10 @@ h1, h2, h3, h4, h5, h6, p {
     #toggleSwitch {
         position: absolute;
         box-shadow: 4px 4px 8px grey;
-        top:50vw;
+        top:51vw;
         z-index: 3;
         font-family:auto;
-
+        border: solid 1px grey;
         /*For centering div
         bottom: 50px;
         left: 50%;
@@ -296,30 +296,87 @@ h1, h2, h3, h4, h5, h6, p {
         border:none;
         font-size:20px;
         height:110px;
-        border: 1px solid grey;
     }
 
     #toggleSwitch .btn.btn-success {
         background-color: white;   /*#5f8056;*/
         color:black;
         line-height: 120px;
-        width:120px;
+        width:110px;
     }
 
     #toggleSwitch .btn.btn-danger {
         background-color: white; /*#bc5050;*/
         color:black;
-        line-height: 120px;
+        line-height: 110px;
     }
 
     #toggleSwitch .btn .btn-danger .toggle-off {
-        width:140px;
+        width:130px;
     }
 
     #toggleSwitch .toggle-handle {
-        height: 140px;
+        height: 130px;
         background-color: black;
     }
+
+    #toggleSwitch i {
+        transform: scale(3);
+        padding-bottom:12px;
+    }
+
+    @media (min-width:1081px) {
+        #toggleSwitch {
+            top: 190px;
+            border: solid 1px grey;
+        }
+
+        #toggleSwitch .btn {
+            font-size:20px;
+            height:40px;
+            border:none;
+        }
+
+        #toggleSwitch i {
+            transform: scale(1.5);
+            padding-bottom:12px;
+            width:20px;
+        }
+
+        #toggleSwitch .btn.btn-success {
+            background-color: white;   /*#5f8056;*/
+            color:black;
+            line-height: 30px;
+            width:35px;
+
+        }
+
+        #routerToggle {
+            width:25px;
+        }        
+
+        #toggleSwitch .btn.btn-danger {
+            background-color: white; /*#bc5050;*/
+            color:black;
+            line-height: 30px;
+        }
+
+        #toggleSwitch .btn .btn-danger .toggle-off {
+            width:50px;
+        }
+
+        #toggleSwitch .toggle-handle {
+            height: 50px;
+            width:10px;
+            background-color: black;
+        }
+
+        #toggleSwitch i {
+            transform: scale(.9);
+        }
+    }
+
+
 
     #bottomControl {
         position: absolute;
@@ -404,7 +461,6 @@ h1, h2, h3, h4, h5, h6, p {
         right:2%;
         z-index: 1;
         text-align: center;
-        width: 100%;
     }
 
     #sidebarCollapse > i {
