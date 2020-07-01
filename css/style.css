@@ -5,6 +5,7 @@
     width: 100%;
     margin:0px;
     padding:0px;
+    overflow: hidden;
     /*border-radius: 0px !important;*/
     /*color:#606060;*/
     /*background-color:#E8E8E8;*/
@@ -90,6 +91,7 @@ h1, h2, h3, h4, h5, h6, p {
     position: fixed;
     top:0;
     bottom:0;
+    height:100%;
     width: 100%; /*width 80% with right:0*/;
     z-index: 0;
     /*border: solid 10px black;*/
@@ -365,29 +367,111 @@ h1, h2, h3, h4, h5, h6, p {
         }
     }
 
-
+    .thumb h4 {
+        padding:15px;
+        line-height: 60px
+    }
 
     #bottomControl {
-        display: none;
+        display: flex;
         position: absolute;
-        left:8%;
-        width:84%;
-        height:29vh;
-        bottom:10px;
-        background-color: grey; /*:#363636;*/
-        border-top-left-radius:50px;
-        border-top-right-radius:50px;
-        border:solid 3px black;
+        /*left:10%;*/
+        width:100%; /*80%*/
+        bottom:3vh;
+        -webkit-transition: all 0.4s;
+        -moz-transition: all 0.4s;
+        -o-transition: all 0.4s;
+        transition:all 0.4s;
+        overflow: hidden;
+    }
+
+    #bottomControl i {
+        color:black;
+        background-color:transparent;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        transform: scale(1);
+        margin:10px;
+    } 
+
+    #bottomContro. .slick-list {
+        height:400px;
+    }
+
+    #bottomControl .infoScreen {
+        display: inline-grid;
+        justify-items:center;
+        background-color: #e2e2e2;
+        border:solid 2px black;
+        box-shadow: 3px 3px 4px grey;
+        height:500px;
+        margin:0px 10px;   
+        padding:40px;
+
+    }
+
+/*Button Div */
+    #allControls {
+        z-index:3;
+        width:150px;
+        height:150px;
+        position: absolute;
+        bottom:2vh;
+        right:2vh;
+        -webkit-transition: all 0.3s;
+        -moz-transition: all 0.3s;
+        -o-transition: all 0.3s;
+        transition:all 0.3s;
+        /*opacity: 0.9;*/
     }
 
 /*Buttons*/
+    #bottomRightControls {
+        height:800px;
+        width:250px;
+        position: absolute;
+        right:1vh;
+        bottom:1vh;
+        -webkit-transition: all 0.3s;
+        -moz-transition: all 0.3s;
+        -o-transition: all 0.3s;
+        transition:all 0.3s;
+    }
+
+    #bottomRightControls button {
+        position:absolute;
+        bottom:0px;
+        right:0px;
+    }
+
     #drawRoute {
         display: block;
-        position: absolute;
-        bottom:50px;
-        left:2%;
         z-index: 4;
         border: solid 1px black;
+        -webkit-transition: all 0.3s;
+        -moz-transition: all 0.3s;
+        -o-transition: all 0.3s;
+        transition:all 0.3s;
+        background-color:teal;
+    }
+
+    #swapButton {
+        display: block; /*if reactivated change to block*/
+        z-index: 0;
+        border: solid 1px black;
+        color:white;
+        background-color:teal;
+        -webkit-transition: all 0.3s;
+        -moz-transition: all 0.3s;
+        -o-transition: all 0.3s;
+        transition:all 0.3s;
+
+        /*everything to apporpriately position the svg... god do i hate css*/
+        background-image: url(../img/freedraw3.svg);
+
+        background-repeat: no-repeat;
+        background-position: center;
     }
 
 
@@ -408,42 +492,74 @@ h1, h2, h3, h4, h5, h6, p {
 }
 
     #dropCrosshairMarker{
-        background-color: #5a6268;
-        color: white;
+        color: brown;
         display: block;
-        position: absolute;
-        bottom:50px;
-        left:2%;
         z-index: 1;
         border: solid 1px black;
+        -webkit-transition: all 0.3s;
+        -moz-transition: all 0.3s;
+        -o-transition: all 0.3s;
+        transition:all 0.3s;
     }
+
+    .smallPlusSign {
+        position: absolute;
+        top:16%;
+        right:23%; 
+        transform: scale(0.5);
+    }
+
+
     #undoCrosshairMarker{
         background-color: orange;
         color:white;
         display: block;
-        position: absolute;
-        bottom:50px;
-        left:2%;
-        z-index: 0;
+        z-index: 2;
         border: solid 1px black;
+        -webkit-transition: all 0.3s;
+        -moz-transition: all 0.3s;
+        -o-transition: all 0.3s;
+        transition:all 0.3s;
     }
 
     #cancelCrosshairMarker{
+        background-color: #5a6268;
+        color:white;
         display: block;
-        position: absolute;
-        bottom:50px;
-        left:2%;
         z-index: 1;
         border: solid 1px black;
+        -webkit-transition: all 0.3s;
+        -moz-transition: all 0.3s;
+        -o-transition: all 0.3s;
+        transition:all 0.3s;
     }
 
     #routeInfo {
-        display: block;
-        position: absolute;
-        bottom: 50px;
-        left:2%;
+        display: none; /*if reactivated change to block*/
         z-index: 1;
         border: solid 1px black;
+        -webkit-transition: all 0.3s;
+        -moz-transition: all 0.3s;
+        -o-transition: all 0.3s;
+        transition:all 0.3s;
+    }
+
+    #freeDraw {
+        display: block; /*if reactivated change to block*/
+        z-index: 0;
+        border: solid 1px black;
+        color:white;
+        background-color:teal;
+        -webkit-transition: all 0.3s;
+        -moz-transition: all 0.3s;
+        -o-transition: all 0.3s;
+        transition:all 0.3s;
+
+        /*everything to apporpriately position the svg... god do i hate css*/
+        background-image: url(../img/freedraw3.svg);
+
+        background-repeat: no-repeat;
+        background-position: center;
     }
 
     #tutorialButton {
@@ -471,21 +587,33 @@ h1, h2, h3, h4, h5, h6, p {
     }
 
     #sidebarCollapse {
+        border-radius:0px;
         background-color:#484848;
         color:white;
         display: block;
-        position: fixed;
+        position: absolute;
         z-index: 2;
         text-align: center;
-        bottom: 30px;
-        left: 50%;
-        transform: translate(-50%, 0);
-        background-image: url("../img/Logo2.png");
-        background-size:cover;
-        border:solid 1px white;
+        bottom: 1vh;
+        left: 50vw;
+        border:solid 2px black;
+        transform: translate(-50%, 0);              /*For a logo background image*/
+                                                    /*background-image: url("../img/Logo3.png");
+                                                    background-size:cover;*/
         /*bottom: 6vh;
         right:2%;*/
     }
+
+    #sidebarCollapse:before {
+       font-family: "Font Awesome 5 Free";
+       display: inline-block;
+       padding-bottom: 3px
+       vertical-align: middle;
+       transform: scale(1.5);
+       font-weight:900;
+       content: "\f0c9"; /*"\f093";*/        
+    }
+
 
     #isochroneButton {
         display: block;
@@ -575,7 +703,7 @@ text-align: center;
 }
 
 #toolbarCollapse {
-    position: fixed;
+    position: absolute;
     top: 20px;
     left: 150px; 
     z-index: 2;
@@ -705,15 +833,27 @@ text-align: center;
     transition:all 0.4s;
 }
 
-    #legend {
+
+#toolbar {
     z-index: 3;
-    position:fixed;
-    height:100px;
-    width:68vw;
-    bottom:600px;
+    /*display: inline-grid; 
+    justify-items: center;
+    justify-content: center;*/
+    display: inline-grid;
+    justify-content: center;
+    align-content: center;
+    justify-self:center;
+    align-self: center;
+    position: relative;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-gap: 1vw; /*or grid-column-gap and grid-row-gap for additional customation*/
+    grid-template-rows: auto auto auto auto; /*this is implied but im stating it explicitly*/
+
+    /*width:68vw;*/
+    /*bottom:600px;*/
     /*center the div*/
-        left: 50%;
-        transform: translate(-50%, 0);
+    /*left: 50%;*/
+    /*transform: translate(-50%, 0);*/
     
     /*looks a little cleaner without it
         padding:10px;
@@ -721,35 +861,22 @@ text-align: center;
         background-color:#e4e4e4;
     */
 
-    /*animations & transitions*/
-        -webkit-transition: all 0.4s;
-        -moz-transition: all 0.4s;
-        -o-transition: all 0.4s;
-        transition:all 0.4s;
-}
-
-@media (min-width:1081px) {
-    #legend {
-        bottom:100px;
-    }
-}
-
-
-#toolbar {
-    text-align: center;
-    position: absolute;
-    bottom: 0;
+    -webkit-transition: all 0.4s;
+    -moz-transition: all 0.4s;
+    -o-transition: all 0.4s;
+    transition:all 0.4s;
 }
 
 /*Custom Map Layer Buttons*/
     #toolbar > button {
+        display: flex;
+        justify-self: center;
         vertical-align: bottom;
         width:70vw;
         border:solid 1px rgba(71, 71, 71, 0.87);
         box-shadow: 2px 2px 4px grey;
         border-radius:0px;
         cursor: pointer;
-        display: inline-block;
         bottom:0px; /*aligns all the buttons to the bottom of the toolbar, so that when you hover over them, they push up by the toolbar > button:hover margin*/
         font-size: 1.5vmin;
         font-stretch: 100%;
@@ -762,7 +889,7 @@ text-align: center;
         height:5vw;
         font-weight: 500;
         border-radius:0px;
-        text-align: center; /*text-align: right;*/
+        overflow: hidden;
     }
 
     #toolbar > button:hover {
@@ -773,7 +900,7 @@ text-align: center;
         transition:all 0.2s;
     }
 
-    #toolbar > .active, #toolbar > button:active, #toolbar > button:visited {
+/*    #toolbar > .active, #toolbar > button:active, #toolbar > button:visited {
         height:5vw;
         border-width: 1px;
         font-weight:900;
@@ -781,7 +908,7 @@ text-align: center;
         -moz-transition: all 0.2s;
         -o-transition: all 0.2s;
         transition:all 0.2s;
-    }
+    }*/
 
     .shaded {
         background-color: yellow;
@@ -790,20 +917,22 @@ text-align: center;
 
     @media(max-width:1080px) {
         /*when on a small screen, make the legend go full width of the screen*/
-        #legend , #toolbar { 
-            min-width:70%;
+        #toolbar { 
+            /*min-width:70%;*/
             }
 
         /*also make the buttons bigger*/
         #toolbar > button {
-            width:140px;
+            width:14vw;
             height:14vw;
             font-size: 2vmin;
         }
 
         /*and make them bigger when clicked*/
-        #toolbar > .active, #toolbar > button:active, #toolbar > button:visited {
-            height:14vw;
+        #toolbar > button.active {
+            height:12vw;
+            width:12vw;
+            margin:calc(1vw + 4px);
             font-weight:900;
         }
 
@@ -1005,22 +1134,89 @@ span.tooltip:hover {
     .hideDrawRoute{
         opacity: 0;
         z-index: 0;
+
+    }
+
+    .secondaryPositionZ0 {
+        /*right:160px !important;
+        bottom:-20px !important;*/
+        z-index: 0 !important;
+        bottom:20px !important;
+        right:140px !important;
+        background-size: 70%; /*background-size:cover;*/
+        transform: scale(0.6) !important;
+        -webkit-transition: all 0.4s;
+        -moz-transition: all 0.4s;
+        -o-transition: all 0.4s;
+        transition:all 0.4s;
+    }
+
+    .secondaryPositionZ1 {
+        /*right:160px !important;
+        bottom:-20px !important;*/
+        z-index: 1 !important;
+        opacity: 0;
+        bottom:20px !important;
+        right:140px !important;
+        background-size: 80%; /*background-size:cover;*/
+        transform: scale(0.6) !important;
+        -webkit-transition: all 0.4s;
+        -moz-transition: all 0.4s;
+        -o-transition: all 0.4s;
+        transition:all 0.4s;
     }
 
     .drawSlideRight{
-        bottom:380px !important;
+        bottom:320px !important;
+        -webkit-transition: all 0.4s;
+        -moz-transition: all 0.4s;
+        -o-transition: all 0.4s;
+        transition:all 0.4s;
+        /*transform: scale(0.7) !important;*/
+
     }
 
     .undoSlideUp{
-        bottom: 220px !important; 
+        bottom: 160px !important; 
+/*        bottom:80px !important;
+        right:120px !important;
+        transform: scale(0.6) !important;
+*/        -webkit-transition: all 0.4s;
+        -moz-transition: all 0.4s;
+        -o-transition: all 0.4s;
+        transition:all 0.4s;
+        /*transform: scale(0.7) !important;*/
+    }
+
+    .slideup490px {
+        bottom:490px !important; 
+        background-image: none !important;
+        background-color:black;
+        color:white;
+        transform: translate(-50%, 0) scale(0.5) !important;
+        /*background-size:none !important; ;*/
+    }
+
+    .slideup490px:before {
+       font-family: "Font Awesome 5 Free";
+       display: inline-block;
+       padding-bottom: 3px
+       vertical-align: middle;
+       transform: scale(2);
+       font-weight:900;
+       content: "\f00d";
     }
 
     .tutorialSlideUp {
-        bottom:220px !important;
+        bottom:180px !important;
     }
 
     .RouteInfoSlideRight {
-        bottom: 540px !important;
+        bottom: 480px !important;
+        -webkit-transition: all 0.4s;
+        -moz-transition: all 0.4s;
+        -o-transition: all 0.4s;
+        transition:all 0.4s;
     }
 
     .isochroneSlideUp{
@@ -1813,12 +2009,6 @@ background-color:white;
         line-height:15vmin;
         color:grey;
         margin-bottom:2vh;
-    }
-
-    #allControls {
-        /*Control all the buttons on the map screen with all controls*/
-        z-index:3;
-        /*opacity: 0.9;*/
     }
 
     #stats .cases {

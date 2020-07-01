@@ -639,7 +639,7 @@ let crosshair = new MobileMarkers();
   document.getElementById("dropCrosshairMarker").addEventListener("click", crosshair.AddMarker);
   document.getElementById("undoCrosshairMarker").addEventListener("click", crosshair.undoLastMarker);
   document.getElementById("cancelCrosshairMarker").addEventListener("click", function() { myRoute.ClearAllMarkers;crosshair.ToggleCrosshair();});
-  document.getElementById("isochroneButton").addEventListener("click", myIsochrone.generate);
+  // document.getElementById("isochroneButton").addEventListener("click", myIsochrone.generate);
   document.getElementById("routerToggle").addEventListener("click", myRoute.ToggleSafeRouting);
 
   $(function() {

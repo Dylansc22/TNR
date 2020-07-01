@@ -166,6 +166,7 @@ function illCleanThisFunctionUpLater() {
         'hs_main_outer'],
         'High Stress Roads');
 
+    //Toggle Satellite Layer
     toggleLayer ('satellite', 
       ['mapbox-satellite', 
       'hawkdotsgeojson', 
@@ -233,5 +234,52 @@ function illCleanThisFunctionUpLater() {
   //---------------------------------------------------------------------------------------
   // --------------------------- Step 3: Create Custom Controls -----------------------------
   //---------------------------------------------------------------------------------------
+
+//API Library here - https://kenwheeler.github.io/slick/
+$('#bottomControl').slick({
+  // slidesToShow: 2, Covered in responsive section
+  // slidesToScroll: 2,
+  dots: false,
+  draggable: true,
+  touchThreshold: 20,
+  edgeFriction:0.01,
+  infinite: false,
+  variableWidth: false, //variable width slides (default false)
+  speed: 300,
+  autoplay:false,
+    autoplaySpeed:8000, //8 seconds
+  arrows:true,
+  nextArrow: '<i class="TPArrows fa fa-3x fa-arrow-right"></i>',
+  prevArrow: '<i class="TPArrows fa fa-3x fa-arrow-left"></i>',
+  responsive: [
+    {
+      breakpoint: 1081,
+      settings: {
+        slidesToShow: 1,
+        slidesToScroll: 1,
+      }
+    },
+    {
+      breakpoint: 600,
+      settings: {
+        slidesToShow: 1,
+        slidesToScroll: 1
+      }
+    },
+    {
+      breakpoint: 480,
+      settings: {
+        slidesToShow: 1,
+        slidesToScroll: 1
+      }
+    }
+
+    // You can unslick at a given breakpoint now by adding:
+    // settings: "unslick"
+    // instead of a settings object
+  ]
+});
+
+
 
 }
