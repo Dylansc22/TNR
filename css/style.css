@@ -377,7 +377,7 @@ h1, h2, h3, h4, h5, h6, p {
         position: absolute;
         /*left:10%;*/
         width:100%; /*80%*/
-        bottom:3vh;
+        bottom:5vh;
         -webkit-transition: all 0.4s;
         -moz-transition: all 0.4s;
         -o-transition: all 0.4s;
@@ -393,6 +393,7 @@ h1, h2, h3, h4, h5, h6, p {
         flex-direction: column;
         transform: scale(1);
         margin:10px;
+        height:400px;
     } 
 
     #bottomContro. .slick-list {
@@ -402,13 +403,20 @@ h1, h2, h3, h4, h5, h6, p {
     #bottomControl .infoScreen {
         display: inline-grid;
         justify-items:center;
-        background-color: #e2e2e2;
-        border:solid 2px black;
-        box-shadow: 3px 3px 4px grey;
-        height:500px;
+        /*background-color: #e2e2e2;*/
+        /*border:solid 2px black;*/
+        /*box-shadow: 3px 3px 4px grey;*/
+        height:400px;
         margin:0px 10px;   
-        padding:40px;
+    }
 
+    #infoLayers {
+        width:70vw;
+    }
+
+    .TPArrows.slick-arrow {
+        padding:0px 20px;
+        color:grey !important;
     }
 
 /*Button Div */
@@ -846,7 +854,7 @@ text-align: center;
     align-self: center;
     position: relative;
     grid-template-columns: 1fr 1fr 1fr 1fr;
-    grid-gap: 1vw; /*or grid-column-gap and grid-row-gap for additional customation*/
+    grid-gap: 8px; /*or grid-column-gap and grid-row-gap for additional customation*/
     grid-template-rows: auto auto auto auto; /*this is implied but im stating it explicitly*/
 
     /*width:68vw;*/
@@ -882,7 +890,7 @@ text-align: center;
         font-stretch: 100%;
         letter-spacing: 2px;
         line-height: normal;
-        margin: 4px;
+        /*margin: 4px;*/
         padding:0px;
         text-transform: uppercase;
         width:7.5vw;
@@ -932,7 +940,7 @@ text-align: center;
         #toolbar > button.active {
             height:12vw;
             width:12vw;
-            margin:calc(1vw + 4px);
+            margin:calc(4px + 4px);
             font-weight:900;
         }
 
@@ -1188,13 +1196,17 @@ span.tooltip:hover {
         /*transform: scale(0.7) !important;*/
     }
 
-    .slideup490px {
-        bottom:490px !important; 
+    .slideup420px {
+        /*bottom:420px !important; */
         background-image: none !important;
         background-color:black;
         color:white;
-        transform: translate(-50%, 0) scale(0.5) !important;
+        transform: translate(-50%, 0) scale(0.7) !important;
         /*background-size:none !important; ;*/
+    }
+
+    .slideup450px {
+        bottom:450px !important;
     }
 
     .slideup490px:before {

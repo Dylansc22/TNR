@@ -249,8 +249,8 @@ $('#bottomControl').slick({
   autoplay:false,
     autoplaySpeed:8000, //8 seconds
   arrows:true,
-  nextArrow: '<i class="TPArrows fa fa-3x fa-arrow-right"></i>',
-  prevArrow: '<i class="TPArrows fa fa-3x fa-arrow-left"></i>',
+  nextArrow: '<i class="TPArrows fa fa-6x fa-arrow-circle-right"></i>',
+  prevArrow: '<i class="TPArrows fa fa-6x fa-arrow-circle-left"></i>',
   responsive: [
     {
       breakpoint: 1081,
