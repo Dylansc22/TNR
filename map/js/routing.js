@@ -57,9 +57,9 @@ function illCleanThisFunctionUpLater() {
     })
       
   document.getElementById('geocoder').appendChild(geocoder.onAdd(map));
-  document.getElementById('topRightControls').appendChild(geolocate.onAdd(map)); //Manually locate the draw tool inside the topRightControls DIV id
-  //document.getElementById('topRightControls').appendChild(draw.onAdd(map)); //Manually locate the draw tool inside the topRightControls DIV id
-  document.getElementById('topRightControls').appendChild(zoom.onAdd(map)); //Manually locate the draw tool inside the topRightControls DIV id
+  document.getElementById('mapViewControls').appendChild(geolocate.onAdd(map)); //Manually locate the draw tool inside the mapViewControls DIV id
+  //document.getElementById('mapViewControls').appendChild(draw.onAdd(map)); //Manually locate the draw tool inside the mapViewControls DIV id
+  document.getElementById('mapViewControls').appendChild(zoom.onAdd(map)); //Manually locate the draw tool inside the mapViewControls DIV id
 
 
   //Add Data layers so map isn't empty
@@ -187,7 +187,7 @@ function illCleanThisFunctionUpLater() {
         'natural-line-label', 
         'waterway-label', 
         'road-label'], 
-        'Annotation'); //Button Name
+        'Annotation');
 
     // toggleLayer('OSMID_LSHawkRoads',
     //     ['ORS_HawkRoads75m_byOSMID'],
@@ -249,8 +249,8 @@ $('#bottomControl').slick({
   autoplay:false,
     autoplaySpeed:8000, //8 seconds
   arrows:true,
-  nextArrow: '<i class="TPArrows fa fa-6x fa-arrow-circle-right"></i>',
-  prevArrow: '<i class="TPArrows fa fa-6x fa-arrow-circle-left"></i>',
+  nextArrow: '<i class="TPArrows fa fa-4x fa-arrow-circle-right"></i>',
+  prevArrow: '<i class="TPArrows fa fa-4x fa-arrow-circle-left"></i>',
   responsive: [
     {
       breakpoint: 1081,

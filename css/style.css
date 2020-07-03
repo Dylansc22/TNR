@@ -94,9 +94,25 @@ h1, h2, h3, h4, h5, h6, p {
     height:100%;
     width: 100%; /*width 80% with right:0*/;
     z-index: 0;
+    -webkit-transition: all 0.3s;
+    -moz-transition: all 0.3s;
+    -o-transition: all 0.3s;
+    transition:all 0.3s;
     /*border: solid 10px black;*/
-
 }
+
+#sheet {
+    position: absolute;
+    width:100%;
+    height: 100%;
+    opacity:0.7;
+    background-color: white;
+    z-index: -1;
+}
+
+    .sheetZindex1 {
+        z-index: 1 !important;
+    }
 
 #map canvas {
     cursor:crosshair;
@@ -110,7 +126,7 @@ h1, h2, h3, h4, h5, h6, p {
     padding:20px;
 }
 
-#topRightControls {
+#mapViewControls {
     position: fixed;
     top: 16vw;
     left: 2vh;
@@ -132,24 +148,24 @@ h1, h2, h3, h4, h5, h6, p {
     box-shadow: 0px;
 }
 
-#topRightControls > .mapboxgl-ctrl-group {
+#mapViewControls > .mapboxgl-ctrl-group {
     float:right;
     margin-bottom: 1.5vh;
     padding:10px;
     box-shadow: 3px 3px 6px grey;
 }
 
-#topRightControls > .mapboxgl-ctrl-group > button {
+#mapViewControls > .mapboxgl-ctrl-group > button {
     width:100px;
     height:100px;
 }
 
-#topRightControls > .mapboxgl-ctrl-group > button > span {
+#mapViewControls > .mapboxgl-ctrl-group > button > span {
     background-size:contain;
 }
 
 
-#topRightControls > .mapboxgl-ctrl-geocoder {
+#mapViewControls > .mapboxgl-ctrl-geocoder {
     width: 500px;
     margin-bottom: 15px;
 }
@@ -162,16 +178,16 @@ h1, h2, h3, h4, h5, h6, p {
 }
 
 @media (min-width: 1081px) {
-    #topRightControls > .mapboxgl-ctrl-group > button {
+    #mapViewControls > .mapboxgl-ctrl-group > button {
         width:58px;
         height:40px;
     }
 
-    #topRightControls > .mapboxgl-ctrl-group {
+    #mapViewControls > .mapboxgl-ctrl-group {
         padding:0px;
     }
 
-    #topRightControls {
+    #mapViewControls {
         top:100px;
         left:calc(3vw + 10px);
     }
@@ -369,7 +385,7 @@ h1, h2, h3, h4, h5, h6, p {
 
     .thumb h4 {
         padding:15px;
-        line-height: 60px
+        line-height: 60px;
     }
 
     #bottomControl {
@@ -383,6 +399,7 @@ h1, h2, h3, h4, h5, h6, p {
         -o-transition: all 0.4s;
         transition:all 0.4s;
         overflow: hidden;
+        z-index: 2;
     }
 
     #bottomControl i {
@@ -393,7 +410,7 @@ h1, h2, h3, h4, h5, h6, p {
         flex-direction: column;
         transform: scale(1);
         margin:10px;
-        height:400px;
+        height:80vh;
     } 
 
     #bottomContro. .slick-list {
@@ -401,16 +418,28 @@ h1, h2, h3, h4, h5, h6, p {
     }
 
     #bottomControl .infoScreen {
+        text-align:center;
+        justify-items:center;
+        /*background-color: #e2e2e2;*/
+        /*border:solid 2px black;*/
+        /*box-shadow: 3px 3px 4px grey;*/
+        height:80vh;
+    }
+
+    .infoScreen .subcontent {
+        display: block;
+        width:80%;
+        height:80%;
+        margin: auto;
+        border:solid 2px red;
+    }
+
+    #bottomControl #infoLayers {
         display: inline-grid;
         justify-items:center;
         /*background-color: #e2e2e2;*/
         /*border:solid 2px black;*/
         /*box-shadow: 3px 3px 4px grey;*/
-        height:400px;
-        margin:0px 10px;   
-    }
-
-    #infoLayers {
         width:70vw;
     }
 
@@ -435,6 +464,22 @@ h1, h2, h3, h4, h5, h6, p {
     }
 
 /*Buttons*/
+    #bottomLeftControls {
+        height: 800px;
+        width: 250px;
+        position: absolute;
+        left: 1vh;
+        bottom: 1vh;
+        -webkit-transition: all 0.3s;
+        -moz-transition: all 0.3s;
+        -o-transition: all 0.3s;
+        transition: all 0.3s;
+    }
+
+    #bottomLeftControls button {
+        position:absolute;
+    }
+
     #bottomRightControls {
         height:800px;
         width:250px;
@@ -625,12 +670,56 @@ h1, h2, h3, h4, h5, h6, p {
 
     #isochroneButton {
         display: block;
-        position: fixed;
-        bottom: 50px;
-        right:2%;
+        position: absolute;
+        bottom:0px;
+        left:0px;;
         z-index: 1;
         text-align: center;
+        background-image: url(../img/isochrone4.svg);
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: contain;
+        background-color:#CF9A46;
     }
+
+    #donateButton { 
+        display: block;
+        position: absolute;
+        transform: scale(0.7);
+        bottom: 0px;
+        left:160px;
+        z-index: 1;
+        background-color:green;
+        color: white;
+                                        /*      For Loading a Noun Project Icon
+                                                background-image: url(../img/isochrone4.svg);
+                                                background-repeat: no-repeat;
+                                                background-position: center;
+                                                background-size: contain;*/
+    }
+
+    #donateButton:before {
+        font-family: "Font Awesome 5 Free";
+        display: inline-block;
+        padding-bottom: 3px
+        vertical-align: middle;
+        transform: scale(1.5);
+        font-weight:900;
+        content: "\f53a";
+    }
+
+        #isochroneButton .fa-connectdevelop{
+            color:brown;
+            transform: scale(1);
+        }
+    
+        #isochroneButton .fa-map-marker-alt{
+            color:white;
+            position: absolute;
+            top:22%;
+            right:38.5%; 
+            transform: scale(0.9);
+        }
 
     #sidebarCollapse > i {
         position:relative;
@@ -851,7 +940,8 @@ text-align: center;
     justify-content: center;
     align-content: center;
     justify-self:center;
-    align-self: center;
+    align-self: start;
+    margin-bottom:100px;
     position: relative;
     grid-template-columns: 1fr 1fr 1fr 1fr;
     grid-gap: 8px; /*or grid-column-gap and grid-row-gap for additional customation*/
@@ -1034,7 +1124,7 @@ text-align: center;
 }
 
 .hidebottom {
-    margin-bottom: -100% !important;
+    margin-bottom: -180% !important;
     -webkit-transition: all 0.4s;
     -moz-transition: all 0.4s;
     -o-transition: all 0.4s;
@@ -1205,8 +1295,21 @@ span.tooltip:hover {
         /*background-size:none !important; ;*/
     }
 
-    .slideup450px {
-        bottom:450px !important;
+    .shrink7left {
+        /*bottom:450px !important;*/
+        transform: translate(-30%, 0) scale(0.7) !important;
+        opacity: 0.4 !important;
+    }
+
+    .shrink7right {
+        /*bottom:450px !important;*/
+        transform: translate(30%, 0) scale(0.7) !important;
+        opacity: 0.4 !important;
+    }
+
+    .shrink8 {
+        transform:scale(0.8) !important;
+        border:solid 7px #ababab;
     }
 
     .slideup490px:before {

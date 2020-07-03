@@ -46,9 +46,18 @@
     <!-- Main Mapbox Map -->
         <div id="map"></div>
 
+    <!-- Grey Sheet -->
+        <div id="sheet"></div>
+
     <!--TP Logo-->    
         <a href="../home/index.html"><div id="logo">Tp</div></a>
 
+    <!--Draw Route Controller (Bottom Right)-->
+        <div id="bottomLeftControls">
+            <button id="isochroneButton" type="button" class="btn btn-info btn-circle" title="Toggle Controls" data-toggle="tooltip" data-placement="top"><i class="fas fa-map-marker-alt"></i></button>
+            <button id="donateButton" type="button" class="btn btn-primary btn-circle" title="Toggle Controls" data-toggle="tooltip" data-placement="top"></button>
+        </div>
+    
     <!--Draw Route Controller (Bottom Right)-->
         <div id="bottomRightControls">
             <button id="drawRoute" type="button" class="btn btn-secondary" title="Draw Route" data-toggle="tooltip" data-placement="right"><i class="smallPlusSign fas fa-plus"></i><i class="fas fa-map-marked-alt"></i></button>
@@ -64,19 +73,34 @@
         <div id="bottomControl" class="hidebottom">
             <div id="infoLayers" class="infoScreen">
                 <!-- Toolbar and Togglable Layer Buttons in the Bottom -->
+                <h2>Toggle  Layers</h2>
                     <div id='toolbar'></div>
             </div>
-            <div id="infoRoute" class="infoScreen"><h2>Route</h2></div>
-            <div id="infoEvents" class="infoScreen"><h2>Local Events</h2></div>
-            <div id="infoAnalysis" class="infoScreen"><h2>Urban Analysis</h2></div>
-            <div class="infoScreen"><h2>More</h2></div>
-            <div class="infoScreen"><h2>Even More</h2></div>
-            <div class="infoScreen"><h2>Even MORE</h2></div>
-            <div class="infoScreen"><h2>And Last</h2></div>
+            <div id="infoRoute" class="infoScreen"><h2>Route Info</h2>
+                <div class="subcontent"></div>
+            </div>
+            <div id="infoEvents" class="infoScreen"><h2>Consider Donating</h2>
+                <div class="subcontent">This project is soley owned and operated by myself</div>
+            </div>
+            <div id="infoAnalysis" class="infoScreen"><h2>Local Events</h2>
+                <div class="subcontent">Lits of events would go here</div>
+            </div>
+            <div class="infoScreen"><h2>Urban Analysis</h2>
+                <div class="subcontent"></div>
+            </div>
+            <div class="infoScreen"><h2>Dangerous Parts</h2>
+                <div class="subcontent"></div>
+            </div>
+            <div class="infoScreen"><h2>More</h2>
+                <div class="subcontent"></div>
+            </div>
+            <div class="infoScreen"><h2>Even More</h2>
+                <div class="subcontent"></div>
+            </div>
         </div>
 
     <!--Search Bar-->
-        <div id="geocoder" class="geocoder hidetop"></div>
+        <div id="geocoder" class="geocoder"></div>
         <button id="directionhere" type="button" class="btn btn-info directionsbuttonhidden hidetop"></button>
 
     <!-- Tutorial Modal -->
@@ -120,7 +144,7 @@
         </div>
 
         <!-- Primary Mapbox Window Controls in the Top Right (Zoom, Draw, Pitch, etc...) -->
-            <div id="topRightControls" class="hideright">
+            <div id="mapViewControls">
                 <div id="toggleSwitch">
                     <input id="routerToggle" type="checkbox" checked data-toggle="toggle" data-on='<i class="fas fa-route"></i>' data-off='<i class="fas fa-exclamation-circle"></i>'data-onstyle="success" data-offstyle="danger">
                 </div>
@@ -133,7 +157,6 @@
                 
                 <!--                 <button id="tutorialButton" type="button" class="btn btn-custom1 btn-circle" title="Tutorial" data-toggle="tooltip" data-placement="top" data-target=".bd-example-modal-lg"><i class="fas fa-question-circle"></i></button>
                 -->
-                <!-- <button id="isochroneButton" type="button" class="btn btn-info btn-circle" title="Toggle Controls" data-toggle="tooltip" data-placement="top"><i class="fab fa-connectdevelop fa-2x"></i></button> -->
             </div>
 <!--             <div id='myLocation'>
                 <a href=#  title="My Location"><button type="button" class="btn btn-custom1"><i class="fas fa-street-view"></i></button></a>
@@ -204,15 +227,19 @@ Source: https://kenwheeler.github.io/slick/
         $(document).ready(function () {
             $('#sidebarCollapse').on('click', function () {
                 $('#presentation').toggleClass('hideleft');
-                $('#topRightControls').toggleClass('hideright');
+                $('#mapViewControls').toggleClass('hideright');
                 $('#tutorialButton').toggleClass('tutorialSlideUp');
                 // $('#astronauticon').toggleClass('fa-user-astronaut');
                 // $('#astronauticon').toggleClass('fa-user');
                 $('#sidebarCollapse').toggleClass('slideup420px');
+                $('#bottomRightControls').toggleClass('shrink7left');
+                $('#bottomLeftControls').toggleClass('shrink7right');
+                $('#map').toggleClass('shrink8');
+                $('#sheet').toggleClass('sheetZindex1');
                 $('#geocoder').toggleClass('hidetop');
                 $('#directionshere').toggleClass('hidetop');
                 $('#bottomControl').toggleClass('hidebottom');
-                $('#bottomRightControls').toggleClass('slideup450px');
+
 
                 // $('#isochroneButton').toggleClass('isochroneSlideUp');
                 // $('#toolbar').toggleClass('hidebottom');
@@ -241,10 +268,11 @@ Source: https://kenwheeler.github.io/slick/
                     $('#swapButton').toggleClass('secondaryPositionZ1');
                 });
                 $('#swapButton').on('click', function() {
-                    // $('#dropCrosshairMarker').toggleClass('drawSlideRight');
                     $('#freeDraw').toggleClass('secondaryPositionZ0');
                     $('#cancelCrosshairMarker').toggleClass('secondaryPositionZ0');
-                    $('dropCrosshairMarker').toggleClass('drawSlideRight');
+                    $('#dropCrosshairMarker').toggleClass('undoSlideUp');
+                    $('#dropCrosshairMarker').toggleClass('drawSlideRight');
+                    
                     // $('dropCrosshairMarker').toggleClass('undoSlideUp');
                 });
         });
