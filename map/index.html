@@ -243,7 +243,6 @@ Source: https://kenwheeler.github.io/slick/
 
                 // $('#isochroneButton').toggleClass('isochroneSlideUp');
                 // $('#toolbar').toggleClass('hidebottom');
-
             });
 
             $(function () {
@@ -274,6 +273,10 @@ Source: https://kenwheeler.github.io/slick/
                     $('#dropCrosshairMarker').toggleClass('drawSlideRight');
                     
                     // $('dropCrosshairMarker').toggleClass('undoSlideUp');
+                });
+                $('#donateButton').on('click', function() {
+                    map.setPaintProperty('tnr_main_inner', 'line-color', 'red'); //line-color for lines, fill-color for land
+                    map.setPaintProperty('land', 'background-color', '#faafee'); //line-color for lines, fill-color for land
                 });
         });
     </script>
