@@ -307,14 +307,14 @@ h1, h2, h3, h4, h5, h6, p {
 
     #toggleSwitch .btn.btn-success {
         background-color: white;   /*#5f8056;*/
-        color:black;
+        color:#363636;
         line-height: 120px;
         width:110px;
     }
 
     #toggleSwitch .btn.btn-danger {
         background-color: white; /*#bc5050;*/
-        color:black;
+        color:#363636;
         line-height: 110px;
     }
 
@@ -324,7 +324,7 @@ h1, h2, h3, h4, h5, h6, p {
 
     #toggleSwitch .toggle-handle {
         height: 130px;
-        background-color: black;
+        background-color: #363636;
     }
 
     #toggleSwitch i {
@@ -351,10 +351,8 @@ h1, h2, h3, h4, h5, h6, p {
         }
 
         #toggleSwitch .btn.btn-success {
-            background-color: white;   /*#5f8056;*/
-            color:black;
             line-height: 30px;
-            width:35px;
+            width:60px;
 
         }
 
@@ -363,9 +361,8 @@ h1, h2, h3, h4, h5, h6, p {
         }        
 
         #toggleSwitch .btn.btn-danger {
-            background-color: white; /*#bc5050;*/
-            color:black;
             line-height: 30px;
+            width:50px;
         }
 
         #toggleSwitch .btn .btn-danger .toggle-off {
@@ -373,9 +370,7 @@ h1, h2, h3, h4, h5, h6, p {
         }
 
         #toggleSwitch .toggle-handle {
-            height: 50px;
             width:10px;
-            background-color: black;
         }
 
         #toggleSwitch i {
@@ -481,8 +476,6 @@ h1, h2, h3, h4, h5, h6, p {
     }
 
     #bottomRightControls {
-        height:800px;
-        width:250px;
         position: absolute;
         right:1vh;
         bottom:1vh;
