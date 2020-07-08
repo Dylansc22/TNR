@@ -8,7 +8,7 @@ function illCleanThisFunctionUpLater() {
     mapboxgl.accessToken = API.mapbox;
     map = new mapboxgl.Map({
         container: 'map', // container id
-        style: 'mapbox://styles/dylanc/ck911k4gg0rqu1ilnr0o0dk1m',
+        style: 'mapbox://styles/dylanc/ckcb3lu6f0lsq1ioatvd4im5m',
         center: [-110.93182, 32.23156], 
         zoom: 12.826,
         pitch: 0,
@@ -30,9 +30,9 @@ function illCleanThisFunctionUpLater() {
       accessToken: mapboxgl.accessToken,
       mapboxgl: mapboxgl,
       marker: false,
-      placeholder: "Where to?"
-      //bbox: [long, lat, long lat]
-      //proximity: {
+      placeholder: "Where to?",
+      bbox: [-111.2,32, -110.6, 32.5],
+      // proximity: {
       //   longitude: -110,
       //   latitude: 32
       // } 
@@ -64,11 +64,11 @@ function illCleanThisFunctionUpLater() {
 
   //Add Data layers so map isn't empty
     map.on('load', function(){
-      map.setLayoutProperty('tnr_main_inner', 'visibility', 'visible');
-      map.setLayoutProperty('tnr_main_outer', 'visibility', 'visible');
-      map.setLayoutProperty('hawkdotsgeojson', 'visibility', 'visible');
-      map.setLayoutProperty('hawk_roads', 'visibility', 'visible');
-      map.setLayoutProperty('hawkroadscase', 'visibility', 'visible');
+      map.setLayoutProperty('hawks-v2-bb9wvv', 'visibility', 'visible');
+      map.setLayoutProperty('lshs-hawkroads-v2-ddpdin copy 1', 'visibility', 'visible');
+      map.setLayoutProperty('lshs-hawkroads-v2-ddpdin', 'visibility', 'visible');
+      map.setLayoutProperty('tnr-v9-7p9y6s copy', 'visibility', 'visible');
+      map.setLayoutProperty('tnr-v9-7p9y6s', 'visibility', 'visible');
       // map.setLayoutProperty('theloop-b2gq5f', 'visibility', 'visible');
     });
 
@@ -130,10 +130,10 @@ function illCleanThisFunctionUpLater() {
   //Toggle High Stress Road Network
 
     toggleLayer('tnrv5',
-        ['tnr_main_inner',
-        'tnr_main_outer', 
-        'hawk_roads',
-        'hawkroadscase'
+        ['tnr-v9-7p9y6s',
+        'tnr-v9-7p9y6s copy', 
+        'lshs-hawkroads-v2-ddpdin',
+        'lshs-hawkroads-v2-ddpdin copy 1'
         //'tnr-v4-apmebo',
         //'tnr-v3-9wi26p',
         //'tnr-v2-06s5zd',
@@ -142,7 +142,7 @@ function illCleanThisFunctionUpLater() {
         'Safest Bicycle Streets'); //Button Name
 
     toggleLayer('hawks',
-        ['hawkdotsgeojson'],
+        ['hawks-v2-bb9wvv'],
         'Signalled Crosswalks');
 
     toggleLayer('theloop', 
@@ -151,27 +151,27 @@ function illCleanThisFunctionUpLater() {
         'The Loop Pedestrian Path');
 
     toggleLayer('osmbikes',
-        ['osm-bicycleinfras-5z6khj', 
+        ['osm-bicycleinfras', 
         //'hs_main_inner'
         ],
         'City Bicycle Lanes'); //Button Name
 
     //Toggle All LS Original Road Network
     toggleLayer('lowstress',
-        ['ls_main_inner', 
-        'ls_main_outer'], 'Low Stress Roads');
+        ['ls-v3-cj14ge', 
+        'ls-v3-cj14ge copy 1'], 'Low Stress Roads');
 
     toggleLayer('highstress',
-        ['hs_main_inner', 
-        'hs_main_outer'],
+        ['hs-v2-7bxiun', 
+        'hs-v2-7bxiun copy'],
         'High Stress Roads');
 
     //Toggle Satellite Layer
     toggleLayer ('satellite', 
-      ['mapbox-satellite', 
-      'hawkdotsgeojson', 
-      'hawkroadscase 1', 
-      'tnr_main_outer 1'], 'Satallite Baselayer');
+      ['mapbox-satellite',           
+      'lshs-hawkroads-v2-ddpdin copy 2', 
+      'tnr-v9-7p9y6s copy 1'
+      ], 'Satallite Baselayer');
 
     //Toggle Annotation
     toggleLayer('annotation',
@@ -188,6 +188,16 @@ function illCleanThisFunctionUpLater() {
         'waterway-label', 
         'road-label'], 
         'Annotation');
+
+    //Toggle Streetlights
+    toggleLayer('streetlights', 
+      ['hs-streetlights-4qsd4j copy 2', 
+      'hs-streetlights-4qsd4j copy 1', 
+      'hs-streetlights-4qsd4j copy', 
+      'hs-streetlights-4qsd4j',
+      'ls-streetlights-4od5h2 copy',
+      'ls-streetlights-4od5h2'], 
+      'Street Lights')
 
     // toggleLayer('OSMID_LSHawkRoads',
     //     ['ORS_HawkRoads75m_byOSMID'],

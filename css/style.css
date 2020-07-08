@@ -105,7 +105,7 @@ h1, h2, h3, h4, h5, h6, p {
     position: absolute;
     width:100%;
     height: 100%;
-    opacity:0.7;
+    opacity:0.5;
     background-color: white;
     z-index: -1;
 }
@@ -935,9 +935,10 @@ text-align: center;
     align-content: center;
     justify-self:center;
     align-self: start;
+    align-items: center; 
     margin-bottom:100px;
     position: relative;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
     grid-gap: 8px; /*or grid-column-gap and grid-row-gap for additional customation*/
     grid-template-rows: auto auto auto auto; /*this is implied but im stating it explicitly*/
 
@@ -961,10 +962,8 @@ text-align: center;
 
 /*Custom Map Layer Buttons*/
     #toolbar > button {
-        display: flex;
         justify-self: center;
         vertical-align: bottom;
-        width:70vw;
         border:solid 1px rgba(71, 71, 71, 0.87);
         box-shadow: 2px 2px 4px grey;
         border-radius:0px;
@@ -977,11 +976,12 @@ text-align: center;
         /*margin: 4px;*/
         padding:0px;
         text-transform: uppercase;
-        width:7.5vw;
-        height:5vw;
+        width:9vw;
+        height:9vw;
         font-weight: 500;
         border-radius:0px;
         overflow: hidden;
+        text-align: center;
     }
 
     #toolbar > button:hover {
@@ -1015,21 +1015,20 @@ text-align: center;
 
         /*also make the buttons bigger*/
         #toolbar > button {
-            width:14vw;
-            height:14vw;
+            width:22vw;
+            height:22vw;
             font-size: 2vmin;
         }
 
         /*and make them bigger when clicked*/
         #toolbar > button.active {
-            height:12vw;
-            width:12vw;
-            margin:calc(4px + 4px);
+            height:20vw;
+            width:20vw;
             font-weight:900;
         }
 
         /*and make the background image in the buttons, zoom in a little more so you can see their details in these tiny buttons*/
-        #tnrv5, #highstress, #lowstress, #hawks, #osmbikes, #theloop, #satellite, #annotation {
+        #tnrv5, #highstress, #lowstress, #hawks, #osmbikes, #theloop, #satellite, #annotation, #streetlights {
             background-size:auto;
         }
     }
@@ -1074,6 +1073,11 @@ text-align: center;
     background-image: url("../img/map/legend/Annotation2.png");
     background-size:cover;
     color:#828282;
+        }
+#streetlights {
+    background-image: url("../img/map/legend/Streetlights.png");
+    background-size:cover;
+    color:#d6c679;
         }
 
 .card-body {
