@@ -16,6 +16,7 @@ let parametersGHdangerous = {
 
 let parameters = parametersGHsafe;
 
+let carbon = 0;
 let myPOI = new POI();
 let AllPOIs = new AllPOIsconstructor();
 let myRoute = new Route();
@@ -181,6 +182,15 @@ function Route(){
           // Add your own result handling here
           AllPOIs[endPOI.id].geojson = json; //***This needs to be fixed. I shouldn't refer to the instance of the object, but the this.geojson doesn't work because this is currently referring to the window. 
           myRoute.showOnMap(endPOI);
+          //CO2 Offset insert
+if (typeof AllPOIs[endPOI.id].geojson !== 'undefined') {
+carbon = carbon + AllPOIs[endPOI.id].geojson.paths[0].distance/5280 * 25/20 
+carbon = Math.round(carbon * 100)/100;
+document.getElementById("offsetinsert").innerHTML = carbon;
+document.getElementById("offsetunits").innerHTML = " lbs CO2";
+// document.getElementById("offsetinsert").appendChild(document.createTextNode(" lbs CO2"));
+document.getElementById("offsettext").innerHTML = "Offset from Atmosphere";
+}
           //myRoute.zoomToRoute();
         })
         .catch(function(err) {

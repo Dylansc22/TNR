@@ -290,6 +290,4 @@ $('#bottomControl').slick({
   ]
 });
 
-
-
 }
