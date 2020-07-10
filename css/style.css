@@ -506,9 +506,10 @@ h1, h2, h3, h4, h5, h6, p {
         height:80px;
         border-radius: 20px; 
         border:solid 1px black;
-        background-color: #1c516d; /*#363636;*/
+        background-color: #29688a; /*#363636;*/
         color:white;
         padding:3px;
+        box-shadow: 3px 3px 6px grey;
         -webkit-transition: all 0.3s;
         -moz-transition: all 0.3s;
         -o-transition: all 0.3s;
