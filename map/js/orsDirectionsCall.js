@@ -183,9 +183,7 @@ function Route(){
           // Add your own result handling here
           AllPOIs[endPOI.id].geojson = json; //***This needs to be fixed. I shouldn't refer to the instance of the object, but the this.geojson doesn't work because this is currently referring to the window. 
           myRoute.showOnMap(endPOI);
-          //CO2 Offset insert
-            myButton.CO2Button.AddValue(endPOI);
-          //myRoute.zoomToRoute();
+          CO2.Display();
         })
         .catch(function(err) {
           console.error(err.message);
@@ -593,9 +591,25 @@ function MobileMarkers() {
 }
 
 //Button Functionality
+  let CO2 = {
+    Measure: function (_AllPOIs) {
+      let AllPOIs = _AllPOIs;
+      let AllPOIsValues = Object.values(AllPOIs);
+      let sum = 0;
 
-
-
+      for (i = 1; i < AllPOIsValues.length; i++) {
+        let distanceMiles = AllPOIsValues[i].geojson.paths[0].distance/5280;
+        let yourCarMPG = 25;
+        let poundsofCO2perGallonOfGas = 20;
+        let LbsofCO2 = distanceMiles * yourCarMPG / poundsofCO2perGallonOfGas;
+        sum = sum + LbsofCO2;
+      }
+      return sum;
+    },
+    Display: function() {
+      alert(CO2.Measure(AllPOIs));
+    }
+  }
 
 
 
