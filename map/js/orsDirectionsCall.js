@@ -156,6 +156,7 @@ function POI(){
         myPOI.Delete(this);
         marker.remove();
         delete AllPOIs[marker.id];                           //remove marker
+        CO2.Display();
         e.stopPropagation();                                //Stop all other code, ie, stop map.on("click") from trying to put down a new marker
     });
   }
@@ -600,14 +601,17 @@ function MobileMarkers() {
       for (i = 1; i < AllPOIsValues.length; i++) {
         let distanceMiles = AllPOIsValues[i].geojson.paths[0].distance/5280;
         let yourCarMPG = 25;
-        let poundsofCO2perGallonOfGas = 20;
-        let LbsofCO2 = distanceMiles * yourCarMPG / poundsofCO2perGallonOfGas;
-        sum = sum + LbsofCO2;
+        let poundsCO2ProducedPerGallonOfGas = 20;
+        let LbsofCO2 = distanceMiles * yourCarMPG / poundsCO2ProducedPerGallonOfGas;
+        sum = Math.round((sum + LbsofCO2)*100)/100;
       }
       return sum;
     },
     Display: function() {
-      alert(CO2.Measure(AllPOIs));
+      // alert(CO2.Measure(AllPOIs));      
+      document.getElementById("offsetinsert").innerHTML = CO2.Measure(AllPOIs);
+      document.getElementById("offsetunits").innerHTML = " lbs CO2";
+      document.getElementById("offsettext").innerHTML = "Offset from Atmosphere";
     }
   }
 
