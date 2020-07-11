@@ -5,11 +5,17 @@
     width: 100%;
     margin:0px;
     padding:0px;
+    overflow: hidden;
     /*border-radius: 0px !important;*/
     /*color:#606060;*/
     /*background-color:#E8E8E8;*/
     /*font-family: ""Source Sans Pro","Helvetica Neue",Helvetica,Arial,sans-serif";*/
 }
+
+/*Google Fonts Loaded
+font-family: 'Playfair Display', serif;
+
+*/
 
 .wrapper {
     margin: 50px 0vw;
@@ -85,9 +91,28 @@ h1, h2, h3, h4, h5, h6, p {
     position: fixed;
     top:0;
     bottom:0;
+    height:100%;
     width: 100%; /*width 80% with right:0*/;
     z-index: 0;
+    -webkit-transition: all 0.3s;
+    -moz-transition: all 0.3s;
+    -o-transition: all 0.3s;
+    transition:all 0.3s;
+    /*border: solid 10px black;*/
 }
+
+#sheet {
+    position: absolute;
+    width:100%;
+    height: 100%;
+    opacity:0.5;
+    background-color: white;
+    z-index: -1;
+}
+
+    .sheetZindex1 {
+        z-index: 1 !important;
+    }
 
 #map canvas {
     cursor:crosshair;
@@ -101,11 +126,10 @@ h1, h2, h3, h4, h5, h6, p {
     padding:20px;
 }
 
-#topRightControls {
+#mapViewControls {
     position: fixed;
-    width:50px;
-    top: 2vh;
-    right: 2vh;
+    top: 16vw;
+    left: 2vh;
     z-index: 2;
     -webkit-transition: all 0.3s;
     -moz-transition: all 0.3s;
@@ -114,122 +138,595 @@ h1, h2, h3, h4, h5, h6, p {
     align-items: end;
 }
 
+.mapboxgl-ctrl-logo {
+    z-index: 4;
+}
+
 .mapboxgl-ctrl-group, .mapboxgl-ctrl-geocoder {
-    border: solid 2px #8a8472;
+    border: solid 1px #8a8472;
     border-radius: 0px; 
     box-shadow: 0px;
 }
 
-
-
-#topRightControls > .mapboxgl-ctrl-group {
+#mapViewControls > .mapboxgl-ctrl-group {
     float:right;
-    margin-bottom: 15px;
+    margin-bottom: 1.5vh;
+    padding:10px;
+    box-shadow: 3px 3px 6px grey;
 }
 
-#topRightControls > .mapboxgl-ctrl-geocoder {
-    background-color: red;
+#mapViewControls > .mapboxgl-ctrl-group > button {
+    width:100px;
+    height:100px;
+}
+
+#mapViewControls > .mapboxgl-ctrl-group > button > span {
+    background-size:contain;
+}
+
+
+#mapViewControls > .mapboxgl-ctrl-geocoder {
     width: 500px;
     margin-bottom: 15px;
 }
 
-@media (max-width: 1080px) {
-    .mapboxgl-ctrl-group > button {
-        width: 100px;
-        height: 100px;
-    }
-
-    #maininfo > .btn-circle {
-        width: 200px;
-        height: 200px;
-        padding: 10px 16px;
-        border-radius: 100px;
-        font-size: 24px;
-        line-height: 1.33;
-    }
-
+@media (min-width: 1081px) {
     .mapboxgl-ctrl-icon.mapboxgl-ctrl-compass > .mapboxgl-ctrl-compass-arrow {
         width:70px;
         height:70px;
     }
-
-    #routerposition > div {
-        width: 400px !important;
-        height:70px !important;
-    }
 }
 
 @media (min-width: 1081px) {
-    #bootstrapoverrides .btn-warning, #bootstrapoverrides .btn-custom1, .btn-secondary, .btn-info {
-        width: 70px !important;
-        height: 70px !important;
-        border-radius: 35px !important;
+    #mapViewControls > .mapboxgl-ctrl-group > button {
+        width:58px;
+        height:40px;
     }
 
-    .newbox {
-        position: fixed;
-        width: 50vw;
-        margin: 0 25vw;
-        text-align:center;
-        top: 2%;
+    #mapViewControls > .mapboxgl-ctrl-group {
+        padding:0px;
     }
 
-    .geocoder {
-        position: relative;
+    #mapViewControls {
+        top:100px;
+        left:calc(3vw + 10px);
+    }
+
+}
+
+/*Logo*/
+    #logo {
+        position: absolute;
+        left: 3vw;
+        z-index: 4;
+        background: #363636;
+        width: 14vw;
+        height: 14vw;
+        font-size: 8vw;
+        color: white;
+        text-align: center;
+        font-family: auto;
+        line-height: 14vw;
+        box-shadow: 3px 3px 6px grey;
+
+    }
+
+    @media (min-width: 1081px) {
+        #logo{
+            width:80px;
+            height:80px;
+            font-size:40px;
+            line-height: 80px;            
+        }
+    }
+
+/*Search Bar*/
+    #geocoder {
+        position: absolute;
         z-index: 1;
-        width: 50vw;
+        width: 82vw;
+        left:15vw;
+        top:2vw;
+        -webkit-transition: all 0.4s;
+        -moz-transition: all 0.4s;
+        -o-transition: all 0.4s;
+        transition:all 0.4s;
+
     }
 
-    #routerposition .btn.btn-danger.toggle-off {
-        height: 40px !important;
-        background-color: #bc5050 !important;
-        font-size:20px !important;
+    #geocoder .mapboxgl-ctrl-geocoder{
+        box-shadow: 3px 3px 6px grey;
+        height: 10vw;
     }
 
-    #routerposition .btn.btn-success.toggle-on {
-        height: 40px !important;
-        background-color:#5f8056 !important;
-        font-size:20px !important;
+    #geocoder .mapboxgl-ctrl-geocoder--icon-search {
+        display: none;
     }
 
-    #routerposition > div {
-        width: 400px !important;
-        height:40px !important;
+    #geocoder .mapboxgl-ctrl-geocoder input[type='text'] {
+        font-size: 2vh;
+        margin-left: 1vw;
+        height:100%;
+        padding-right:10vw;
+
     }
+
+    #geocoder .mapboxgl-ctrl-geocoder--icon .mapboxgl-ctrl-geocoder--icon-close {
+        position: relative;
+        transform: scale(4);
+    }
+
+        @media (min-width: 1081px) {
+        #geocoder{
+            position: absolute;
+            width: calc(100vw - 12vw - 120px);
+            left: calc(6vw + 40px); /*there are 40px margin, from some weird mapbox thing that I don't want to overwrite. trust me this is the correct spacing*/
+            top:10px;           
+        }
+
+        #geocoder .mapboxgl-ctrl-geocoder{
+            height: 60px;
+        }
+    }
+        @media (max-width: 1080px) {
+            #geocoder .suggestions {
+                font-size:40px;
+                line-height: 55px;
+            }
+
+            #geocoder svg {
+                transform: scale(2.5);
+                z-index: 5;
+/*                top:20px;
+                right:20px;
+*/                margin:25px;
+
+            }
+        }
+
+/*Toggle Switch*/
+    #toggleSwitch {
+        position: absolute;
+        box-shadow: 4px 4px 8px grey;
+        top:51vw;
+        z-index: 3;
+        font-family:auto;
+        border: solid 1px grey;
+        /*For centering div
+        bottom: 50px;
+        left: 50%;
+        transform: translate(-50%, 0);*/
+    }
+
+    #toggleSwitch .btn {
+        border-radius: 0px;
+        border:none;
+        font-size:20px;
+        height:110px;
+    }
+
+    #toggleSwitch .btn.btn-success {
+        background-color: white;   /*#5f8056;*/
+        color:#363636;
+        line-height: 120px;
+        width:110px;
+    }
+
+    #toggleSwitch .btn.btn-danger {
+        background-color: white; /*#bc5050;*/
+        color:#363636;
+        line-height: 110px;
+    }
+
+    #toggleSwitch .btn .btn-danger .toggle-off {
+        width:130px;
+    }
+
+    #toggleSwitch .toggle-handle {
+        height: 130px;
+        background-color: #363636;
+    }
+
+    #toggleSwitch i {
+        transform: scale(3);
+        padding-bottom:12px;
+    }
+
+    @media (min-width:1081px) {
+        #toggleSwitch {
+            top: 190px;
+            border: solid 1px grey;
+        }
+
+        #toggleSwitch .btn {
+            font-size:20px;
+            height:40px;
+            border:none;
+        }
+
+        #toggleSwitch i {
+            transform: scale(1.5);
+            padding-bottom:12px;
+            width:20px;
+        }
+
+        #toggleSwitch .btn.btn-success {
+            line-height: 30px;
+            width:60px;
+
+        }
+
+        #routerToggle {
+            width:25px;
+        }        
+
+        #toggleSwitch .btn.btn-danger {
+            line-height: 30px;
+            width:50px;
+        }
+
+        #toggleSwitch .btn .btn-danger .toggle-off {
+            width:50px;
+        }
+
+        #toggleSwitch .toggle-handle {
+            width:10px;
+        }
+
+        #toggleSwitch i {
+            transform: scale(.9);
+        }
+    }
+
+    .thumb h4 {
+        padding:15px;
+        line-height: 60px;
+    }
+
+    #bottomControl {
+        display: flex;
+        position: absolute;
+        /*left:10%;*/
+        width:100%; /*80%*/
+        bottom:5vh;
+        -webkit-transition: all 0.4s;
+        -moz-transition: all 0.4s;
+        -o-transition: all 0.4s;
+        transition:all 0.4s;
+        overflow: hidden;
+        z-index: 2;
+    }
+
+    #bottomControl i {
+        color:black;
+        background-color:transparent;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        transform: scale(1);
+        margin:10px;
+        height:80vh;
+    } 
+
+    #bottomContro. .slick-list {
+        height:400px;
+    }
+
+    #bottomControl .infoScreen {
+        text-align:center;
+        justify-items:center;
+        /*background-color: #e2e2e2;*/
+        /*border:solid 2px black;*/
+        /*box-shadow: 3px 3px 4px grey;*/
+        height:80vh;
+    }
+
+    .infoScreen .subcontent {
+        display: block;
+        width:80%;
+        height:80%;
+        margin: auto;
+        border:solid 2px red;
+    }
+
+    #bottomControl #infoLayers {
+        display: inline-grid;
+        justify-items:center;
+        /*background-color: #e2e2e2;*/
+        /*border:solid 2px black;*/
+        /*box-shadow: 3px 3px 4px grey;*/
+        width:70vw;
+    }
+
+    .TPArrows.slick-arrow {
+        padding:0px 20px;
+        color:grey !important;
+    }
+
+/*Button Div */
+    #allControls {
+        z-index:3;
+        width:150px;
+        height:150px;
+        position: absolute;
+        bottom:2vh;
+        right:2vh;
+        -webkit-transition: all 0.3s;
+        -moz-transition: all 0.3s;
+        -o-transition: all 0.3s;
+        transition:all 0.3s;
+        /*opacity: 0.9;*/
+    }
+
+/*Buttons*/
+    #bottomLeftControls {
+        height: 800px;
+        width: 250px;
+        position: absolute;
+        left: 1vh;
+        bottom: 1vh;
+        -webkit-transition: all 0.3s;
+        -moz-transition: all 0.3s;
+        -o-transition: all 0.3s;
+        transition: all 0.3s;
+    }
+
+    #bottomLeftControls button {
+        position:absolute;
+    }
+
+    #bottomRightControls {
+        position: absolute;
+        right:1vh;
+        bottom:1vh;
+        -webkit-transition: all 0.3s;
+        -moz-transition: all 0.3s;
+        -o-transition: all 0.3s;
+        transition:all 0.3s;
+    }
+
+    #bottomRightControls button {
+        position:absolute;
+        bottom:0px;
+        right:0px;
+    }
+
+    #drawRoute {
+        display: block;
+        z-index: 4;
+        border: solid 1px black;
+        -webkit-transition: all 0.3s;
+        -moz-transition: all 0.3s;
+        -o-transition: all 0.3s;
+        transition:all 0.3s;
+        background-color:teal;
+    }
+
+    #swapButton {
+        display: block; /*if reactivated change to block*/
+        z-index: 0;
+        border: solid 1px black;
+        color:white;
+        background-color:teal;
+        -webkit-transition: all 0.3s;
+        -moz-transition: all 0.3s;
+        -o-transition: all 0.3s;
+        transition:all 0.3s;
+
+        /*everything to apporpriately position the svg... god do i hate css*/
+        background-image: url(../img/freedraw3.svg);
+
+        background-repeat: no-repeat;
+        background-position: center;
+    }
+
+
+@media (min-width:1081px){
+    #drawRoute, #sidebarCollapse, #isochroneButton  { /*bootstrapoverrides .btn-warning, #bootstrapoverrides .btn-custom1, .btn-secondary, .btn-info*/
+        width: 70px;
+        height: 70px;
+        border-radius: 35px;
+        /*box-shadow: 4px 4px 8px grey;*/
+        /*font-size: 3vmin;
+        line-height: 3vmin;
+        margin:0px;
+        border: solid 1px #4a4a4a
+        box-shadow:2px 2px 3px grey;*/
+        /*padding: 2vh 3vw;*/
+    }
+
 }
 
-.newbox {
-    position: fixed;
-    width: 70vw;
-    margin: 0 15vw;
-    text-align:center;
-    top: 2%;
-}
+    #dropCrosshairMarker{
+        color: brown;
+        display: block;
+        z-index: 1;
+        border: solid 1px black;
+        -webkit-transition: all 0.3s;
+        -moz-transition: all 0.3s;
+        -o-transition: all 0.3s;
+        transition:all 0.3s;
+    }
 
-.geocoder {
-    position: relative;
-    z-index: 1;
-    width: 70vw;
-}
+    .smallPlusSign {
+        position: absolute;
+        top:16%;
+        right:23%; 
+        transform: scale(0.5);
+    }
 
-#geocoder .mapboxgl-ctrl-geocoder{
-    box-shadow: 3px 3px 6px grey;
-    margin: 0 20px;
-    height: 6vh;
-}
 
-#geocoder .mapboxgl-ctrl-geocoder--icon-search {
-    display: none;
-}
+    #undoCrosshairMarker{
+        background-color: orange;
+        color:white;
+        display: block;
+        z-index: 2;
+        border: solid 1px black;
+        -webkit-transition: all 0.3s;
+        -moz-transition: all 0.3s;
+        -o-transition: all 0.3s;
+        transition:all 0.3s;
+    }
 
-.mapboxgl-ctrl-geocoder input[type='text'] {
-    font-size: 2vh;
-    margin:0px 3px;
-    height:100%;
-}
+    #cancelCrosshairMarker{
+        background-color: #5a6268;
+        color:white;
+        display: block;
+        z-index: 1;
+        border: solid 1px black;
+        -webkit-transition: all 0.3s;
+        -moz-transition: all 0.3s;
+        -o-transition: all 0.3s;
+        transition:all 0.3s;
+    }
+
+    #routeInfo {
+        display: none; /*if reactivated change to block*/
+        z-index: 1;
+        border: solid 1px black;
+        -webkit-transition: all 0.3s;
+        -moz-transition: all 0.3s;
+        -o-transition: all 0.3s;
+        transition:all 0.3s;
+    }
+
+    #freeDraw {
+        display: block; /*if reactivated change to block*/
+        z-index: 0;
+        border: solid 1px black;
+        color:white;
+        background-color:teal;
+        -webkit-transition: all 0.3s;
+        -moz-transition: all 0.3s;
+        -o-transition: all 0.3s;
+        transition:all 0.3s;
+
+        /*everything to apporpriately position the svg... god do i hate css*/
+        background-image: url(../img/freedraw3.svg);
+
+        background-repeat: no-repeat;
+        background-position: center;
+    }
+
+    #tutorialButton {
+        width:50px;
+        display: block;
+        position: absolute;
+        bottom: 50px;
+        right:2%;
+        z-index: 1;
+        color:white;
+        background-color:#4f7ba4;
+    }
+
+    @media (max-width: 1080px) {
+        #bootstrapoverrides button {
+            width:150px;
+            height:150px;
+            border-radius:75px;
+            font-size:45px;
+        }
+
+        #tutorialButton {
+
+        }
+    }
+
+    #sidebarCollapse {
+        border-radius:0px;
+        background-color:#484848;
+        color:white;
+        display: block;
+        position: absolute;
+        z-index: 2;
+        text-align: center;
+        bottom: 1vh;
+        left: 50vw;
+        border:solid 2px black;
+        transform: translate(-50%, 0);              /*For a logo background image*/
+                                                    /*background-image: url("../img/Logo3.png");
+                                                    background-size:cover;*/
+        /*bottom: 6vh;
+        right:2%;*/
+    }
+
+    #sidebarCollapse:before {
+       font-family: "Font Awesome 5 Free";
+       display: inline-block;
+       padding-bottom: 3px
+       vertical-align: middle;
+       transform: scale(1.5);
+       font-weight:900;
+       content: "\f0c9"; /*"\f093";*/        
+    }
+
+
+    #isochroneButton {
+        display: block;
+        position: absolute;
+        bottom:0px;
+        left:0px;;
+        z-index: 1;
+        text-align: center;
+        border:solid 1px black;
+        background-image: url(../img/isochrone4.svg);
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: contain;
+        background-color:#CF9A46;
+    }
+
+    #donateButton { 
+        display: block;
+        position: absolute;
+        transform: scale(0.7);
+        bottom: 0px;
+        left:160px;
+        z-index: 1;
+        background-color:green;
+        color: white;
+                                        /*      For Loading a Noun Project Icon
+                                                background-image: url(../img/isochrone4.svg);
+                                                background-repeat: no-repeat;
+                                                background-position: center;
+                                                background-size: contain;*/
+    }
+
+    #donateButton:before {
+        font-family: "Font Awesome 5 Free";
+        display: inline-block;
+        padding-bottom: 3px
+        vertical-align: middle;
+        transform: scale(1.5);
+        font-weight:900;
+        content: "\f53a";
+    }
+
+        #isochroneButton .fa-connectdevelop{
+            color:brown;
+            transform: scale(1);
+        }
+    
+        #isochroneButton .fa-map-marker-alt{
+            color:white;
+            position: absolute;
+            top:22%;
+            right:38.5%; 
+            transform: scale(0.9);
+        }
+
+    #sidebarCollapse > i {
+        position:relative;
+    }
+
 
 #directionhere {
-    position: relative;
+    position: absolute;
+    border-radius: 0px;
+    width: 50vw;
+    left: 25vw;
+    top: 21px;
+    height: 80px;
 }
 
 .directionsbuttonhidden {
@@ -297,7 +794,7 @@ text-align: center;
 }
 
 #toolbarCollapse {
-    position: fixed;
+    position: absolute;
     top: 20px;
     left: 150px; 
     z-index: 2;
@@ -427,15 +924,29 @@ text-align: center;
     transition:all 0.4s;
 }
 
-    #legend {
+
+#toolbar {
     z-index: 3;
-    position:fixed;
-    height:100px;
-    width:68vw;
-    bottom:150px;
+    /*display: inline-grid; 
+    justify-items: center;
+    justify-content: center;*/
+    display: inline-grid;
+    justify-content: center;
+    align-content: center;
+    justify-self:center;
+    align-self: start;
+    align-items: center; 
+    margin-bottom:100px;
+    position: relative;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-gap: 8px; /*or grid-column-gap and grid-row-gap for additional customation*/
+    grid-template-rows: auto auto auto auto; /*this is implied but im stating it explicitly*/
+
+    /*width:68vw;*/
+    /*bottom:600px;*/
     /*center the div*/
-        left: 50%;
-        transform: translate(-50%, 0);
+    /*left: 50%;*/
+    /*transform: translate(-50%, 0);*/
     
     /*looks a little cleaner without it
         padding:10px;
@@ -443,47 +954,34 @@ text-align: center;
         background-color:#e4e4e4;
     */
 
-    /*animations & transitions*/
-        -webkit-transition: all 0.4s;
-        -moz-transition: all 0.4s;
-        -o-transition: all 0.4s;
-        transition:all 0.4s;
-}
-
-@media (min-width:1081px) {
-    #legend {
-        bottom:100px;
-    }
-}
-
-
-#toolbar {
-    text-align: center;
-    position: absolute;
-    bottom: 0;
+    -webkit-transition: all 0.4s;
+    -moz-transition: all 0.4s;
+    -o-transition: all 0.4s;
+    transition:all 0.4s;
 }
 
 /*Custom Map Layer Buttons*/
     #toolbar > button {
+        justify-self: center;
         vertical-align: bottom;
-        width:70vw;
-        border:solid 2px rgba(71, 71, 71, 0.87);
+        border:solid 1px rgba(71, 71, 71, 0.87);
         box-shadow: 2px 2px 4px grey;
         border-radius:0px;
         cursor: pointer;
-        display: inline-block;
         bottom:0px; /*aligns all the buttons to the bottom of the toolbar, so that when you hover over them, they push up by the toolbar > button:hover margin*/
         font-size: 1.5vmin;
         font-stretch: 100%;
         letter-spacing: 2px;
         line-height: normal;
-        margin: 4px;
+        /*margin: 4px;*/
         padding:0px;
         text-transform: uppercase;
-        width:7.5vw;
-        height:5vw;
+        width:9vw;
+        height:9vw;
         font-weight: 500;
-        text-align: center; /*text-align: right;*/
+        border-radius:0px;
+        overflow: hidden;
+        text-align: center;
     }
 
     #toolbar > button:hover {
@@ -494,15 +992,15 @@ text-align: center;
         transition:all 0.2s;
     }
 
-    #toolbar > .active, #toolbar > button:active, #toolbar > button:visited {
-        height:7.5vw;
-        border-width: 3px;
+/*    #toolbar > .active, #toolbar > button:active, #toolbar > button:visited {
+        height:5vw;
+        border-width: 1px;
         font-weight:900;
         -webkit-transition: all 0.2s;
         -moz-transition: all 0.2s;
         -o-transition: all 0.2s;
         transition:all 0.2s;
-    }
+    }*/
 
     .shaded {
         background-color: yellow;
@@ -511,25 +1009,26 @@ text-align: center;
 
     @media(max-width:1080px) {
         /*when on a small screen, make the legend go full width of the screen*/
-        #legend , #toolbar { 
-            min-width:70%;
+        #toolbar { 
+            /*min-width:70%;*/
             }
 
         /*also make the buttons bigger*/
         #toolbar > button {
-            width:140px;
-            height:14vw;
+            width:22vw;
+            height:22vw;
             font-size: 2vmin;
         }
 
         /*and make them bigger when clicked*/
-        #toolbar > .active, #toolbar > button:active, #toolbar > button:visited {
-            height:22vw;
+        #toolbar > button.active {
+            height:20vw;
+            width:20vw;
             font-weight:900;
         }
 
         /*and make the background image in the buttons, zoom in a little more so you can see their details in these tiny buttons*/
-        #tnrv5, #highstress, #lowstress, #hawks, #osmbikes, #theloop, #satellite, #annotation {
+        #tnrv5, #highstress, #lowstress, #hawks, #osmbikes, #theloop, #satellite, #annotation, #streetlights {
             background-size:auto;
         }
     }
@@ -575,6 +1074,11 @@ text-align: center;
     background-size:cover;
     color:#828282;
         }
+#streetlights {
+    background-image: url("../img/map/legend/Streetlights.png");
+    background-size:cover;
+    color:#d6c679;
+        }
 
 .card-body {
     padding-top:0px;
@@ -602,7 +1106,15 @@ text-align: center;
 }
 
 .hideright {
-    margin-right: -100% !important;
+    margin-left: -100% !important;
+    -webkit-transition: all 0.4s;
+    -moz-transition: all 0.4s;
+    -o-transition: all 0.4s;
+    transition:all 0.4s;
+}
+
+.hidetop {
+    margin-top: -100% !important;
     -webkit-transition: all 0.4s;
     -moz-transition: all 0.4s;
     -o-transition: all 0.4s;
@@ -610,7 +1122,7 @@ text-align: center;
 }
 
 .hidebottom {
-    margin-bottom: -100% !important;
+    margin-bottom: -180% !important;
     -webkit-transition: all 0.4s;
     -moz-transition: all 0.4s;
     -o-transition: all 0.4s;
@@ -714,142 +1226,117 @@ span.tooltip:hover {
     /* If max-width does not work, try using width instead */
 }
 
-#routerposition {
-    display: inline-block;
-    position: absolute;
-    bottom: 50px;
-    left: 50%;
-    transform: translate(-50%, 0);
-}
-
-#routerposition .btn.btn-danger.toggle-off {
-    height: 200px;
-    background-color: #bc5050;
-    font-size:35px;
-}
-
-#routerposition .btn.btn-success.toggle-on {
-    height: 200px;
-    background-color:#5f8056;
-    font-size:35px;
-}
-
-#routerposition .btn {
-    border-radius: 0px;
-}
-
-#routerposition .btn-danger, #routerposition .btn-success {
-    border: none;
-    box-shadow: 4px 4px 8px grey;
-}
-
-/*Buttons*/
-    #drawRoute {
-        display: block;
-        position: absolute;
-        bottom:6vh;
-        left:2%;
-        z-index: 4;
-    }
-
-    #dropCrosshairMarker{
-        background-color: #5a6268;
-        color: white;
-        display: block;
-        position: absolute;
-        bottom:6vh;
-        left:2%;
-        z-index: 1;
-    }
-    #undoCrosshairMarker{
-        background-color: orange;
-        color:white;
-        display: block;
-        position: absolute;
-        bottom:6vh;
-        left:2%;
-        z-index: 0
-    }
-
-    #cancelCrosshairMarker{
-        display: block;
-        position: absolute;
-        bottom:6vh;
-        left:2%;
-        z-index: 1;
-    }
-
-    #routeInfo {
-        display: block;
-        position: absolute;
-        bottom: 6vh;
-        left:2%;
-        z-index: 1;
-    }
-
-    #tutorialButton {
-        display: block;
-        position: absolute;
-        bottom: 6vh;
-        right:2%;
-        z-index: 1;
-        color:white;
-        background-color:#4f7ba4;
-    }
-
-    #sidebarCollapse {
-        display: block;
-        position: fixed;
-        bottom: 6vh;
-        right:2%;
-        z-index: 2;
-        text-align: center;
-        width: 100%;
-    }
-
-    #isochroneButton {
-        display: block;
-        position: fixed;
-        bottom: 6vh;
-        right:2%;
-        z-index: 1;
-        text-align: center;
-        width: 100%;
-    }
-
-    #sidebarCollapse > i {
-        position:relative;
-        right:2px;
-    }
-
-
 /* the toggling classes for the Draw Controls that are controlled via jQuery in the bottom of the index.html*/
     .hideDrawRoute{
         opacity: 0;
         z-index: 0;
+
+    }
+
+    .secondaryPositionZ0 {
+        /*right:160px !important;
+        bottom:-20px !important;*/
+        z-index: 0 !important;
+        bottom:20px !important;
+        right:140px !important;
+        background-size: 70%; /*background-size:cover;*/
+        transform: scale(0.6) !important;
+        -webkit-transition: all 0.4s;
+        -moz-transition: all 0.4s;
+        -o-transition: all 0.4s;
+        transition:all 0.4s;
+    }
+
+    .secondaryPositionZ1 {
+        /*right:160px !important;
+        bottom:-20px !important;*/
+        z-index: 1 !important;
+        opacity: 0;
+        bottom:20px !important;
+        right:140px !important;
+        background-size: 80%; /*background-size:cover;*/
+        transform: scale(0.6) !important;
+        -webkit-transition: all 0.4s;
+        -moz-transition: all 0.4s;
+        -o-transition: all 0.4s;
+        transition:all 0.4s;
     }
 
     .drawSlideRight{
-        bottom:440px !important;
+        bottom:320px !important;
+        -webkit-transition: all 0.4s;
+        -moz-transition: all 0.4s;
+        -o-transition: all 0.4s;
+        transition:all 0.4s;
+        /*transform: scale(0.7) !important;*/
+
     }
 
     .undoSlideUp{
-        bottom: 280px !important; 
+        bottom: 160px !important; 
+/*        bottom:80px !important;
+        right:120px !important;
+        transform: scale(0.6) !important;
+*/        -webkit-transition: all 0.4s;
+        -moz-transition: all 0.4s;
+        -o-transition: all 0.4s;
+        transition:all 0.4s;
+        /*transform: scale(0.7) !important;*/
+    }
+
+    .slideup420px {
+        /*bottom:420px !important; */
+        background-image: none !important;
+        background-color:black;
+        color:white;
+        transform: translate(-50%, 0) scale(0.7) !important;
+        /*background-size:none !important; ;*/
+    }
+
+    .shrink7left {
+        /*bottom:450px !important;*/
+        transform: translate(-30%, 0) scale(0.7) !important;
+        opacity: 0.4 !important;
+    }
+
+    .shrink7right {
+        /*bottom:450px !important;*/
+        transform: translate(30%, 0) scale(0.7) !important;
+        opacity: 0.4 !important;
+    }
+
+    .shrink8 {
+        transform:scale(0.8) !important;
+        border:solid 7px #ababab;
+    }
+
+    .slideup490px:before {
+       font-family: "Font Awesome 5 Free";
+       display: inline-block;
+       padding-bottom: 3px
+       vertical-align: middle;
+       transform: scale(2);
+       font-weight:900;
+       content: "\f00d";
     }
 
     .tutorialSlideUp {
-        bottom:280px !important;
+        bottom:180px !important;
     }
 
     .RouteInfoSlideRight {
-        bottom: 600px !important;
+        bottom: 480px !important;
+        -webkit-transition: all 0.4s;
+        -moz-transition: all 0.4s;
+        -o-transition: all 0.4s;
+        transition:all 0.4s;
     }
 
     .isochroneSlideUp{
         bottom: 280px !important; 
     }
 
-@media (min-width: 1080px) {
+@media (min-width: 1081px) {
     .drawSlideRight{ bottom:120px !important; }
     .undoSlideUp{ bottom: 195px !important; }
     .tutorialSlideUp { bottom:120px !important; }
@@ -857,14 +1344,6 @@ span.tooltip:hover {
     .isochroneSlideUp{ bottom: 195px !important; }
 
 }
-
-.darkbutton {
-    color:white !important;
-    background-color:#696969 !important;
-}
-
-
-
 
 .btn-circle {
     width: 70px;
@@ -899,16 +1378,16 @@ textarea {
     position: relative;
 }
 
-#instructions {
-    /*height: 50px;
+
+/*#instructions {
+    height: 50px;
     min-height: 80px;
     position: relative;
     text-align: left;
     margin: 10;
-    padding: 15px;*/
+    padding: 15px;
     width: auto;
-    /*scroll after max height is reached*/
-}
+}*/
 
 #geojsonbox {
     /*height: 30px;
@@ -917,25 +1396,11 @@ textarea {
     padding: 15px;
     text-align: left;
         margin: 10;*/
-        width: auto;
+    width: auto;
     background-color: rgba(255, 255, 255, .4);
     font-size: 13px;
-    /*scroll after max height is reached*/
     word-wrap: break-word;
 }
-
-
-#scrolltest {
-    font-size:25px;
-    background-color:red;
-}
-
-#testbutton {
-    position: absolute;
-    left:600px;
-    z-index: 4;
-}
-
 
 /* Landing Page Stuff */
 /*!
@@ -1457,15 +1922,6 @@ background-color:white;
     transition: all 0.4s ease 0s;
 }
 
-.toggle {
-    margin: 5px 5px 0 0;
-}
-
-
-
-
-
-
 .projectsgroup {
   margin-top: 150px;
   margin-bottom: 25px;
@@ -1668,12 +2124,6 @@ background-color:white;
         margin-bottom:2vh;
     }
 
-    #allControls {
-        /*Control all the buttons on the map screen with all controls*/
-        z-index:3;
-        /*opacity: 0.9;*/
-    }
-
     #stats .cases {
         padding:0.5vw;
     }
@@ -1747,17 +2197,6 @@ background-color:white;
         background-color:grey;
     }
 
-#bootstrapoverrides .btn-warning, #bootstrapoverrides .btn-custom1, .btn-secondary, .btn-info {
-    width: 150px;
-    height: 150px;
-    border-radius: 75px;
-    box-shadow: 4px 4px 8px grey;
-    font-size: 3vmin;
-    line-height: 3vmin;
-    margin:0px;
-    border: solid 1px #4a4a4a
-    /*padding: 2vh 3vw;*/
-}
 
 #yourride {
     position: relative;

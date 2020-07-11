@@ -20,7 +20,6 @@ let myPOI = new POI();
 let AllPOIs = new AllPOIsconstructor();
 let myRoute = new Route();
 let counter = 0;
-
 let myIsochrone = new Isochrone();
 
 // var request = require('superagent');
@@ -101,6 +100,7 @@ function POI(){
       // element: el,
       draggable: true,
       color: 'grey',
+      scale: 0.75,
     })
     marker.setLngLat(e.lngLat);
     marker.addTo(map);
@@ -196,7 +196,7 @@ function Route(){
         "type": "line",
         "source": marker.source,
         "paint": {
-          "line-color": "brown", //"#4f7ba4",
+          "line-color": "brown",//"#FF6600" //, //"#4f7ba4",
           "line-opacity": 0.75,
           "line-width": 3
         }
@@ -286,22 +286,122 @@ function Route(){
 }
 
 function Isochrone(){
-  let IsochroneActive = false;
+  //Initialize a global variable that tracks if the Isochrone is active on screen. At the very start of the webpage loading, it is not active (false).
+    IsochroneActive = false;
 
-    let isoMarker = new mapboxgl.Marker({
-      //This doesn't work and I don't understand why >> scale: 0.75, - https://docs.mapbox.com/mapbox-gl-js/api/markers/#marker
-      // element: el,
-      draggable: true,
-    })
-    isoMarker.setLngLat({lng: -110.92, lat: 32.222});
-    isoMarker.addTo(map);
+  //Methods
 
-  this.generate = function() {
-    if (IsochroneActive == false){
-      IsochroneActive = true;
+    //Isochrone Button Clicked
+      this.IsochroneButtonClicked = function() {
+        // alert("THIS keyword is coming next");
+        // alert(this);
+        this.ToggleIsochrone();
+        if (IsochroneActive == true){
+          this.generateIsochroneMarker();
+          this.generateIsochronePolygon();
+        }
+        else if (IsochroneActive == false){
+          this.removeIsochroneMarker();
+          this.removeIsochronePolygon();
+        }
+      }
+
+    //Generate a Isochrone Marker
+      this.generateIsochroneMarker = function() {
+        isoMarker = new mapboxgl.Marker({
+          draggable: true,
+          color: '#CF9A46',
+          // scale: 0.75, - This doesn't work and I don't understand why - https://docs.mapbox.com/mapbox-gl-js/api/markers/#marker
+        });
+        isoMarker.setLngLat(map.getCenter());
+        isoMarker.addTo(map);
+        isoMarker.on('dragend', myIsochrone.regenerate.bind(myIsochrone));
+      }
+
+    this.regenerate = function() {
+      this.removeIsochronePolygon();
+      this.generateIsochronePolygon();
     }
-    else {
-      IsochroneActive = false;
+
+    this.generateIsochronePolygon = function() {
+      if (IsochroneActive == true) {      
+        var ghIsochrone = new GraphHopper.Isochrone({
+        key: ghAPI, 
+        host: myHostAddress, 
+        vehicle: "bike"});
+          var pointStr = isoMarker.getLngLat().lat + "," + isoMarker.getLngLat().lng // var pointStr = e.latlng.lat + "," + e.latlng.lng;
+              ghIsochrone.doRequest({point: pointStr, buckets: 3, time_limit: 1000})
+                  .then(function (json) {
+                      ABC = json;
+                      console.log(ABC);
+                      map.addSource('maine0', {
+                        'type': 'geojson',
+                        'data': ABC.polygons[0]
+                      });
+                      map.addLayer({
+                        'id': 'maine0',
+                        'type': 'fill',
+                        'source': 'maine0',
+                        'layout': {},
+                        'paint': {
+                          'fill-color': '#088',
+                          'fill-opacity': 0.4
+                        }
+                      });
+                      map.addSource('maine1', {
+                        'type': 'geojson',
+                        'data': ABC.polygons[1]
+                      });
+                      map.addLayer({
+                        'id': 'maine1',
+                        'type': 'fill',
+                        'source': 'maine1',
+                        'layout': {},
+                        'paint': {
+                          'fill-color': '#058',
+                          'fill-opacity': 0.4
+                        }
+                      });
+                      map.addSource('maine2', {
+                        'type': 'geojson',
+                        'data': ABC.polygons[2]
+                      });
+                      map.addLayer({
+                        'id': 'maine2',
+                        'type': 'fill',
+                        'source': 'maine2',
+                        'layout': {},
+                        'paint': {
+                          'fill-color': '#028',
+                          'fill-opacity': 0.4
+                        }
+                      });
+                    })
+                  .catch(function (err) {
+                      $('#isochrone-response').text("An error occured: " + err.message);
+                  });
+                }
+      else if (IsochroneActive == false) {
+        alert("i think i should delete this, this will only pop up if an error occurs.");
+      }
+    }
+
+    this.removeIsochroneMarker = function() {
+      isoMarker.remove();
+    }
+
+    this.ToggleIsochrone = function() {
+      IsochroneActive = !IsochroneActive;
+      // This is an alternative longer form version of my code above
+      // if (IsochroneActive == false){
+      //   IsochroneActive = true;
+      // }
+      // else {
+      //   IsochroneActive = false;
+      // }
+    }
+
+    this.removeIsochronePolygon = function () {
       map.removeLayer('maine0');
       map.removeSource('maine0');
       map.removeLayer('maine1');
@@ -309,98 +409,7 @@ function Isochrone(){
       map.removeLayer('maine2');
       map.removeSource('maine2');
     }
-
-    isoMarker.on('dragend', myIsochrone.regenerate);
-
-    if (IsochroneActive == true) {
-            // alert("yo, isochrone coming attcha");
-            var ghIsochrone = new GraphHopper.Isochrone({
-              key: ghAPI, 
-              host: myHostAddress, 
-              vehicle: "bike"});
-
-
-                var pointStr = isoMarker.getLngLat().lat + "," + isoMarker.getLngLat().lng // var pointStr = e.latlng.lat + "," + e.latlng.lng;
-
-                    ghIsochrone.doRequest({point: pointStr, buckets: 3, time_limit: 1000})
-                        .then(function (json) {
-                            ABC = json;
-                            console.log(ABC);
-                            map.addSource('maine0', {
-                              'type': 'geojson',
-                              'data': ABC.polygons[0]
-                            });
-                            map.addLayer({
-                              'id': 'maine0',
-                              'type': 'fill',
-                              'source': 'maine0',
-                              'layout': {},
-                              'paint': {
-                                'fill-color': '#088',
-                                'fill-opacity': 0.4
-                              }
-                            });
-                            map.addSource('maine1', {
-                              'type': 'geojson',
-                              'data': ABC.polygons[1]
-                            });
-                            map.addLayer({
-                              'id': 'maine1',
-                              'type': 'fill',
-                              'source': 'maine1',
-                              'layout': {},
-                              'paint': {
-                                'fill-color': '#058',
-                                'fill-opacity': 0.4
-                              }
-                            });
-                            map.addSource('maine2', {
-                              'type': 'geojson',
-                              'data': ABC.polygons[2]
-                            });
-                            map.addLayer({
-                              'id': 'maine2',
-                              'type': 'fill',
-                              'source': 'maine2',
-                              'layout': {},
-                              'paint': {
-                                'fill-color': '#028',
-                                'fill-opacity': 0.4
-                              }
-                            });
-
-        //Use this is how I had routes to the map. use this as a guide for how i should add isochrone polygons to the map
-              //               map.addSource(marker.source, { type: 'geojson', data: AllPOIs[marker.id].geojson.paths[0].points });
-              // map.addLayer({
-              //   "id": marker.layer,
-              //   "type": "line",
-              //   "source": marker.source,
-              //   "paint": {
-              //     "line-color": "brown", //"#4f7ba4",
-              //     "line-opacity": 0.75,
-              //     "line-width": 3
-              //   }
-              // });
-
-
-                        })
-                        .catch(function (err) {
-                            $('#isochrone-response').text("An error occured: " + err.message);
-                        });
-      }
-
-    }
-
-  this.regenerate = function (){
-    map.removeLayer('maine0');
-    map.removeSource('maine0');
-    map.removeLayer('maine1');
-    map.removeSource('maine1');
-    map.removeLayer('maine2');
-    map.removeSource('maine2');
-    myIsochrone.generate();
-  } 
-}
+  }
 
 
   GraphHopperIsochrone = function (args) {
@@ -522,7 +531,7 @@ function MobileMarkers() {
       //element: el, if I want a crosshair instead of the marker
       draggable: false,
       color: 'brown',
-      scale: 0.5,
+      scale: 0.8,
       })
 
       centerdot.setLngLat(map.getCenter())
@@ -555,6 +564,7 @@ function MobileMarkers() {
       // element: el,
       draggable: true,
       color: 'grey',
+      scale: 0.9,
     })
     marker.setLngLat(map.getCenter());
     marker.addTo(map);
@@ -630,12 +640,14 @@ function MobileMarkers() {
 
 let crosshair = new MobileMarkers();
 
+
+
 //Add Button Behavior for Crosshair Routing
   document.getElementById("drawRoute").addEventListener("click", crosshair.ToggleCrosshair);
   document.getElementById("dropCrosshairMarker").addEventListener("click", crosshair.AddMarker);
   document.getElementById("undoCrosshairMarker").addEventListener("click", crosshair.undoLastMarker);
   document.getElementById("cancelCrosshairMarker").addEventListener("click", function() { myRoute.ClearAllMarkers;crosshair.ToggleCrosshair();});
-  document.getElementById("isochroneButton").addEventListener("click", myIsochrone.generate);
+  // document.getElementById("isochroneButton").addEventListener("click", myIsochrone.IsochroneButtonClicked.bind(myIsochrone));
   document.getElementById("routerToggle").addEventListener("click", myRoute.ToggleSafeRouting);
 
   $(function() {
@@ -644,10 +656,7 @@ let crosshair = new MobileMarkers();
       });
     });
 
-
-
-
-
+document.getElementById("drawRoute").addEventListener("click", crosshair.ToggleCross)
 
 
 
