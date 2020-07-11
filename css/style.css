@@ -239,6 +239,15 @@ h1, h2, h3, h4, h5, h6, p {
         height: 10vw;
     }
 
+    #geocoder .mapboxgl-ctrl-geocoder--button {
+        border-radius:0px;
+        width: 8vw;
+        height: 8vw;
+        font-size: 45px;
+        z-index: 5;
+        background-color: #c3c3c3;
+    }
+
     #geocoder .mapboxgl-ctrl-geocoder--icon-search {
         display: none;
     }
@@ -267,7 +276,17 @@ h1, h2, h3, h4, h5, h6, p {
         #geocoder .mapboxgl-ctrl-geocoder{
             height: 60px;
         }
+
+        #geocoder .mapboxgl-ctrl-geocoder--button {
+            height:46px;
+            width:46px;
+        }
+
+        #geocoder .mapboxgl-ctrl-geocoder--button svg {
+            margin-bottom:10px
+        }
     }
+
         @media (max-width: 1080px) {
             #geocoder .suggestions {
                 font-size:40px;
@@ -280,7 +299,6 @@ h1, h2, h3, h4, h5, h6, p {
 /*                top:20px;
                 right:20px;
 */                margin:25px;
-
             }
         }
 
