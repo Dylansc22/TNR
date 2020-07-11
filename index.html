@@ -48,7 +48,8 @@
     </div>
 
 
-
+<!-- Load API Keys -->
+<script src="js/apikeys.js"></script>
 
 <!--Mapbox JS Libraries-->
 <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.52.0/mapbox-gl.js'></script>
@@ -59,7 +60,7 @@
 <script src='//d3js.org/d3.v3.min.js' charset='utf-8'></script>
 
 <script>
-	mapboxgl.accessToken = 'pk.eyJ1IjoiZHlsYW5jIiwiYSI6Im53UGgtaVEifQ.RJiPqXwEtCLTLl-Vmd1GWQ';
+	mapboxgl.accessToken = API.mapbox;
 	var start = [-110.962759,32.236];
 	var end = [-110.8, 32.2];
 	var otherend = [-110.88, 32.23];

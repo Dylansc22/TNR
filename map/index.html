@@ -86,13 +86,13 @@
           </div>
         </div>
 
-    <!-- <div id="allControls">
-        
+    <div id="allControls">
+        <!-- Router Toggle Button -->
         <div id="routerposition">
             <input id="routerToggle" type="checkbox" checked data-toggle="toggle" data-on="Safe Routing On" data-off="Safe Routing Off" data-onstyle="success" data-offstyle="danger">
         </div>
-        <button id="drawRoute" type="button" class="btn btn-custom1"><i class="fas fa-route"></i>
-    </div>-->
+        <button id="drawRoute" type="button" class="btn btn-custom1"><i class="fas fa-route"></i></button>
+    </div>
 
         <!-- Primary Mapbox Window Controls in the Top Right (Zoom, Draw, Pitch, etc...) -->
             <div id="topRightControls" class="hideright"></div>
@@ -108,9 +108,9 @@
                     <i class="fas fa-align-right"></i></button></a>
 
             </div>
-<!--             <div id='routeInfo'>
+            <div id='routeInfo'>
                 <a href=# data-toggle="tooltip" data-placement="bottom" title="Route"><button type="button" class="btn btn-custom1" data-toggle="modal" data-target="#routeModal"><i class="fas fa-directions"></i></button></a>
-            </div> -->
+            </div>
 
 <!--             <div id='myLocation'>
                 <a href=#  title="My Location"><button type="button" class="btn btn-custom1"><i class="fas fa-street-view"></i></button></a>
@@ -152,9 +152,9 @@ Source: http://mynameismatthieu.com/WOW/docs.html
     <script src="../js/wow.min.js"></script>
     <script>new WOW().init();</script>
 
-<!--Load Open Route Service Javascript API
+<!--Load Graphhopper Javascript API
 ---------------------------------------------->
-    <script src="../js/dist/ors-js-client.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/graphhopper-js-api-client/dist/graphhopper-client.js"></script>
 
 <!-- Bootstrap 4 Toggle Button Feature
 ---------------------------------------------->

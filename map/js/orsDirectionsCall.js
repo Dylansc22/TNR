@@ -45,16 +45,17 @@ function garbageTesting(){
 
 
 function loadParameters(){
-    myHostAddress = "http://localhost:8080/ors";
+    myHostAddress = "http://localhost:8989";
     myAPI = API.ors;
+    ghAPI = API.graphhopper;
  
   // Various Paramaters for OpenRouteService Directions Calculation
     W = {
       coordinates: [], //create the coordinates array
       extra_info: ["waytype"], //turn this on for custom API
       elevation: false, //turn this on for custom API
-      profile: "cycling-regular", //“driving-car”, “driving-hgv”, “foot-walking”, “foot-hiking”, “cycling-regular”, “cycling-road”,”cycling-mountain”, “cycling-electric”
-      preference: "recommended", //fastest, shortest, recommended
+      profile: "cycling-regular",
+      preference: "shortest", //fastest, shortest, recommended
       extra_info: ["waytype", "steepness"], //“steepness”, “suitability”, “surface”, “waycategory”, “waytype”, “tollways”, “traildifficulty”, “roadaccessrestrictions”
       format: "geojson",
       units: "mi" //km, mi, m
@@ -88,172 +89,177 @@ function addAllbuttonfunctionality(){
     })
 
     //----------Draw Route------------//
-    document.getElementById("drawRoute").addEventListener("click", drawUsingPoints);
+    //document.getElementById("drawRoute").addEventListener("click", drawUsingPoints);
 
 }
 
-function drawUsingPoints(){
-  //Clear off the screen before drawing a route 
-    if (checkRouteOnScreen()) {
-      //Route already exists on map
-        removeRouteLayerAndSource();
-        clearWCoordinates();
-    }
+//This is for lots of points mode. And I think its a bit buggy so I'm just commenting it off for now. 
+//One bug in particular is I htink I have two sets of mapbox draw controls running 
+//In this commented off code, is a Displaydefaultcontrols: true, I think that is causing some of the problems
+//But I don't want to change it because it may unpack a can-of-worms I dont want to focus on right now
+//So just commenting ot off for now
+// function drawUsingPoints(){
+//   //Clear off the screen before drawing a route 
+//     if (checkRouteOnScreen()) {
+//       //Route already exists on map
+//         removeRouteLayerAndSource();
+//         clearWCoordinates();
+//     }
 
-  wasRouteDrawnOrSearched = "drawn";
+//   wasRouteDrawnOrSearched = "drawn";
 
-  //Documentation: https://github.com/mapbox/mapbox-gl-draw/blob/master/docs/MODES.md
-  // document.body.style.cursor = "crosshair"; not working. I just wrote a css class that changes it to crosshair permanently for now..
-    var LotsOfPointsMode = {};
+//   //Documentation: https://github.com/mapbox/mapbox-gl-draw/blob/master/docs/MODES.md
+//   // document.body.style.cursor = "crosshair"; not working. I just wrote a css class that changes it to crosshair permanently for now..
+//     var LotsOfPointsMode = {};
 
-  // When the mode starts this function will be called.
-  // The `opts` argument comes from `draw.changeMode('lotsofpoints', {count:7})`.
-  // The value returned should be an object and will be passed to all other lifecycle functions
-    LotsOfPointsMode.onSetup = function(opts) {
-      var state = {};
-      state.count = opts.count || 0;
-      return state;
-    };
+//   // When the mode starts this function will be called.
+//   // The `opts` argument comes from `draw.changeMode('lotsofpoints', {count:7})`.
+//   // The value returned should be an object and will be passed to all other lifecycle functions
+//     LotsOfPointsMode.onSetup = function(opts) {
+//       var state = {};
+//       state.count = opts.count || 0;
+//       return state;
+//     };
 
-  // Whenever a user clicks on the map, Draw will call `onClick`
-    LotsOfPointsMode.onClick = function(state, e) {
-      // `this.newFeature` takes geojson and makes a DrawFeature
-      var point = this.newFeature({
-        type: 'Feature',
-        properties: {
-          count: state.count
-        },
-        geometry: {
-          type: 'Point',
-          coordinates: [e.lngLat.lng, e.lngLat.lat]
-        }
-      });
-      this.addFeature(point); // puts the point on the map
+//   // Whenever a user clicks on the map, Draw will call `onClick`
+//     LotsOfPointsMode.onClick = function(state, e) {
+//       // `this.newFeature` takes geojson and makes a DrawFeature
+//       var point = this.newFeature({
+//         type: 'Feature',
+//         properties: {
+//           count: state.count
+//         },
+//         geometry: {
+//           type: 'Point',
+//           coordinates: [e.lngLat.lng, e.lngLat.lat]
+//         }
+//       });
+//       this.addFeature(point); // puts the point on the map
       
-      nodecount = draw.getAll().features.length
-      if (nodecount >= 2) {
-        var startPoint = draw.getAll().features[nodecount-2].geometry.coordinates;
-        var endPoint = draw.getAll().features[nodecount-1].geometry.coordinates;
-        W.coordinates[0] = startPoint;
-        W.coordinates[1] = endPoint;
-        generateRoute();
-        console.log(R);
-        console.log("I think R should be defined here");
+//       nodecount = draw.getAll().features.length
+//       if (nodecount >= 2) {
+//         var startPoint = draw.getAll().features[nodecount-2].geometry.coordinates;
+//         var endPoint = draw.getAll().features[nodecount-1].geometry.coordinates;
+//         W.coordinates[0] = startPoint;
+//         W.coordinates[1] = endPoint;
+//         generateRoute();
+//         console.log(R);
+//         console.log("I think R should be defined here");
         
-      }
-    };
+//       }
+//     };
 
-  // Whenever a user clicks on a key while focused on the map, it will be sent here
-    LotsOfPointsMode.onKeyUp = function(state, e) {
-      if (e.keyCode === 27) return this.changeMode('simple_select');
-    };
+//   // Whenever a user clicks on a key while focused on the map, it will be sent here
+//     LotsOfPointsMode.onKeyUp = function(state, e) {
+//       if (e.keyCode === 27) return this.changeMode('simple_select');
+//     };
 
-  // This is the only required function for a mode.
-  // It decides which features currently in Draw's data store will be rendered on the map.
-  // All features passed to `display` will be rendered, so you can pass multiple display features per internal feature.
-  // See `styling-draw` in `API.md` for advice on making display features
-    LotsOfPointsMode.toDisplayFeatures = function(state, geojson, display) {
-      display(geojson);
-    };
+//   // This is the only required function for a mode.
+//   // It decides which features currently in Draw's data store will be rendered on the map.
+//   // All features passed to `display` will be rendered, so you can pass multiple display features per internal feature.
+//   // See `styling-draw` in `API.md` for advice on making display features
+//     LotsOfPointsMode.toDisplayFeatures = function(state, geojson, display) {
+//       display(geojson);
+//     };
 
-  //Parameters of MapboxDraw Tool
-    draw = new MapboxDraw({
-        displayControlsDefault: true, //default true - but I want custom controls (just points and trash)
-        accessToken: "pk.eyJ1IjoiZHlsYW5jIiwiYSI6Im53UGgtaVEifQ.RJiPqXwEtCLTLl-Vmd1GWQ",
-        defaultMode: 'lots_of_points',
-        modes: Object.assign({
-          lots_of_points: LotsOfPointsMode,
-        }, MapboxDraw.modes),
-        clickBuffer: 20, //default 2 - for mouse: # of pixels buffer around vertex that will respond to click
-        touchBuffer: 25, //default 25 - Same as above but for touch
-        // keybindings: true, //default true
-        // touchEnabled: true, //default true
-        // boxSelect: true, //default true
-        // controls: {
-        // //   point: true,
-        //   trash: true,
-        // //   line_string: true
-        // },
-        //styles examples : https://github.com/mapbox/mapbox-gl-draw/blob/master/docs/EXAMPLES.md
-        styles: [
-            {
-              'id': 'regular-points-halo-rim',
-              'type': 'circle',
-              'filter': ['all',
-                ['==', '$type', 'Point'],
-                ['==', 'meta', 'feature'],
-                ['==', 'active', 'false']],
-              'paint': {
-                'circle-radius': 10,
-                'circle-color': '#4f7ba4'
-              }
-            },
-            {
-              'id': 'regular-points-halo',
-              'type': 'circle',
-              'filter': ['all',
-                ['==', '$type', 'Point'],
-                ['==', 'meta', 'feature'],
-                ['==', 'active', 'false']],
-              'paint': {
-                'circle-radius': 9,
-                'circle-color': '#f9f9f9'
-              }
-            },
-            {
-              'id': 'regular-points',
-              'type': 'circle',
-              'filter': ['all',
-                ['==', '$type', 'Point'],
-                ['==', 'meta', 'feature'],
-                ['==', 'active', 'false']],
-              'paint': {
-                'circle-radius': 6,
-                'circle-color': '#4f7ba4'
-              }
-            },
-            {
-              'id': 'highlight-selected-points-halo-rim',
-              'type': 'circle',
-              'filter': ['all',
-                ['==', '$type', 'Point'],
-                ['==', 'meta', 'feature'],
-                ['==', 'active', 'true']],
-              'paint': {
-                'circle-radius': 14,
-                'circle-color': '#bc5050'
-              }
-            },
-            {
-              'id': 'highlight-selected-points-halo',
-              'type': 'circle',
-              'filter': ['all',
-                ['==', '$type', 'Point'],
-                ['==', 'meta', 'feature'],
-                ['==', 'active', 'true']],
-              'paint': {
-                'circle-radius': 13,
-                'circle-color': '#f9f9f9'
-              }
-            },
-            {
-              'id': 'highlight-selected-points',
-              'type': 'circle',
-              'filter': ['all',
-                ['==', '$type', 'Point'],
-                ['==', 'meta', 'feature'],
-                ['==', 'active', 'true']],
-              'paint': {
-                'circle-radius': 9,
-                'circle-color': '#bc5050'
-              }
-            },
-        ]
-      });
+//   //Parameters of MapboxDraw Tool
+//     draw = new MapboxDraw({
+//         displayControlsDefault: true, //default true - but I want custom controls (just points and trash)
+//         accessToken: "pk.eyJ1IjoiZHlsYW5jIiwiYSI6Im53UGgtaVEifQ.RJiPqXwEtCLTLl-Vmd1GWQ",
+//         defaultMode: 'lots_of_points',
+//         modes: Object.assign({
+//           lots_of_points: LotsOfPointsMode,
+//         }, MapboxDraw.modes),
+//         clickBuffer: 20, //default 2 - for mouse: # of pixels buffer around vertex that will respond to click
+//         touchBuffer: 25, //default 25 - Same as above but for touch
+//         // keybindings: true, //default true
+//         // touchEnabled: true, //default true
+//         // boxSelect: true, //default true
+//         // controls: {
+//         // //   point: true,
+//         //   trash: true,
+//         // //   line_string: true
+//         // },
+//         //styles examples : https://github.com/mapbox/mapbox-gl-draw/blob/master/docs/EXAMPLES.md
+//         styles: [
+//             {
+//               'id': 'regular-points-halo-rim',
+//               'type': 'circle',
+//               'filter': ['all',
+//                 ['==', '$type', 'Point'],
+//                 ['==', 'meta', 'feature'],
+//                 ['==', 'active', 'false']],
+//               'paint': {
+//                 'circle-radius': 10,
+//                 'circle-color': '#4f7ba4'
+//               }
+//             },
+//             {
+//               'id': 'regular-points-halo',
+//               'type': 'circle',
+//               'filter': ['all',
+//                 ['==', '$type', 'Point'],
+//                 ['==', 'meta', 'feature'],
+//                 ['==', 'active', 'false']],
+//               'paint': {
+//                 'circle-radius': 9,
+//                 'circle-color': '#f9f9f9'
+//               }
+//             },
+//             {
+//               'id': 'regular-points',
+//               'type': 'circle',
+//               'filter': ['all',
+//                 ['==', '$type', 'Point'],
+//                 ['==', 'meta', 'feature'],
+//                 ['==', 'active', 'false']],
+//               'paint': {
+//                 'circle-radius': 6,
+//                 'circle-color': '#4f7ba4'
+//               }
+//             },
+//             {
+//               'id': 'highlight-selected-points-halo-rim',
+//               'type': 'circle',
+//               'filter': ['all',
+//                 ['==', '$type', 'Point'],
+//                 ['==', 'meta', 'feature'],
+//                 ['==', 'active', 'true']],
+//               'paint': {
+//                 'circle-radius': 14,
+//                 'circle-color': '#bc5050'
+//               }
+//             },
+//             {
+//               'id': 'highlight-selected-points-halo',
+//               'type': 'circle',
+//               'filter': ['all',
+//                 ['==', '$type', 'Point'],
+//                 ['==', 'meta', 'feature'],
+//                 ['==', 'active', 'true']],
+//               'paint': {
+//                 'circle-radius': 13,
+//                 'circle-color': '#f9f9f9'
+//               }
+//             },
+//             {
+//               'id': 'highlight-selected-points',
+//               'type': 'circle',
+//               'filter': ['all',
+//                 ['==', '$type', 'Point'],
+//                 ['==', 'meta', 'feature'],
+//                 ['==', 'active', 'true']],
+//               'paint': {
+//                 'circle-radius': 9,
+//                 'circle-color': '#bc5050'
+//               }
+//             },
+//         ]
+//       });
 
-  // Add the Draw control to your map
-    map.addControl(draw);
-}
+//   // Add the Draw control to your map
+//     map.addControl(draw);
+// }
 
 function checkRouteOnScreen(){
   if (typeof(map.getLayer('R_layer')) !== "undefined") {
@@ -343,7 +349,7 @@ function generateSafeRoute(){
     W["elevation"] = false; //Pretty sure it can't be true, needs to be false
     W["options"] = { //required for custom weighting
       profile_params: {
-        weightings: { green: 1 }
+        weightings: { green: .5 }
       }
     };
     W["host"] = myHostAddress; //required to point to my online graphs
@@ -351,23 +357,28 @@ function generateSafeRoute(){
     console.log(JSON.stringify(W));
     console.log("Above is W - ORS routing Input Parameter");
 
-    orsDirections = new Openrouteservice.Directions({
-      // api_key: myAPI,
-      host: myHostAddress
+    var ghRouting = new GraphHopper.Routing({
+      //key: ghAPI,
+      host: myHostAddress, //*** LOCALHOST DOESNT CURRENTLY WORK YET, THIS WONT COMPUTE 
+      vehicle: "bike",
+      elevation: false,
+      details: ["road_class", "distance"]
     });
 
+    ghRouting.addPoint(new GHInput(startMarker._lngLat.lat, startMarker._lngLat.lng));
+    ghRouting.addPoint(new GHInput(endMarker._lngLat.lat, endMarker._lngLat.lng));
 
-    orsDirections.calculate(W)
+    ghRouting.doRequest()
       .then(function(json) {
+        // Add your own result handling here
+        //console.log(json);
         R = json;
         console.log(JSON.stringify(R));
-        console.log("Above is R - ORS output geojson");
-        newRouteLayer(R, nodecount);
+        newRouteLayer(R);
       })
       .catch(function(err) {
-          console.error(err);
+        console.error(err.message);
       });
-
   };
 
 function generateDangerousRoute(){
@@ -381,37 +392,50 @@ function generateDangerousRoute(){
     W.preference = "shortest";
   }
 
-  orsDirections = new Openrouteservice.Directions({
-    api_key: myAPI,
-  });
+    var ghRouting = new GraphHopper.Routing({
+      key: ghAPI,
+      //host: myHostAddress,
+      vehicle: "bike",
+      elevation: false
+    });
 
-  orsDirections.calculate(W)
-    .then(function(json) {
+    ghRouting.addPoint(new GHInput(startMarker._lngLat.lat, startMarker._lngLat.lng));
+    ghRouting.addPoint(new GHInput(endMarker._lngLat.lat, endMarker._lngLat.lng));
+
+    ghRouting.doRequest()
+      .then(function(json) {
+        // Add your own result handling here
+        //console.log(json);
         R = json;
-        console.log("Open Route Services Output Geojson")
         console.log(JSON.stringify(R));
-          newRouteLayer(R);
+        newRouteLayer(R);
       })
       .catch(function(err) {
-          console.error(err);
+        console.error(err.message);
       });
 }
 
 function newRouteLayer(e,f){
     f = f || []; // nodecount will be set either to nodecount or to [].
     //Use Mapbox to visualize json directions on Map
-    map.addSource('R_source' + f.toString(), { type: 'geojson', data: e });
+    map.addSource('R_source' + f.toString(), { type: 'geojson', data: e.paths[0].points });
     map.addLayer({
       "id": "R_layer"+ f.toString(),
       "type": "line",
       "source": "R_source" + f.toString(),
       "paint": {
-        "line-color": "#4f7ba4",
+        "line-color": "black", //"#4f7ba4",
         "line-opacity": 0.75,
         "line-width": 3
       }
     });
-}
+    var boundary = []
+    boundary[0] = R.paths[0].bbox[0] - 0.008;
+    boundary[1] = R.paths[0].bbox[1] - 0.008;
+    boundary[2] = R.paths[0].bbox[2] + 0.008;
+    boundary[3] = R.paths[0].bbox[3] + 0.008;
+    map.fitBounds(boundary);
+  }
 
 function amendToDrawnRoute(e){
   if (checkRouteOnScreen() && wasRouteDrawnOrSearched == "drawn") { //A part of the route is already on screen.

@@ -89,6 +89,10 @@ h1, h2, h3, h4, h5, h6, p {
     z-index: 0;
 }
 
+#map canvas {
+    cursor:crosshair;
+}
+
 .draw {
     position:relative;
     z-index:1;
@@ -100,7 +104,7 @@ h1, h2, h3, h4, h5, h6, p {
 #topRightControls {
     position: fixed;
     width:50px;
-    top: 10vh;
+    top: 12vh;
     right: 2%;
     z-index: 2;
     -webkit-transition: all 0.3s;
@@ -129,35 +133,54 @@ h1, h2, h3, h4, h5, h6, p {
     margin-bottom: 15px;
 }
 
-@media (max-width: 1024px){
-    .mapboxgl-ctrl-group > button {
-        width: 80px;
-        height: 80px;
-    }
+.newbox {
+    position: fixed;
+    width: 50vw;
+    margin: 0 25vw;
+    text-align:center;
+    top: 10px;
 }
 
 .geocoder {
-    position: absolute;
+    position: relative;
     z-index: 1;
-    width: 50%;
-    left: 50%;
-    margin-left: -25%;
-    top: 20px;
+    width: 50vw;
 }
 
-#geocoder .mapboxgl-ctrl-geocoder {
-    margin:0;
+#geocoder .mapboxgl-ctrl-geocoder{
+    box-shadow: 3px 3px 6px grey;
+    margin: 0 20px;
+    height: 6vh;
 }
 
 #geocoder .mapboxgl-ctrl-geocoder--icon-search {
     display: none;
 }
 
-@media (max-width:1024px){
-    .mapboxgl-ctrl-geocoder input[type='text'] {
-        height: 90px;
-        font-size:60px;
-    }
+.mapboxgl-ctrl-geocoder input[type='text'] {
+    font-size: 2vh;
+    margin:0px 3px;
+    height:100%;
+}
+
+#directionhere {
+    position: relative;
+}
+
+.directionsbuttonhidden {
+    top:-30px;
+    -webkit-transition: all 0.4s;
+    -moz-transition: all 0.4s;
+    -o-transition: all 0.4s;
+    transition:all 0.4s;
+}
+
+.directionbuttonvisable {
+    top: 30px;
+    -webkit-transition: all 0.4s;
+    -moz-transition: all 0.4s;
+    -o-transition: all 0.4s;
+    transition:all 0.4s;
 }
 
 
@@ -651,6 +674,57 @@ span.tooltip:hover {
     text-align: center; 
     /*font-weight:bold;*/
     /*overflow-y: scroll;*/`
+}
+
+
+#routeInfo {
+    display: block;
+    text-align: left;
+    position: fixed;
+    top: 19vh;
+    left:2%;
+}
+
+#routerposition {
+    display: inline-block;
+    position: relative;
+    top: 10px;
+    left:2%;
+}
+
+#routerposition .btn.btn-danger.toggle-off {
+    background-color: #bc5050;
+}
+#routerposition .btn.btn-success.toggle-on {
+    background-color:#589447;
+}
+
+#routerposition .btn {
+    border-radius: 0px;
+}
+
+#routerposition .btn-danger, #routerposition .btn-success {
+    border: none;
+    box-shadow: 4px 4px 8px grey;
+}
+
+#drawRoute {
+    display: block;
+    position: fixed;
+    top:9vh;
+    left:2%;
+}
+
+#myLocation {
+    display: block;
+    position: fixed;
+    top: 180px;
+    left:2%;
+}
+
+.mypopupclass {
+    background-color:yellow;
+    cursor: wait;
 }
 
 #mapPosition {
@@ -1431,6 +1505,12 @@ background-color:white;
         line-height:15vmin;
         color:grey;
         margin-bottom:2vh;
+    }
+
+    #allControls {
+        /*Control all the buttons on the map screen with all controls*/
+        z-index:3;
+        /*opacity: 0.9;*/
     }
 
     #stats .cases {
