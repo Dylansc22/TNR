@@ -460,11 +460,10 @@ h1, h2, h3, h4, h5, h6, p {
 
 /*Buttons*/
     #bottomLeftControls {
-        height: 800px;
-        width: 250px;
         position: absolute;
         left: 1vh;
         bottom: 1vh;
+        width:1px;
         -webkit-transition: all 0.3s;
         -moz-transition: all 0.3s;
         -o-transition: all 0.3s;
@@ -473,6 +472,95 @@ h1, h2, h3, h4, h5, h6, p {
 
     #bottomLeftControls button {
         position:absolute;
+    }
+
+    #CO2Button {
+        display: block;
+        z-index: 1;
+        border: solid 1px #363636;
+        height:50px;
+        width:50px;
+        border-radius: 25px;
+        -webkit-transition: all 0.3s;
+        -moz-transition: all 0.3s;
+        -o-transition: all 0.3s;
+        transition:all 0.3s;
+        background-color:white;
+        color:green;
+    }
+
+    #CO2Button:before {
+       font-family: "Font Awesome 5 Free";
+       display: inline-block;
+       padding-bottom: 3px
+       vertical-align: middle;
+       transform: scale(1.3);
+       font-weight:900;
+       content: "\f06c";  /*f004*/   
+    }
+
+    #CO2Box {
+        /*position and overflow to properly and show the CO2 text when the div 'opens up'*/ 
+            position: relative;
+            overflow: hidden;
+        bottom:0px;
+        left:30px;
+        width:0px;
+        height:80px;
+        border-radius: 20px; 
+        background-color: #29688a; /*#363636;*/
+        color:white;
+        box-shadow: 3px 3px 6px grey;
+        -webkit-transition: all 0.3s;
+        -moz-transition: all 0.3s;
+        -o-transition: all 0.3s;
+        transition: all 0.3s;
+    }
+
+    @media (max-width:1080px) {
+        .displayCO2Box {
+            width:31vw !important;
+            height:80px !important;
+            border:solid 1px black !important;
+            padding:3px !important;
+        }
+    }
+
+    @media (min-width:1081px) {
+        .displayCO2Box {
+            width:220px !important;
+            height:70px !important;
+            border:solid 1px black !important;
+            padding:3px !important;
+        }
+
+        #CO2Box > #offsetinsert {
+            margin-left: 30px !important;
+        }
+
+        #CO2Box > #offsettext {
+            margin-left: 30px !important;
+        }
+    }
+    
+    #CO2Box > #offsetinsert {
+        margin-left:60px;
+        display:inline-block;
+        font-size: 4.5vmin;
+        line-height: 4.5vmin;
+    }
+
+    #CO2Box > #offsetunits {
+        display:inline-block;
+        font-size: 3vmin;
+        line-height: 3vmin;
+    }
+
+    #CO2Box > #offsettext {
+        margin-left:60px;
+        display:inline-block;
+        font-size: 2vmin;
+        line-height: 2vmin;
     }
 
     #bottomRightControls {
@@ -489,6 +577,12 @@ h1, h2, h3, h4, h5, h6, p {
         position:absolute;
         bottom:0px;
         right:0px;
+    }
+
+    #bottomLeftControls button {
+        position:absolute;
+        bottom:0px;
+        left:0px;
     }
 
     #drawRoute {
@@ -521,8 +615,17 @@ h1, h2, h3, h4, h5, h6, p {
     }
 
 
+
+
 @media (min-width:1081px){
-    #drawRoute, #sidebarCollapse, #isochroneButton  { /*bootstrapoverrides .btn-warning, #bootstrapoverrides .btn-custom1, .btn-secondary, .btn-info*/
+    /*Small Buttons*/
+    #CO2Box {
+        width:0px;
+        height:70px;
+    }
+
+    /*Big Buttons*/
+    #drawRoute, #sidebarCollapse, #isochroneButton { /*bootstrapoverrides .btn-warning, #bootstrapoverrides .btn-custom1, .btn-secondary, .btn-info*/
         width: 70px;
         height: 70px;
         border-radius: 35px;
@@ -620,6 +723,14 @@ h1, h2, h3, h4, h5, h6, p {
     }
 
     @media (max-width: 1080px) {
+        /*Small Button (For CO2Button Sizing and Alike)*/
+            #bootstrapoverrides button.btn-circle-small {
+                width: 80px;
+                height: 80px;
+                border-radius: 40px;
+                font-size: 24px;
+            }
+
         #bootstrapoverrides button {
             width:150px;
             height:150px;
@@ -1277,11 +1388,7 @@ span.tooltip:hover {
 /*        bottom:80px !important;
         right:120px !important;
         transform: scale(0.6) !important;
-*/        -webkit-transition: all 0.4s;
-        -moz-transition: all 0.4s;
-        -o-transition: all 0.4s;
-        transition:all 0.4s;
-        /*transform: scale(0.7) !important;*/
+        transform: scale(0.7) !important;*/
     }
 
     .slideup420px {

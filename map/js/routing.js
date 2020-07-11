@@ -29,7 +29,7 @@ function illCleanThisFunctionUpLater() {
     geocoder = new MapboxGeocoder({
       accessToken: mapboxgl.accessToken,
       mapboxgl: mapboxgl,
-      marker: false,
+      marker: true,
       placeholder: "Where to?",
       bbox: [-111.2,32, -110.6, 32.5],
       // proximity: {
@@ -289,7 +289,5 @@ $('#bottomControl').slick({
     // instead of a settings object
   ]
 });
-
-
 
 }

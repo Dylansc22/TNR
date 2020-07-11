@@ -25,7 +25,7 @@
 
     <!-- Mapbox CSS Libraries-->
         <!--Main --><link href='https://api.mapbox.com/mapbox-gl-js/v1.11.0/mapbox-gl.css' rel='stylesheet'/>
-        <!--Search--><link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.4.2/mapbox-gl-geocoder.css" type="text/css" />
+        <!--Search--><link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.5.1/mapbox-gl-geocoder.css" type="text/css" />
         <!--Directions--><link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.0.2/mapbox-gl-directions.css' type='text/css' />
         <!--Draw--><link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.0.9/mapbox-gl-draw.css' type='text/css'/>
 
@@ -53,10 +53,16 @@
         <a href="../home/index.html"><div id="logo">Tp</div></a>
 
     <!--Draw Route Controller (Bottom Left)-->
-        <!-- <div id="bottomLeftControls">
-            <button id="isochroneButton" type="button" class="btn btn-primary btn-circle" title="Toggle Controls" data-toggle="tooltip" data-placement="top"><i class="fas fa-map-marker-alt"></i></button>
-            <button id="donateButton" type="button" class="btn btn-primary btn-circle" title="Toggle Controls" data-toggle="tooltip" data-placement="top"></button>
-        </div> -->
+        <div id="bottomLeftControls">
+            <button id="CO2Button" type="button" class="btn btn-circle-small" data-toggle="tooltip" data-placement="right"><div id="CO2Button2"></div></button><!--title="CO2 Emissions"-->
+            <div id="CO2Box">
+                <div id="offsetinsert"></div>
+                <div id="offsetunits"></div>
+                <div id="offsettext"></div>
+            </div>
+<!--             <button id="isochroneButton" type="button" class="btn btn-primary btn-circle" title="Toggle Controls" data-toggle="tooltip" data-placement="top"><i class="fas fa-map-marker-alt"></i></button>
+            <button id="donateButton" type="button" class="btn btn-primary btn-circle" title="Toggle Controls" data-toggle="tooltip" data-placement="top"></button> -->
+        </div>
     
     <!--Draw Route Controller (Bottom Right)-->
         <div id="bottomRightControls">
@@ -193,7 +199,7 @@ and some of my other scripts depend on JQuery
 <!--Load Main Mapbox JS Libraries
 ---------------------------------------------->
     <!--Main--><script src='https://api.mapbox.com/mapbox-gl-js/v1.11.0/mapbox-gl.js'></script>
-    <!--Search--><script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.4.2/mapbox-gl-geocoder.min.js"></script>
+    <!--Search--><script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.5.1/mapbox-gl-geocoder.min.js"></script>
     <!--Directions--><script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.0.2/mapbox-gl-directions.js'></script>
     <!--Draw--><script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.0.9/mapbox-gl-draw.js'></script>
 
@@ -274,6 +280,12 @@ Source: https://kenwheeler.github.io/slick/
                     
                     // $('dropCrosshairMarker').toggleClass('undoSlideUp');
                 });
+                $('#CO2Button').on('click', function() {
+                    // $('#bottomLeftControls').toggleClass('displayCO2Box');
+                    $('#CO2Box').toggleClass('displayCO2Box');
+                });
+
+                
 
                 Nightmode = false;
                 $('#streetlights').on('click', function() {
@@ -318,7 +330,7 @@ Source: https://kenwheeler.github.io/slick/
                             map.setPaintProperty('road-street-low', 'line-color', nightRoad); 
                             map.setPaintProperty('road-minor-case', 'line-color', nightRoadCase); 
                             map.setPaintProperty('road-minor-low', 'line-color', nightRoad); 
-
+                            
                             map.setPaintProperty('tunnel-motorway-trunk', 'line-color', nightRoadCase); 
                             map.setPaintProperty('tunnel-primary-secondary-tertiary', 'line-color', nightRoadCase); 
                             map.setPaintProperty('tunnel-street-minor', 'line-color', nightRoadCase); 
