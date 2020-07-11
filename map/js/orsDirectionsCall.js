@@ -575,18 +575,20 @@ function MobileMarkers() {
     });
   }
 
-  this.undoLastMarker = function(){
+this.undoLastMarker = function(){
     let numberofPOIs = Object.keys(AllPOIs).length - 1;
     let lastmarkeridstring = Object.keys(AllPOIs)[numberofPOIs];
     let lastmarker = AllPOIs[Number(lastmarkeridstring)];
     if (Object.keys(AllPOIs).length == 1) {
       myPOI.Delete(lastmarker);
       lastmarker.remove()
+      CO2.Display();
     }
     else if (Object.keys(AllPOIs).length != 1) {
       myRoute.RemoveRoute(lastmarker);
       myPOI.Delete(lastmarker);
-      lastmarker.remove()
+      lastmarker.remove();
+      CO2.Display();
     }
   }
 }
