@@ -1,7 +1,7 @@
 window.addEventListener("load", doEverything());//switch to everythingfunction2 when ready to make the leap to the cleaner code
 
 let parametersGHsafe = {
-  host: "http://localhost:8989",
+  host: "http://144.202.64.252:8989",
   vehicle: "bike",
   elevation: false,
   details: ["road_class", "distance"]
@@ -187,6 +187,7 @@ function Route(){
           CO2.Display();
         })
         .catch(function(err) {
+          alert("Ahhh crap! Something went wrong! And now I need to fix whatever this is too.\n\n Most likely my bicycle-routing server is down, or the point you picked is outside my calculated area of my mapped bike-routing area!");
           console.error(err.message);
         });
     };
