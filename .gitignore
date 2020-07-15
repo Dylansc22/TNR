@@ -1,3 +1,7 @@
+#Dylan Specific Stuff I put in
+.htaccess
+.htpasswd
+
 # Logs
 logs
 *.log
