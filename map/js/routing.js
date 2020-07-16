@@ -49,7 +49,7 @@ function illCleanThisFunctionUpLater() {
         positionOptions: {
             enableHighAccuracy: true
         },
-        trackUserLocation: false, //Keep as False. When True, it automatically updates results in buggy behavior
+        trackUserLocation: true, //Keep as False. When True, it automatically updates results in buggy behavior
                                   //Bugginess is from geolocate.on("geolocate", ...) command, which as a result
                                   //Will only fire at the very end of the javascript, and throws a lot of things
                                   //out of order
