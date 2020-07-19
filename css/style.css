@@ -225,7 +225,7 @@ h1, h2, h3, h4, h5, h6, p {
         position: absolute;
         z-index: 1;
         width: 82vw;
-        left:15vw;
+        left:calc(15vw + 40px);
         top:2vw;
         -webkit-transition: all 0.4s;
         -moz-transition: all 0.4s;
@@ -237,6 +237,7 @@ h1, h2, h3, h4, h5, h6, p {
     #geocoder .mapboxgl-ctrl-geocoder{
         box-shadow: 3px 3px 6px grey;
         height: 10vw;
+        margin:0px;
     }
 
     #geocoder .mapboxgl-ctrl-geocoder--button {
@@ -268,13 +269,13 @@ h1, h2, h3, h4, h5, h6, p {
         @media (min-width: 1081px) {
         #geocoder{
             position: absolute;
-            width: calc(100vw - 12vw - 120px);
-            left: calc(6vw + 40px); /*there are 40px margin, from some weird mapbox thing that I don't want to overwrite. trust me this is the correct spacing*/
+            left: calc(6vw + 80px);
             top:10px;           
         }
 
         #geocoder .mapboxgl-ctrl-geocoder{
             height: 60px;
+            margin-left:0px;
         }
 
         #geocoder .mapboxgl-ctrl-geocoder--button {
@@ -284,6 +285,12 @@ h1, h2, h3, h4, h5, h6, p {
 
         #geocoder .mapboxgl-ctrl-geocoder--button svg {
             margin-bottom:10px
+        }
+
+        #bootstrapoverrides #directionshere {
+            top:11px;
+            left: calc(6vw + 80px + 10px);
+            height: 55px;
         }
     }
 
@@ -849,15 +856,20 @@ h1, h2, h3, h4, h5, h6, p {
         position:relative;
     }
 
+    @media (max-width: 1080px) {
+        #bootstrapoverrides #directionshere {
+            left: calc(6vw + 80px + 70px);
+            top: 2vw;
+            height: 80px;
+        }
+    }
+
 
 #bootstrapoverrides #directionshere {
     position: absolute;
     border-radius: 0px;
-    width: 75vw;
-    left: 20vw;
-    top: 30px;
+    width: calc(100vw - 12vw - 120px - 20px);
     border:solid 1px black;
-    height: 80px;
     z-index:0;
     font-size:30px;
     -webkit-transition: all 0.4s;
@@ -875,8 +887,14 @@ h1, h2, h3, h4, h5, h6, p {
     transition:all 0.4s;
 }
 
+@media (min-width: 1081px) {
+    #bootstrapoverrides #directionshere.directionsbuttonvisible {
+        top:90px;
+        font-size: 20px;
+    }
+}
+
 .directionbuttonvisable {
-    top: 30px;
     -webkit-transition: all 0.4s;
     -moz-transition: all 0.4s;
     -o-transition: all 0.4s;
