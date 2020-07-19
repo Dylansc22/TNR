@@ -2,22 +2,34 @@ window.addEventListener("load", doEverything());//switch to everythingfunction2 
 
 function doEverything(){
   illCleanThisFunctionUpLater();
-  OOP();
+  // OOP();
   //all my other code here
 }
 
-function OOP(){
+// function OOP(){
   let parametersGHsafe = {
-    host: "http://144.202.64.252:8989",
-    vehicle: "bike",
-    elevation: false,
+    host: "http://localhost:8989", //host: "http://localhost:8989",
+    profile: "pathways_v2", // "car_co2", "bike_canturn", "pathways_v2"
+    //vehicle: "bike",
+    //weighting: "shortest", //weighting: "custom",
+    //turn_costs: false, //turn_costs: true, DOES NOT LIKE THIS PARAMETER IN CURRENT GRAPH ITTERATION
+    
+    //profile: "pathways",
+    // profile: "pathways_v2",
+    // elevation: false,
+    // turn_costs: true,
     details: ["road_class", "distance"]
   }
 
   let parametersGHdangerous = {
-    key: API.graphhopper,
-    vehicle: "bike",
-    elevation: false,
+    host: "http://localhost:8989",
+    profile: "bike_canturn", //"car_co2", "bike_canturn", "pathways_v2"
+    //weighting: "fastest",
+    //turn_costs: false, //turn_costs: true, DOES NOT LIKE THIS PARAMETER IN CURRENT GRAPH ITTERATION
+    
+    // key: API.graphhopper,
+    // vehicle: "car",
+    // elevation: false,
     details: ["road_class", "distance"]
   }
 
@@ -183,6 +195,7 @@ function OOP(){
         let startPOI = _startPOI;
         let endPOI = _endPOI;
         let ghRouting = new GraphHopper.Routing(parameters);
+        delete ghRouting.vehicle;
 
         ghRouting.addPoint(new GHInput(startPOI.getLngLat().lat, startPOI.getLngLat().lng));
         ghRouting.addPoint(new GHInput(endPOI.getLngLat().lat, endPOI.getLngLat().lng));
@@ -625,6 +638,26 @@ function OOP(){
       }
     }
 
+    let Search = {
+      generateRoute: function(){
+        geolocate._geolocateButton.click();
+        geolocate.on('geolocate', function(e) {
+              // var lon = e.coords.longitude;
+              // var lat = e.coords.latitude
+              // var position = [lon, lat];
+              let startPOI = geolocate._accuracyCircleMarker;
+              //let startPOI = AllPOIs[0];
+              let endPOI = geocoder.mapMarker;
+              endPOI.id = 1;
+              endPOI.source = "source" + endPOI.id.toString();
+              endPOI.layer = "layer" + endPOI.id.toString();
+              AllPOIs[1] = endPOI;
+              myRoute.calculateGHArray(startPOI,endPOI);
+        });
+      }
+    }
+
+
   //Add a marker on mouse click, and create a route if two or more markers exist
     map.on('click', function(e) {
       myPOI.AddPOI(e);
@@ -637,6 +670,8 @@ function OOP(){
     document.getElementById("cancelCrosshairMarker").addEventListener("click", function() { myRoute.ClearAllMarkers;crosshair.ToggleCrosshair();});
     // document.getElementById("isochroneButton").addEventListener("click", myIsochrone.IsochroneButtonClicked.bind(myIsochrone));
     document.getElementById("routerToggle").addEventListener("click", myRoute.ToggleSafeRouting);
+    document.getElementById("directionshere").addEventListener("click", Search.generateRoute);
+
 
     $(function() {
         $('#routerToggle').change(function() {
@@ -644,5 +679,9 @@ function OOP(){
         });
       });
 
-  document.getElementById("drawRoute").addEventListener("click", crosshair.ToggleCross)
-}
+    //When the geocoder (i.e. the search bar) is engaged/triggered/used/etc... dropdown the Button for Generating Directions
+    geocoder.on('result', function(e) {
+      //geocoder.mapMarker.setPopup(new mapboxgl.Popup().setHTML("<h1>Hello World!</h1>")); // add popup
+      document.getElementById("directionshere").classList.add("directionsbuttonvisible");
+      document.getElementById("directionshere").innerHTML = "Get Route to " + geocoder._typeahead.selected.text;
+    });

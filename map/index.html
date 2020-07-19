@@ -66,10 +66,10 @@
     
     <!--Draw Route Controller (Bottom Right)-->
         <div id="bottomRightControls">
-            <button id="drawRoute" type="button" class="btn btn-secondary" title="Draw Route" data-toggle="tooltip" data-placement="right"><i class="smallPlusSign fas fa-plus"></i><i class="fas fa-map-marked-alt"></i></button>
+            <button id="drawRoute" type="button" class="btn btn-custom1" title="Draw Route" data-toggle="tooltip" data-placement="right"><i class="smallPlusSign fas fa-plus"></i><i class="fas fa-map-marked-alt"></i></button>
             <button id="dropCrosshairMarker" type="button" class="btn btn-custom1 btn-circle" title="Drop Marker" data-toggle="tooltip" data-placement="right"><i class="smallPlusSign fas fa-plus"></i><i class="fas fa-map-marker-alt"></i></button>
             <button id="undoCrosshairMarker" type="button" class="btn btn-custom1 btn-circle" title="Undo" data-toggle="tooltip" data-placement="right"><i class="fas fa-undo-alt"></i></button>
-            <button id="cancelCrosshairMarker" type="button" class="btn btn-custom1 btn-circle" title="Cancel" data-toggle="tooltip" data-placement="right"><i class="fas fa-map"></i></button>
+            <button id="cancelCrosshairMarker" type="button" class="btn btn-custom1 btn-circle" title="Cancel" data-toggle="tooltip" data-placement="right"><i class="fas fa-times"></i></button>
             <button id="routeInfo" type="button" class="btn btn-custom1 btn-circle" title="Route" data-toggle="tooltip" data-placement="right" data-target="#routeModal"><i class="fas fa-directions"></i></button>
             <button id="freeDraw" type="button" class="btn btn-custom1 btn-circle" title="Free Draw" data-toggle="tooltip" data-placement="left"></button><!--add font awesome icon if i wasnt to change it <i class="fas fa-project-diagram"></i>   --> 
             <button id="swapButton" type="button" class="btn btn-custom1 btn-circle" title="Free Draw" data-toggle="tooltip" data-placement="left"></button>
@@ -107,8 +107,7 @@
 
     <!--Search Bar-->
         <div id="geocoder" class="geocoder"></div>
-        <button id="directionhere" type="button" class="btn btn-info directionsbuttonhidden hidetop"></button>
-
+        <button id="directionshere" type="button" class="btn btn-custom1" title="Directions Here?" data-toggle="tooltip" data-placement="bottom"></button>
     <!-- Tutorial Modal -->
         <div class="modal fade bd-example-modal-lg" id="TutorialModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
           <div class="modal-dialog modal-dialog-centered" role="document">
@@ -123,7 +122,7 @@
                 <img src="../img/Tutorial.gif" alt="Gif Tutorial Animation">
               </div>
               <!--<div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-custom1" data-dismiss="modal">Close</button>
               </div>-->
             </div>
           </div>
@@ -143,7 +142,7 @@
                 <div id=routeDirections></div>
               </div>
               <!--<div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-custom1" data-dismiss="modal">Close</button>
               </div>-->
             </div>
           </div>
@@ -242,7 +241,7 @@ Source: https://kenwheeler.github.io/slick/
                 $('#bottomLeftControls').toggleClass('shrink7right');
                 $('#map').toggleClass('shrink8');
                 $('#sheet').toggleClass('sheetZindex1');
-                $('#geocoder').toggleClass('hidetop');
+                // $('#geocoder').toggleClass('hidetop');
                 $('#directionshere').toggleClass('hidetop');
                 $('#bottomControl').toggleClass('hidebottom');
 

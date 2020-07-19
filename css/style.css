@@ -606,6 +606,7 @@ h1, h2, h3, h4, h5, h6, p {
     #drawRoute {
         display: block;
         z-index: 4;
+        color:white;
         border: solid 1px black;
         -webkit-transition: all 0.3s;
         -moz-transition: all 0.3s;
@@ -849,17 +850,25 @@ h1, h2, h3, h4, h5, h6, p {
     }
 
 
-#directionhere {
+#bootstrapoverrides #directionshere {
     position: absolute;
     border-radius: 0px;
-    width: 50vw;
-    left: 25vw;
-    top: 21px;
+    width: 75vw;
+    left: 20vw;
+    top: 30px;
+    border:solid 1px black;
     height: 80px;
+    z-index:0;
+    font-size:30px;
+    -webkit-transition: all 0.4s;
+    -moz-transition: all 0.4s;
+    -o-transition: all 0.4s;
+    transition:all 0.4s;
 }
 
-.directionsbuttonhidden {
-    top:-30px;
+#bootstrapoverrides #directionshere.directionsbuttonvisible {
+    top:150px;
+    z-index:0;
     -webkit-transition: all 0.4s;
     -moz-transition: all 0.4s;
     -o-transition: all 0.4s;
