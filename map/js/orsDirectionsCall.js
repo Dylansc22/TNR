@@ -36,17 +36,27 @@ function doEverything(){
   let parameters = parametersGHsafe;
 
   let carbon = 0;
-  let myPOI = new POI();
-  let AllPOIs = new AllPOIsconstructor();
-  let myRoute = new Route();
+  myPOI = new POI();
+  AllPOIs = new AllPOIsconstructor();
+  myRoute = new Route();
   let counter = 0;
   let myIsochrone = new Isochrone();
   let crosshair = new MobileMarkers();
+  let mouseMode = "drawing";
 
-  // var request = require('superagent');
-  // var Promise = require("bluebird");
-  // var GHUtil = require("./../../js/GHUtil");
-  // var ghUtil = new GHUtil();
+
+  document.getElementById("swapButton").addEventListener("click", toggleDrawMode);
+
+  function toggleDrawMode(){
+    if (mouseMode == "drawing") { mouseMode = "crosshair" }
+    else {mouseMode = "drawing";}
+  }
+
+  map.on('click', function(e) {
+    if (mouseMode == "drawing") {
+      myPOI.AddPOI(e);
+    }
+  });
 
   function AllPOIsconstructor(){}; //Empty Constructor to hold the AllPOIs 
 
@@ -94,6 +104,7 @@ function doEverything(){
     this.Delete = function(_marker) {
       let id = _marker.id;
       delete AllPOIs[id];
+      _marker.remove();
     }
 
     this.GetPosition = function () {
@@ -124,6 +135,71 @@ function doEverything(){
         scale: 0.75,
       })
       marker.setLngLat(e.lngLat);
+      marker.addTo(map);
+      marker.id = counter;
+      marker.source = "source" + marker.id.toString();
+      marker.layer = "layer" + marker.id.toString();
+      AllPOIs[counter] = marker;
+      counter++;
+      if (Object.keys(AllPOIs).length >= 2) {
+        let startPOI = myPOI.PriorMarker(marker);
+        myRoute.calculateGHArray(startPOI, marker);
+      }
+      //     If I would like to have marker delete be held inside of a popup use this code         marker.setPopup(new mapboxgl.Popup().setHTML("<h6>Undo</h6>"))
+      //     If I would like to have marker delete be held inside of a popup use this code         marker.togglePopup(); // toggle popup open or closed
+
+
+      //give the markers behavior for being dragged
+        marker.on('dragend', myPOI.onDragEnd);
+
+      //give the markers behavior for being dragged
+        marker.getElement().addEventListener('click', function(e){
+          let id = marker.id;
+          let markerPosition = Object.keys(AllPOIs).indexOf(id.toString());
+          let numberOfPOIs = Object.keys(AllPOIs).length - 1;
+          if (markerPosition == 0 && numberOfPOIs == 0){
+            myPOI.Delete(marker);
+            e.stopPropagation();
+          }
+          else if (0 < markerPosition && markerPosition < numberOfPOIs) {
+            let startPOI = myPOI.PriorMarker(marker);
+            let endPOI = myPOI.SubsequentMarker(marker);
+            myRoute.RemoveRoute(marker);
+            myPOI.Delete(marker);
+            myRoute.calculateGHArray(startPOI, endPOI);
+            e.stopPropagation();
+          }
+          else if (markerPosition == 0 && markerPosition != numberOfPOIs) {
+            let nextid = myPOI.SubsequentMarker(marker);
+            myRoute.RemoveRoute(marker);
+            myPOI.Delete(marker);
+            e.stopPropagation();
+          }
+          else if (markerPosition == numberOfPOIs) {
+            myRoute.RemoveRoute(marker);
+            myPOI.Delete(marker);
+            e.stopPropagation();
+          }
+          else {
+            alert("somehow you clicked something that broke something... I say just refresh the page and start over =P");                           //Stop all other code, ie, stop map.on("click") from trying to put down a new marker
+          }
+          myPOI.Delete(this);
+          marker.remove();
+          delete AllPOIs[marker.id];                           //remove marker
+          CO2.Display();
+          e.stopPropagation();                                //Stop all other code, ie, stop map.on("click") from trying to put down a new marker
+      });
+    }
+
+    this.AddSearchedPOI = function(_marker){
+      let marker = new mapboxgl.Marker({
+        //This doesn't work and I don't understand why >> scale: 0.75, - https://docs.mapbox.com/mapbox-gl-js/api/markers/#marker
+        // element: el,
+        draggable: true,
+        color: 'grey',
+        scale: 0.75,
+      })
+      marker.setLngLat(_marker.getLngLat());
       marker.addTo(map);
       marker.id = counter;
       marker.source = "source" + marker.id.toString();
@@ -228,31 +304,31 @@ function doEverything(){
       }
 
       this.RemoveRoute = function(_marker) {
-        let marker = AllPOIs[_marker.id];
-        let currentMarkerPosition = Object.keys(AllPOIs).indexOf(marker.id.toString());
+        // let marker = AllPOIs[_marker.id];
+        let currentMarkerPosition = Object.keys(AllPOIs).indexOf(_marker.id.toString());
         let subsequentMarkerPosition = currentMarkerPosition + 1;
         let nextmarker = AllPOIs[Object.keys(AllPOIs)[subsequentMarkerPosition]];  
         if (currentMarkerPosition == 0) {
           //Marker is first marker, and doesn't have a layer assigned to it. The mext marker (nextid) does.
-            delete myRoute.geojson[marker.id];
+            delete myRoute.geojson[_marker.id];
             map.removeLayer(nextmarker.layer);
             map.removeSource(nextmarker.source);
         }
         else if (currentMarkerPosition == Object.keys(AllPOIs).length-1) {
           //Marker is last marker, and there is no subsequent marker (ie no nextid) 
-            delete myRoute.geojson[marker.id];
+            delete myRoute.geojson[_marker.id];
             let subsequentMarkerPosition = currentMarkerPosition + 1;
             let nextid = Object.keys(AllPOIs)[subsequentMarkerPosition];
-            map.removeLayer(marker.layer);
-            map.removeSource(marker.source);
+            map.removeLayer(_marker.layer);
+            map.removeSource(_marker.source);
         }
         else {
           //Marker is a "bridge marker" and has a marker before and after it.
-            delete myRoute.geojson[marker.id];
+            delete myRoute.geojson[_marker.id];
             let subsequentMarkerPosition = currentMarkerPosition + 1;
             let nextid = Object.keys(AllPOIs)[subsequentMarkerPosition];
-            map.removeLayer(marker.layer);
-            map.removeSource(marker.source);
+            map.removeLayer(_marker.layer);
+            map.removeSource(_marker.source);
             map.removeLayer(nextmarker.layer);
             map.removeSource(nextmarker.source);
         }
@@ -260,10 +336,10 @@ function doEverything(){
 
       this.zoomToRoute = function(){
         let boundary = []
-        boundary[0] = this.geojson.paths[0].bbox[0] - 0.008;
-        boundary[1] = this.geojson.paths[0].bbox[1] - 0.008;
-        boundary[2] = this.geojson.paths[0].bbox[2] + 0.008;
-        boundary[3] = this.geojson.paths[0].bbox[3] + 0.008;
+        boundary[0] = AllPOIs[Object.values(AllPOIs)[Object.keys(AllPOIs).length-1].id].geojson.paths[0].bbox[0] - 0.008;
+        boundary[1] = AllPOIs[Object.values(AllPOIs)[Object.keys(AllPOIs).length-1].id].geojson.paths[0].bbox[1] - 0.008;
+        boundary[2] = AllPOIs[Object.values(AllPOIs)[Object.keys(AllPOIs).length-1].id].geojson.paths[0].bbox[2] + 0.008;
+        boundary[3] = AllPOIs[Object.values(AllPOIs)[Object.keys(AllPOIs).length-1].id].geojson.paths[0].bbox[3] + 0.008;
         map.fitBounds(boundary);
       }
 
@@ -288,7 +364,7 @@ function doEverything(){
 
       this.ClearAllMarkers = function(){
         let allPOIvalues = Object.values(AllPOIs);
-        for (i = 0; i < allPOIvalues.length; i++ ) {
+        for (i = allPOIvalues.length; i > 0; i-- ) {
           crosshair.undoLastMarker();
         } 
       }
@@ -302,7 +378,7 @@ function doEverything(){
 
       this.ClearAllRoutes = function(){
         let allPOIvalues = Object.values(AllPOIs);
-        for (i = 1; i < allPOIvalues.length; i++ ) {
+        for (i = allPOIvalues.length; i > 0; i-- ) {
           map.removeLayer(AllPOIs[i].layer);
           map.removeSource(AllPOIs[i].source);
         } 
@@ -597,19 +673,12 @@ function doEverything(){
     }
 
   this.undoLastMarker = function(){
-      let numberofPOIs = Object.keys(AllPOIs).length - 1;
-      let lastmarkeridstring = Object.keys(AllPOIs)[numberofPOIs];
-      let lastmarker = AllPOIs[Number(lastmarkeridstring)];
-      if (Object.keys(AllPOIs).length == 1) {
-        myPOI.Delete(lastmarker);
-        lastmarker.remove()
-        CO2.Display();
-      }
-      else if (Object.keys(AllPOIs).length != 1) {
+    let lastmarker = Object.values(AllPOIs)[Object.keys(AllPOIs).length-1];
+    myPOI.Delete(lastmarker);
+    lastmarker.remove();
+    CO2.Display();
+      if (Object.keys(AllPOIs).length >= 1) {
         myRoute.RemoveRoute(lastmarker);
-        myPOI.Delete(lastmarker);
-        lastmarker.remove();
-        CO2.Display();
       }
     }
   }
@@ -638,30 +707,42 @@ function doEverything(){
       }
     }
 
+
+
     let Search = {
       generateRoute: function(){
         geolocate._geolocateButton.click();
+          let endPOI = geocoder.mapMarker;
         geolocate.on('geolocate', function(e) {
-              // var lon = e.coords.longitude;
-              // var lat = e.coords.latitude
-              // var position = [lon, lat];
-              let startPOI = geolocate._accuracyCircleMarker;
-              //let startPOI = AllPOIs[0];
-              let endPOI = geocoder.mapMarker;
-              endPOI.id = 1;
-              endPOI.source = "source" + endPOI.id.toString();
-              endPOI.layer = "layer" + endPOI.id.toString();
-              AllPOIs[1] = endPOI;
-              myRoute.calculateGHArray(startPOI,endPOI);
+          //First, clear off the map of whatever route is current up (if there is one)
+            myRoute.ClearAllMarkers();
+          //Delete the undraggable teal marker    
+            geocoder.clear();
+
+            let startPOI = geolocate._userLocationDotMarker;
+            myPOI.AddSearchedPOI(startPOI);
+
+
+            myPOI.AddSearchedPOI(endPOI);
+            // myRoute.zoomToRoute(); Cannot for the life of me get this to run. It has to do with calculatghGHArray using a promise .then .catch
+
+            // let x = new Promise(function(resolve, reject) {
+            //   resolve(myPOI.AddSearchedPOI(endPOI));
+            // });
+
+            // x.then(myPOI.AddSearchedPOI(endPOI))
+            //  .then(myRoute.zoomToRoute())
+            //  .then(geocoder.clear());
+
+            
+            // fetch(myPOI.AddSearchedPOI(endPOI))
+            //   .then(myRoute.zoomToRoute())
+            //   .then(geocoder.clear())
+            //   .catch(alert("error in the searchbar then statements"));    
         });
       }
     }
 
-
-  //Add a marker on mouse click, and create a route if two or more markers exist
-    map.on('click', function(e) {
-      myPOI.AddPOI(e);
-    });
 
   //Add Button Behavior for Crosshair Routing
     document.getElementById("drawRoute").addEventListener("click", crosshair.ToggleCrosshair);
