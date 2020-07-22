@@ -6,6 +6,12 @@ function doEverything(){
   //all my other code here
 }
 
+function testFunction(p_food){
+  alert(this);
+  alert(p_food);
+}
+
+
 // function OOP(){
   let parametersGHsafe = {
     host: "http://localhost:8989", //host: "http://localhost:8989",
@@ -36,8 +42,8 @@ function doEverything(){
   let parameters = parametersGHsafe;
 
   let carbon = 0;
-  myPOI = new POI();
-  AllPOIs = new AllPOIsconstructor();
+  AllPOIs = [];
+  AllMarkers = [];
   myRoute = new Route();
   let counter = 0;
   let myIsochrone = new Isochrone();
@@ -54,52 +60,251 @@ function doEverything(){
 
   map.on('click', function(e) {
     if (mouseMode == "drawing") {
-      myPOI.AddPOI(e);
+      let poi = new POI(e);
     }
   });
 
-  function AllPOIsconstructor(){}; //Empty Constructor to hold the AllPOIs 
+  function POI(e){
+      let marker = new mapboxgl.Marker({
+        //This doesn't work and I don't understand why >> scale: 0.75, - https://docs.mapbox.com/mapbox-gl-js/api/markers/#marker
+        // element: el,
+        draggable: true,
+        color: 'black',
+        scale: 0.75,
+      })
+      marker.setLngLat(e.lngLat);
+      marker.addTo(map);
+      marker.id = AllPOIs.length;
+      marker.geojson = {};
+      marker.source = "source" + marker.id.toString();
+      marker.layer = "layer" + marker.id.toString();
+      marker.vaporizeMarker = function() {
+        // alert("MY NAME IS " + this.id);
+        this.remove();
+        AllPOIs.splice(this.id,1); //Remove the approprate poi from the Array
+          AllMarkers.splice(this.id,1) //Remove the approprate marker from the Array
+          for (i = 0; i<AllPOIs.length; i++){ //Re-number the marker id's and poi id's to match their position in the array  
+            AllPOIs[i].id = i; //re-number the POIs
+            AllMarkers[i].id = i; //return the Markers to match
+            AllMarkers[i].source = "source" + i.toString();
+            AllMarkers[i].layer = "layer" + i.toString();
+          }
+        counter = AllPOIs.length; //Lower the counter to a smaller value, since we are deleteing pois
+      } 
+      marker.destoryMarkersRoute = function(){
+        //M ----- M ------ M ------ M ------ M
+        
+        //M is the only Marker
+        if (this.id == 0 && AllMarkers.length == 1) {
+          return
+        //There is no route to delete...
+        //Sooo... Yea.... I guess... I don't need to write any code for here
+        //Maybe write a short story about rocket ships of super intelligent dogs(?)  
+        }
+        //M is first Marker
+        // M ------ is deleted
+        if (this.id == 0 && AllMarkers.length > 1) {
+          AllMarkers[1].geojson = {};
+          map.removeLayer(AllMarkers[1].layer);
+          map.removeSource(AllMarkers[1].source);
+        } 
+        //M is last Marker
+        // ------ M is deleted
+        else if (this.id == AllMarkers.length - 1 && AllMarkers.length > 1) {
+          //this is the last marker;
+          map.removeLayer(this.layer);
+          map.removeSource(this.source);
+        }
+        //M is a middle Marker
+        //------ M ------ is deleted
+        //M ---- - ---- M route is calculated
+        else {
+          map.removeLayer(this.layer);
+          map.removeSource(this.source);
+          map.removeLayer(AllMarkers[this.id+1].layer);
+          map.removeSource(AllMarkers[this.id+1].source);
+        }
+      }
 
-  function POI(){
+      marker.calculateRoute = function(start, end){
+          //console.log(this);
+          // let marker = this;
+          // let startPOI = start;
+          // let endPOI = end;
+          let ghRouting = new GraphHopper.Routing(parameters);
+          delete ghRouting.vehicle;
+
+          ghRouting.addPoint(new GHInput(start.getLngLat().lat, start.getLngLat().lng));
+          ghRouting.addPoint(new GHInput(end.getLngLat().lat, end.getLngLat().lng));
+          ghRouting.doRequest()
+            .then(function(json) {
+              // Add your own result handling here
+              end.geojson = json; //***This needs to be fixed. I shouldn't refer to the instance of the object, but the this.geojson doesn't work because this is currently referring to the window. 
+              map.addSource(end.source, { type: 'geojson', data: end.geojson.paths[0].points });
+              map.addLayer({
+                "id": end.layer,
+                "type": "line",
+                "source": end.source,
+                "paint": {
+                  "line-color": "brown",//"#FF6600" //, //"#4f7ba4",
+                  "line-opacity": 0.75,
+                  "line-width": 3
+                }
+              });
+            })
+            .catch(function(err) {
+              alert("Ahhh crap! Something went wrong! And now I need to fix whatever this is too.\n\n Most likely my bicycle-routing server is down, or the point you picked is outside my calculated area of my mapped bike-routing area!");
+              console.error(err.message);
+            });
+      };
+
+      marker.moved = function() {
+        marker.destoryMarkersRoute();
+        if (marker.id != 0 && marker.id != AllMarkers.length-1) {
+          // testFunction.call("apples","oranges");
+          this.calculateRoute(AllMarkers[marker.id-1],marker);
+          this.calculateRoute(marker,AllMarkers[marker.id+1]);
+        }
+        // if (marker.id != 0 && marker.id != AllMarkers.length-1) {
+        //   marker.calculateRoute(AllMarkers[marker.id-1], AllMarkers[marker.id]); 
+        //   marker.calculateRoute(AllMarkers[marker.id], AllMarkers[marker.id+1]);
+        // }
+        // else {
+        //   alert("what else can go wrong?");
+        // }
+      }
+
+      this.id = counter;
+      this.source = "source" + this.id.toString();
+      this.layer = "layer" + this.id.toString();
+      this.geojson = {};
+      AllPOIs[counter] = this;
+      AllMarkers[counter] = marker;
+      counter++;
+
+      //Click behavior for marker 
+      marker.getElement().addEventListener('click', function(e){
+        // alert("marker number " + marker.id + " is about to go bye-bye");
+        marker.destoryMarkersRoute();
+        if(marker.id != 0 && marker.id != AllMarkers.length-1){
+          marker.calculateRoute(AllMarkers[marker.id-1], AllMarkers[marker.id+1]);
+        }
+        marker.vaporizeMarker();
+        e.stopPropagation(); //Stop Propagation so that a new marker isn't added on click
+      });
+
+      //Drag behavior for marker
+      marker.on('dragend', function(e){
+        marker.moved();
+      });
+
+      //Generate route when 2 or more markers are on screen
+      if (this.id >= 1){
+        marker.calculateRoute(AllMarkers[this.id-1],AllMarkers[this.id]);
+      }
+
+
+
+
+        //Methods
+      this.showOnMap = function(_marker){
+        let marker = _marker;
+        map.addSource(marker.source, { type: 'geojson', data: AllPOIs[marker.id].geojson.paths[0].points });
+        map.addLayer({
+          "id": marker.layer,
+          "type": "line",
+          "source": marker.source,
+          "paint": {
+            "line-color": "brown",//"#FF6600" //, //"#4f7ba4",
+            "line-opacity": 0.75,
+            "line-width": 3
+          }
+        });
+      }
+
+        // this.onDragEnd = function () {
+        //   alert('I just dragged marker-'+this.id+'.');
+        //   let marker = this;
+        //   let currentMarkerPosition = Object.keys(AllPOIs).indexOf(marker.id.toString());
+        //   let subsequentMarkerPosition = currentMarkerPosition + 1;
+        //   let priorMarkerPosition = currentMarkerPosition - 1;
+        //   let nextmarker = AllPOIs[Object.keys(AllPOIs)[subsequentMarkerPosition]];
+        //   let priormarker = AllPOIs[Object.keys(AllPOIs)[priorMarkerPosition]];
+        //     if (currentMarkerPosition == 0) {
+        //       //Marker is first marker, and doesn't have a layer assigned to it. The mext marker (nextid) does.
+        //         let nextmarker = AllPOIs[Object.keys(AllPOIs)[subsequentMarkerPosition]];
+        //         map.removeLayer(nextmarker.layer);
+        //         map.removeSource(nextmarker.source);
+        //         delete myRoute.geojson[nextmarker.id];
+        //         myRoute.calculateGHArray(marker,nextmarker);
+        //     }
+        //     else if (currentMarkerPosition == Object.keys(AllPOIs).length-1) {
+        //       //Marker is last marker, and there is no subsequent marker (ie no nextid) 
+        //         let priormarker = AllPOIs[Object.keys(AllPOIs)[priorMarkerPosition]];
+        //         map.removeLayer(marker.layer);
+        //         map.removeSource(marker.source);
+        //         delete myRoute.geojson[marker.id];
+        //         myRoute.calculateGHArray(priormarker,marker);
+        //     }
+        //     else {
+        //       //Marker is a "bridge marker" and has a marker before and after it.
+        //         let nextmarker = AllPOIs[Object.keys(AllPOIs)[subsequentMarkerPosition]];
+        //         let priormarker = AllPOIs[Object.keys(AllPOIs)[priorMarkerPosition]];
+        //         map.removeLayer(marker.layer);
+        //         map.removeSource(marker.source);
+        //         map.removeLayer(nextmarker.layer);
+        //         map.removeSource(nextmarker.source);
+        //         delete myRoute.geojson[marker.id];
+        //         myRoute.calculateGHArray(priormarker,marker);
+        //         myRoute.calculateGHArray(marker,nextmarker);
+        //     }
+        // }
+
+        //   //alert('start generating routes');
+        //   // let startPOI = myPOI.PriorMarker(marker);
+        //   // myRoute.calculateGHArray(startPOI, marker);
+        // }
+
+          // let id = marker.id;
+          // let markerPosition = Object.keys(AllPOIs).indexOf(id.toString());
+          // let numberOfPOIs = Object.keys(AllPOIs).length - 1;
+          // if (markerPosition == 0 && numberOfPOIs == 0){
+          //   myPOI.Delete(marker);
+          //   e.stopPropagation();
+          // }
+          // else if (0 < markerPosition && markerPosition < numberOfPOIs) {
+          //   let startPOI = myPOI.PriorMarker(marker);
+          //   let endPOI = myPOI.SubsequentMarker(marker);
+          //   myRoute.RemoveRoute(marker);
+          //   myPOI.Delete(marker);
+          //   myRoute.calculateGHArray(startPOI, endPOI);
+          //   e.stopPropagation();
+          // }
+          // else if (markerPosition == 0 && markerPosition != numberOfPOIs) {
+          //   let nextid = myPOI.SubsequentMarker(marker);
+          //   myRoute.RemoveRoute(marker);
+          //   myPOI.Delete(marker);
+          //   e.stopPropagation();
+          // }
+          // else if (markerPosition == numberOfPOIs) {
+          //   myRoute.RemoveRoute(marker);
+          //   myPOI.Delete(marker);
+          //   e.stopPropagation();
+          // }
+          // else {
+          //   alert("somehow you clicked something that broke something... I say just refresh the page and start over =P");                           //Stop all other code, ie, stop map.on("click") from trying to put down a new marker
+          // }
+          // myPOI.Delete(this);
+          // marker.remove();
+          // delete AllPOIs[marker.id];                           //remove marker
+          // CO2.Display();
+          // e.stopPropagation();                                //Stop all other code, ie, stop map.on("click") from trying to put down a new marker
+
+      
+
     
     //Method
-    this.onDragEnd = function () {
-      // alert('I just dragged marker-'+this.id+'.');
-      let marker = this;
-      let currentMarkerPosition = Object.keys(AllPOIs).indexOf(marker.id.toString());
-      let subsequentMarkerPosition = currentMarkerPosition + 1;
-      let priorMarkerPosition = currentMarkerPosition - 1;
-      let nextmarker = AllPOIs[Object.keys(AllPOIs)[subsequentMarkerPosition]];
-      let priormarker = AllPOIs[Object.keys(AllPOIs)[priorMarkerPosition]];
-        if (currentMarkerPosition == 0) {
-          //Marker is first marker, and doesn't have a layer assigned to it. The mext marker (nextid) does.
-            let nextmarker = AllPOIs[Object.keys(AllPOIs)[subsequentMarkerPosition]];
-            map.removeLayer(nextmarker.layer);
-            map.removeSource(nextmarker.source);
-            delete myRoute.geojson[nextmarker.id];
-            myRoute.calculateGHArray(marker,nextmarker);
-        }
-        else if (currentMarkerPosition == Object.keys(AllPOIs).length-1) {
-          //Marker is last marker, and there is no subsequent marker (ie no nextid) 
-            let priormarker = AllPOIs[Object.keys(AllPOIs)[priorMarkerPosition]];
-            map.removeLayer(marker.layer);
-            map.removeSource(marker.source);
-            delete myRoute.geojson[marker.id];
-            myRoute.calculateGHArray(priormarker,marker);
-        }
-        else {
-          //Marker is a "bridge marker" and has a marker before and after it.
-            let nextmarker = AllPOIs[Object.keys(AllPOIs)[subsequentMarkerPosition]];
-            let priormarker = AllPOIs[Object.keys(AllPOIs)[priorMarkerPosition]];
-            map.removeLayer(marker.layer);
-            map.removeSource(marker.source);
-            map.removeLayer(nextmarker.layer);
-            map.removeSource(nextmarker.source);
-            delete myRoute.geojson[marker.id];
-            myRoute.calculateGHArray(priormarker,marker);
-            myRoute.calculateGHArray(marker,nextmarker);
-        }
-    }
+
 
     this.Delete = function(_marker) {
       let id = _marker.id;
@@ -712,7 +917,7 @@ function doEverything(){
     let Search = {
       generateRoute: function(){
         geolocate._geolocateButton.click();
-          let endPOI = geocoder.mapMarker;
+          let endPOI = geocoder.mapMarker;  //This whole thing is buggy as hell
         geolocate.on('geolocate', function(e) {
           //First, clear off the map of whatever route is current up (if there is one)
             myRoute.ClearAllMarkers();
