@@ -48,10 +48,18 @@ function doEverything(){
   document.getElementById("swapButton").addEventListener("click", function(){toggleDrawMode("drawing")});
   document.getElementById("drawRoute").addEventListener("click", addCrosshair);
   document.getElementById("dropCrosshairMarker").addEventListener("click", AddMarker);
-  // document.getElementById("undoCrosshairMarker").addEventListener("click", undoLastMarker(AllMarkers[AllMarkers.length-1]));
+  document.getElementById("undoCrosshairMarker").addEventListener("click", undoLastMarker);
   document.getElementById("cancelCrosshairMarker").addEventListener("click", function() { myRoute.ClearAllMarkers;crosshair.ToggleCrosshair();});
 
-
+  function undoLastMarker(){
+    if (AllMarkers.length>0){
+      let l = AllMarkers.length - 1;
+      let lastmarker = AllMarkers[l];
+      lastmarker.destoryMarkersRoute();
+      lastmarker.vaporizeMarker();
+      lastmarker.recount();
+    }
+  }
 
   function setDrawMode(mode) {
       mouseMode = mode;
