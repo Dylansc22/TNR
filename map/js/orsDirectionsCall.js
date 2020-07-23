@@ -6,10 +6,11 @@ function doEverything(){
   //all my other code here
 }
 
-function testFunction(p_food){
-  alert(this);
-  alert(p_food);
-}
+// testing how 'this' keyword opperates... Hahha I hate 'this'
+// function testFunction(p_food){
+//   alert(this);
+//   alert(p_food);
+// }
 
 
 // function OOP(){
@@ -19,11 +20,7 @@ function testFunction(p_food){
     //vehicle: "bike",
     //weighting: "shortest", //weighting: "custom",
     //turn_costs: false, //turn_costs: true, DOES NOT LIKE THIS PARAMETER IN CURRENT GRAPH ITTERATION
-    
-    //profile: "pathways",
-    // profile: "pathways_v2",
     // elevation: false,
-    // turn_costs: true,
     details: ["road_class", "distance"]
   }
 
@@ -32,9 +29,7 @@ function testFunction(p_food){
     profile: "bike_canturn", //"car_co2", "bike_canturn", "pathways_v2"
     //weighting: "fastest",
     //turn_costs: false, //turn_costs: true, DOES NOT LIKE THIS PARAMETER IN CURRENT GRAPH ITTERATION
-    
     // key: API.graphhopper,
-    // vehicle: "car",
     // elevation: false,
     details: ["road_class", "distance"]
   }
@@ -61,6 +56,10 @@ function testFunction(p_food){
   map.on('click', function(e) {
     if (mouseMode == "drawing") {
       let poi = new POI(e);
+      //Generate route when 2 or more markers are on screen
+      if (AllMarkers.length >= 2){
+        AllMarkers[1].calculateRoute(AllMarkers[AllMarkers.length-2],AllMarkers[AllMarkers.length-1]);
+      }
     }
   });
 
@@ -79,17 +78,8 @@ function testFunction(p_food){
       marker.source = "source" + marker.id.toString();
       marker.layer = "layer" + marker.id.toString();
       marker.vaporizeMarker = function() {
-        // alert("MY NAME IS " + this.id);
+        //Remove marker
         this.remove();
-        AllPOIs.splice(this.id,1); //Remove the approprate poi from the Array
-          AllMarkers.splice(this.id,1) //Remove the approprate marker from the Array
-          for (i = 0; i<AllPOIs.length; i++){ //Re-number the marker id's and poi id's to match their position in the array  
-            AllPOIs[i].id = i; //re-number the POIs
-            AllMarkers[i].id = i; //return the Markers to match
-            AllMarkers[i].source = "source" + i.toString();
-            AllMarkers[i].layer = "layer" + i.toString();
-          }
-        counter = AllPOIs.length; //Lower the counter to a smaller value, since we are deleteing pois
       } 
       marker.destoryMarkersRoute = function(){
         //M ----- M ------ M ------ M ------ M
@@ -103,7 +93,7 @@ function testFunction(p_food){
         }
         //M is first Marker
         // M ------ is deleted
-        if (this.id == 0 && AllMarkers.length > 1) {
+        else if (this.id == 0 && AllMarkers.length > 1) {
           AllMarkers[1].geojson = {};
           map.removeLayer(AllMarkers[1].layer);
           map.removeSource(AllMarkers[1].source);
@@ -125,12 +115,53 @@ function testFunction(p_food){
           map.removeSource(AllMarkers[this.id+1].source);
         }
       }
+      marker.recount = function(){
+          AllPOIs.splice(this.id,1); //Remove the approprate poi from the Array
+          AllMarkers.splice(this.id,1) //Remove the approprate marker from the Array
 
+          for (i = this.id; i<AllMarkers.length; i++){ //Re-number the marker id's and poi id's to match their position in the array  
+             //This is because there is never a layer0/source0/geojson0. Layers are associated when there are at least *two* markers. 
+              AllMarkers[i].source = "source" + i.toString();
+              AllMarkers[i].layer = "layer" + i.toString();
+              AllMarkers[i].id = i; //return the Markers to match
+            }
+          for (i = this.id+1; i<AllMarkers.length; i++){    
+              map.getLayer("layer"+(i+1).toString())._eventedParentData.layer.id = AllMarkers[i].layer //layer1
+              map.getSource("source"+(i+1).toString()).source = AllMarkers[i].source //layer1
+              }
+          counter = AllMarkers.length; //Lower the counter to a smaller value, since we are deleteing pois
+      }      
+      marker.redrawMarkerRoute = function(){
+      //M ----- M ------ M ------ M ------ M
+        //* is the only Marker - There is no route to redraw...
+        let movedMarker = this;
+        if (this.id == 0 && AllMarkers.length == 1) {
+          return
+        }
+        //* is first Marker - Redraw M --^--- M ------ M
+        else if (this.id == 0 && AllMarkers.length > 1) {
+          AllMarkers[1].geojson = {};
+          map.removeLayer(AllMarkers[1].layer);
+          map.removeSource(AllMarkers[1].source);
+          marker.calculateRoute(this,AllMarkers[this.id+1]);
+        } 
+        //M is last Marker - Redraw M ----- M --^-- M 
+        else if (this.id == AllMarkers.length - 1 && AllMarkers.length > 1) {
+          map.removeLayer(this.layer);
+          map.removeSource(this.source);
+          marker.calculateRoute(AllMarkers[this.id-1],this);         
+        }
+        //M is a middle Marker - Redraw Both M --^-- M --^-- M 
+        else {
+          map.removeLayer(this.layer);
+          map.removeSource(this.source);
+          map.removeLayer(AllMarkers[this.id+1].layer);
+          map.removeSource(AllMarkers[this.id+1].source);
+          marker.calculateRoute(AllMarkers[this.id-1],this);  
+          marker.calculateRoute(this,AllMarkers[this.id+1]);       
+        }
+      }
       marker.calculateRoute = function(start, end){
-          //console.log(this);
-          // let marker = this;
-          // let startPOI = start;
-          // let endPOI = end;
           let ghRouting = new GraphHopper.Routing(parameters);
           delete ghRouting.vehicle;
 
@@ -153,18 +184,20 @@ function testFunction(p_food){
               });
             })
             .catch(function(err) {
+              console.log("end: " + end);
+              console.log("start: " + start);
+              console.log("this: " + this);
               alert("Ahhh crap! Something went wrong! And now I need to fix whatever this is too.\n\n Most likely my bicycle-routing server is down, or the point you picked is outside my calculated area of my mapped bike-routing area!");
               console.error(err.message);
             });
       };
 
       marker.moved = function() {
-        marker.destoryMarkersRoute();
-        if (marker.id != 0 && marker.id != AllMarkers.length-1) {
-          // testFunction.call("apples","oranges");
-          this.calculateRoute(AllMarkers[marker.id-1],marker);
-          this.calculateRoute(marker,AllMarkers[marker.id+1]);
-        }
+        marker.redrawMarkerRoute();
+        // if (marker.id != 0 && marker.id != AllMarkers.length-1) {
+        //   // testFunction.call("apples","oranges");
+        //   this.calculateRoute(AllMarkers[marker.id-1],marker);
+        // }
         // if (marker.id != 0 && marker.id != AllMarkers.length-1) {
         //   marker.calculateRoute(AllMarkers[marker.id-1], AllMarkers[marker.id]); 
         //   marker.calculateRoute(AllMarkers[marker.id], AllMarkers[marker.id+1]);
@@ -186,10 +219,11 @@ function testFunction(p_food){
       marker.getElement().addEventListener('click', function(e){
         // alert("marker number " + marker.id + " is about to go bye-bye");
         marker.destoryMarkersRoute();
-        if(marker.id != 0 && marker.id != AllMarkers.length-1){
-          marker.calculateRoute(AllMarkers[marker.id-1], AllMarkers[marker.id+1]);
-        }
         marker.vaporizeMarker();
+        marker.recount();
+        if(marker.id != 0 && marker.id != AllMarkers.length){
+          marker.calculateRoute(AllMarkers[marker.id-1], AllMarkers[marker.id]);
+        }
         e.stopPropagation(); //Stop Propagation so that a new marker isn't added on click
       });
 
@@ -198,29 +232,26 @@ function testFunction(p_food){
         marker.moved();
       });
 
-      //Generate route when 2 or more markers are on screen
-      if (this.id >= 1){
-        marker.calculateRoute(AllMarkers[this.id-1],AllMarkers[this.id]);
-      }
+
 
 
 
 
         //Methods
-      this.showOnMap = function(_marker){
-        let marker = _marker;
-        map.addSource(marker.source, { type: 'geojson', data: AllPOIs[marker.id].geojson.paths[0].points });
-        map.addLayer({
-          "id": marker.layer,
-          "type": "line",
-          "source": marker.source,
-          "paint": {
-            "line-color": "brown",//"#FF6600" //, //"#4f7ba4",
-            "line-opacity": 0.75,
-            "line-width": 3
-          }
-        });
-      }
+      // this.showOnMap = function(_marker){
+      //   let marker = _marker;
+      //   map.addSource(marker.source, { type: 'geojson', data: AllPOIs[marker.id].geojson.paths[0].points });
+      //   map.addLayer({
+      //     "id": marker.layer,
+      //     "type": "line",
+      //     "source": marker.source,
+      //     "paint": {
+      //       "line-color": "brown",//"#FF6600" //, //"#4f7ba4",
+      //       "line-opacity": 0.75,
+      //       "line-width": 3
+      //     }
+      //   });
+      // }
 
         // this.onDragEnd = function () {
         //   alert('I just dragged marker-'+this.id+'.');
