@@ -42,24 +42,95 @@ function doEverything(){
   let counter = 0;
   let myIsochrone = new Isochrone();
   let crosshair = new MobileMarkers();
-  let mouseMode = "drawing";
+  let mouseMode = "closed";
 
 
-  document.getElementById("swapButton").addEventListener("click", toggleDrawMode);
+  document.getElementById("swapButton").addEventListener("click", function(){toggleDrawMode("drawing")});
+  document.getElementById("drawRoute").addEventListener("click", addCrosshair);
+  document.getElementById("dropCrosshairMarker").addEventListener("click", AddMarker);
+  document.getElementById("undoCrosshairMarker").addEventListener("click", undoLastMarker);
+  document.getElementById("cancelCrosshairMarker").addEventListener("click", function() { myRoute.ClearAllMarkers;crosshair.ToggleCrosshair();});
 
-  function toggleDrawMode(){
-    if (mouseMode == "drawing") { mouseMode = "crosshair" }
-    else {mouseMode = "drawing";}
+  function undoLastMarker(){
+    if (AllMarkers.length>0){
+      let l = AllMarkers.length - 1;
+      let lastmarker = AllMarkers[l];
+      lastmarker.destoryMarkersRoute();
+      lastmarker.vaporizeMarker();
+      lastmarker.recount();
+    }
+  }
+
+  function setDrawMode(mode) {
+      mouseMode = mode;
+  }
+
+  function toggleDrawMode(mode) {
+    if(mouseMode == "crosshair") {
+      mouseMode = "drawing";
+      centerdot.remove();
+      delete centerdot;
+    } else if (mouseMode =="drawing") {
+      mouseMode = "crosshair";
+      centerdot = new mapboxgl.Marker({
+        //element: el, if I want a crosshair instead of the marker
+        draggable: false,
+        color: 'brown',
+        scale: 0.8,
+        })
+
+        centerdot.setLngLat(map.getCenter())
+        centerdot.addTo(map);
+
+        map.on('move', function(e) {
+          if (typeof centerdot !== 'undefined') {
+            centerdot.setLngLat(map.getCenter());
+          }
+        });
+    }
+  }
+
+  function addCrosshair(){
+    if (mouseMode == "closed") {
+    setDrawMode("crosshair");
+    centerdot = new mapboxgl.Marker({
+        //element: el, if I want a crosshair instead of the marker
+        draggable: false,
+        color: 'brown',
+        scale: 0.8,
+        })
+
+        centerdot.setLngLat(map.getCenter())
+        centerdot.addTo(map);
+
+        map.on('move', function(e) {
+          if (typeof centerdot !== 'undefined') {
+            centerdot.setLngLat(map.getCenter());
+          }
+        });
+    } else if (mouseMode == "crosshair" || mouseMode == "drawing"){
+      setDrawMode("closed");
+      centerdot.remove();
+      delete centerdot;
+    }
+   
+  }
+
+  function AddMarker(e){
+    poi = new POI(e);
+    //Generate route when 2 or more markers are on screen
+    if (AllMarkers.length >= 2){
+      AllMarkers[AllMarkers.length-1].calculateRoute(AllMarkers[AllMarkers.length-2],AllMarkers[AllMarkers.length-1]);
+    }
+  }
+
+  function UndoButtonClicked(marker){
+    marker.undoLastMarker();
   }
 
   map.on('click', function(e) {
     if (mouseMode == "drawing") {
-      let poi = new POI(e);
-      //Generate route when 2 or more markers are on screen
-      if (AllMarkers.length >= 2){
-        AllMarkers[AllMarkers.length-1].calculateRoute(AllMarkers[AllMarkers.length-2],AllMarkers[AllMarkers.length-1]);
-      }
-
+      AddMarker(e);
     }
   });
 
@@ -68,10 +139,14 @@ function doEverything(){
         //This doesn't work and I don't understand why >> scale: 0.75, - https://docs.mapbox.com/mapbox-gl-js/api/markers/#marker
         // element: el,
         draggable: true,
-        color: 'black',
+        color: 'silver',
         scale: 0.75,
       })
-      marker.setLngLat(e.lngLat);
+      if (mouseMode == "drawing") {
+        marker.setLngLat(e.lngLat);
+      } else if (mouseMode == "crosshair") {
+        marker.setLngLat(map.getCenter());
+      }
       marker.addTo(map);
       marker.id = AllMarkers.length;
       marker.geojson = {};
@@ -79,6 +154,13 @@ function doEverything(){
         marker.source = "source" + counter.toString();
         marker.layer = "layer" + counter.toString();
         counter++;
+
+      marker.undoLastMarker = function(marker){
+        marker.destoryMarkersRoute();
+        marker.vaporizeMarker();
+        // marker.recount();
+      }
+
       marker.vaporizeMarker = function() {
         //Remove marker
         this.remove();
@@ -118,9 +200,7 @@ function doEverything(){
         }
       }
       marker.recount = function(){
-          AllPOIs.splice(this.id,1); //Remove the approprate poi from the Array
           AllMarkers.splice(this.id,1) //Remove the approprate marker from the Array
-
           for (i = this.id; i<AllMarkers.length; i++){ //Re-number the marker id's and poi id's to match their position in the array  
              //This is because there is never a layer0/source0/geojson0. Layers are associated when there are at least *two* markers. 
               AllMarkers[i].id = i; //return the Markers to match
@@ -188,11 +268,11 @@ function doEverything(){
       };
       marker.moved = function() {
         marker.redrawMarkerRoute();
-        // if (marker.id != 0 && marker.id != AllMarkers.length-1) {
+        // if (marker.id !== 0 && marker.id !== AllMarkers.length-1) {
         //   // testFunction.call("apples","oranges");
         //   this.calculateRoute(AllMarkers[marker.id-1],marker);
         // }
-        // if (marker.id != 0 && marker.id != AllMarkers.length-1) {
+        // if (marker.id !== 0 && marker.id !== AllMarkers.length-1) {
         //   marker.calculateRoute(AllMarkers[marker.id-1], AllMarkers[marker.id]); 
         //   marker.calculateRoute(AllMarkers[marker.id], AllMarkers[marker.id+1]);
         // }
@@ -210,7 +290,7 @@ function doEverything(){
         marker.destoryMarkersRoute();
         marker.vaporizeMarker();
         marker.recount();
-        if(marker.id != 0 && marker.id != AllMarkers.length){
+        if(marker.id !== 0 && marker.id !== AllMarkers.length){
           marker.calculateRoute(AllMarkers[marker.id-1], AllMarkers[marker.id]);
         }
         e.stopPropagation(); //Stop Propagation so that a new marker isn't added on click
@@ -301,7 +381,7 @@ function doEverything(){
           //   myRoute.calculateGHArray(startPOI, endPOI);
           //   e.stopPropagation();
           // }
-          // else if (markerPosition == 0 && markerPosition != numberOfPOIs) {
+          // else if (markerPosition == 0 && markerPosition !== numberOfPOIs) {
           //   let nextid = myPOI.SubsequentMarker(marker);
           //   myRoute.RemoveRoute(marker);
           //   myPOI.Delete(marker);
@@ -395,7 +475,7 @@ function doEverything(){
             myRoute.calculateGHArray(startPOI, endPOI);
             e.stopPropagation();
           }
-          else if (markerPosition == 0 && markerPosition != numberOfPOIs) {
+          else if (markerPosition == 0 && markerPosition !== numberOfPOIs) {
             let nextid = myPOI.SubsequentMarker(marker);
             myRoute.RemoveRoute(marker);
             myPOI.Delete(marker);
@@ -460,7 +540,7 @@ function doEverything(){
             myRoute.calculateGHArray(startPOI, endPOI);
             e.stopPropagation();
           }
-          else if (markerPosition == 0 && markerPosition != numberOfPOIs) {
+          else if (markerPosition == 0 && markerPosition !== numberOfPOIs) {
             let nextid = myPOI.SubsequentMarker(marker);
             myRoute.RemoveRoute(marker);
             myPOI.Delete(marker);
@@ -793,110 +873,6 @@ function doEverything(){
 
 
   function MobileMarkers() {
-    this.ToggleCrosshair = function(){
-      //If I want a crosshair instead of the Marker
-      // create a HTML element for each feature
-      // var el = document.createElement('div');
-      // el.className = 'crosshair';
-      if (typeof centerdot !== 'undefined') {
-        centerdot.remove();
-        delete centerdot;
-      }
-      else {
-        centerdot = new mapboxgl.Marker({
-        //element: el, if I want a crosshair instead of the marker
-        draggable: false,
-        color: 'brown',
-        scale: 0.8,
-        })
-
-        centerdot.setLngLat(map.getCenter())
-        centerdot.addTo(map);
-
-        map.on('move', function(e) {
-          if (typeof centerdot != 'undefined') {
-            centerdot.setLngLat(map.getCenter());
-          }
-        });
-      }
-      
-    }
-
-    this.DropCrosshairMarker = function(){
-      map.on('click', function() {
-        let marker = new mapboxgl.Marker({
-          draggable: true,
-          color: 'blue',
-        })
-
-        marker.setLngLat(map.getCenter())
-        marker.addTo(map);
-      });
-
-    }
-    this.AddMarker = function(e){
-      let marker = new mapboxgl.Marker({
-        //This doesn't work and I don't understand why >> scale: 0.75, - https://docs.mapbox.com/mapbox-gl-js/api/markers/#marker
-        // element: el,
-        draggable: true,
-        color: 'grey',
-        scale: 0.9,
-      })
-      marker.setLngLat(map.getCenter());
-      marker.addTo(map);
-      marker.id = counter;
-      marker.source = "source" + marker.id.toString();
-      marker.layer = "layer" + marker.id.toString();
-      AllPOIs[counter] = marker;
-      counter++;
-      if (Object.keys(AllPOIs).length >= 2) {
-        let startPOI = myPOI.PriorMarker(marker);
-        myRoute.calculateGHArray(startPOI, marker);
-      }
-      //     If I would like to have marker delete be held inside of a popup use this code         marker.setPopup(new mapboxgl.Popup().setHTML("<h6>Undo</h6>"))
-      //     If I would like to have marker delete be held inside of a popup use this code         marker.togglePopup(); // toggle popup open or closed
-
-
-      //give the markers behavior for being dragged
-        marker.on('dragend', myPOI.onDragEnd);
-
-      //give the markers behavior for being dragged
-        marker.getElement().addEventListener('click', function(e){
-          let id = marker.id;
-          let markerPosition = Object.keys(AllPOIs).indexOf(id.toString());
-          let numberOfPOIs = Object.keys(AllPOIs).length - 1;
-          if (markerPosition == 0 && numberOfPOIs == 0){
-            myPOI.Delete(marker);
-            e.stopPropagation();
-          }
-          else if (0 < markerPosition && markerPosition < numberOfPOIs) {
-            let startPOI = myPOI.PriorMarker(marker);
-            let endPOI = myPOI.SubsequentMarker(marker);
-            myRoute.RemoveRoute(marker);
-            myPOI.Delete(marker);
-            myRoute.calculateGHArray(startPOI, endPOI);
-            e.stopPropagation();
-          }
-          else if (markerPosition == 0 && markerPosition != numberOfPOIs) {
-            let nextid = myPOI.SubsequentMarker(marker);
-            myRoute.RemoveRoute(marker);
-            myPOI.Delete(marker);
-            e.stopPropagation();
-          }
-          else if (markerPosition == numberOfPOIs) {
-            myRoute.RemoveRoute(marker);
-            myPOI.Delete(marker);
-            e.stopPropagation();
-          }
-          else {
-            alert("somehow you clicked something that broke something... I say just refresh the page and start over =P");                           //Stop all other code, ie, stop map.on("click") from trying to put down a new marker
-          }
-          myPOI.Delete(this);
-          marker.remove();
-          delete AllPOIs[marker.id];                           //remove marker
-          e.stopPropagation();                                //Stop all other code, ie, stop map.on("click") from trying to put down a new marker
-      });
-    }
 
   this.undoLastMarker = function(){
     let lastmarker = Object.values(AllPOIs)[Object.keys(AllPOIs).length-1];
@@ -971,10 +947,6 @@ function doEverything(){
 
 
   //Add Button Behavior for Crosshair Routing
-    document.getElementById("drawRoute").addEventListener("click", crosshair.ToggleCrosshair);
-    document.getElementById("dropCrosshairMarker").addEventListener("click", crosshair.AddMarker);
-    document.getElementById("undoCrosshairMarker").addEventListener("click", crosshair.undoLastMarker);
-    document.getElementById("cancelCrosshairMarker").addEventListener("click", function() { myRoute.ClearAllMarkers;crosshair.ToggleCrosshair();});
     // document.getElementById("isochroneButton").addEventListener("click", myIsochrone.IsochroneButtonClicked.bind(myIsochrone));
     document.getElementById("routerToggle").addEventListener("click", myRoute.ToggleSafeRouting);
     document.getElementById("directionshere").addEventListener("click", Search.generateRoute);
