@@ -29,9 +29,12 @@ function illCleanThisFunctionUpLater() {
     geocoder = new MapboxGeocoder({
       accessToken: mapboxgl.accessToken,
       mapboxgl: mapboxgl,
-      marker: true,
+      marker: {
+        color: "teal",
+      },
       placeholder: "Where to?",
       bbox: [-111.2,32, -110.6, 32.5],
+      // types: 'country,region,place,postcode,locality,neighborhood'
       // proximity: {
       //   longitude: -110,
       //   latitude: 32
