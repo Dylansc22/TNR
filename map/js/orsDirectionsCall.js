@@ -37,7 +37,6 @@ function doEverything(){
   let parameters = parametersGHsafe;
 
   let carbon = 0;
-  AllPOIs = [];
   AllMarkers = [];
   myRoute = new Route();
   let counter = 0;
@@ -58,8 +57,9 @@ function doEverything(){
       let poi = new POI(e);
       //Generate route when 2 or more markers are on screen
       if (AllMarkers.length >= 2){
-        AllMarkers[1].calculateRoute(AllMarkers[AllMarkers.length-2],AllMarkers[AllMarkers.length-1]);
+        AllMarkers[AllMarkers.length-1].calculateRoute(AllMarkers[AllMarkers.length-2],AllMarkers[AllMarkers.length-1]);
       }
+
     }
   });
 
@@ -73,10 +73,12 @@ function doEverything(){
       })
       marker.setLngLat(e.lngLat);
       marker.addTo(map);
-      marker.id = AllPOIs.length;
+      marker.id = AllMarkers.length;
       marker.geojson = {};
-      marker.source = "source" + marker.id.toString();
-      marker.layer = "layer" + marker.id.toString();
+      //Every Layer and Source gets a Unique ID from a global Variable Counter that is always increasing
+        marker.source = "source" + counter.toString();
+        marker.layer = "layer" + counter.toString();
+        counter++;
       marker.vaporizeMarker = function() {
         //Remove marker
         this.remove();
@@ -121,18 +123,11 @@ function doEverything(){
 
           for (i = this.id; i<AllMarkers.length; i++){ //Re-number the marker id's and poi id's to match their position in the array  
              //This is because there is never a layer0/source0/geojson0. Layers are associated when there are at least *two* markers. 
-              AllMarkers[i].source = "source" + i.toString();
-              AllMarkers[i].layer = "layer" + i.toString();
               AllMarkers[i].id = i; //return the Markers to match
             }
-          for (i = this.id+1; i<AllMarkers.length; i++){    
-              map.getLayer("layer"+(i+1).toString())._eventedParentData.layer.id = AllMarkers[i].layer //layer1
-              map.getSource("source"+(i+1).toString()).source = AllMarkers[i].source //layer1
-              }
-          counter = AllMarkers.length; //Lower the counter to a smaller value, since we are deleteing pois
       }      
       marker.redrawMarkerRoute = function(){
-      //M ----- M ------ M ------ M ------ M
+        //M ----- M ------ M ------ M ------ M
         //* is the only Marker - There is no route to redraw...
         let movedMarker = this;
         if (this.id == 0 && AllMarkers.length == 1) {
@@ -191,7 +186,6 @@ function doEverything(){
               console.error(err.message);
             });
       };
-
       marker.moved = function() {
         marker.redrawMarkerRoute();
         // if (marker.id != 0 && marker.id != AllMarkers.length-1) {
@@ -207,13 +201,8 @@ function doEverything(){
         // }
       }
 
-      this.id = counter;
-      this.source = "source" + this.id.toString();
-      this.layer = "layer" + this.id.toString();
-      this.geojson = {};
-      AllPOIs[counter] = this;
-      AllMarkers[counter] = marker;
-      counter++;
+      AllMarkers[AllMarkers.length] = marker;
+      
 
       //Click behavior for marker 
       marker.getElement().addEventListener('click', function(e){
@@ -230,6 +219,7 @@ function doEverything(){
       //Drag behavior for marker
       marker.on('dragend', function(e){
         marker.moved();
+        e.stopPropagation();
       });
 
 
