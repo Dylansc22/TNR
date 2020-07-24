@@ -50,6 +50,64 @@ function doEverything(){
   document.getElementById("dropCrosshairMarker").addEventListener("click", AddMarker);
   document.getElementById("undoCrosshairMarker").addEventListener("click", undoLastMarker);
   document.getElementById("cancelCrosshairMarker").addEventListener("click", function() { myRoute.ClearAllMarkers;crosshair.ToggleCrosshair();});
+  
+  //Button Functionality
+    let CO2 = {
+      Measure: function() {
+                  let sum = 0;
+                  for (i = 1; i < AllMarkers.length; i++) {
+                    let distanceMiles = AllMarkers[i].geojson.paths[0].distance/5280;
+                    let yourCarMPG = 25;
+                    let poundsCO2ProducedPerGallonOfGas = 20;
+                    let LbsofCO2 = distanceMiles * yourCarMPG / poundsCO2ProducedPerGallonOfGas;
+                    sum = Math.round((sum + LbsofCO2)*100)/100;
+                  }
+                return sum;
+      },
+      Display: function() {
+                  // alert(CO2.Measure(AllPOIs));      
+                  document.getElementById("offsetinsert").innerHTML = CO2.Measure();
+                  document.getElementById("offsetunits").innerHTML = " lbs CO2";
+                  document.getElementById("offsettext").innerHTML = "Offset from Atmosphere";
+      }
+    }
+
+
+
+    let Search = {
+      generateRoute: function(){
+        geolocate._geolocateButton.click();
+          let endPOI = geocoder.mapMarker;  //This whole thing is buggy as hell
+        geolocate.on('geolocate', function(e) {
+          //First, clear off the map of whatever route is current up (if there is one)
+            myRoute.ClearAllMarkers();
+          //Delete the undraggable teal marker    
+            geocoder.clear();
+
+            let startPOI = geolocate._userLocationDotMarker;
+            myPOI.AddSearchedPOI(startPOI);
+
+
+            myPOI.AddSearchedPOI(endPOI);
+            // myRoute.zoomToRoute(); Cannot for the life of me get this to run. It has to do with calculatghGHArray using a promise .then .catch
+
+            // let x = new Promise(function(resolve, reject) {
+            //   resolve(myPOI.AddSearchedPOI(endPOI));
+            // });
+
+            // x.then(myPOI.AddSearchedPOI(endPOI))
+            //  .then(myRoute.zoomToRoute())
+            //  .then(geocoder.clear());
+
+            
+            // fetch(myPOI.AddSearchedPOI(endPOI))
+            //   .then(myRoute.zoomToRoute())
+            //   .then(geocoder.clear())
+            //   .catch(alert("error in the searchbar then statements"));    
+        });
+      }
+    }
+
 
   function undoLastMarker(){
     if (AllMarkers.length>0){
@@ -58,6 +116,7 @@ function doEverything(){
       lastmarker.destoryMarkersRoute();
       lastmarker.vaporizeMarker();
       lastmarker.recount();
+      CO2.Display();
     }
   }
 
@@ -257,6 +316,7 @@ function doEverything(){
                   "line-width": 3
                 }
               });
+              CO2.Display();
             })
             .catch(function(err) {
               console.log("end: " + end);
@@ -290,6 +350,7 @@ function doEverything(){
         marker.destoryMarkersRoute();
         marker.vaporizeMarker();
         marker.recount();
+        CO2.Display();
         if(marker.id !== 0 && marker.id !== AllMarkers.length){
           marker.calculateRoute(AllMarkers[marker.id-1], AllMarkers[marker.id]);
         }
@@ -883,67 +944,6 @@ function doEverything(){
       }
     }
   }
-
-  //Button Functionality
-    let CO2 = {
-      Measure: function (_AllPOIs) {
-        let AllPOIs = _AllPOIs;
-        let AllPOIsValues = Object.values(AllPOIs);
-        let sum = 0;
-
-        for (i = 1; i < AllPOIsValues.length; i++) {
-          let distanceMiles = AllPOIsValues[i].geojson.paths[0].distance/5280;
-          let yourCarMPG = 25;
-          let poundsCO2ProducedPerGallonOfGas = 20;
-          let LbsofCO2 = distanceMiles * yourCarMPG / poundsCO2ProducedPerGallonOfGas;
-          sum = Math.round((sum + LbsofCO2)*100)/100;
-        }
-        return sum;
-      },
-      Display: function() {
-        // alert(CO2.Measure(AllPOIs));      
-        document.getElementById("offsetinsert").innerHTML = CO2.Measure(AllPOIs);
-        document.getElementById("offsetunits").innerHTML = " lbs CO2";
-        document.getElementById("offsettext").innerHTML = "Offset from Atmosphere";
-      }
-    }
-
-
-
-    let Search = {
-      generateRoute: function(){
-        geolocate._geolocateButton.click();
-          let endPOI = geocoder.mapMarker;  //This whole thing is buggy as hell
-        geolocate.on('geolocate', function(e) {
-          //First, clear off the map of whatever route is current up (if there is one)
-            myRoute.ClearAllMarkers();
-          //Delete the undraggable teal marker    
-            geocoder.clear();
-
-            let startPOI = geolocate._userLocationDotMarker;
-            myPOI.AddSearchedPOI(startPOI);
-
-
-            myPOI.AddSearchedPOI(endPOI);
-            // myRoute.zoomToRoute(); Cannot for the life of me get this to run. It has to do with calculatghGHArray using a promise .then .catch
-
-            // let x = new Promise(function(resolve, reject) {
-            //   resolve(myPOI.AddSearchedPOI(endPOI));
-            // });
-
-            // x.then(myPOI.AddSearchedPOI(endPOI))
-            //  .then(myRoute.zoomToRoute())
-            //  .then(geocoder.clear());
-
-            
-            // fetch(myPOI.AddSearchedPOI(endPOI))
-            //   .then(myRoute.zoomToRoute())
-            //   .then(geocoder.clear())
-            //   .catch(alert("error in the searchbar then statements"));    
-        });
-      }
-    }
-
 
   //Add Button Behavior for Crosshair Routing
     // document.getElementById("isochroneButton").addEventListener("click", myIsochrone.IsochroneButtonClicked.bind(myIsochrone));
