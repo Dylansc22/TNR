@@ -899,6 +899,8 @@ h1, h2, h3, h4, h5, h6, p {
     transition:all 0.4s;
 }
 
+
+
 @media (min-width: 1081px) {
     #bootstrapoverrides #directionshere.directionsbuttonvisible {
         top:90px;

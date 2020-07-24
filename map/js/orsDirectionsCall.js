@@ -42,15 +42,8 @@ function doEverything(){
   let counter = 0;
   let myIsochrone = new Isochrone();
   let crosshair = new MobileMarkers();
-  let mouseMode = "closed";
+  let mode = "closed";
 
-
-  document.getElementById("swapButton").addEventListener("click", function(){toggleDrawMode("drawing")});
-  document.getElementById("drawRoute").addEventListener("click", addCrosshair);
-  document.getElementById("dropCrosshairMarker").addEventListener("click", AddMarker);
-  document.getElementById("undoCrosshairMarker").addEventListener("click", undoLastMarker);
-  document.getElementById("cancelCrosshairMarker").addEventListener("click", function() { myRoute.ClearAllMarkers;crosshair.ToggleCrosshair();});
-  
   //Button Functionality
     let CO2 = {
       Measure: function() {
@@ -62,51 +55,59 @@ function doEverything(){
                     let LbsofCO2 = distanceMiles * yourCarMPG / poundsCO2ProducedPerGallonOfGas;
                     sum = Math.round((sum + LbsofCO2)*100)/100;
                   }
-                return sum;
-      },
+                  return sum;
+                },
       Display: function() {
                   // alert(CO2.Measure(AllPOIs));      
                   document.getElementById("offsetinsert").innerHTML = CO2.Measure();
                   document.getElementById("offsetunits").innerHTML = " lbs CO2";
                   document.getElementById("offsettext").innerHTML = "Offset from Atmosphere";
-      }
+                }
     }
-
-
 
     let Search = {
-      generateRoute: function(){
-        geolocate._geolocateButton.click();
-          let endPOI = geocoder.mapMarker;  //This whole thing is buggy as hell
-        geolocate.on('geolocate', function(e) {
-          //First, clear off the map of whatever route is current up (if there is one)
-            myRoute.ClearAllMarkers();
-          //Delete the undraggable teal marker    
-            geocoder.clear();
-
-            let startPOI = geolocate._userLocationDotMarker;
-            myPOI.AddSearchedPOI(startPOI);
-
-
-            myPOI.AddSearchedPOI(endPOI);
-            // myRoute.zoomToRoute(); Cannot for the life of me get this to run. It has to do with calculatghGHArray using a promise .then .catch
-
-            // let x = new Promise(function(resolve, reject) {
-            //   resolve(myPOI.AddSearchedPOI(endPOI));
-            // });
-
-            // x.then(myPOI.AddSearchedPOI(endPOI))
-            //  .then(myRoute.zoomToRoute())
-            //  .then(geocoder.clear());
-
-            
-            // fetch(myPOI.AddSearchedPOI(endPOI))
-            //   .then(myRoute.zoomToRoute())
-            //   .then(geocoder.clear())
-            //   .catch(alert("error in the searchbar then statements"));    
-        });
+      generateRoute: function(e){
+        $('#directionshere').toggleClass('directionsbuttonvisible'); //I know this is super hacky to put button behavior in my routing function, but this was the only spot i could get it to work, and I'm lazy tonight
+            if (AllMarkers.length>0) {
+              for (i = AllMarkers.length; i>=0; i--){
+                undoLastMarker();
+              }
+            }
+              // geolocate.options.trackUserLocation = false;
+              geolocate.trigger();
+              setTimeout(function(){
+                mode = "geolocate";
+                AddMarker();
+                mode = "searched";
+                AddMarker();
+              }, 1000);
+              // setTimeout(function(){ 
+              //   // mode = "geolocate";
+              //   // AddMarker();
+              //   // mode = "searched";
+              //   // AddMarker();
+              //  }, 3000);
+              // geolocate.on("geolocate", function(e){
+              //   mode = "geolocate";
+              //   AddMarker();
+              //   mode = "searched";
+              //   AddMarker();
+              // });
+                mode = "closed";
+              // geolocate.options.trackUserLocation = true;
+              // setTimeout(function(){ geolocate.trigger() }, 1000);
       }
     }
+
+  document.getElementById("drawRoute").addEventListener("click", addCrosshair);
+  document.getElementById("swapButton").addEventListener("click", function(){toggleDrawMode()});
+  document.getElementById("dropCrosshairMarker").addEventListener("click", AddMarker);
+  document.getElementById("undoCrosshairMarker").addEventListener("click", undoLastMarker);
+  document.getElementById("cancelCrosshairMarker").addEventListener("click", function() { myRoute.ClearAllMarkers;crosshair.ToggleCrosshair();});
+  document.getElementById("directionshere").addEventListener("click", function(){Search.generateRoute()});
+
+
+
 
 
   function undoLastMarker(){
@@ -120,17 +121,17 @@ function doEverything(){
     }
   }
 
-  function setDrawMode(mode) {
-      mouseMode = mode;
+  function setDrawMode(_mode) {
+      mode = _mode;
   }
 
-  function toggleDrawMode(mode) {
-    if(mouseMode == "crosshair") {
-      mouseMode = "drawing";
+  function toggleDrawMode() {
+    if(mode !== "drawing") {
+      mode = "drawing";
       centerdot.remove();
       delete centerdot;
-    } else if (mouseMode =="drawing") {
-      mouseMode = "crosshair";
+    } else {
+      mode = "crosshair";
       centerdot = new mapboxgl.Marker({
         //element: el, if I want a crosshair instead of the marker
         draggable: false,
@@ -150,7 +151,7 @@ function doEverything(){
   }
 
   function addCrosshair(){
-    if (mouseMode == "closed") {
+    if (mode !== "crosshair") {
     setDrawMode("crosshair");
     centerdot = new mapboxgl.Marker({
         //element: el, if I want a crosshair instead of the marker
@@ -167,7 +168,7 @@ function doEverything(){
             centerdot.setLngLat(map.getCenter());
           }
         });
-    } else if (mouseMode == "crosshair" || mouseMode == "drawing"){
+    } else {
       setDrawMode("closed");
       centerdot.remove();
       delete centerdot;
@@ -178,7 +179,7 @@ function doEverything(){
   function AddMarker(e){
     poi = new POI(e);
     //Generate route when 2 or more markers are on screen
-    if (AllMarkers.length >= 2){
+    if (AllMarkers.length > 1){
       AllMarkers[AllMarkers.length-1].calculateRoute(AllMarkers[AllMarkers.length-2],AllMarkers[AllMarkers.length-1]);
     }
   }
@@ -188,7 +189,7 @@ function doEverything(){
   }
 
   map.on('click', function(e) {
-    if (mouseMode == "drawing") {
+    if (mode == "drawing") {
       AddMarker(e);
     }
   });
@@ -201,11 +202,21 @@ function doEverything(){
         color: 'grey',
         scale: 0.75,
       })
-      if (mouseMode == "drawing") {
+      if (mode == "drawing") {
         marker.setLngLat(e.lngLat);
-      } else if (mouseMode == "crosshair") {
+      } 
+      else if (mode == "crosshair") {
         marker.setLngLat(map.getCenter());
+      } 
+      else if (mode == "geolocate") {
+        let templat = geolocate._lastKnownPosition.coords.latitude;
+        let templng = geolocate._lastKnownPosition.coords.longitude;
+        marker.setLngLat({"lng":templng, "lat":templat});
       }
+      else if (mode == "searched") {
+        marker.setLngLat(geocoder.mapMarker.getLngLat());
+        geocoder.clear();
+      } 
       marker.addTo(map);
       marker.id = AllMarkers.length;
       marker.geojson = {};
@@ -948,7 +959,6 @@ function doEverything(){
   //Add Button Behavior for Crosshair Routing
     // document.getElementById("isochroneButton").addEventListener("click", myIsochrone.IsochroneButtonClicked.bind(myIsochrone));
     document.getElementById("routerToggle").addEventListener("click", myRoute.ToggleSafeRouting);
-    document.getElementById("directionshere").addEventListener("click", Search.generateRoute);
 
 
     $(function() {
