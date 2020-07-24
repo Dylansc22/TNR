@@ -24,6 +24,16 @@ function doEverything(){
     details: ["road_class", "distance"]
   }
 
+  let parametersCO2Car = {
+    host: "http://localhost:8989", //host: "http://localhost:8989",
+    profile: "car_co2", // "car_co2", "bike_canturn", "pathways_v2"
+    //vehicle: "bike",
+    //weighting: "shortest", //weighting: "custom",
+    //turn_costs: false, //turn_costs: true, DOES NOT LIKE THIS PARAMETER IN CURRENT GRAPH ITTERATION
+    // elevation: false,
+    //details: ["road_class", "distance"]
+  }
+
   let parametersGHdangerous = {
     host: "http://localhost:8989",
     profile: "bike_canturn", //"car_co2", "bike_canturn", "pathways_v2"
@@ -38,6 +48,7 @@ function doEverything(){
 
   let carbon = 0;
   AllMarkers = [];
+  CO2Markers = [];
   myRoute = new Route();
   let counter = 0;
   let myIsochrone = new Isochrone();
@@ -48,8 +59,8 @@ function doEverything(){
     let CO2 = {
       Measure: function() {
                   let sum = 0;
-                  for (i = 1; i < AllMarkers.length; i++) {
-                    let distanceMiles = AllMarkers[i].geojson.paths[0].distance/5280;
+                  for (i = 1; i < CO2Markers.length; i++) {
+                    let distanceMiles = CO2Markers[i].CO2geojson.paths[0].distance/5280;
                     let yourCarMPG = 25;
                     let poundsCO2ProducedPerGallonOfGas = 20;
                     let LbsofCO2 = distanceMiles * yourCarMPG / poundsCO2ProducedPerGallonOfGas;
@@ -249,6 +260,7 @@ function doEverything(){
         // M ------ is deleted
         else if (this.id == 0 && AllMarkers.length > 1) {
           AllMarkers[1].geojson = {};
+          CO2Markers[1].CO2geojson = {};
           map.removeLayer(AllMarkers[1].layer);
           map.removeSource(AllMarkers[1].source);
         } 
@@ -271,9 +283,11 @@ function doEverything(){
       }
       marker.recount = function(){
           AllMarkers.splice(this.id,1) //Remove the approprate marker from the Array
+          CO2Markers.splice(this.id,1) //Remove the approprate marker from the Array
           for (i = this.id; i<AllMarkers.length; i++){ //Re-number the marker id's and poi id's to match their position in the array  
              //This is because there is never a layer0/source0/geojson0. Layers are associated when there are at least *two* markers. 
               AllMarkers[i].id = i; //return the Markers to match
+              CO2Markers[i].id = i; //return the Markers to match
             }
       }      
       marker.redrawMarkerRoute = function(){
@@ -286,6 +300,7 @@ function doEverything(){
         //* is first Marker - Redraw M --^--- M ------ M
         else if (this.id == 0 && AllMarkers.length > 1) {
           AllMarkers[1].geojson = {};
+          CO2Markers[1].CO2geojson = {};
           map.removeLayer(AllMarkers[1].layer);
           map.removeSource(AllMarkers[1].source);
           marker.calculateRoute(this,AllMarkers[this.id+1]);
@@ -307,6 +322,25 @@ function doEverything(){
         }
       }
       marker.calculateRoute = function(start, end){
+          let CO2ghRouting = new GraphHopper.Routing(parametersCO2Car);
+          delete CO2ghRouting.vehicle;
+
+          CO2ghRouting.addPoint(new GHInput(start.getLngLat().lat, start.getLngLat().lng));
+          CO2ghRouting.addPoint(new GHInput(end.getLngLat().lat, end.getLngLat().lng));
+          CO2ghRouting.doRequest()
+            .then(function(json) {
+              // Add your own result handling here
+              end.CO2geojson = json
+              CO2.Display();
+            })
+            .catch(function(err) {
+              console.log("end: " + end);
+              console.log("start: " + start);
+              console.log("this: " + this);
+              alert("Ahhh crap! Something went wrong! And now I need to fix whatever this is too.\n\n Most likely my bicycle-routing server is down, or the point you picked is outside my calculated area of my mapped bike-routing area!");
+              console.error(err.message);
+            });
+
           let ghRouting = new GraphHopper.Routing(parameters);
           delete ghRouting.vehicle;
 
@@ -327,7 +361,6 @@ function doEverything(){
                   "line-width": 3
                 }
               });
-              CO2.Display();
             })
             .catch(function(err) {
               console.log("end: " + end);
@@ -353,7 +386,8 @@ function doEverything(){
       }
 
       AllMarkers[AllMarkers.length] = marker;
-      
+      CO2Markers[CO2Markers.length] = marker;
+
 
       //Click behavior for marker 
       marker.getElement().addEventListener('click', function(e){
@@ -372,108 +406,6 @@ function doEverything(){
       marker.on('dragend', function(e){
         marker.moved();
       });
-
-
-
-
-
-
-        //Methods
-      // this.showOnMap = function(_marker){
-      //   let marker = _marker;
-      //   map.addSource(marker.source, { type: 'geojson', data: AllPOIs[marker.id].geojson.paths[0].points });
-      //   map.addLayer({
-      //     "id": marker.layer,
-      //     "type": "line",
-      //     "source": marker.source,
-      //     "paint": {
-      //       "line-color": "brown",//"#FF6600" //, //"#4f7ba4",
-      //       "line-opacity": 0.75,
-      //       "line-width": 3
-      //     }
-      //   });
-      // }
-
-        // this.onDragEnd = function () {
-        //   alert('I just dragged marker-'+this.id+'.');
-        //   let marker = this;
-        //   let currentMarkerPosition = Object.keys(AllPOIs).indexOf(marker.id.toString());
-        //   let subsequentMarkerPosition = currentMarkerPosition + 1;
-        //   let priorMarkerPosition = currentMarkerPosition - 1;
-        //   let nextmarker = AllPOIs[Object.keys(AllPOIs)[subsequentMarkerPosition]];
-        //   let priormarker = AllPOIs[Object.keys(AllPOIs)[priorMarkerPosition]];
-        //     if (currentMarkerPosition == 0) {
-        //       //Marker is first marker, and doesn't have a layer assigned to it. The mext marker (nextid) does.
-        //         let nextmarker = AllPOIs[Object.keys(AllPOIs)[subsequentMarkerPosition]];
-        //         map.removeLayer(nextmarker.layer);
-        //         map.removeSource(nextmarker.source);
-        //         delete myRoute.geojson[nextmarker.id];
-        //         myRoute.calculateGHArray(marker,nextmarker);
-        //     }
-        //     else if (currentMarkerPosition == Object.keys(AllPOIs).length-1) {
-        //       //Marker is last marker, and there is no subsequent marker (ie no nextid) 
-        //         let priormarker = AllPOIs[Object.keys(AllPOIs)[priorMarkerPosition]];
-        //         map.removeLayer(marker.layer);
-        //         map.removeSource(marker.source);
-        //         delete myRoute.geojson[marker.id];
-        //         myRoute.calculateGHArray(priormarker,marker);
-        //     }
-        //     else {
-        //       //Marker is a "bridge marker" and has a marker before and after it.
-        //         let nextmarker = AllPOIs[Object.keys(AllPOIs)[subsequentMarkerPosition]];
-        //         let priormarker = AllPOIs[Object.keys(AllPOIs)[priorMarkerPosition]];
-        //         map.removeLayer(marker.layer);
-        //         map.removeSource(marker.source);
-        //         map.removeLayer(nextmarker.layer);
-        //         map.removeSource(nextmarker.source);
-        //         delete myRoute.geojson[marker.id];
-        //         myRoute.calculateGHArray(priormarker,marker);
-        //         myRoute.calculateGHArray(marker,nextmarker);
-        //     }
-        // }
-
-        //   //alert('start generating routes');
-        //   // let startPOI = myPOI.PriorMarker(marker);
-        //   // myRoute.calculateGHArray(startPOI, marker);
-        // }
-
-          // let id = marker.id;
-          // let markerPosition = Object.keys(AllPOIs).indexOf(id.toString());
-          // let numberOfPOIs = Object.keys(AllPOIs).length - 1;
-          // if (markerPosition == 0 && numberOfPOIs == 0){
-          //   myPOI.Delete(marker);
-          //   e.stopPropagation();
-          // }
-          // else if (0 < markerPosition && markerPosition < numberOfPOIs) {
-          //   let startPOI = myPOI.PriorMarker(marker);
-          //   let endPOI = myPOI.SubsequentMarker(marker);
-          //   myRoute.RemoveRoute(marker);
-          //   myPOI.Delete(marker);
-          //   myRoute.calculateGHArray(startPOI, endPOI);
-          //   e.stopPropagation();
-          // }
-          // else if (markerPosition == 0 && markerPosition !== numberOfPOIs) {
-          //   let nextid = myPOI.SubsequentMarker(marker);
-          //   myRoute.RemoveRoute(marker);
-          //   myPOI.Delete(marker);
-          //   e.stopPropagation();
-          // }
-          // else if (markerPosition == numberOfPOIs) {
-          //   myRoute.RemoveRoute(marker);
-          //   myPOI.Delete(marker);
-          //   e.stopPropagation();
-          // }
-          // else {
-          //   alert("somehow you clicked something that broke something... I say just refresh the page and start over =P");                           //Stop all other code, ie, stop map.on("click") from trying to put down a new marker
-          // }
-          // myPOI.Delete(this);
-          // marker.remove();
-          // delete AllPOIs[marker.id];                           //remove marker
-          // CO2.Display();
-          // e.stopPropagation();                                //Stop all other code, ie, stop map.on("click") from trying to put down a new marker
-
-      
-
     
     //Method
 
