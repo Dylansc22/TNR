@@ -139,7 +139,7 @@ function doEverything(){
         //This doesn't work and I don't understand why >> scale: 0.75, - https://docs.mapbox.com/mapbox-gl-js/api/markers/#marker
         // element: el,
         draggable: true,
-        color: 'silver',
+        color: 'grey',
         scale: 0.75,
       })
       if (mouseMode == "drawing") {
@@ -299,7 +299,6 @@ function doEverything(){
       //Drag behavior for marker
       marker.on('dragend', function(e){
         marker.moved();
-        e.stopPropagation();
       });
 
 

@@ -683,6 +683,19 @@ h1, h2, h3, h4, h5, h6, p {
         transform: scale(0.5);
     }
 
+    .routerPlusSign {
+        position: absolute;
+        top:27%;
+        right:60%; 
+        transform: scale(0.6);
+        color:brown;
+    }
+
+    .iconbigger {
+        transform: scale(1.3);
+        color:white;
+    }
+
 
     #undoCrosshairMarker{
         background-color: orange;
