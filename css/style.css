@@ -309,6 +309,7 @@ h1, h2, h3, h4, h5, h6, p {
         }
 
 /*Toggle Switch*/
+@media (max-width:1080px) {
     #toggleSwitch {
         position: absolute;
         box-shadow: 4px 4px 8px grey;
@@ -355,52 +356,66 @@ h1, h2, h3, h4, h5, h6, p {
         transform: scale(3);
         padding-bottom:12px;
     }
+}
 
-    @media (min-width:1081px) {
-        #toggleSwitch {
-            top: 190px;
-            border: solid 1px grey;
-        }
+@media (min-width:1081px) {
+    #toggleSwitch {
+        position: absolute;
+        box-shadow: 4px 4px 8px grey;
+        top:190px;
+        z-index: 3;
+        font-family:auto;
+        border: solid 1px grey;
+        /*For centering div
+        bottom: 50px;
+        left: 50%;
+        transform: translate(-50%, 0);*/
+    }
 
-        #toggleSwitch .btn {
-            font-size:20px;
-            height:40px;
-            border:none;
-        }
+    #toggleSwitch .btn {
+        border-radius: 0px;
+        border:none;
+        font-size:20px;
+        height:40px;
+    }
 
-        #toggleSwitch i {
-            transform: scale(1.5);
-            padding-bottom:12px;
-            width:20px;
-        }
+    #mapViewControls #toggleSwitch .btn.btn-success {
+        background-color: white;   /*#5f8056;*/
+        color:#363636;
+        line-height: 40px;
+        width:58px !important;
+    }
 
-        #toggleSwitch .btn.btn-success {
-            line-height: 30px;
-            width:60px;
+    #mapViewControls #toggleSwitch .btn.btn-danger {
+        background-color: white; /*#bc5050;*/
+        color:#363636;
+        line-height: 40px;
+        width:58px !important;
+    }
 
-        }
+    #toggleSwitch .toggle-handle {
+        height: 130px;
+        width:5px !important;
+        background-color: #363636;
+        padding: 8px;
+    }
+
+    #toggleSwitch i {
+        transform: scale(3);
+        padding-bottom:12px;
+        transform: scale(1.2);
+        width:20px;
+    }
 
         #routerToggle {
             width:25px;
         }        
 
-        #toggleSwitch .btn.btn-danger {
-            line-height: 30px;
-            width:50px;
-        }
 
-        #toggleSwitch .btn .btn-danger .toggle-off {
-            width:50px;
-        }
 
-        #toggleSwitch .toggle-handle {
-            width:10px;
-        }
 
-        #toggleSwitch i {
-            transform: scale(.9);
-        }
-    }
+
+}
 
     .thumb h4 {
         padding:15px;
@@ -552,7 +567,7 @@ h1, h2, h3, h4, h5, h6, p {
 
     @media (min-width:1081px) {
         .displayCO2Box {
-            width:220px !important;
+            width:290px !important;
             height:70px !important;
             border:solid 1px black !important;
             padding:3px !important;
@@ -688,7 +703,7 @@ h1, h2, h3, h4, h5, h6, p {
         top:27%;
         right:60%; 
         transform: scale(0.6);
-        color:brown;
+        color:white;
     }
 
     .iconbigger {
