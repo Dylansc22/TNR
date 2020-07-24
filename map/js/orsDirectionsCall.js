@@ -48,7 +48,6 @@ function doEverything(){
 
   let carbon = 0;
   AllMarkers = [];
-  CO2Markers = [];
   myRoute = new Route();
   let counter = 0;
   let myIsochrone = new Isochrone();
@@ -59,8 +58,8 @@ function doEverything(){
     let CO2 = {
       Measure: function() {
                   let sum = 0;
-                  for (i = 1; i < CO2Markers.length; i++) {
-                    let distanceMiles = CO2Markers[i].CO2geojson.paths[0].distance/5280;
+                  for (i = 1; i < AllMarkers.length; i++) {
+                    let distanceMiles = AllMarkers[i].CO2geojson.paths[0].distance/5280;
                     let yourCarMPG = 25;
                     let poundsCO2ProducedPerGallonOfGas = 20;
                     let LbsofCO2 = distanceMiles * yourCarMPG / poundsCO2ProducedPerGallonOfGas;
@@ -230,6 +229,7 @@ function doEverything(){
       } 
       marker.addTo(map);
       marker.id = AllMarkers.length;
+      marker.CO2geojson = {};
       marker.geojson = {};
       //Every Layer and Source gets a Unique ID from a global Variable Counter that is always increasing
         marker.source = "source" + counter.toString();
@@ -260,7 +260,7 @@ function doEverything(){
         // M ------ is deleted
         else if (this.id == 0 && AllMarkers.length > 1) {
           AllMarkers[1].geojson = {};
-          CO2Markers[1].CO2geojson = {};
+          AllMarkers[1].CO2geojson = {};
           map.removeLayer(AllMarkers[1].layer);
           map.removeSource(AllMarkers[1].source);
         } 
@@ -283,11 +283,9 @@ function doEverything(){
       }
       marker.recount = function(){
           AllMarkers.splice(this.id,1) //Remove the approprate marker from the Array
-          CO2Markers.splice(this.id,1) //Remove the approprate marker from the Array
           for (i = this.id; i<AllMarkers.length; i++){ //Re-number the marker id's and poi id's to match their position in the array  
              //This is because there is never a layer0/source0/geojson0. Layers are associated when there are at least *two* markers. 
               AllMarkers[i].id = i; //return the Markers to match
-              CO2Markers[i].id = i; //return the Markers to match
             }
       }      
       marker.redrawMarkerRoute = function(){
@@ -300,7 +298,7 @@ function doEverything(){
         //* is first Marker - Redraw M --^--- M ------ M
         else if (this.id == 0 && AllMarkers.length > 1) {
           AllMarkers[1].geojson = {};
-          CO2Markers[1].CO2geojson = {};
+          AllMarkers[1].CO2geojson = {};
           map.removeLayer(AllMarkers[1].layer);
           map.removeSource(AllMarkers[1].source);
           marker.calculateRoute(this,AllMarkers[this.id+1]);
@@ -330,7 +328,7 @@ function doEverything(){
           CO2ghRouting.doRequest()
             .then(function(json) {
               // Add your own result handling here
-              end.CO2geojson = json
+              end.CO2geojson = json;
               CO2.Display();
             })
             .catch(function(err) {
@@ -386,7 +384,6 @@ function doEverything(){
       }
 
       AllMarkers[AllMarkers.length] = marker;
-      CO2Markers[CO2Markers.length] = marker;
 
 
       //Click behavior for marker 
