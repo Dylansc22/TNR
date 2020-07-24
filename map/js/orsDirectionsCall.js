@@ -53,6 +53,7 @@ function doEverything(){
   let myIsochrone = new Isochrone();
   let crosshair = new MobileMarkers();
   let mode = "closed";
+  let safe = true;
 
   //Button Functionality
     let CO2 = {
@@ -109,13 +110,54 @@ function doEverything(){
       }
     }
 
+    let ToggleSafeRouting = function(){
+        if (safe == true) {
+          safe = false;
+        }
+        else {
+          safe = true;
+        }
+        if (safe == true) {
+          if (AllMarkers.length>0) {
+            for (i = AllMarkers.length - 1; i > 0; i-- ) {
+              map.removeLayer(AllMarkers[i].layer);
+              map.removeSource(AllMarkers[i].source);
+            } 
+          }
+          parameters = parametersGHsafe;
+            for (i = 0; i < AllMarkers.length-1; i++ ) {
+              AllMarkers[i].calculateRoute(AllMarkers[i],AllMarkers[i+1]);
+            } 
+        }
+        else if (safe == false) {
+          if (AllMarkers.length>0) {
+            for (i = AllMarkers.length - 1; i > 0; i-- ) {
+              map.removeLayer(AllMarkers[i].layer);
+              map.removeSource(AllMarkers[i].source);
+            } 
+          }
+          parameters = parametersGHdangerous;
+            for (i = 0; i < AllMarkers.length-1; i++ ) {
+              AllMarkers[i].calculateRoute(AllMarkers[i],AllMarkers[i+1]);
+            } 
+        }
+      } 
+
   document.getElementById("drawRoute").addEventListener("click", addCrosshair);
   document.getElementById("swapButton").addEventListener("click", function(){toggleDrawMode()});
   document.getElementById("dropCrosshairMarker").addEventListener("click", AddMarker);
   document.getElementById("undoCrosshairMarker").addEventListener("click", undoLastMarker);
   document.getElementById("cancelCrosshairMarker").addEventListener("click", function() { myRoute.ClearAllMarkers;crosshair.ToggleCrosshair();});
   document.getElementById("directionshere").addEventListener("click", function(){Search.generateRoute()});
+  // document.getElementById("isochroneButton").addEventListener("click", myIsochrone.IsochroneButtonClicked.bind(myIsochrone));
+  document.getElementById("routerToggle").addEventListener("click", ToggleSafeRouting);
 
+
+  $(function() {
+      $('#routerToggle').change(function() {
+        ToggleSafeRouting();
+      });
+    });
 
 
 
@@ -649,25 +691,6 @@ function doEverything(){
         map.fitBounds(boundary);
       }
 
-      this.ToggleSafeRouting = function(){
-        if (myRoute.safe == true) {
-          myRoute.safe = false;
-        }
-        else {
-          myRoute.safe = true;
-        }
-        if (myRoute.safe == true) {
-          myRoute.ClearAllRoutes();
-          parameters = parametersGHsafe;
-          myRoute.RouteAll();
-        }
-        else if (myRoute.safe == false) {
-          myRoute.ClearAllRoutes();
-          parameters = parametersGHdangerous;
-          myRoute.RouteAll();
-        }
-      } 
-
       this.ClearAllMarkers = function(){
         let allPOIvalues = Object.values(AllPOIs);
         for (i = allPOIvalues.length; i > 0; i-- ) {
@@ -886,15 +909,7 @@ function doEverything(){
   }
 
   //Add Button Behavior for Crosshair Routing
-    // document.getElementById("isochroneButton").addEventListener("click", myIsochrone.IsochroneButtonClicked.bind(myIsochrone));
-    document.getElementById("routerToggle").addEventListener("click", myRoute.ToggleSafeRouting);
 
-
-    $(function() {
-        $('#routerToggle').change(function() {
-          myRoute.ToggleSafeRouting();
-        });
-      });
 
     //When the geocoder (i.e. the search bar) is engaged/triggered/used/etc... dropdown the Button for Generating Directions
     geocoder.on('result', function(e) {
