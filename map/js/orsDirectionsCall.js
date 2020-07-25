@@ -377,7 +377,7 @@ function doEverything(){
               console.log("end: " + end);
               console.log("start: " + start);
               console.log("this: " + this);
-              alert("Ahhh crap! Something went wrong! And now I need to fix whatever this is too.\n\n Most likely my bicycle-routing server is down, or the point you picked is outside my calculated area of my mapped bike-routing area!");
+              alert("An error may have occured! No big deal - but remember this is a pre-alpha release.\n\n Most likely the error occured on the server, and may be down. Or the point you picked is outside my calculated area of my mapped bike-routing area!\n\n If this continues please reach out to dylan.cobean@gmail.com");
               console.error(err.message);
             });
 
