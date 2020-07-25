@@ -39,7 +39,7 @@ function doEverything(){
     profile: "bike_canturn", //"car_co2", "bike_canturn", "pathways_v2"
     //weighting: "fastest",
     //turn_costs: false, //turn_costs: true, DOES NOT LIKE THIS PARAMETER IN CURRENT GRAPH ITTERATION
-    // key: API.graphhopper,
+    // key: keys.graphhopper,
     // elevation: false,
     details: ["road_class", "distance"]
   }

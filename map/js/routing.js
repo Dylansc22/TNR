@@ -5,10 +5,10 @@ function illCleanThisFunctionUpLater() {
   // All parameter options such as attributionControl, minZoom, style, etc... are found here... https://docs.mapbox.com/mapbox-gl-js/api/#map
 
   //Activate Mapbox Map
-    mapboxgl.accessToken = API.mapbox;
+    mapboxgl.accessToken = keys.mapbox;
     map = new mapboxgl.Map({
         container: 'map', // container id
-        style: 'mapbox://styles/dylanc/ckcb3lu6f0lsq1ioatvd4im5m',
+        style: keys.style,
         center: [-110.93182, 32.23156], 
         zoom: 12.826,
         pitch: 0,
@@ -22,12 +22,12 @@ function illCleanThisFunctionUpLater() {
 
   //Add Zome & Rotation Controls 
     var zoom = new mapboxgl.NavigationControl({
-        accessToken: mapboxgl.accessToken,    
+        accessToken: keys.mapbox,    
     })
 
   //Adds Mapbox Search Box
     geocoder = new MapboxGeocoder({
-      accessToken: mapboxgl.accessToken,
+      accessToken: keys.mapbox,
       mapboxgl: mapboxgl,
       marker: {
         color: "teal",
