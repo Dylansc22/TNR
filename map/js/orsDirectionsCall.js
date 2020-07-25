@@ -363,8 +363,15 @@ function doEverything(){
                 "source": end.source,
                 "paint": {
                   "line-color": "brown",//"#FF6600" //, //"#4f7ba4",
-                  "line-opacity": 0.75,
-                  "line-width": 3
+                  "line-opacity": 0.9,
+                  "line-width": {
+                      "type": "exponential",
+                      "base": 1.5,
+                      "stops": [
+                          [0, 3.5 * Math.pow(2, (0 - 9))], //[0, baseWidth * Math.pow(2, (0 - baseZoom))],
+                          [24, 3.5 * Math.pow(2, (24 - 18))] //[0, baseWidth * Math.pow(2, (0 - baseZoom))],
+                      ]
+                  }
                 }
               });
             })

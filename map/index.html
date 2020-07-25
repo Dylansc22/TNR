@@ -408,12 +408,12 @@ Source: https://kenwheeler.github.io/slick/
                             map.setLayoutProperty('hs-streetlights-4qsd4j copy 1', 'visibility', 'visible');
                             map.setLayoutProperty('hs-streetlights-4qsd4j copy 2', 'visibility', 'visible');
 
-                        //Hide TP Layers
+                        //Hide TP Roads, but Keep Hawks on
                             map.setLayoutProperty('tnr-v9-7p9y6s copy', 'visibility', 'none');
                             map.setLayoutProperty('tnr-v9-7p9y6s', 'visibility', 'none');
                             map.setLayoutProperty('lshs-hawkroads-v2-ddpdin copy 1', 'visibility', 'none');
                             map.setLayoutProperty('lshs-hawkroads-v2-ddpdin', 'visibility', 'none');
-                            map.setLayoutProperty('hawks-v2-bb9wvv', 'visibility', 'none');
+                            // map.setLayoutProperty('hawks-v2-bb9wvv', 'visibility', 'none');
 
                         //Remove all Cul-de-sacs because of that bug where for some reason I cannot change their color (not even in mapbox studio)
                             map.setLayoutProperty('turning-feature', 'visibility', 'none');
@@ -507,10 +507,10 @@ Source: https://kenwheeler.github.io/slick/
                             map.setPaintProperty('tnr-v9-7p9y6s copy', 'line-color', lightTNR); 
                             map.setPaintProperty('lshs-hawkroads-v2-ddpdin copy 1', 'line-color', lightTNR); 
                             map.setPaintProperty('lshs-hawkroads-v2-ddpdin', 'line-color', lightTNRCase); 
-                            map.setPaintProperty('hawks-v2-bb9wvv', 'circle-color', lightHawks);
                             map.setPaintProperty('hawks-v2-bb9wvv', 'circle-stroke-color', lightHawksStroke); 
                             map.setPaintProperty('hs-v2-7bxiun copy', 'line-color', lightTNR); 
                             map.setPaintProperty('ls-v3-cj14ge copy 1', 'line-color', lightTNR); 
+                            map.setPaintProperty('hawks-v2-bb9wvv', 'circle-color', lightHawks);
                     
                         //Remove Streetlights
                             map.setLayoutProperty('ls-streetlights-4od5h2', 'visibility', 'none');
@@ -520,12 +520,12 @@ Source: https://kenwheeler.github.io/slick/
                             map.setLayoutProperty('hs-streetlights-4qsd4j copy 1', 'visibility', 'none');
                             map.setLayoutProperty('hs-streetlights-4qsd4j copy 2', 'visibility', 'none');
 
-                        //Show TP Layers
+                        //Show TP Road Layers
                             map.setLayoutProperty('tnr-v9-7p9y6s copy', 'visibility', 'visible');
                             map.setLayoutProperty('tnr-v9-7p9y6s', 'visibility', 'visible');
                             map.setLayoutProperty('lshs-hawkroads-v2-ddpdin copy 1', 'visibility', 'visible');
                             map.setLayoutProperty('lshs-hawkroads-v2-ddpdin', 'visibility', 'visible');
-                            map.setLayoutProperty('hawks-v2-bb9wvv', 'visibility', 'visible');
+                            // map.setLayoutProperty('hawks-v2-bb9wvv', 'visibility', 'visible');
 
                         //Add all Cul-de-sacs because of that bug where for some reason I cannot change their color (not even in mapbox studio)
                             map.setLayoutProperty('turning-feature', 'visibility', 'visible');
