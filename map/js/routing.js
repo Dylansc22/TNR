@@ -202,17 +202,18 @@ function illCleanThisFunctionUpLater() {
       'ls-streetlights-4od5h2'], 
       'Street Lights')
 
-    // toggleLayer('OSMID_LSHawkRoads',
-    //     ['ORS_HawkRoads75m_byOSMID'],
-    //     'Hawk Roads by OSMID');
-    
-    // toggleLayer('hawkroads',
-    //     ['hawk_roads', 'hawkroadscase'],
-    //     'Hawk Roads');
+    //Toggle Custom Geojson Areas
+      // toggleLayer('OSMID_LSHawkRoads',
+      //     ['ORS_HawkRoads75m_byOSMID'],
+      //     'Avoid HS Areas');
+      
+      // toggleLayer('hawkroads',
+      //     ['hawk_roads', 'hawkroadscase'],
+      //     'Prefer Green Areas');
 
-    // toggleLayer('ls-nonhawkroads-4dyda7',
-    //     ['ls-nonhawkroads-4dyda7', 'ls-nonhawkroads-4dyda7 copy'],
-    //     'Non-Crosswalk Roads');
+      // toggleLayer('ls-nonhawkroads-4dyda7',
+      //     ['ls-nonhawkroads-4dyda7', 'ls-nonhawkroads-4dyda7 copy'],
+      //     'Non-Crosswalk Roads');
 
   function toggleLayer(htmlID, ids, name) {
       var link = document.createElement('button');
@@ -221,7 +222,6 @@ function illCleanThisFunctionUpLater() {
       link.className = '';
       link.textContent = name;
      
-
       link.onclick = function (e) {
           e.preventDefault();
           e.stopPropagation();

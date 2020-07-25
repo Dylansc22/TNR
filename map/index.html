@@ -251,6 +251,22 @@ Source: https://kenwheeler.github.io/slick/
             $(function () {
                 $('[data-toggle="tooltip"]').tooltip({ trigger:'hover' });
             });
+            //On Mobile - When tapping a button, the tooltip (ie "Draw", "Undo", "Drop Marker")
+            //stays open because it holds the focus for touchscreen interaction, and there is no
+            //simple workaround, so simplest hack is wrap all tooltips in a setTimeout function!
+                $(function () {
+                   $(document).on('shown.bs.tooltip', function (e) {
+                      setTimeout(function () {
+                        $(e.target).tooltip('hide');
+                      }, 850); //0.85 seconds
+                   });
+                });
+
+            $(function() {
+                $('#routerToggle').change(function() {
+                    ToggleSafeRouting();
+                });
+            });
 
             //Draw Tool Toggle
                 $('#drawRoute').on('click', function() {

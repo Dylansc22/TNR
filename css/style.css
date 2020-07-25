@@ -1432,11 +1432,20 @@ span.tooltip:hover {
         transition:all 0.4s;
     }
 
+    @media (min-width: 1081px) {
+        .secondaryPositionZ0 {
+            bottom:30px !important;
+            right:65px !important;
+        }
+
+
+    }
+
     .secondaryPositionZ1 {
         /*right:160px !important;
         bottom:-20px !important;*/
         z-index: 1 !important;
-        opacity: 0;
+        /*opacity: 0;*/
         bottom:20px !important;
         right:140px !important;
         background-size: 80%; /*background-size:cover;*/
@@ -1454,7 +1463,6 @@ span.tooltip:hover {
         -o-transition: all 0.4s;
         transition:all 0.4s;
         /*transform: scale(0.7) !important;*/
-
     }
 
     .undoSlideUp{
@@ -1518,12 +1526,12 @@ span.tooltip:hover {
     }
 
 @media (min-width: 1081px) {
-    .drawSlideRight{ bottom:120px !important; }
-    .undoSlideUp{ bottom: 195px !important; }
+    .drawSlideRight{ bottom:160px !important; }
+    .undoSlideUp{ bottom: 80px !important; }
     .tutorialSlideUp { bottom:120px !important; }
     .RouteInfoSlideRight { bottom: 270px !important; }
     .isochroneSlideUp{ bottom: 195px !important; }
-
+    .secondaryPositionZ1 { bottom:30px !important; right:65px !important; }
 }
 
 .btn-circle {
