@@ -205,6 +205,7 @@ function doEverything(){
     if (AllMarkers.length > 1){
       AllMarkers[AllMarkers.length-1].calculateRoute(AllMarkers[AllMarkers.length-2],AllMarkers[AllMarkers.length-1]);
     }
+    openCO2Box();
   }
 
   function UndoButtonClicked(marker){
@@ -604,6 +605,12 @@ function doEverything(){
         AddMarker(e);
       }
     });
+
+  function openCO2Box(){
+    if (AllMarkers.length==2 && document.getElementById("CO2Box").classList.contains('displayCO2Box') == false) {
+     $('#CO2Box').toggleClass('displayCO2Box');
+    }
+  }
 
   //Button Behavior
     document.getElementById("drawRoute").addEventListener("click", addCrosshair);
