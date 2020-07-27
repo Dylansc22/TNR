@@ -202,10 +202,10 @@ function illCleanThisFunctionUpLater() {
       'ls-streetlights-4od5h2'], 
       'Street Lights')
 
-    //Toggle Custom Geojson Areas
-      // toggleLayer('OSMID_LSHawkRoads',
-      //     ['ORS_HawkRoads75m_byOSMID'],
-      //     'Avoid HS Areas');
+    // Toggle Custom Geojson Areas
+      toggleLayer('gh_avoidarea',
+          ['gh-avoidarea-minify-d20xq2'],
+          'GH Avoid Area');
       
       // toggleLayer('hawkroads',
       //     ['hawk_roads', 'hawkroadscase'],
@@ -234,7 +234,38 @@ function illCleanThisFunctionUpLater() {
                   this.className = 'active';
                   map.setLayoutProperty(ids[layers], 'visibility', 'visible');
               }
-           }
+              //This can probably be written more efficienty - If Satallite Base has just been turned on, reset pathway color, and recolor lines
+              if (name === 'Satallite Baselayer' && visibility === 'none') {
+                    satallitemode = true;
+                    setPathwayColor();
+                  for (i=1;i<=AllMarkers.length-1;i++) {
+                    map.setPaintProperty(AllMarkers[i].layer,'line-color', pathwayscolor);
+                    map.setPaintProperty(AllMarkers[i].layer,'line-opacity', 1);
+                  }
+              } else if (name === 'Satallite Baselayer' && visibility === 'visible') {
+                    satallitemode = false;
+                    setPathwayColor();
+                  for (i=1;i<=AllMarkers.length-1;i++) {
+                    map.setPaintProperty(AllMarkers[i].layer,'line-color', pathwayscolor);
+                    map.setPaintProperty(AllMarkers[i].layer,'line-opacity', 0.9);
+                  }
+              }
+              if (name === 'Street Lights' && visibility === 'none') {
+                    nighttimemode = true;
+                    setPathwayColor();
+                  for (i=1;i<=AllMarkers.length-1;i++) {
+                    map.setPaintProperty(AllMarkers[i].layer,'line-color', pathwayscolor);
+                    map.setPaintProperty(AllMarkers[i].layer,'line-opacity', 1);
+                  }
+              } else if (name === 'Street Lights' && visibility === 'visible') {
+                    nighttimemode = false;
+                    setPathwayColor();
+                for (i=1;i<=AllMarkers.length-1;i++) {
+                    map.setPaintProperty(AllMarkers[i].layer,'line-color', pathwayscolor);
+                    map.setPaintProperty(AllMarkers[i].layer,'line-opacity', 0.9);
+                  }
+              }
+            }
       };
       var layers = document.getElementById('toolbar');
       layers.appendChild(link);

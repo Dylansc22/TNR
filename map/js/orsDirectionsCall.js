@@ -7,11 +7,22 @@ function doEverything(){
 // function OOP(){
   let parametersGHsafe = {
     host: "http://localhost:8989", //host: "http://localhost:8989",
-    profile: "pathways_v2", // "car_co2", "bike_canturn", "pathways_v2"
+    profile: "pathways_v4_mtb", // "car_co2", "bike_canturn", "pathways_v2"
     //Code does not like any parameter that isn't the profile
     //vehicle: "bike",
     //weighting: "shortest", //weighting: "custom",
     //turn_costs: false, 
+    // elevation: false,
+    details: ["road_class", "distance"]
+  }
+
+  let parametersGHdangerous = {
+    host: "http://localhost:8989",
+    profile: "bike", //"car_co2", "bike_canturn", "pathways_v2"
+    //Does not like any parameter that isn't the profile
+    //weighting: "fastest",
+    //turn_costs: false,
+    // key: keys.graphhopper,
     // elevation: false,
     details: ["road_class", "distance"]
   }
@@ -27,22 +38,15 @@ function doEverything(){
     //details: ["road_class", "distance"]
   }
 
-  let parametersGHdangerous = {
-    host: "http://localhost:8989",
-    profile: "bike_canturn", //"car_co2", "bike_canturn", "pathways_v2"
-    //Does not like any parameter that isn't the profile
-    //weighting: "fastest",
-    //turn_costs: false,
-    // key: keys.graphhopper,
-    // elevation: false,
-    details: ["road_class", "distance"]
-  }
 
   let parameters = parametersGHsafe;
   AllMarkers = [];
   let counter = 0;
   let mode = "closed";
   let safe = true;
+  let pathwayscolor = '#1c4358';
+  let nighttimemode = false;
+  let satallitemode = false;
   // let myIsochrone = new Isochrone();
 
   //Button Functionality
@@ -100,26 +104,42 @@ function doEverything(){
       }
     }
 
+    let setPathwayColor = function(){
+      //this could probably be written more efficiently
+        if (safe == true) {
+          if (satallitemode == true && nighttimemode == false) {
+            pathwayscolor = 'yellow';
+          } 
+          else if (nighttimemode == true && satallitemode == false) {
+            pathwayscolor = 'silver';
+          } else {
+            pathwayscolor = '#1c4358';
+            for (i=1;i<=AllMarkers.length-1;i++) {
+              map.setPaintProperty(AllMarkers[i].layer,'line-color', pathwayscolor);
+              map.setPaintProperty(AllMarkers[i].layer,'line-opacity', 0.9);
+            }
+          }
+        }
+        else if (safe == false){
+          if (satallitemode == true && nighttimemode == false) {
+            pathwayscolor = 'yellow';
+          } 
+          else if (nighttimemode == true && satallitemode == false) {
+            pathwayscolor = 'silver';
+          } else {
+            pathwayscolor = '#8a2929';
+            for (i=1;i<=AllMarkers.length-1;i++) {
+              map.setPaintProperty(AllMarkers[i].layer,'line-color', pathwayscolor);
+              map.setPaintProperty(AllMarkers[i].layer,'line-opacity', 0.9);
+            }
+          }
+        }
+    }
+
     let ToggleSafeRouting = function(){
         if (safe == true) {
           safe = false;
-        }
-        else {
-          safe = true;
-        }
-        if (safe == true) {
-          if (AllMarkers.length>0) {
-            for (i = AllMarkers.length - 1; i > 0; i-- ) {
-              map.removeLayer(AllMarkers[i].layer);
-              map.removeSource(AllMarkers[i].source);
-            } 
-          }
-          parameters = parametersGHsafe;
-            for (i = 0; i < AllMarkers.length-1; i++ ) {
-              AllMarkers[i].calculateRoute(AllMarkers[i],AllMarkers[i+1]);
-            } 
-        }
-        else if (safe == false) {
+          setPathwayColor();
           if (AllMarkers.length>0) {
             for (i = AllMarkers.length - 1; i > 0; i-- ) {
               map.removeLayer(AllMarkers[i].layer);
@@ -127,6 +147,20 @@ function doEverything(){
             } 
           }
           parameters = parametersGHdangerous;
+            for (i = 0; i < AllMarkers.length-1; i++ ) {
+              AllMarkers[i].calculateRoute(AllMarkers[i],AllMarkers[i+1]);
+            } 
+        }
+        else if (safe == false) {
+          safe = true;
+          setPathwayColor();
+          if (AllMarkers.length>0) {
+            for (i = AllMarkers.length - 1; i > 0; i-- ) {
+              map.removeLayer(AllMarkers[i].layer);
+              map.removeSource(AllMarkers[i].source);
+            } 
+          }
+          parameters = parametersGHsafe;
             for (i = 0; i < AllMarkers.length-1; i++ ) {
               AllMarkers[i].calculateRoute(AllMarkers[i],AllMarkers[i+1]);
             } 
@@ -158,7 +192,7 @@ function doEverything(){
       centerdot = new mapboxgl.Marker({
         //element: el, if I want a crosshair instead of the marker
         draggable: false,
-        color: 'brown',
+        color: '#363636',
         scale: 0.8,
         })
 
@@ -179,7 +213,7 @@ function doEverything(){
     centerdot = new mapboxgl.Marker({
         //element: el, if I want a crosshair instead of the marker
         draggable: false,
-        color: 'brown',
+        color: '#363636',
         scale: 0.8,
         })
 
@@ -343,7 +377,7 @@ function doEverything(){
               console.log("end: " + end);
               console.log("start: " + start);
               console.log("this: " + this);
-              alert("An error may have occured! No big deal - but remember this is a pre-alpha release.\n\n Most likely the error occured on the server, and may be down. Or the point you picked is outside my calculated area of my mapped bike-routing area!\n\n If this continues please reach out to dylan.cobean@gmail.com");
+              // alert("An error may have occured! No big deal - but remember this is a pre-alpha release.\n\n Most likely the error occured on the server, and may be down. Or the point you picked is outside my calculated area of my mapped bike-routing area!\n\n If this continues please reach out to dylan.cobean@gmail.com");
               console.error(err.message);
             });
 
@@ -362,7 +396,7 @@ function doEverything(){
                 "type": "line",
                 "source": end.source,
                 "paint": {
-                  "line-color": "brown",//"#FF6600" //, //"#4f7ba4",
+                  "line-color": pathwayscolor,//"#FF6600" //, //"#4f7ba4",
                   "line-opacity": 0.9,
                   "line-width": {
                       "type": "exponential",
