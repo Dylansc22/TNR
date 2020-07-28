@@ -207,9 +207,9 @@ function illCleanThisFunctionUpLater() {
           ['gh-avoidarea-minify-d20xq2'],
           'GH Avoid Area');
       
-      // toggleLayer('hawkroads',
-      //     ['hawk_roads', 'hawkroadscase'],
-      //     'Prefer Green Areas');
+      toggleLayer('gh_parkarea',
+          ['mapbox-parks-minify-03c2b4'],
+          'GH Green Area');
 
       // toggleLayer('ls-nonhawkroads-4dyda7',
       //     ['ls-nonhawkroads-4dyda7', 'ls-nonhawkroads-4dyda7 copy'],
