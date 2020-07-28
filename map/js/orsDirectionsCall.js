@@ -6,8 +6,8 @@ function doEverything(){
 
 // function OOP(){
   let parametersGHsafe = {
-    host: "http://localhost:8989", //host: "http://localhost:8989",
-    profile: "pathways005", // "car_co2", "bike_canturn", "pathways_v2"
+    host: "http://144.202.64.252:8989", //host: "http://localhost:8989",
+    profile: "pathways1", // pathways1, pathways2, pathways3, pathways4, pathways5, co2car
     //Code does not like any parameter that isn't the profile
     //vehicle: "bike",
     //weighting: "shortest", //weighting: "custom",
@@ -17,8 +17,8 @@ function doEverything(){
   }
 
   let parametersGHdangerous = {
-    host: "http://localhost:8989",
-    profile: "pathways0125", //"car_co2", "bike_canturn", "pathways_v2"
+    host: "http://144.202.64.252:8989", //host: "http://localhost:8989",
+    profile: "pathways2", // pathways1, pathways2, pathways3, pathways4, pathways5, co2car
     //Does not like any parameter that isn't the profile
     //weighting: "fastest",
     //turn_costs: false,
@@ -28,8 +28,8 @@ function doEverything(){
   }
 
   let parametersCO2Car = {
-    host: "http://localhost:8989", //host: "http://localhost:8989",
-    profile: "co2car", // "car_co2", "bike_canturn", "pathways_v2"
+    host: "http://144.202.64.252:8989", //host: "http://localhost:8989",
+    profile: "co2car", // pathways1, pathways2, pathways3, pathways4, pathways5, co2car
     //Does not like any parameter that isn't the profile parameter
     //vehicle: "bike",
     //weighting: "shortest", //weighting: "custom",
