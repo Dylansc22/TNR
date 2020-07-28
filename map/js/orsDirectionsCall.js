@@ -7,7 +7,7 @@ function doEverything(){
 // function OOP(){
   let parametersGHsafe = {
     host: "http://localhost:8989", //host: "http://localhost:8989",
-    profile: "pathways_01", // "car_co2", "bike_canturn", "pathways_v2"
+    profile: "pathways005", // "car_co2", "bike_canturn", "pathways_v2"
     //Code does not like any parameter that isn't the profile
     //vehicle: "bike",
     //weighting: "shortest", //weighting: "custom",
@@ -18,7 +18,7 @@ function doEverything(){
 
   let parametersGHdangerous = {
     host: "http://localhost:8989",
-    profile: "pathways_03", //"car_co2", "bike_canturn", "pathways_v2"
+    profile: "pathways0125", //"car_co2", "bike_canturn", "pathways_v2"
     //Does not like any parameter that isn't the profile
     //weighting: "fastest",
     //turn_costs: false,
@@ -78,7 +78,9 @@ function doEverything(){
                 undoLastMarker();
               }
             }
-              // geolocate.options.trackUserLocation = false;
+            //So geolocate.trigger()is kinda a funky promise-resolve-fail-async thing, which I don't understand
+            //So as a workaround, I allow 1000ms (1 sec), for the geolocate to finish, and *then* I set that coordinate as a marker position
+            //And obviously set the searched location as a marker position as well.  
               geolocate.trigger();
               setTimeout(function(){
                 mode = "geolocate";
@@ -86,12 +88,8 @@ function doEverything(){
                 mode = "searched";
                 AddMarker();
               }, 1000);
-              // setTimeout(function(){ 
-              //   // mode = "geolocate";
-              //   // AddMarker();
-              //   // mode = "searched";
-              //   // AddMarker();
-              //  }, 3000);
+
+              //This I feel is the proper way to do the above code but I was never able to get it to work - stupid promise functions!
               // geolocate.on("geolocate", function(e){
               //   mode = "geolocate";
               //   AddMarker();
@@ -99,10 +97,18 @@ function doEverything(){
               //   AddMarker();
               // });
                 mode = "closed";
-              // geolocate.options.trackUserLocation = true;
-              // setTimeout(function(){ geolocate.trigger() }, 1000);
+              setTimeout(function(){zoomToSearchedRoute()}, 2600);
       }
     }
+
+    let zoomToSearchedRoute = function() {
+        let boundary = []
+        boundary[0] = AllMarkers[1].geojson.paths[0].bbox[0] - 0.008;
+        boundary[1] = AllMarkers[1].geojson.paths[0].bbox[1] - 0.008;
+        boundary[2] = AllMarkers[1].geojson.paths[0].bbox[2] + 0.008;
+        boundary[3] = AllMarkers[1].geojson.paths[0].bbox[3] + 0.008;
+        map.fitBounds(boundary);
+      }
 
     let setPathwayColor = function(){
       //this could probably be written more efficiently
