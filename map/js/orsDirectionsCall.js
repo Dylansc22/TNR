@@ -7,7 +7,7 @@ function doEverything(){
 // function OOP(){
   let parametersGHsafe = {
     host: "http://localhost:8989", //host: "http://localhost:8989",
-    profile: "pathways_v4_mtb", // "car_co2", "bike_canturn", "pathways_v2"
+    profile: "pathways_01", // "car_co2", "bike_canturn", "pathways_v2"
     //Code does not like any parameter that isn't the profile
     //vehicle: "bike",
     //weighting: "shortest", //weighting: "custom",
@@ -18,7 +18,7 @@ function doEverything(){
 
   let parametersGHdangerous = {
     host: "http://localhost:8989",
-    profile: "bike", //"car_co2", "bike_canturn", "pathways_v2"
+    profile: "pathways_03", //"car_co2", "bike_canturn", "pathways_v2"
     //Does not like any parameter that isn't the profile
     //weighting: "fastest",
     //turn_costs: false,
@@ -29,7 +29,7 @@ function doEverything(){
 
   let parametersCO2Car = {
     host: "http://localhost:8989", //host: "http://localhost:8989",
-    profile: "car_co2", // "car_co2", "bike_canturn", "pathways_v2"
+    profile: "co2car", // "car_co2", "bike_canturn", "pathways_v2"
     //Does not like any parameter that isn't the profile parameter
     //vehicle: "bike",
     //weighting: "shortest", //weighting: "custom",
@@ -192,7 +192,7 @@ function doEverything(){
       centerdot = new mapboxgl.Marker({
         //element: el, if I want a crosshair instead of the marker
         draggable: false,
-        color: '#363636',
+        color: 'brown', //'#363636',
         scale: 0.8,
         })
 
@@ -213,7 +213,7 @@ function doEverything(){
     centerdot = new mapboxgl.Marker({
         //element: el, if I want a crosshair instead of the marker
         draggable: false,
-        color: '#363636',
+        color: 'brown', //'#363636',
         scale: 0.8,
         })
 
