@@ -11,6 +11,15 @@
     /*font-family: ""Source Sans Pro","Helvetica Neue",Helvetica,Arial,sans-serif";*/
 }
 
+#bootstrapoverridesformap {
+    overflow: hidden;
+    position: absolute;
+    height:100%;
+    width: 100%;
+    margin:0px;
+    padding:0px;
+}
+
 /*Google Fonts Loaded
 font-family: 'Playfair Display', serif;
 
@@ -286,7 +295,7 @@ h1, h2, h3, h4, h5, h6, p {
             margin-bottom:10px
         }
 
-        #bootstrapoverrides #directionshere {
+        #bootstrapoverridesformap #directionshere {
             top:11px;
             left: calc(6vw + 80px + 10px);
             height: 55px;
@@ -665,7 +674,7 @@ h1, h2, h3, h4, h5, h6, p {
     }
 
     /*Big Buttons*/
-    #drawRoute, #sidebarCollapse, #isochroneButton { /*bootstrapoverrides .btn-warning, #bootstrapoverrides .btn-custom1, .btn-secondary, .btn-info*/
+    #drawRoute, #sidebarCollapse, #isochroneButton { /*bootstrapoverridesformap .btn-warning, #bootstrapoverridesformap .btn-custom1, .btn-secondary, .btn-info*/
         width: 70px;
         height: 70px;
         border-radius: 35px;
@@ -777,14 +786,14 @@ h1, h2, h3, h4, h5, h6, p {
 
     @media (max-width: 1080px) {
         /*Small Button (For CO2Button Sizing and Alike)*/
-            #bootstrapoverrides button.btn-circle-small {
+            #bootstrapoverridesformap button.btn-circle-small {
                 width: 80px;
                 height: 80px;
                 border-radius: 40px;
                 font-size: 24px;
             }
 
-        #bootstrapoverrides button {
+        #bootstrapoverridesformap button {
             width:150px;
             height:150px;
             border-radius:75px;
@@ -884,7 +893,7 @@ h1, h2, h3, h4, h5, h6, p {
     }
 
     @media (max-width: 1080px) {
-        #bootstrapoverrides #directionshere {
+        #bootstrapoverridesformap #directionshere {
             left: calc(6vw + 80px + 70px);
             top: 2vw;
             height: 80px;
@@ -892,7 +901,7 @@ h1, h2, h3, h4, h5, h6, p {
     }
 
 
-#bootstrapoverrides #directionshere {
+#bootstrapoverridesformap #directionshere {
     position: absolute;
     border-radius: 0px;
     width: calc(100vw - 12vw - 120px - 20px);
@@ -905,7 +914,7 @@ h1, h2, h3, h4, h5, h6, p {
     transition:all 0.4s;
 }
 
-#bootstrapoverrides #directionshere.directionsbuttonvisible {
+#bootstrapoverridesformap #directionshere.directionsbuttonvisible {
     top:150px;
     z-index:0;
     -webkit-transition: all 0.4s;
@@ -917,7 +926,7 @@ h1, h2, h3, h4, h5, h6, p {
 
 
 @media (min-width: 1081px) {
-    #bootstrapoverrides #directionshere.directionsbuttonvisible {
+    #bootstrapoverridesformap #directionshere.directionsbuttonvisible {
         top:90px;
         font-size: 20px;
     }
