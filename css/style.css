@@ -800,6 +800,10 @@ h1, h2, h3, h4, h5, h6, p {
             font-size:45px;
         }
 
+        #bootstrapoverridesformap #sidebarCollapse {
+            border-radius:0px;
+        }
+
         #tutorialButton {
 
         }
@@ -1185,6 +1189,19 @@ text-align: center;
         -o-transition: all 0.2s;
         transition:all 0.2s;
     }
+
+    @media(min-width: 1081px){
+        #toolbar > button {
+            width:9vw;
+            height:9vw;
+            font-weight: 500;
+        }
+
+        /*and make them bigger when clicked*/
+        #toolbar > button.active {
+            height:8vw;
+            width:8vw;
+        }
 
 /*    #toolbar > .active, #toolbar > button:active, #toolbar > button:visited {
         height:5vw;
