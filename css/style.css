@@ -1190,33 +1190,14 @@ text-align: center;
         transition:all 0.2s;
     }
 
-    @media(min-width: 1081px){
-        #toolbar > button {
-            width:9vw;
-            height:9vw;
-            font-weight: 500;
-        }
-
-        /*and make them bigger when clicked*/
-        #toolbar > button.active {
-            height:8vw;
-            width:8vw;
-        }
-
-/*    #toolbar > .active, #toolbar > button:active, #toolbar > button:visited {
-        height:5vw;
-        border-width: 1px;
-        font-weight:900;
-        -webkit-transition: all 0.2s;
-        -moz-transition: all 0.2s;
-        -o-transition: all 0.2s;
-        transition:all 0.2s;
-    }*/
-
     .shaded {
         background-color: yellow;
     }
 
+        /*and make them bigger when clicked*/
+        #toolbar > button.active {
+            transform: scale(0.9);
+        }
 
     @media(max-width:1080px) {
         /*when on a small screen, make the legend go full width of the screen*/
@@ -1231,12 +1212,6 @@ text-align: center;
             font-size: 2vmin;
         }
 
-        /*and make them bigger when clicked*/
-        #toolbar > button.active {
-            height:20vw;
-            width:20vw;
-            font-weight:900;
-        }
 
         /*and make the background image in the buttons, zoom in a little more so you can see their details in these tiny buttons*/
         #tnrv5, #highstress, #lowstress, #hawks, #osmbikes, #theloop, #satellite, #annotation, #streetlights {
@@ -1567,6 +1542,16 @@ span.tooltip:hover {
     border-radius: 35px;
     font-size: 24px;
     line-height: 1.33;
+}
+
+@media (max-width: 1080px) {
+    #sidebarCollapse.btn-circle {
+    width: 150px;
+    height: 150px;
+    border-radius: 0px;
+    font-size: 50px;
+    line-height: 1.33;
+}
 }
 
 
