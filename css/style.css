@@ -12,7 +12,7 @@
 }
 
 #bootstrapoverridesformap {
-    overflow: hidden;
+    /*overflow: hidden;  This might be screwing things up for mobile?*/
     position: absolute;
     height:100%;
     width: 100%;
