@@ -202,19 +202,6 @@ function illCleanThisFunctionUpLater() {
       'ls-streetlights-4od5h2'], 
       'Street Lights')
 
-    // Toggle Custom Geojson Areas
-      toggleLayer('gh_avoidarea',
-          ['gh-avoidarea-minify-d20xq2'],
-          'GH Avoid Area');
-      
-      toggleLayer('gh_parkarea',
-          ['mapbox-parks-minify-03c2b4'],
-          'GH Green Area');
-
-      // toggleLayer('ls-nonhawkroads-4dyda7',
-      //     ['ls-nonhawkroads-4dyda7', 'ls-nonhawkroads-4dyda7 copy'],
-      //     'Non-Crosswalk Roads');
-
   function toggleLayer(htmlID, ids, name) {
       var link = document.createElement('button');
       link.setAttribute('id', htmlID);
