@@ -41,103 +41,18 @@ font-family: 'Playfair Display', serif;
     /*font-family: ""Source Sans Pro","Helvetica Neue",Helvetica,Arial,sans-serif";*/
 }
 
-/*custom font for ethos fade-in text stuff*/
-#bootstrapoverrides_ethos h1 { font-family: 'Merriweather', serif; }
-#bootstrapoverrides_ethos h2 { font-family: 'Merriweather', serif; }
-#bootstrapoverrides_ethos h3 { font-family: 'Merriweather', serif; }
-#bootstrapoverrides_ethos h4 { font-family: 'Merriweather', serif; }
-#bootstrapoverrides_ethos h5 { font-family: 'Merriweather', serif; }
-#bootstrapoverrides_ethos h6 { font-family: 'Merriweather', serif; }
-#bootstrapoverrides_ethos p { font-family: 'Merriweather', serif; }
-
-
-
-/*I have fonts sepearated from the #bootstrapoverrides css because otherwise the css is not 'ranked' high enough to override the default bootstrap css. I think this might be better best practices*/ 
-h1, h2, h3, h4, h5, h6, p {
-    font-family: 'Raleway', sans-serif; 
-    /*font-family: 'Merriweather', serif;*/
-    /*font-family: 'Lato', sans-serif*/
-}
-
-/*#bootstrapoverrides button {
-    border-radius: 0 !important;
-}*/
-
-.row {
-    width:100vw;
-    margin-left:0px;
-    margin-right:0px;
-    padding-left: 0px;
-    padding-right:0px;
-}
-
-.wow {visibility: hidden;}
-
-
-.text-vertical-center {
-    text-align: center;
-    vertical-align: middle;
-}
-
-.alignright {
-    text-align: right;
-    vertical-align: middle;
-}
-
-#ethos {
-    top:0;
-    height: 100%;
-    position: fixed;
-    background-color: white;
-    z-index: 10; 
-    width: 100%;
-    text-align: center;
-    padding: 10% 8%;
-}
-
 #map {
     position: absolute;
     top:0;
     bottom:0;
-    height:100%;
     width: 100%; /*width 80% with right:0*/;
-    z-index: 0;
-    -webkit-transition: all 0.3s;
-    -moz-transition: all 0.3s;
-    -o-transition: all 0.3s;
-    transition:all 0.3s;
     /*border: solid 10px black;*/
-}
-
-#sheet {
-    position: absolute;
-    width:100%;
-    height: 100%;
-    opacity:0.5;
-    background-color: white;
-    z-index: -1;
-}
-
-    .sheetZindex1 {
-        z-index: 1 !important;
-    }
-
-#map canvas {
-    cursor:crosshair;
-}
-
-.draw {
-    position:relative;
-    z-index:1;
-    width:80px;
-    height:80px;
-    padding:20px;
 }
 
 #mapViewControls {
     position: fixed;
     top: 16vw;
-    left: 2vh;
+    left: 4.5vw;
     z-index: 2;
     -webkit-transition: all 0.3s;
     -moz-transition: all 0.3s;
@@ -156,16 +71,17 @@ h1, h2, h3, h4, h5, h6, p {
     box-shadow: 0px;
 }
 
+
 #mapViewControls > .mapboxgl-ctrl-group {
     float:right;
-    margin-bottom: 1.5vh;
-    padding:10px;
+    padding:5px;
     box-shadow: 3px 3px 6px grey;
+    margin-bottom:2vw;
 }
 
 #mapViewControls > .mapboxgl-ctrl-group > button {
-    width:100px;
-    height:100px;
+    width:8vw;
+    height:8vw;
 }
 
 #mapViewControls > .mapboxgl-ctrl-group > button > span {
@@ -175,7 +91,6 @@ h1, h2, h3, h4, h5, h6, p {
 
 #mapViewControls > .mapboxgl-ctrl-geocoder {
     width: 500px;
-    margin-bottom: 15px;
 }
 
 @media (min-width: 1081px) {
@@ -232,9 +147,9 @@ h1, h2, h3, h4, h5, h6, p {
     #geocoder {
         position: absolute;
         z-index: 1;
-        width: 82vw;
-        left:calc(15vw + 40px);
+        left:calc(20.5vw);
         top:2vw;
+        width:86vw;
         -webkit-transition: all 0.4s;
         -moz-transition: all 0.4s;
         -o-transition: all 0.4s;
@@ -242,10 +157,14 @@ h1, h2, h3, h4, h5, h6, p {
 
     }
 
+    .mapboxgl-ctrl-geocoder.mapboxgl-ctrl {
+        margin-left:0px;
+        margin-right:0px;
+    }
+
     #geocoder .mapboxgl-ctrl-geocoder{
         box-shadow: 3px 3px 6px grey;
         height: 10vw;
-        margin:0px;
     }
 
     #geocoder .mapboxgl-ctrl-geocoder--button {
@@ -257,13 +176,13 @@ h1, h2, h3, h4, h5, h6, p {
         background-color: #c3c3c3;
     }
 
+
     #geocoder .mapboxgl-ctrl-geocoder--icon-search {
         display: none;
     }
 
     #geocoder .mapboxgl-ctrl-geocoder input[type='text'] {
         font-size: 2vh;
-        margin-left: 1vw;
         height:100%;
         padding-right:10vw;
 
@@ -277,13 +196,13 @@ h1, h2, h3, h4, h5, h6, p {
         @media (min-width: 1081px) {
         #geocoder{
             position: absolute;
-            left: calc(6vw + 80px);
-            top:10px;           
+            left: calc(3vw + 3vw + 80px);
+            top:10px;
+            width:calc(88vw - 40px);           
         }
 
         #geocoder .mapboxgl-ctrl-geocoder{
             height: 60px;
-            margin-left:0px;
         }
 
         #geocoder .mapboxgl-ctrl-geocoder--button {
@@ -292,7 +211,6 @@ h1, h2, h3, h4, h5, h6, p {
         }
 
         #geocoder .mapboxgl-ctrl-geocoder--button svg {
-            margin-bottom:10px
         }
 
         #bootstrapoverridesformap #directionshere {
@@ -302,27 +220,14 @@ h1, h2, h3, h4, h5, h6, p {
         }
     }
 
-        @media (max-width: 1080px) {
-            #geocoder .suggestions {
-                font-size:40px;
-                line-height: 55px;
-            }
 
-            #geocoder svg {
-                transform: scale(2.5);
-                z-index: 5;
-/*                top:20px;
-                right:20px;
-*/                margin:25px;
-            }
-        }
 
 /*Toggle Switch*/
 @media (max-width:1080px) {
     #toggleSwitch {
         position: absolute;
         box-shadow: 4px 4px 8px grey;
-        top:51vw;
+        top:42vw;
         z-index: 3;
         font-family:auto;
         border: solid 1px grey;
@@ -336,35 +241,29 @@ h1, h2, h3, h4, h5, h6, p {
         border-radius: 0px;
         border:none;
         font-size:20px;
-        height:110px;
     }
 
     #toggleSwitch .btn.btn-success {
         background-color: white;   /*#5f8056;*/
         color:#363636;
-        line-height: 120px;
-        width:110px;
     }
 
     #toggleSwitch .btn.btn-danger {
         background-color: white; /*#bc5050;*/
         color:#363636;
-        line-height: 110px;
     }
 
     #toggleSwitch .btn .btn-danger .toggle-off {
-        width:130px;
     }
 
     #toggleSwitch .toggle-handle {
-        height: 130px;
         background-color: #363636;
     }
 
-    #toggleSwitch i {
+/*    #toggleSwitch i {
         transform: scale(3);
         padding-bottom:12px;
-    }
+    }*/
 }
 
 @media (min-width:1081px) {
@@ -385,28 +284,23 @@ h1, h2, h3, h4, h5, h6, p {
         border-radius: 0px;
         border:none;
         font-size:20px;
-        height:40px;
     }
 
     #mapViewControls #toggleSwitch .btn.btn-success {
         background-color: white;   /*#5f8056;*/
         color:#363636;
-        line-height: 40px;
         width:58px !important;
     }
 
     #mapViewControls #toggleSwitch .btn.btn-danger {
         background-color: white; /*#bc5050;*/
         color:#363636;
-        line-height: 40px;
         width:58px !important;
     }
 
     #toggleSwitch .toggle-handle {
-        height: 130px;
         width:5px !important;
         background-color: #363636;
-        padding: 8px;
     }
 
     #toggleSwitch i {
@@ -452,8 +346,6 @@ h1, h2, h3, h4, h5, h6, p {
         justify-content: center;
         flex-direction: column;
         transform: scale(1);
-        margin:10px;
-        height:80vh;
     } 
 
     #bottomContro. .slick-list {
@@ -487,7 +379,7 @@ h1, h2, h3, h4, h5, h6, p {
     }
 
     .TPArrows.slick-arrow {
-        padding:0px 20px;
+        padding:0vw 2vw;
         color:grey !important;
     }
 
@@ -566,12 +458,6 @@ h1, h2, h3, h4, h5, h6, p {
     }
 
     @media (max-width:1080px) {
-        .displayCO2Box {
-            width:31vw !important;
-            height:80px !important;
-            border:solid 1px black !important;
-            padding:3px !important;
-        }
     }
 
     @media (min-width:1081px) {
@@ -787,17 +673,17 @@ h1, h2, h3, h4, h5, h6, p {
     @media (max-width: 1080px) {
         /*Small Button (For CO2Button Sizing and Alike)*/
             #bootstrapoverridesformap button.btn-circle-small {
-                width: 80px;
-                height: 80px;
-                border-radius: 40px;
-                font-size: 24px;
+                width: 60px;
+                height: 60px;
+                border-radius: 30px;
+                font-size: 20px;
             }
 
         #bootstrapoverridesformap button {
-            width:150px;
-            height:150px;
-            border-radius:75px;
-            font-size:45px;
+            width:60px;
+            height:60px;
+            border-radius:30px;
+            font-size:20px;
         }
 
         #bootstrapoverridesformap #sidebarCollapse {
@@ -898,9 +784,9 @@ h1, h2, h3, h4, h5, h6, p {
 
     @media (max-width: 1080px) {
         #bootstrapoverridesformap #directionshere {
-            left: calc(6vw + 80px + 70px);
+            left: calc(21vw);
             top: 2vw;
-            height: 80px;
+            height: 40px;
         }
     }
 
@@ -908,7 +794,7 @@ h1, h2, h3, h4, h5, h6, p {
 #bootstrapoverridesformap #directionshere {
     position: absolute;
     border-radius: 0px;
-    width: calc(100vw - 12vw - 120px - 20px);
+    width: calc(86vw - 45px);
     border:solid 1px black;
     z-index:0;
     font-size:30px;
@@ -1546,10 +1432,10 @@ span.tooltip:hover {
 
 @media (max-width: 1080px) {
     #sidebarCollapse.btn-circle {
-    width: 150px;
-    height: 150px;
+    width: 80px;
+    height: 80px;
     border-radius: 0px;
-    font-size: 50px;
+    font-size: 24px;
     line-height: 1.33;
 }
 }
