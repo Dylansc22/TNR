@@ -12,7 +12,7 @@
 }
 
 #bootstrapoverridesformap {
-    /*overflow: hidden;  This might be screwing things up for mobile?*/
+    overflow: hidden;
     position: absolute;
     height:100%;
     width: 100%;
@@ -47,6 +47,20 @@ font-family: 'Playfair Display', serif;
     bottom:0;
     width: 100%; /*width 80% with right:0*/;
     /*border: solid 10px black;*/
+    -webkit-transition: all 0.4s;
+    -moz-transition: all 0.4s;
+    -o-transition: all 0.4s;
+    transition:all 0.4s;
+}
+
+#sheet.sheetZindex1 {
+    z-index: 1 !important;
+    background-color:white;
+    opacity: 0.6;
+    position: absolute;
+    top:0;
+    bottom:0;
+    width:100vw;
 }
 
 #mapViewControls {
@@ -416,10 +430,10 @@ font-family: 'Playfair Display', serif;
 
     #CO2Button {
         display: block;
-        z-index: 1;
+        z-index: 3;
         border: solid 1px #363636;
-        height:50px;
-        width:50px;
+        height:40px;
+        width:40px;
         border-radius: 25px;
         -webkit-transition: all 0.3s;
         -moz-transition: all 0.3s;
@@ -441,23 +455,29 @@ font-family: 'Playfair Display', serif;
 
     #CO2Box {
         /*position and overflow to properly and show the CO2 text when the div 'opens up'*/ 
-            position: relative;
-            overflow: hidden;
+        position: relative;
+        overflow: hidden;
         bottom:0px;
-        left:30px;
+        left:calc(1vh + 10px);
         width:0px;
-        height:80px;
-        border-radius: 20px; 
+        height:40px; 
         background-color: #29688a; /*#363636;*/
         color:white;
+        border-radius: 0px 5px 5px 0px; 
         box-shadow: 3px 3px 6px grey;
         -webkit-transition: all 0.3s;
         -moz-transition: all 0.3s;
         -o-transition: all 0.3s;
         transition: all 0.3s;
+        z-index: 2;
     }
 
     @media (max-width:1080px) {
+        #CO2Box.displayCO2Box {
+            width:35vw !important;
+            height:40px !important;
+            border:solid 1px black !important;
+        }
     }
 
     @media (min-width:1081px) {
@@ -478,23 +498,19 @@ font-family: 'Playfair Display', serif;
     }
     
     #CO2Box > #offsetinsert {
-        margin-left:60px;
+        margin-left:30px;
         display:inline-block;
         font-size: 4.5vmin;
-        line-height: 4.5vmin;
     }
 
     #CO2Box > #offsetunits {
         display:inline-block;
-        font-size: 3vmin;
-        line-height: 3vmin;
+        font-size: 3.5vmin;
     }
 
     #CO2Box > #offsettext {
-        margin-left:60px;
-        display:inline-block;
+        margin-left:30px;
         font-size: 2vmin;
-        line-height: 2vmin;
     }
 
     #bottomRightControls {
@@ -623,7 +639,7 @@ font-family: 'Playfair Display', serif;
         background-color: #5a6268;
         color:white;
         display: block;
-        z-index: 1;
+        z-index: 2;
         border: solid 1px black;
         -webkit-transition: all 0.3s;
         -moz-transition: all 0.3s;
@@ -673,17 +689,17 @@ font-family: 'Playfair Display', serif;
     @media (max-width: 1080px) {
         /*Small Button (For CO2Button Sizing and Alike)*/
             #bootstrapoverridesformap button.btn-circle-small {
-                width: 60px;
-                height: 60px;
+                width: 40px;
+                height: 40px;
                 border-radius: 30px;
-                font-size: 20px;
+                font-size: 14px;
             }
 
         #bootstrapoverridesformap button {
-            width:60px;
-            height:60px;
+            width:50px;
+            height:50px;
             border-radius:30px;
-            font-size:20px;
+            font-size:15px;
         }
 
         #bootstrapoverridesformap #sidebarCollapse {
@@ -786,7 +802,7 @@ font-family: 'Playfair Display', serif;
         #bootstrapoverridesformap #directionshere {
             left: calc(21vw);
             top: 2vw;
-            height: 40px;
+            height: 9.5vw;
         }
     }
 
@@ -1310,7 +1326,7 @@ span.tooltip:hover {
         bottom:-20px !important;*/
         z-index: 0 !important;
         bottom:20px !important;
-        right:140px !important;
+        right:40px !important;
         background-size: 70%; /*background-size:cover;*/
         transform: scale(0.6) !important;
         -webkit-transition: all 0.4s;
@@ -1334,7 +1350,7 @@ span.tooltip:hover {
         z-index: 1 !important;
         /*opacity: 0;*/
         bottom:20px !important;
-        right:140px !important;
+        right:40px !important;
         background-size: 80%; /*background-size:cover;*/
         transform: scale(0.6) !important;
         -webkit-transition: all 0.4s;
@@ -1344,7 +1360,7 @@ span.tooltip:hover {
     }
 
     .drawSlideRight{
-        bottom:320px !important;
+        bottom:110px !important;
         -webkit-transition: all 0.4s;
         -moz-transition: all 0.4s;
         -o-transition: all 0.4s;
@@ -1353,7 +1369,7 @@ span.tooltip:hover {
     }
 
     .undoSlideUp{
-        bottom: 160px !important; 
+        bottom: 55px !important; 
 /*        bottom:80px !important;
         right:120px !important;
         transform: scale(0.6) !important;
@@ -1384,6 +1400,10 @@ span.tooltip:hover {
     .shrink8 {
         transform:scale(0.8) !important;
         border:solid 7px #ababab;
+        -webkit-transition: all 0.4s;
+        -moz-transition: all 0.4s;
+        -o-transition: all 0.4s;
+        transition:all 0.4s;
     }
 
     .slideup490px:before {
@@ -1432,11 +1452,12 @@ span.tooltip:hover {
 
 @media (max-width: 1080px) {
     #sidebarCollapse.btn-circle {
-    width: 80px;
-    height: 80px;
+    width: 40px;
+    height: 40px;
     border-radius: 0px;
-    font-size: 24px;
+    font-size: 15px;
     line-height: 1.33;
+    padding:0px;
 }
 }
 
