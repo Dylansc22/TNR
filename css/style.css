@@ -163,7 +163,7 @@ font-family: 'Playfair Display', serif;
         z-index: 1;
         left:calc(20.5vw);
         top:2vw;
-        width:86vw;
+        width: calc(92vw - 100px);
         -webkit-transition: all 0.4s;
         -moz-transition: all 0.4s;
         -o-transition: all 0.4s;
@@ -179,6 +179,7 @@ font-family: 'Playfair Display', serif;
     #geocoder .mapboxgl-ctrl-geocoder{
         box-shadow: 3px 3px 6px grey;
         height: 10vw;
+        width: calc(90vw - 90px);
     }
 
     #geocoder .mapboxgl-ctrl-geocoder--button {
@@ -197,7 +198,6 @@ font-family: 'Playfair Display', serif;
     #geocoder .mapboxgl-ctrl-geocoder input[type='text'] {
         font-size: 2vh;
         height:100%;
-        padding-right:10vw;
 
     }
 
@@ -210,8 +210,8 @@ font-family: 'Playfair Display', serif;
         #geocoder{
             position: absolute;
             left: calc(3vw + 3vw + 80px);
-            top:10px;
-            width:calc(88vw - 40px);           
+            top:10px;       
+
         }
 
         #geocoder .mapboxgl-ctrl-geocoder{
@@ -462,7 +462,7 @@ font-family: 'Playfair Display', serif;
         height:50px; 
         background-color: #29688a; /*#363636;*/
         color:white;
-        border-radius: 0px 5px 5px 0px; 
+        border-radius: 5px 5px 5px 5px; 
         box-shadow: 3px 3px 6px grey;
         -webkit-transition: all 0.3s;
         -moz-transition: all 0.3s;
@@ -810,10 +810,10 @@ font-family: 'Playfair Display', serif;
 #bootstrapoverridesformap #directionshere {
     position: absolute;
     border-radius: 0px;
-    width: calc(86vw - 45px);
-    border:solid 1px black;
+    width: calc(90vw - 100px);
+    border:solid 1px grey;
     z-index:0;
-    font-size:30px;
+    font-size:13px;
     -webkit-transition: all 0.4s;
     -moz-transition: all 0.4s;
     -o-transition: all 0.4s;
@@ -823,6 +823,7 @@ font-family: 'Playfair Display', serif;
 #bootstrapoverridesformap #directionshere.directionsbuttonvisible {
     top:15vw;
     z-index:0;
+    box-shadow: 2px 2px 6px grey;
     -webkit-transition: all 0.4s;
     -moz-transition: all 0.4s;
     -o-transition: all 0.4s;
