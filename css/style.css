@@ -121,6 +121,10 @@ font-family: 'Playfair Display', serif;
         height:40px !important;
     }
 
+    #map canvas.mousecrosshair {
+        cursor:crosshair;
+    }
+
     #mapViewControls > .mapboxgl-ctrl-group {
         padding:0px;
     }
