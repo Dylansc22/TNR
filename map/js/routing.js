@@ -15,7 +15,7 @@ function illCleanThisFunctionUpLater() {
         bearing: 0,
         attributionControl: false, // Removed default attribution and put custom attribution in below
         maxBounds: [[-111.2,32], [-110.6, 32.5]], //Southwest & Northeast Bounds
-        minZoom:12,
+        minZoom:11,
         //pitch: 45,
         //bearing: 10,
     });

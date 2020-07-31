@@ -183,9 +183,8 @@ font-family: 'Playfair Display', serif;
 
     #geocoder .mapboxgl-ctrl-geocoder--button {
         border-radius:0px;
-        width: 8vw;
-        height: 8vw;
-        font-size: 45px;
+        width: 6vw;
+        height: 6vw;
         z-index: 5;
         background-color: #c3c3c3;
     }
@@ -432,8 +431,8 @@ font-family: 'Playfair Display', serif;
         display: block;
         z-index: 3;
         border: solid 1px #363636;
-        height:40px;
-        width:40px;
+        height:50px;
+        width:50px;
         border-radius: 25px;
         -webkit-transition: all 0.3s;
         -moz-transition: all 0.3s;
@@ -458,9 +457,9 @@ font-family: 'Playfair Display', serif;
         position: relative;
         overflow: hidden;
         bottom:0px;
-        left:calc(1vh + 10px);
+        left:calc(1vh + 15px);
         width:0px;
-        height:40px; 
+        height:50px; 
         background-color: #29688a; /*#363636;*/
         color:white;
         border-radius: 0px 5px 5px 0px; 
@@ -474,9 +473,10 @@ font-family: 'Playfair Display', serif;
 
     @media (max-width:1080px) {
         #CO2Box.displayCO2Box {
-            width:35vw !important;
-            height:40px !important;
+            width:30vw !important;
+            height:50px !important;
             border:solid 1px black !important;
+            padding-top:5px;
         }
     }
 
@@ -505,12 +505,12 @@ font-family: 'Playfair Display', serif;
 
     #CO2Box > #offsetunits {
         display:inline-block;
-        font-size: 3.5vmin;
+        font-size: 3vmin;
     }
 
     #CO2Box > #offsettext {
         margin-left:30px;
-        font-size: 2vmin;
+        font-size: 1.8vmin;
     }
 
     #bottomRightControls {
@@ -689,8 +689,8 @@ font-family: 'Playfair Display', serif;
     @media (max-width: 1080px) {
         /*Small Button (For CO2Button Sizing and Alike)*/
             #bootstrapoverridesformap button.btn-circle-small {
-                width: 40px;
-                height: 40px;
+                width: 50px;
+                height: 50px;
                 border-radius: 30px;
                 font-size: 14px;
             }
@@ -821,7 +821,7 @@ font-family: 'Playfair Display', serif;
 }
 
 #bootstrapoverridesformap #directionshere.directionsbuttonvisible {
-    top:150px;
+    top:15vw;
     z-index:0;
     -webkit-transition: all 0.4s;
     -moz-transition: all 0.4s;
@@ -1452,8 +1452,8 @@ span.tooltip:hover {
 
 @media (max-width: 1080px) {
     #sidebarCollapse.btn-circle {
-    width: 40px;
-    height: 40px;
+    width: 60px;
+    height: 60px;
     border-radius: 0px;
     font-size: 15px;
     line-height: 1.33;
