@@ -66,7 +66,7 @@ font-family: 'Playfair Display', serif;
 #mapViewControls {
     position: fixed;
     top: 16vw;
-    left: 4.5vw;
+    left: 3vw;
     z-index: 2;
     -webkit-transition: all 0.3s;
     -moz-transition: all 0.3s;
@@ -94,8 +94,9 @@ font-family: 'Playfair Display', serif;
 }
 
 #mapViewControls > .mapboxgl-ctrl-group > button {
-    width:8vw;
-    height:8vw;
+    /*This is where I can can control the side of the default mapbox controls (zoom, geolocate pitch).*/
+    width:10vw;
+    height:10vw;
 }
 
 #mapViewControls > .mapboxgl-ctrl-group > button > span {
@@ -115,9 +116,9 @@ font-family: 'Playfair Display', serif;
 }
 
 @media (min-width: 1081px) {
-    #mapViewControls > .mapboxgl-ctrl-group > button {
-        width:58px;
-        height:40px;
+    #mapViewControls > .mapboxgl-ctrl-group > button, #mapViewControls #toggleSwitch .btn.btn-success, #mapViewControls #toggleSwitch .btn.btn-danger {
+        width:58px !important;
+        height:40px !important;
     }
 
     #mapViewControls > .mapboxgl-ctrl-group {
@@ -174,12 +175,16 @@ font-family: 'Playfair Display', serif;
     .mapboxgl-ctrl-geocoder.mapboxgl-ctrl {
         margin-left:0px;
         margin-right:0px;
+        width: calc(92vw - 100px);
+        min-width: calc(92vw - 100px);
+        max-width: calc(92vw - 100px);
     }
 
     #geocoder .mapboxgl-ctrl-geocoder{
         box-shadow: 3px 3px 6px grey;
         height: 10vw;
         width: calc(90vw - 90px);
+
     }
 
     #geocoder .mapboxgl-ctrl-geocoder--button {
@@ -238,12 +243,12 @@ font-family: 'Playfair Display', serif;
 /*Toggle Switch*/
 @media (max-width:1080px) {
     #toggleSwitch {
-        position: absolute;
+        position: relative;
         box-shadow: 4px 4px 8px grey;
-        top:42vw;
         z-index: 3;
         font-family:auto;
         border: solid 1px grey;
+        margin-bottom:2vw;
         /*For centering div
         bottom: 50px;
         left: 50%;
@@ -259,6 +264,7 @@ font-family: 'Playfair Display', serif;
     #toggleSwitch .btn.btn-success {
         background-color: white;   /*#5f8056;*/
         color:#363636;
+        width:58px;
     }
 
     #toggleSwitch .btn.btn-danger {
@@ -281,12 +287,12 @@ font-family: 'Playfair Display', serif;
 
 @media (min-width:1081px) {
     #toggleSwitch {
-        position: absolute;
+        position: relative;
         box-shadow: 4px 4px 8px grey;
-        top:190px;
         z-index: 3;
         font-family:auto;
         border: solid 1px grey;
+        margin-bottom:2vw;
         /*For centering div
         bottom: 50px;
         left: 50%;
@@ -302,13 +308,11 @@ font-family: 'Playfair Display', serif;
     #mapViewControls #toggleSwitch .btn.btn-success {
         background-color: white;   /*#5f8056;*/
         color:#363636;
-        width:58px !important;
     }
 
     #mapViewControls #toggleSwitch .btn.btn-danger {
         background-color: white; /*#bc5050;*/
         color:#363636;
-        width:58px !important;
     }
 
     #toggleSwitch .toggle-handle {
@@ -318,7 +322,6 @@ font-family: 'Playfair Display', serif;
 
     #toggleSwitch i {
         transform: scale(3);
-        padding-bottom:12px;
         transform: scale(1.2);
         width:20px;
     }
@@ -454,6 +457,7 @@ font-family: 'Playfair Display', serif;
 
     #CO2Box {
         /*position and overflow to properly and show the CO2 text when the div 'opens up'*/ 
+        display: inline-block;
         position: relative;
         overflow: hidden;
         bottom:0px;
@@ -475,6 +479,7 @@ font-family: 'Playfair Display', serif;
         #CO2Box.displayCO2Box {
             width:30vw !important;
             height:50px !important;
+            display: inline-block;
             border:solid 1px black !important;
             padding-top:5px;
         }
@@ -482,7 +487,7 @@ font-family: 'Playfair Display', serif;
 
     @media (min-width:1081px) {
         .displayCO2Box {
-            width:290px !important;
+            display: inline-block;
             height:70px !important;
             border:solid 1px black !important;
             padding:3px !important;
@@ -571,7 +576,7 @@ font-family: 'Playfair Display', serif;
 @media (min-width:1081px){
     /*Small Buttons*/
     #CO2Box {
-        width:0px;
+        display: inline-block;
         height:70px;
     }
 
@@ -810,7 +815,7 @@ font-family: 'Playfair Display', serif;
 #bootstrapoverridesformap #directionshere {
     position: absolute;
     border-radius: 0px;
-    width: calc(90vw - 100px);
+    width: calc(88vw - 100px);
     border:solid 1px grey;
     z-index:0;
     font-size:13px;

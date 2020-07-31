@@ -9,6 +9,7 @@ function illCleanThisFunctionUpLater() {
     map = new mapboxgl.Map({
         container: 'map', // container id
         style: keys.style,
+        //style: 'mapbox://styles/mapbox/streets-v11',
         center: [-110.93182, 32.23156], 
         zoom: 12.826,
         pitch: 0,
