@@ -64,7 +64,7 @@ font-family: 'Playfair Display', serif;
 }
 
 #mapViewControls {
-    position: fixed;
+    position: absolute;
     top: 16vw;
     left: 3vw;
     z-index: 2;
@@ -87,7 +87,6 @@ font-family: 'Playfair Display', serif;
 
 
 #mapViewControls > .mapboxgl-ctrl-group {
-    float:right;
     padding:5px;
     box-shadow: 3px 3px 6px grey;
     margin-bottom:2vw;
@@ -97,6 +96,7 @@ font-family: 'Playfair Display', serif;
     /*This is where I can can control the side of the default mapbox controls (zoom, geolocate pitch).*/
     width:10vw;
     height:10vw;
+    margin: 0 auto;
 }
 
 #mapViewControls > .mapboxgl-ctrl-group > button > span {
@@ -245,51 +245,8 @@ font-family: 'Playfair Display', serif;
 
 
 /*Toggle Switch*/
-@media (max-width:1080px) {
-    #toggleSwitch {
-        position: relative;
-        box-shadow: 4px 4px 8px grey;
-        z-index: 3;
-        font-family:auto;
-        border: solid 1px grey;
-        margin-bottom:2vw;
-        /*For centering div
-        bottom: 50px;
-        left: 50%;
-        transform: translate(-50%, 0);*/
-    }
 
-    #toggleSwitch .btn {
-        border-radius: 0px;
-        border:none;
-        font-size:20px;
-    }
 
-    #toggleSwitch .btn.btn-success {
-        background-color: white;   /*#5f8056;*/
-        color:#363636;
-        width:58px;
-    }
-
-    #toggleSwitch .btn.btn-danger {
-        background-color: white; /*#bc5050;*/
-        color:#363636;
-    }
-
-    #toggleSwitch .btn .btn-danger .toggle-off {
-    }
-
-    #toggleSwitch .toggle-handle {
-        background-color: #363636;
-    }
-
-/*    #toggleSwitch i {
-        transform: scale(3);
-        padding-bottom:12px;
-    }*/
-}
-
-@media (min-width:1081px) {
     #toggleSwitch {
         position: relative;
         box-shadow: 4px 4px 8px grey;
@@ -338,7 +295,6 @@ font-family: 'Playfair Display', serif;
 
 
 
-}
 
     .thumb h4 {
         padding:15px;
