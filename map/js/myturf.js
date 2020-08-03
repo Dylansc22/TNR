@@ -22,55 +22,72 @@ let getParks = async function() {
   console.log(data);
 }
 
-AllturfCrossings = [];
-turfTest = async function() {
+turfValues = async function() {
   //Pull Parks into work environment
     const response = await fetch ('js/Mapbox_Parks_minify.geojson');
     const polygonParks = await response.json();
     const response2 = await fetch ('js/GH_AvoidArea_minify.geojson');
     const polygonHSRoads = await response2.json();
       //Do the Turf work
-      for (i = 1; i <= AllMarkers.length-1; i++) {
+      for (i = 1; i < AllMarkers.length; i++) {
         let AtoBLineSegment = AllMarkers[i].geojson.paths[0].points;
-        AllMarkers[i].warning = turf.lineIntersect(AtoBLineSegment, polygonHSRoads).features;
-        // for (j=1;j<AllMarkers.length;j++) {
-        //   let from = AllMarkers[j].warning.geometry.coordinates;
-        //   let to = AllMarkers[j+1].warning.geometry.coordinates;
-        //   let options = {units: 'kilometers'}; //can be degrees, radians, miles, or kilometers
-        //   let distance = turf.distance(from, to, options); 
-        //   if (distance < 0.05) {
-        //     //delete j+1 marker or maybe splice HSintersects[j+1]???
-        //   }
-        // }
-        // map.addSource('warningBubbles' + i.toString(), {
-        //       'type': 'geojson',
-        //       'data': HSintersects
-        //     });
-        // map.addLayer({
-        //   'id': 'warningBubblesname',
-        //   'type': 'circle',
-        //   'source': 'warningBubbles' + i.toString(),
-        //   'layout': {},
-        //   'paint': {
-        //     'circle-color': 'brown',
-        //     'circle-opacity': 0.2,
-        //     'circle-radius': 25,
-        //     'circle-stroke-color':'red',
-        //     'circle-stroke-opacity':1,
-        //     'circle-stroke-width':1,
-        //     'circle-translate-anchor':'viewport',
-
-        //   }
-        // });
-        AllMarkers[i].warning.forEach(item => {
-          let warningMarker = new mapboxgl.Marker({
-            //element: el, if I want a crosshair instead of the marker
-            draggable: false,
-            color: 'brown', //'#363636',
-            scale: 1,
-          });
-          warningMarker.setLngLat(item.geometry.coordinates); //item === HSintersects.feature[i] of array
-          warningMarker.addTo(map);
+        let WarningMarkers = turf.lineIntersect(AtoBLineSegment, polygonHSRoads).features;
+        for (j=0;j<WarningMarkers.length;j++){
+          let from = WarningMarkers[j].geometry.coordinates;
+          let options = {units: 'kilometers'}; //can be degrees, radians, miles, or kilometers
+          for (k=WarningMarkers.length-1;k>0;k--) {
+            let to = WarningMarkers[k].geometry.coordinates;
+            let distance = turf.distance(from, to, options);
+            if (distance !== 0 && distance < 0.05){
+              WarningMarkers.splice(k,1);
+            }
+          }
+        }
+        let temp = []
+        WarningMarkers.forEach(item => {
+          temp.push(item.geometry.coordinates);
         });
+        AllMarkers[i].warning = {}
+        AllMarkers[i].warning.type = "Feature";
+        AllMarkers[i].warning.geometry = {};
+        AllMarkers[i].warning.geometry.type = "MultiPoint";
+        AllMarkers[i].warning.geometry.coordinates = temp;
       }
+}
+
+
+  turfCircles = function(){
+    for (i=1;i<AllMarkers.length;i++){
+      map.addSource('dangerzone' + AllMarkers[i].source, { type: 'geojson', data: AllMarkers[i].warning });
+      map.addLayer({
+        'id': 'dangerzoneID' + AllMarkers[i].id.toString(),
+        'type': 'circle',
+        'source': 'dangerzone' + AllMarkers[i].source,
+        'layout': {},
+        'paint': {
+          'circle-color': 'brown',
+          'circle-opacity': 0.2,
+          'circle-radius': 30,
+          'circle-stroke-color':'red',
+          'circle-stroke-opacity':1,
+          'circle-stroke-width':3,
+          'circle-pitch-alignment':'map',
+        }
+      });  
+    }
+  }
+
+
+turfDanger = async function() {
+  try {
+    await turfValues();
+    await turfCircles();
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+danger = function(){
+  turfValues();
+  turfCircles();
 }
