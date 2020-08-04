@@ -22,7 +22,7 @@ let getParks = async function() {
   console.log(data);
 }
 
-turfValues = async function() {
+turfValues = async () => {
   //Pull Parks into work environment
     const response = await fetch ('js/Mapbox_Parks_minify.geojson');
     const polygonParks = await response.json();
@@ -56,7 +56,7 @@ turfValues = async function() {
 }
 
 
-  turfCircles = function(){
+  turfCircles = () => {
     for (i=1;i<AllMarkers.length;i++){
       map.addSource('dangerzone' + AllMarkers[i].source, { type: 'geojson', data: AllMarkers[i].warning });
       map.addLayer({
@@ -67,27 +67,55 @@ turfValues = async function() {
         'paint': {
           'circle-color': 'brown',
           'circle-opacity': 0.2,
-          'circle-radius': 30,
-          'circle-stroke-color':'red',
+          'circle-radius': {
+            "type": "exponential",
+            "base": 1.5,
+            "stops": [
+              //I actually have no idea how this actually works, but the sizing seems decent, haha. 
+              [0, 1 * Math.pow(2, (9 - 13))], //[0, baseWidth * Math.pow(2, (0 - baseZoom))],
+              [24, 25 * Math.pow(2, (24 - 18))] //[0, baseWidth * Math.pow(2, (0 - baseZoom))],
+            ]
+          },
+          'circle-stroke-color':'brown',
           'circle-stroke-opacity':1,
-          'circle-stroke-width':3,
+          'circle-stroke-width':2,
           'circle-pitch-alignment':'map',
         }
       });  
     }
   }
 
+    turfDot = () => {
+    for (i=1;i<AllMarkers.length;i++){
+      map.addLayer({
+        'id': 'dangerzonedotID' + AllMarkers[i].id.toString(),
+        'type': 'circle',
+        'source': 'dangerzone' + AllMarkers[i].source,
+        'layout': {},
+        'paint': {
+          'circle-color': 'brown',
+          'circle-opacity': 1,
+          'circle-radius': {
+            'stops': [[12,3], [14, 4],[20, 8] ]
+          },
+          'circle-stroke-color':'white',
+          'circle-stroke-opacity':1,
+          'circle-stroke-width':1,
+          'circle-pitch-alignment':'viewport',
+        }
+      });  
+    }
+  }
 
-turfDanger = async function() {
-  try {
+
+turfDanger = async () => {
     await turfValues();
     await turfCircles();
-  } catch (err) {
-    console.error(err);
-  }
-};
+    await turfDot();
+}
 
 danger = function(){
   turfValues();
   turfCircles();
+  
 }
