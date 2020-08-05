@@ -30,7 +30,7 @@ turfValues = async () => {
     const polygonHSRoads = await response2.json();
       //Do the Turf work
       for (i = 1; i < AllMarkers.length; i++) {
-        let AtoBLineSegment = AllMarkers[i].geojson.paths[0].points;
+        let AtoBLineSegment = AllMarkers[i].safeRoute.paths[0].points;
         let WarningMarkers = turf.lineIntersect(AtoBLineSegment, polygonHSRoads).features;
         for (j=0;j<WarningMarkers.length;j++){
           let from = WarningMarkers[j].geometry.coordinates;
@@ -85,26 +85,26 @@ turfValues = async () => {
     }
   }
 
-    turfDot = () => {
-    for (i=1;i<AllMarkers.length;i++){
-      map.addLayer({
-        'id': 'dangerzonedotID' + AllMarkers[i].id.toString(),
-        'type': 'circle',
-        'source': 'dangerzone' + AllMarkers[i].source,
-        'layout': {},
-        'paint': {
-          'circle-color': 'brown',
-          'circle-opacity': 1,
-          'circle-radius': {
-            'stops': [[12,3], [14, 4],[20, 8] ]
-          },
-          'circle-stroke-color':'white',
-          'circle-stroke-opacity':1,
-          'circle-stroke-width':1,
-          'circle-pitch-alignment':'viewport',
-        }
-      });  
-    }
+  turfDot = () => {
+  for (i=1;i<AllMarkers.length;i++){
+    map.addLayer({
+      'id': 'dangerzonedotID' + AllMarkers[i].id.toString(),
+      'type': 'circle',
+      'source': 'dangerzone' + AllMarkers[i].source,
+      'layout': {},
+      'paint': {
+        'circle-color': 'brown',
+        'circle-opacity': 1,
+        'circle-radius': {
+          'stops': [[12,3], [14, 4],[20, 8] ]
+        },
+        'circle-stroke-color':'white',
+        'circle-stroke-opacity':1,
+        'circle-stroke-width':1,
+        'circle-pitch-alignment':'viewport',
+      }
+    });  
+  }
   }
 
 

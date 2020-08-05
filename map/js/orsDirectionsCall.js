@@ -239,13 +239,72 @@ function doEverything(){
     }
   }
 
-  function AddMarker(e){
-    poi = new POI(e);
-    //Generate route when 2 or more markers are on screen
-    if (AllMarkers.length > 1){
-      AllMarkers[AllMarkers.length-1].calculateRoute(AllMarkers[AllMarkers.length-2],AllMarkers[AllMarkers.length-1]);
+  AddMarker = async (e) => {
+    let AllRouteArray = [];
+    try {
+      poi = new POI(e);
+      //Generate route when 2 or more markers are on screen
+      if (AllMarkers.length > 1){
+        let promise_safegeojson = AllMarkers[AllMarkers.length-1].safeRouteCalc(AllMarkers[AllMarkers.length-2],AllMarkers[AllMarkers.length-1]);
+        let promise_dangerousgeojson = AllMarkers[AllMarkers.length-1].dangerousRouteCalc(AllMarkers[AllMarkers.length-2],AllMarkers[AllMarkers.length-1]);
+        let promise_Co2geojson = AllMarkers[AllMarkers.length-1].CO2RouteCalc(AllMarkers[AllMarkers.length-2],AllMarkers[AllMarkers.length-1]);
+        let AllRouteArray = [];
+
+        await Promise.all([promise_safegeojson, promise_dangerousgeojson, promise_Co2geojson])
+          .then(results => {
+            AllRouteArray = results;
+            console.log(AllRouteArray);
+          })
+          .catch(error => {
+            console.log("something went wrong in the route generation of the safe route, dangerous route, or CO2 Estimate");
+          });
+    //Add geojsons to AllMarkers Array of Objects
+      AllMarkers[AllMarkers.length-1].safeRoute = AllRouteArray[0];
+      AllMarkers[AllMarkers.length-1].dangerousRoute = AllRouteArray[1];
+      AllMarkers[AllMarkers.length-1].CO2geojson = AllRouteArray[2];
+    //Visualize Data On Screen
+      AllMarkers[AllMarkers.length-1].SafeRouteOnScreen();
+      AllMarkers[AllMarkers.length-1].CrossCarefullyOnScreen();
+      turfDanger();
+      CO2.Display();
+      }
+    } catch (err) {
+      console.error("our error", err)
     }
-    openCO2Box();
+
+
+              // AllMarkers[AllMarkers.length-1].SafeRouteOnScreen();
+              //Turf Stuff
+                  // await turfDanger();
+                  // await openCO2Box();
+  }
+
+async function who() {
+    setTimeout(() => {
+      console.log('🤡');
+    }, 2000);
+}
+
+async function what() {
+    setTimeout(() => {
+      console.log('lurks');
+    }, 3000);
+}
+
+async function where() {
+    setTimeout(() => {
+      console.log('intheshadows');
+    }, 5000);
+}
+
+  tester = async () => {
+    try{
+      await who();
+      await what();
+      await where();
+    } catch {
+      //
+    }
   }
 
   function UndoButtonClicked(marker){
@@ -367,62 +426,107 @@ function doEverything(){
           marker.calculateRoute(this,AllMarkers[this.id+1]);       
         }
       }
-      marker.calculateRoute = function(start, end){
-          let CO2ghRouting = new GraphHopper.Routing(parametersCO2Car);
-          delete CO2ghRouting.vehicle;
 
-          CO2ghRouting.addPoint(new GHInput(start.getLngLat().lat, start.getLngLat().lng));
-          CO2ghRouting.addPoint(new GHInput(end.getLngLat().lat, end.getLngLat().lng));
-          CO2ghRouting.doRequest()
-            .then(function(json) {
-              // Add your own result handling here
-              end.CO2geojson = json;
-              CO2.Display();
-            })
-            .catch(function(err) {
-              console.log("end: " + end);
-              console.log("start: " + start);
-              console.log("this: " + this);
-              // alert("An error may have occured! No big deal - but remember this is a pre-alpha release.\n\n Most likely the error occured on the server, and may be down. Or the point you picked is outside my calculated area of my mapped bike-routing area!\n\n If this continues please reach out to dylan.cobean@gmail.com");
-              console.error(err.message);
-            });
-
-          let ghRouting = new GraphHopper.Routing(parameters);
+      marker.safeRouteCalc = (start,end) => {
+          let ghRouting = new GraphHopper.Routing(parametersGHsafe);
           delete ghRouting.vehicle;
-
           ghRouting.addPoint(new GHInput(start.getLngLat().lat, start.getLngLat().lng));
           ghRouting.addPoint(new GHInput(end.getLngLat().lat, end.getLngLat().lng));
-          ghRouting.doRequest()
-            .then(function(json) {
-              // Add your own result handling here
-              end.geojson = json; //***This needs to be fixed. I shouldn't refer to the instance of the object, but the this.geojson doesn't work because this is currently referring to the window. 
-              map.addSource(end.source, { type: 'geojson', data: end.geojson.paths[0].points });
-              map.addLayer({
-                "id": end.layer,
-                "type": "line",
-                "source": end.source,
-                "paint": {
-                  "line-color": pathwayscolor,//"#FF6600" //, //"#4f7ba4",
-                  "line-opacity": 0.9,
-                  "line-width": {
-                      "type": "exponential",
-                      "base": 1.5,
-                      "stops": [
-                          [0, 3.5 * Math.pow(2, (0 - 9))], //[0, baseWidth * Math.pow(2, (0 - baseZoom))],
-                          [24, 3.5 * Math.pow(2, (24 - 18))] //[0, baseWidth * Math.pow(2, (0 - baseZoom))],
-                      ]
-                  }
-                }
-              });
-            })
-            .catch(function(err) {
-              console.log("end: " + end);
-              console.log("start: " + start);
-              console.log("this: " + this);
-              alert("Ahhh crap! Something went wrong! And now I need to fix whatever this is too.\n\n Most likely my bicycle-routing server is down, or the point you picked is outside my calculated area of my mapped bike-routing area!");
-              console.error(err.message);
-            });
-      };
+          return ghRouting.doRequest();
+      }
+
+      marker.dangerousRouteCalc = (start,end) => {
+          let ghRouting = new GraphHopper.Routing(parametersGHdangerous);
+          delete ghRouting.vehicle;
+          ghRouting.addPoint(new GHInput(start.getLngLat().lat, start.getLngLat().lng));
+          ghRouting.addPoint(new GHInput(end.getLngLat().lat, end.getLngLat().lng));
+          return ghRouting.doRequest();
+      }
+
+      marker.CO2RouteCalc = (start,end) => {
+        let ghRouting = new GraphHopper.Routing(parametersCO2Car);
+        delete ghRouting.vehicle;
+        ghRouting.addPoint(new GHInput(start.getLngLat().lat, start.getLngLat().lng));
+        ghRouting.addPoint(new GHInput(end.getLngLat().lat, end.getLngLat().lng));
+        return ghRouting.doRequest();
+      }
+
+      marker.SafeRouteOnScreen = () => {
+        map.addSource(marker.source, { type: 'geojson', data: marker.safeRoute.paths[0].points });
+        map.addLayer({
+          "id": marker.layer,
+          "type": "line",
+          "source": marker.source,
+          "paint": {
+            "line-color": pathwayscolor,//"#FF6600" //, //"#4f7ba4",
+            "line-opacity": 0.9,
+            "line-width": {
+                "type": "exponential",
+                "base": 1.5,
+                "stops": [
+                    [0, 3.5 * Math.pow(2, (0 - 9))], //[0, baseWidth * Math.pow(2, (0 - baseZoom))],
+                    [24, 3.5 * Math.pow(2, (24 - 18))] //[0, baseWidth * Math.pow(2, (0 - baseZoom))],
+                ]
+            }
+          }
+        });
+      }
+
+      marker.CrossCarefullyOnScreen = () => {
+
+      }
+
+      // marker.calculateRoute = (start, end) => {
+      //     let CO2ghRouting = new GraphHopper.Routing(parametersCO2Car);
+      //     delete CO2ghRouting.vehicle;
+
+      //     CO2ghRouting.addPoint(new GHInput(start.getLngLat().lat, start.getLngLat().lng));
+      //     CO2ghRouting.addPoint(new GHInput(end.getLngLat().lat, end.getLngLat().lng));
+      //     CO2ghRouting.doRequest()
+      //       .then(function(json) {
+      //         // Add your own result handling here
+      //         end.CO2geojson = json;
+      //         CO2.Display();
+      //       })
+      //       .catch(function(err) {
+              
+      //         // alert("An error may have occured! No big deal - but remember this is a pre-alpha release.\n\n Most likely the error occured on the server, and may be down. Or the point you picked is outside my calculated area of my mapped bike-routing area!\n\n If this continues please reach out to dylan.cobean@gmail.com");
+      //         console.error(err.message);
+      //       });
+
+      //     let ghRouting = new GraphHopper.Routing(parameters);
+      //     delete ghRouting.vehicle;
+
+      //     ghRouting.addPoint(new GHInput(start.getLngLat().lat, start.getLngLat().lng));
+      //     ghRouting.addPoint(new GHInput(end.getLngLat().lat, end.getLngLat().lng));
+      //     ghRouting.doRequest()
+      //       .then(function(json) {
+      //         // Add your own result handling here
+      //         end.geojson = json; //***This needs to be fixed. I shouldn't refer to the instance of the object, but the this.geojson doesn't work because this is currently referring to the window. 
+      //         map.addSource(end.source, { type: 'geojson', data: end.geojson.paths[0].points });
+      //         map.addLayer({
+      //           "id": end.layer,
+      //           "type": "line",
+      //           "source": end.source,
+      //           "paint": {
+      //             "line-color": pathwayscolor,//"#FF6600" //, //"#4f7ba4",
+      //             "line-opacity": 0.9,
+      //             "line-width": {
+      //                 "type": "exponential",
+      //                 "base": 1.5,
+      //                 "stops": [
+      //                     [0, 3.5 * Math.pow(2, (0 - 9))], //[0, baseWidth * Math.pow(2, (0 - baseZoom))],
+      //                     [24, 3.5 * Math.pow(2, (24 - 18))] //[0, baseWidth * Math.pow(2, (0 - baseZoom))],
+      //                 ]
+      //             }
+      //           }
+      //         });
+      //       })
+      //       .catch(function(err) {
+      //         alert("Ahhh crap! Something went wrong! And now I need to fix whatever this is too.\n\n Most likely my bicycle-routing server is down, or the point you picked is outside my calculated area of my mapped bike-routing area!");
+      //         console.error(err.message);
+      //       });
+      // };
       marker.moved = function() {
         marker.redrawMarkerRoute();
         // if (marker.id !== 0 && marker.id !== AllMarkers.length-1) {
