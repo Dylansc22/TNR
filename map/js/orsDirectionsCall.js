@@ -18,7 +18,7 @@ function doEverything(){
 
   let parametersGHdangerous = {
     host: "http://144.202.64.252:8989", //host: "http://localhost:8989",
-    profile: "pathways5", // pathways1, pathways2, pathways3, pathways4, pathways5, co2car
+    profile: "pathways6", // pathways1, pathways2, pathways3, pathways4, pathways5, co2car
     //Does not like any parameter that isn't the profile
     //weighting: "fastest",
     //turn_costs: false,
@@ -43,10 +43,12 @@ function doEverything(){
   AllMarkers = [];
   let counter = 0;
   let mode = "closed";
+  let cursor = "outsideWarningBubble";
   let safe = true;
   let pathwayscolor = '#1c4358';
   let nighttimemode = false;
   let satallitemode = false;
+  let zoomed = false;
   // let myIsochrone = new Isochrone();
 
   //Button Functionality
@@ -102,13 +104,48 @@ function doEverything(){
     }
 
     let zoomToSearchedRoute = function() {
-        let boundary = []
-        boundary[0] = AllMarkers[1].geojson.paths[0].bbox[0] - 0.008;
-        boundary[1] = AllMarkers[1].geojson.paths[0].bbox[1] - 0.008;
-        boundary[2] = AllMarkers[1].geojson.paths[0].bbox[2] + 0.008;
-        boundary[3] = AllMarkers[1].geojson.paths[0].bbox[3] + 0.008;
-        map.fitBounds(boundary);
+        if (safe) {
+            let boundary = []
+            boundary[0] = AllMarkers[1].safeRoute.paths[0].bbox[0] - 0.008;
+            boundary[1] = AllMarkers[1].safeRoute.paths[0].bbox[1] - 0.008;
+            boundary[2] = AllMarkers[1].safeRoute.paths[0].bbox[2] + 0.008;
+            boundary[3] = AllMarkers[1].safeRoute.paths[0].bbox[3] + 0.008;
+            map.fitBounds(boundary);
+          } else {
+            let boundary = []
+            boundary[0] = AllMarkers[1].dangerousRoute.paths[0].bbox[0] - 0.008;
+            boundary[1] = AllMarkers[1].dangerousRoute.paths[0].bbox[1] - 0.008;
+            boundary[2] = AllMarkers[1].dangerousRoute.paths[0].bbox[2] + 0.008;
+            boundary[3] = AllMarkers[1].dangerousRoute.paths[0].bbox[3] + 0.008;
+            map.fitBounds(boundary);
+          }
       }
+
+    let zoomToFullRoute = () => {
+            let boundary = []
+            let adjustment = 0.01
+            let a = AllMarkers[0].getLngLat().lng;
+            let b = AllMarkers[0].getLngLat().lat;
+            let c = AllMarkers[AllMarkers.length-1].getLngLat().lng;
+            let d = AllMarkers[AllMarkers.length-1].getLngLat().lat;
+            if (a<c) {
+              a = a - adjustment;
+              c = c + adjustment;
+            } else {
+              c = c - adjustment;
+              a = a + adjustment;
+            }
+            if (b<d) {
+              b = b - adjustment;
+              d = d + adjustment;
+            } else {
+              b = b + adjustment;
+              d = d - adjustment;
+            }
+            boundary = [a,b,c,d];
+            map.fitBounds(boundary);
+            // map.zoomTo(map.getZoom() - 0.5);
+    } 
 
     let setPathwayColor = function(){
       //this could probably be written more efficiently
@@ -154,7 +191,7 @@ function doEverything(){
           }
           parameters = parametersGHdangerous;
             for (i = 0; i < AllMarkers.length-1; i++ ) {
-              AllMarkers[i].calculateRoute(AllMarkers[i],AllMarkers[i+1]);
+              calculateRoute(AllMarkers[i],AllMarkers[i+1]);
             } 
         }
         else if (safe == false) {
@@ -168,7 +205,7 @@ function doEverything(){
           }
           parameters = parametersGHsafe;
             for (i = 0; i < AllMarkers.length-1; i++ ) {
-              AllMarkers[i].calculateRoute(AllMarkers[i],AllMarkers[i+1]);
+              calculateRoute(AllMarkers[i],AllMarkers[i+1]);
             } 
         }
       } 
@@ -240,44 +277,63 @@ function doEverything(){
   }
 
   AddMarker = async (e) => {
-    let AllRouteArray = [];
-    try {
-      poi = new POI(e);
+      let marker = new mapboxgl.Marker({
+        //This doesn't work and I don't understand why >> scale: 0.75, - https://docs.mapbox.com/mapbox-gl-js/api/markers/#marker
+        // element: el,
+        draggable: true,
+        color: 'grey',
+        scale: 0.75,
+      });
+      if (mode == "drawing") {
+        marker.setLngLat(e.lngLat);
+      } 
+      else if (mode == "crosshair") {
+        marker.setLngLat(map.getCenter());
+      } 
+      else if (mode == "geolocate") {
+        let templat = geolocate._lastKnownPosition.coords.latitude;
+        let templng = geolocate._lastKnownPosition.coords.longitude;
+        marker.setLngLat({"lng":templng, "lat":templat});
+      }
+      else if (mode == "searched") {
+        marker.setLngLat(geocoder.mapMarker.getLngLat());
+        geocoder.clear();
+      } 
+      marker.addTo(map);
+      marker.id = AllMarkers.length;
+      AllMarkers[AllMarkers.length] = marker;
+      marker.CO2geojson = {};
+      marker.geojson = {};
+      marker.uniqueID = counter.toString();
+      marker.source = "source" + counter.toString();
+      marker.layer = "layer" + counter.toString();
+      counter++;
+
+      //Click behavior for marker 
+      marker.getElement().addEventListener('click', function(e){
+        // alert("marker number " + marker.id + " is about to go bye-bye");
+        destoryMarkersRoute(this);
+        vaporizeMarker(this);
+        recount(this);
+        CO2.Display();
+        if(this.id !== 0 && this.id !== AllMarkers.length){
+          calculateRoute(AllMarkers[this.id-1], AllMarkers[this.id]);
+        }
+        e.stopPropagation(); //Stop Propagation so that a new marker isn't added on click
+      });
+
+      //Drag behavior for marker
+      marker.on('dragend', function(e){
+        moved(this);
+      });
+
       //Generate route when 2 or more markers are on screen
       if (AllMarkers.length > 1){
-        let promise_safegeojson = AllMarkers[AllMarkers.length-1].safeRouteCalc(AllMarkers[AllMarkers.length-2],AllMarkers[AllMarkers.length-1]);
-        let promise_dangerousgeojson = AllMarkers[AllMarkers.length-1].dangerousRouteCalc(AllMarkers[AllMarkers.length-2],AllMarkers[AllMarkers.length-1]);
-        let promise_Co2geojson = AllMarkers[AllMarkers.length-1].CO2RouteCalc(AllMarkers[AllMarkers.length-2],AllMarkers[AllMarkers.length-1]);
-        let AllRouteArray = [];
-
-        await Promise.all([promise_safegeojson, promise_dangerousgeojson, promise_Co2geojson])
-          .then(results => {
-            AllRouteArray = results;
-            console.log(AllRouteArray);
-          })
-          .catch(error => {
-            console.log("something went wrong in the route generation of the safe route, dangerous route, or CO2 Estimate");
-          });
-    //Add geojsons to AllMarkers Array of Objects
-      AllMarkers[AllMarkers.length-1].safeRoute = AllRouteArray[0];
-      AllMarkers[AllMarkers.length-1].dangerousRoute = AllRouteArray[1];
-      AllMarkers[AllMarkers.length-1].CO2geojson = AllRouteArray[2];
-    //Visualize Data On Screen
-      AllMarkers[AllMarkers.length-1].SafeRouteOnScreen();
-      AllMarkers[AllMarkers.length-1].CrossCarefullyOnScreen();
-      turfDanger();
-      CO2.Display();
+        calculateRoute(AllMarkers[AllMarkers.length-2], AllMarkers[AllMarkers.length-1]);
       }
-    } catch (err) {
-      console.error("our error", err)
     }
 
 
-              // AllMarkers[AllMarkers.length-1].SafeRouteOnScreen();
-              //Turf Stuff
-                  // await turfDanger();
-                  // await openCO2Box();
-  }
 
 async function who() {
     setTimeout(() => {
@@ -307,57 +363,64 @@ async function where() {
     }
   }
 
-  function UndoButtonClicked(marker){
+  calculateRoute = async (start,end) => {
+    try {
+      let promise_safegeojson = safeRouteCalc(AllMarkers[AllMarkers.length-2],AllMarkers[AllMarkers.length-1]);
+      let promise_dangerousgeojson = dangerousRouteCalc(AllMarkers[AllMarkers.length-2],AllMarkers[AllMarkers.length-1]);
+      let promise_Co2geojson = CO2RouteCalc(AllMarkers[AllMarkers.length-2],AllMarkers[AllMarkers.length-1]);
+      let AllRouteArray = [];
+
+      await Promise.all([promise_safegeojson, promise_dangerousgeojson, promise_Co2geojson])
+        .then(results => {
+          AllRouteArray = results;
+          console.log(AllRouteArray);
+        })
+        .catch(error => {
+          console.log("something went wrong in the route generation of the safe route, dangerous route, or CO2 Estimate");
+        });
+
+      //Add geojsons to AllMarkers Array of Objects
+        AllMarkers[AllMarkers.length-1].safeRoute = AllRouteArray[0];
+        AllMarkers[AllMarkers.length-1].dangerousRoute = AllRouteArray[1];
+        AllMarkers[AllMarkers.length-1].CO2geojson = AllRouteArray[2];
+      //Visualize Data On Screen
+        SafeRouteOnScreen(AllMarkers[AllMarkers.length-1]);
+        CrossCarefullyOnScreen();
+        turfDanger();
+        CO2.Display();
+    } catch (err) {
+      console.error("our error", err)
+    }
+          // AllMarkers[AllMarkers.length-1].SafeRouteOnScreen();
+          //Turf Stuff
+              // await turfDanger();
+              // await openCO2Box();
+                  // if (safe) {
+                  //   safeRouteCalc(_start,_end);
+                  // } else {
+                  //   dangerousRouteCalc(_start,_end);
+                  // }
+  }
+
+  UndoButtonClicked = function(marker){
     marker.undoLastMarker();
   }
 
-  function POI(e){
-      let marker = new mapboxgl.Marker({
-        //This doesn't work and I don't understand why >> scale: 0.75, - https://docs.mapbox.com/mapbox-gl-js/api/markers/#marker
-        // element: el,
-        draggable: true,
-        color: 'grey',
-        scale: 0.75,
-      })
-      if (mode == "drawing") {
-        marker.setLngLat(e.lngLat);
-      } 
-      else if (mode == "crosshair") {
-        marker.setLngLat(map.getCenter());
-      } 
-      else if (mode == "geolocate") {
-        let templat = geolocate._lastKnownPosition.coords.latitude;
-        let templng = geolocate._lastKnownPosition.coords.longitude;
-        marker.setLngLat({"lng":templng, "lat":templat});
-      }
-      else if (mode == "searched") {
-        marker.setLngLat(geocoder.mapMarker.getLngLat());
-        geocoder.clear();
-      } 
-      marker.addTo(map);
-      marker.id = AllMarkers.length;
-      marker.CO2geojson = {};
-      marker.geojson = {};
-      //Every Layer and Source gets a Unique ID from a global Variable Counter that is always increasing
-        marker.source = "source" + counter.toString();
-        marker.layer = "layer" + counter.toString();
-        counter++;
-
-      marker.undoLastMarker = function(marker){
-        marker.destoryMarkersRoute();
-        marker.vaporizeMarker();
+      undoLastMarker = function(marker){
+        this.destoryMarkersRoute();
+        this.vaporizeMarker();
         // marker.recount();
       }
 
-      marker.vaporizeMarker = function() {
+      vaporizeMarker = function(marker) {
         //Remove marker
-        this.remove();
+        marker.remove();
       } 
-      marker.destoryMarkersRoute = function(){
+      destoryMarkersRoute = function(marker){
         //M ----- M ------ M ------ M ------ M
         
         //M is the only Marker
-        if (this.id == 0 && AllMarkers.length == 1) {
+        if (marker.id == 0 && AllMarkers.length == 1) {
           return
         //There is no route to delete...
         //Sooo... Yea.... I guess... I don't need to write any code for here
@@ -365,7 +428,7 @@ async function where() {
         }
         //M is first Marker
         // M ------ is deleted
-        else if (this.id == 0 && AllMarkers.length > 1) {
+        else if (marker.id == 0 && AllMarkers.length > 1) {
           AllMarkers[1].geojson = {};
           AllMarkers[1].CO2geojson = {};
           map.removeLayer(AllMarkers[1].layer);
@@ -373,7 +436,7 @@ async function where() {
         } 
         //M is last Marker
         // ------ M is deleted
-        else if (this.id == AllMarkers.length - 1 && AllMarkers.length > 1) {
+        else if (marker.id == AllMarkers.length - 1 && AllMarkers.length > 1) {
           //this is the last marker;
           map.removeLayer(this.layer);
           map.removeSource(this.source);
@@ -382,52 +445,53 @@ async function where() {
         //------ M ------ is deleted
         //M ---- - ---- M route is calculated
         else {
-          map.removeLayer(this.layer);
-          map.removeSource(this.source);
-          map.removeLayer(AllMarkers[this.id+1].layer);
-          map.removeSource(AllMarkers[this.id+1].source);
+          map.removeLayer(marker.layer);
+          map.removeSource(marker.source);
+          map.removeLayer(AllMarkers[marker.id+1].layer);
+          map.removeSource(AllMarkers[marker.id+1].source);
         }
       }
-      marker.recount = function(){
-          AllMarkers.splice(this.id,1) //Remove the approprate marker from the Array
-          for (i = this.id; i<AllMarkers.length; i++){ //Re-number the marker id's and poi id's to match their position in the array  
+      recount = function(marker){
+          AllMarkers.splice(marker.id,1) //Remove the approprate marker from the Array
+          for (i = marker.id; i<AllMarkers.length; i++){ //Re-number the marker id's and poi id's to match their position in the array  
              //This is because there is never a layer0/source0/geojson0. Layers are associated when there are at least *two* markers. 
               AllMarkers[i].id = i; //return the Markers to match
             }
       }      
-      marker.redrawMarkerRoute = function(){
+      redrawMarkerRoute = function(_marker){
         //M ----- M ------ M ------ M ------ M
         //* is the only Marker - There is no route to redraw...
-        let movedMarker = this;
-        if (this.id == 0 && AllMarkers.length == 1) {
+        if (_marker.id == 0 && AllMarkers.length == 1) {
           return
         }
         //* is first Marker - Redraw M --^--- M ------ M
-        else if (this.id == 0 && AllMarkers.length > 1) {
+        else if (_marker.id == 0 && AllMarkers.length > 1) {
           AllMarkers[1].geojson = {};
           AllMarkers[1].CO2geojson = {};
           map.removeLayer(AllMarkers[1].layer);
           map.removeSource(AllMarkers[1].source);
-          marker.calculateRoute(this,AllMarkers[this.id+1]);
+          calculateRoute(_marker,AllMarkers[_marker.id+1]);
         } 
         //M is last Marker - Redraw M ----- M --^-- M 
-        else if (this.id == AllMarkers.length - 1 && AllMarkers.length > 1) {
-          map.removeLayer(this.layer);
-          map.removeSource(this.source);
-          marker.calculateRoute(AllMarkers[this.id-1],this);         
+        else if (_marker.id == AllMarkers.length - 1 && AllMarkers.length > 1) {
+          map.removeLayer(_marker.layer);
+          map.removeSource(_marker.source);
+          calculateRoute(AllMarkers[_marker.id-1],_marker);         
         }
         //M is a middle Marker - Redraw Both M --^-- M --^-- M 
         else {
-          map.removeLayer(this.layer);
-          map.removeSource(this.source);
-          map.removeLayer(AllMarkers[this.id+1].layer);
-          map.removeSource(AllMarkers[this.id+1].source);
-          marker.calculateRoute(AllMarkers[this.id-1],this);  
-          marker.calculateRoute(this,AllMarkers[this.id+1]);       
+          map.removeLayer(_marker.layer);
+          map.removeSource(_marker.source);
+          map.removeLayer(AllMarkers[_marker.id+1].layer);
+          map.removeSource(AllMarkers[_marker.id+1].source);
+          calculateRoute(AllMarkers[_marker.id-1],_marker);  
+          calculateRoute(_marker,AllMarkers[_marker.id+1]);       
         }
       }
 
-      marker.safeRouteCalc = (start,end) => {
+
+
+      safeRouteCalc = (start,end) => {
           let ghRouting = new GraphHopper.Routing(parametersGHsafe);
           delete ghRouting.vehicle;
           ghRouting.addPoint(new GHInput(start.getLngLat().lat, start.getLngLat().lng));
@@ -435,7 +499,7 @@ async function where() {
           return ghRouting.doRequest();
       }
 
-      marker.dangerousRouteCalc = (start,end) => {
+      dangerousRouteCalc = (start,end) => {
           let ghRouting = new GraphHopper.Routing(parametersGHdangerous);
           delete ghRouting.vehicle;
           ghRouting.addPoint(new GHInput(start.getLngLat().lat, start.getLngLat().lng));
@@ -443,7 +507,7 @@ async function where() {
           return ghRouting.doRequest();
       }
 
-      marker.CO2RouteCalc = (start,end) => {
+      CO2RouteCalc = (start,end) => {
         let ghRouting = new GraphHopper.Routing(parametersCO2Car);
         delete ghRouting.vehicle;
         ghRouting.addPoint(new GHInput(start.getLngLat().lat, start.getLngLat().lng));
@@ -451,7 +515,7 @@ async function where() {
         return ghRouting.doRequest();
       }
 
-      marker.SafeRouteOnScreen = () => {
+      SafeRouteOnScreen = (marker) => {
         map.addSource(marker.source, { type: 'geojson', data: marker.safeRoute.paths[0].points });
         map.addLayer({
           "id": marker.layer,
@@ -472,7 +536,7 @@ async function where() {
         });
       }
 
-      marker.CrossCarefullyOnScreen = () => {
+      CrossCarefullyOnScreen = () => {
 
       }
 
@@ -527,8 +591,8 @@ async function where() {
       //         console.error(err.message);
       //       });
       // };
-      marker.moved = function() {
-        marker.redrawMarkerRoute();
+      moved = function(marker) {
+        redrawMarkerRoute(marker);
         // if (marker.id !== 0 && marker.id !== AllMarkers.length-1) {
         //   // testFunction.call("apples","oranges");
         //   this.calculateRoute(AllMarkers[marker.id-1],marker);
@@ -542,26 +606,9 @@ async function where() {
         // }
       }
 
-      AllMarkers[AllMarkers.length] = marker;
+      
 
-      //Click behavior for marker 
-      marker.getElement().addEventListener('click', function(e){
-        // alert("marker number " + marker.id + " is about to go bye-bye");
-        marker.destoryMarkersRoute();
-        marker.vaporizeMarker();
-        marker.recount();
-        CO2.Display();
-        if(marker.id !== 0 && marker.id !== AllMarkers.length){
-          marker.calculateRoute(AllMarkers[marker.id-1], AllMarkers[marker.id]);
-        }
-        e.stopPropagation(); //Stop Propagation so that a new marker isn't added on click
-      });
-
-      //Drag behavior for marker
-      marker.on('dragend', function(e){
-        marker.moved();
-      });
-  }
+  
 
   function Isochrone(){
     //Initialize a global variable that tracks if the Isochrone is active on screen. At the very start of the webpage loading, it is not active (false).
@@ -752,7 +799,7 @@ async function where() {
 
   //Specific Map Behavior
     map.on('click', function(e) {
-      if (mode == "drawing") {
+      if (mode == "drawing" && cursor !== "insideWarningBubble") {
         AddMarker(e);
       }
     });

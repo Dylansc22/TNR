@@ -11,6 +11,11 @@
     /*font-family: ""Source Sans Pro","Helvetica Neue",Helvetica,Arial,sans-serif";*/
 }
 
+.warningMarker {
+    /*display: none;*/
+    opacity: 0.2
+}
+
 #bootstrapoverridesformap {
     overflow: hidden;
     position: absolute;

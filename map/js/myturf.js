@@ -29,23 +29,34 @@ turfValues = async () => {
     const response2 = await fetch ('js/GH_AvoidArea_minify.geojson');
     const polygonHSRoads = await response2.json();
       //Do the Turf work
-      for (i = 1; i < AllMarkers.length; i++) {
+      for (i = AllMarkers.length-1; i < AllMarkers.length; i++) {
         let AtoBLineSegment = AllMarkers[i].safeRoute.paths[0].points;
         let WarningMarkers = turf.lineIntersect(AtoBLineSegment, polygonHSRoads).features;
-        for (j=0;j<WarningMarkers.length;j++){
-          let from = WarningMarkers[j].geometry.coordinates;
-          let options = {units: 'kilometers'}; //can be degrees, radians, miles, or kilometers
-          for (k=WarningMarkers.length-1;k>0;k--) {
-            let to = WarningMarkers[k].geometry.coordinates;
-            let distance = turf.distance(from, to, options);
-            if (distance !== 0 && distance < 0.05){
-              WarningMarkers.splice(k,1);
+        //If warning markers is not [], ie if there *are* intersect point(s)... do the following for loops:
+        if (WarningMarkers !== []){
+          for (j=0;j<WarningMarkers.length;j++){
+            let from = WarningMarkers[j].geometry.coordinates;
+            let options = {units: 'kilometers'}; //can be degrees, radians, miles, or kilometers
+            for (k=WarningMarkers.length-1;k>0;k--) {
+              let to = WarningMarkers[k].geometry.coordinates;
+              let distance = turf.distance(from, to, options);
+              if (distance !== 0 && distance < 0.05){
+                WarningMarkers.splice(k,1);
+              }
             }
           }
         }
         let temp = []
         WarningMarkers.forEach(item => {
           temp.push(item.geometry.coordinates);
+        //   let warningMarker = new mapboxgl.Marker({
+        // //element: el, if I want a crosshair instead of the marker
+        //     draggable: false,
+        //     color: 'black', //'#363636',
+        //     scale: 1,
+        //   })
+        // warningMarker.setLngLat(item.geometry.coordinates)
+        // warningMarker.addTo(map);
         });
         AllMarkers[i].warning = {}
         AllMarkers[i].warning.type = "Feature";
@@ -57,12 +68,12 @@ turfValues = async () => {
 
 
   turfCircles = () => {
-    for (i=1;i<AllMarkers.length;i++){
-      map.addSource('dangerzone' + AllMarkers[i].source, { type: 'geojson', data: AllMarkers[i].warning });
+    for (i=AllMarkers.length-1;i<AllMarkers.length;i++){
+      map.addSource('dangerzonesource' + AllMarkers.length, { type: 'geojson', data: AllMarkers[i].warning });
       map.addLayer({
-        'id': 'dangerzoneID' + AllMarkers[i].id.toString(),
+        'id': 'dangerzoneID' + AllMarkers.length,
         'type': 'circle',
-        'source': 'dangerzone' + AllMarkers[i].source,
+        'source': 'dangerzonesource' + AllMarkers.length,
         'layout': {},
         'paint': {
           'circle-color': 'brown',
@@ -83,14 +94,73 @@ turfValues = async () => {
         }
       });  
     }
-  }
+      map.on('click', 'dangerzoneID' + AllMarkers.length, function(e) {
+        if (zoomed === false) {
+          zoomed = true;
+          map.flyTo({
+            center: e.lngLat,
+            bearing: 30,
+            pitch:45,
+            zoom: 18,
+            speed: 1.7, // make the flying slow
+            // curve: 1, // change the speed at which it zooms out
+          });
+        //Turn on satallite layer if it is off
+        if (satallitemode === false) {
+          document.getElementById("satellite").click();
+        } 
+        //turn on annotations if they are off
+        if (map.getLayoutProperty('road-label', 'visibility') === 'none') {
+          document.getElementById("annotation").click();
+        } 
+        for (i=1;i<=AllMarkers.length-1;i++) {
+          map.setPaintProperty(AllMarkers[i].layer,'line-opacity', 0.4);
+        }
+        }//If I'm already zoomed in, on click will cause a zoom out.
+        else if (zoomed === true) {
+          zoomed = false;
+          zoomToFullRoute();
+            // map.flyTo({
+            //   center: [-110.93182, 32.23156], 
+            //   zoom: 12.826,
+            //   pitch: 0,
+            //   bearing: 0,
+            //   speed: 1.7, // make the flying slow
+            //   curve: 1, // change the speed at which it zooms out
+            // });
+            //Shut off the Satallite layer if it is on.
+            if (satallitemode === true) {
+              document.getElementById("satellite").click();
+            } 
+            //Shut off Annotations if they are on
+            if (map.getLayoutProperty('road-label', 'visibility') === 'visible') {
+              document.getElementById("annotation").click();
+            }
+        }
+      });
+      // Change the cursor to a pointer when the it enters a feature in the 'symbols' layer.
+      map.on('mouseenter', 'dangerzoneID'+ AllMarkers.length, function() {
+        console.log("mouse went in");
+        cursor = "insideWarningBubble";
+        map.getCanvas().style.cursor = 'pointer';
+      });
+       
+      // Change it back to a pointer when it leaves.
+      map.on('mouseleave', 'dangerzoneID'+ AllMarkers.length, function() {
+        cursor = "outsideWarningBubble";
+        map.getCanvas().style.cursor = '';
+      });
+                    
+  } //end turfCircles
+
+
 
   turfDot = () => {
   for (i=1;i<AllMarkers.length;i++){
     map.addLayer({
-      'id': 'dangerzonedotID' + AllMarkers[i].id.toString(),
+      'id': 'dangerzonedotID' + AllMarkers.length,
       'type': 'circle',
-      'source': 'dangerzone' + AllMarkers[i].source,
+      'source': 'dangerzonesource' + AllMarkers.length,
       'layout': {},
       'paint': {
         'circle-color': 'brown',
@@ -98,10 +168,10 @@ turfValues = async () => {
         'circle-radius': {
           'stops': [[12,3], [14, 4],[20, 8] ]
         },
-        'circle-stroke-color':'white',
+        'circle-stroke-color':'black',
         'circle-stroke-opacity':1,
         'circle-stroke-width':1,
-        'circle-pitch-alignment':'viewport',
+        'circle-pitch-alignment':'map',
       }
     });  
   }
