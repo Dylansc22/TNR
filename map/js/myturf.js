@@ -22,7 +22,7 @@ let getParks = async function() {
   console.log(data);
 }
 
-turfValues = async () => {
+safeturfValues = async () => {
   //Pull Parks into work environment
     const response = await fetch ('js/Mapbox_Parks_minify.geojson');
     const polygonParks = await response.json();
@@ -33,7 +33,7 @@ turfValues = async () => {
         let AtoBLineSegment = AllMarkers[i].safeRoute.paths[0].points;
         let WarningMarkers = turf.lineIntersect(AtoBLineSegment, polygonHSRoads).features;
         //If warning markers is not [], ie if there *are* intersect point(s)... do the following for loops:
-        if (WarningMarkers !== []){
+        if (WarningMarkers.length !== 0){
           for (j=0;j<WarningMarkers.length;j++){
             let from = WarningMarkers[j].geometry.coordinates;
             let options = {units: 'kilometers'}; //can be degrees, radians, miles, or kilometers
@@ -45,56 +45,86 @@ turfValues = async () => {
               }
             }
           }
+          let temp = [];
+          WarningMarkers.forEach(item => {
+            temp.push(item.geometry.coordinates);
+          });
+          AllMarkers[i].warning = temp;
         }
-        let temp = []
-        WarningMarkers.forEach(item => {
-          temp.push(item.geometry.coordinates);
-        //   let warningMarker = new mapboxgl.Marker({
-        // //element: el, if I want a crosshair instead of the marker
-        //     draggable: false,
-        //     color: 'black', //'#363636',
-        //     scale: 1,
-        //   })
-        // warningMarker.setLngLat(item.geometry.coordinates)
-        // warningMarker.addTo(map);
-        });
-        AllMarkers[i].warning = {}
-        AllMarkers[i].warning.type = "Feature";
-        AllMarkers[i].warning.geometry = {};
-        AllMarkers[i].warning.geometry.type = "MultiPoint";
-        AllMarkers[i].warning.geometry.coordinates = temp;
+      }
+}
+
+dangerturfValues = async () => {
+  //Pull Parks into work environment
+    const response = await fetch ('js/Mapbox_Parks_minify.geojson');
+    const polygonParks = await response.json();
+    const response2 = await fetch ('js/GH_AvoidArea_minify.geojson');
+    const polygonHSRoads = await response2.json();
+      //Do the Turf work
+      for (i = AllMarkers.length-1; i < AllMarkers.length; i++) {
+        let AtoBLineSegment = AllMarkers[i].dangerousRoute.paths[0].points;
+        let WarningMarkers = turf.lineIntersect(AtoBLineSegment, polygonHSRoads).features;
+        //If warning markers is not [], ie if there *are* intersect point(s)... do the following for loops:
+        if (WarningMarkers.length !== 0){
+          for (j=0;j<WarningMarkers.length;j++){
+            let from = WarningMarkers[j].geometry.coordinates;
+            let options = {units: 'kilometers'}; //can be degrees, radians, miles, or kilometers
+            for (k=WarningMarkers.length-1;k>0;k--) {
+              let to = WarningMarkers[k].geometry.coordinates;
+              let distance = turf.distance(from, to, options);
+              if (distance !== 0 && distance < 0.05){
+                WarningMarkers.splice(k,1);
+              }
+            }
+          }
+          let temp = [];
+          WarningMarkers.forEach(item => {
+            temp.push(item.geometry.coordinates);
+          });
+          AllMarkers[i].warning = temp;
+        }
       }
 }
 
 
   turfCircles = () => {
-    for (i=AllMarkers.length-1;i<AllMarkers.length;i++){
-      map.addSource('dangerzonesource' + AllMarkers.length, { type: 'geojson', data: AllMarkers[i].warning });
-      map.addLayer({
-        'id': 'dangerzoneID' + AllMarkers.length,
-        'type': 'circle',
-        'source': 'dangerzonesource' + AllMarkers.length,
-        'layout': {},
-        'paint': {
-          'circle-color': 'brown',
-          'circle-opacity': 0.2,
-          'circle-radius': {
-            "type": "exponential",
-            "base": 1.5,
-            "stops": [
-              //I actually have no idea how this actually works, but the sizing seems decent, haha. 
-              [0, 1 * Math.pow(2, (9 - 13))], //[0, baseWidth * Math.pow(2, (0 - baseZoom))],
-              [24, 25 * Math.pow(2, (24 - 18))] //[0, baseWidth * Math.pow(2, (0 - baseZoom))],
-            ]
-          },
-          'circle-stroke-color':'brown',
-          'circle-stroke-opacity':1,
-          'circle-stroke-width':2,
-          'circle-pitch-alignment':'map',
-        }
-      });  
-    }
-      map.on('click', 'dangerzoneID' + AllMarkers.length, function(e) {
+    if (typeof(AllMarkers[AllMarkers.length-1].warning) !== 'undefined') {
+      for (i=AllMarkers.length-1;i<AllMarkers.length;i++){
+        map.addSource('dangerzonesource' + AllMarkers[i].id, { 
+          'type': 'geojson', 
+          'data': {
+            'type':'Feature',
+            'geometry': {
+              'type':'MultiPoint',
+              'coordinates': AllMarkers[i].warning,
+            }
+          }
+        });
+        map.addLayer({
+          'id': 'dangerzoneID' + AllMarkers[i].id,
+          'type': 'circle',
+          'source': 'dangerzonesource' + AllMarkers[i].id,
+          'layout': {},
+          'paint': {
+            'circle-color': 'brown',
+            'circle-opacity': 0.2,
+            'circle-radius': {
+              "type": "exponential",
+              "base": 1.5,
+              "stops": [
+                //I actually have no idea how this actually works, but the sizing seems decent, haha. 
+                [0, 1 * Math.pow(2, (9 - 13))], //[0, baseWidth * Math.pow(2, (0 - baseZoom))],
+                [24, 25 * Math.pow(2, (24 - 18))] //[0, baseWidth * Math.pow(2, (0 - baseZoom))],
+              ]
+            },
+            'circle-stroke-color':'brown',
+            'circle-stroke-opacity':1,
+            'circle-stroke-width':2,
+            'circle-pitch-alignment':'map',
+          }
+        });  
+
+      map.on('click', 'dangerzoneID' + AllMarkers[i].id, function(e) {
         if (zoomed === false) {
           zoomed = true;
           map.flyTo({
@@ -139,47 +169,54 @@ turfValues = async () => {
         }
       });
       // Change the cursor to a pointer when the it enters a feature in the 'symbols' layer.
-      map.on('mouseenter', 'dangerzoneID'+ AllMarkers.length, function() {
+      map.on('mouseenter', 'dangerzoneID'+ AllMarkers[i].id, function() {
         console.log("mouse went in");
         cursor = "insideWarningBubble";
         map.getCanvas().style.cursor = 'pointer';
       });
        
       // Change it back to a pointer when it leaves.
-      map.on('mouseleave', 'dangerzoneID'+ AllMarkers.length, function() {
+      map.on('mouseleave', 'dangerzoneID'+ AllMarkers[i].id, function() {
         cursor = "outsideWarningBubble";
         map.getCanvas().style.cursor = '';
       });
-                    
+      }
+     }               
   } //end turfCircles
 
 
 
   turfDot = () => {
-  for (i=1;i<AllMarkers.length;i++){
-    map.addLayer({
-      'id': 'dangerzonedotID' + AllMarkers.length,
-      'type': 'circle',
-      'source': 'dangerzonesource' + AllMarkers.length,
-      'layout': {},
-      'paint': {
-        'circle-color': 'brown',
-        'circle-opacity': 1,
-        'circle-radius': {
-          'stops': [[12,3], [14, 4],[20, 8] ]
-        },
-        'circle-stroke-color':'black',
-        'circle-stroke-opacity':1,
-        'circle-stroke-width':1,
-        'circle-pitch-alignment':'map',
+    if (typeof(AllMarkers[AllMarkers.length-1].warning) !== 'undefined'){
+      for (i=AllMarkers.length-1;i<AllMarkers.length;i++){
+        map.addLayer({
+          'id': 'dangerzonedotID' + AllMarkers[i].id,
+          'type': 'circle',
+          'source': 'dangerzonesource' + AllMarkers[i].id,
+          'layout': {},
+          'paint': {
+            'circle-color': 'brown',
+            'circle-opacity': 1,
+            'circle-radius': {
+              'stops': [[12,3], [14, 4],[20, 8] ]
+            },
+            'circle-stroke-color':'black',
+            'circle-stroke-opacity':1,
+            'circle-stroke-width':1,
+            'circle-pitch-alignment':'map',
+          }
+        });  
       }
-    });  
-  }
+    }
   }
 
 
 turfDanger = async () => {
-    await turfValues();
+  if (safe == true) {
+    await safeturfValues();
+  } else {
+    await dangerturfValues();
+  }
     await turfCircles();
     await turfDot();
 }

@@ -184,29 +184,35 @@ function doEverything(){
           safe = false;
           setPathwayColor();
           if (AllMarkers.length>0) {
+            //Remove the safe route entirely
             for (i = AllMarkers.length - 1; i > 0; i-- ) {
               map.removeLayer(AllMarkers[i].layer);
               map.removeSource(AllMarkers[i].source);
+              removeWarningAreaforMarker(AllMarkers[i]);
             } 
+            //re-add the dangerous route
+            for (i=1;i<AllMarkers.length;i++){
+              routeOnScreen(AllMarkers[i]);
+              turfDanger();
+            }
           }
-          parameters = parametersGHdangerous;
-            for (i = 0; i < AllMarkers.length-1; i++ ) {
-              calculateRoute(AllMarkers[i],AllMarkers[i+1]);
-            } 
         }
         else if (safe == false) {
           safe = true;
           setPathwayColor();
           if (AllMarkers.length>0) {
+            //Remove the dangerous route entirely
             for (i = AllMarkers.length - 1; i > 0; i-- ) {
               map.removeLayer(AllMarkers[i].layer);
               map.removeSource(AllMarkers[i].source);
+              removeWarningAreaforMarker(AllMarkers[i]);
             } 
+            //re-add the dangerous route
+            for (i=1;i<AllMarkers.length;i++){
+              routeOnScreen(AllMarkers[i]);
+              turfDanger();
+            }
           }
-          parameters = parametersGHsafe;
-            for (i = 0; i < AllMarkers.length-1; i++ ) {
-              calculateRoute(AllMarkers[i],AllMarkers[i+1]);
-            } 
         }
       } 
 
@@ -312,20 +318,76 @@ function doEverything(){
       //Click behavior for marker 
       marker.getElement().addEventListener('click', function(e){
         // alert("marker number " + marker.id + " is about to go bye-bye");
-        destoryMarkersRoute(this);
-        vaporizeMarker(this);
-        recount(this);
+        marker.destoryMarkersRoute.call(marker);
+        marker.vaporizeMarker.call(marker);
+        marker.recount.call(marker);
         CO2.Display();
-        if(this.id !== 0 && this.id !== AllMarkers.length){
-          calculateRoute(AllMarkers[this.id-1], AllMarkers[this.id]);
+
+        if(marker.id !== 0 && marker.id !== AllMarkers.length){
+          calculateRoute(AllMarkers[marker.id-1], AllMarkers[marker.id]);
         }
+
         e.stopPropagation(); //Stop Propagation so that a new marker isn't added on click
       });
+
+
 
       //Drag behavior for marker
       marker.on('dragend', function(e){
         moved(this);
       });
+
+      marker.vaporizeMarker = function() {
+        //Remove marker
+        this.remove();
+      } 
+      marker.destoryMarkersRoute = function(){
+        //M ----- M ------ M ------ M ------ M
+        
+        //M is the only Marker
+        if (this.id == 0 && AllMarkers.length == 1) {
+          return
+        //There is no route to delete...
+        //Sooo... Yea.... I guess... I don't need to write any code for here
+        //Maybe write a short story about rocket ships of super intelligent dogs(?)  
+        }
+        //M is first Marker
+        // M ------ is deleted
+        else if (this.id == 0 && AllMarkers.length > 1) {
+          AllMarkers[1].safeRoute = {};
+          AllMarkers[1].dangerousRoute = {};
+          AllMarkers[1].CO2geojson = {};          
+          map.removeLayer(AllMarkers[1].layer);
+          map.removeSource(AllMarkers[1].source);
+          removeWarningAreaforMarker(AllMarkers[1]);
+        } 
+        //M is last Marker
+        // ------ M is deleted
+        else if (this.id == AllMarkers.length - 1 && AllMarkers.length > 1) {
+          //this is the last marker;
+          map.removeLayer(this.layer);
+          map.removeSource(this.source);
+          removeWarningAreaforMarker(this);
+        }
+        //M is a middle Marker
+        //------ M ------ is deleted
+        //M ---- - ---- M route is calculated
+        else {
+          map.removeLayer(this.layer);
+          map.removeSource(this.source);
+          map.removeLayer(AllMarkers[this.id+1].layer);
+          map.removeSource(AllMarkers[this.id+1].source);
+          removeWarningAreaforMarker(this);
+          removeWarningAreaforMarker(AllMarkers[this.id+1])
+        }
+      }
+      marker.recount = function(){
+          AllMarkers.splice(this.id,1) //Remove the approprate marker from the Array
+          for (i = this.id; i<AllMarkers.length; i++){ //Re-number the marker id's and poi id's to match their position in the array  
+             //This is because there is never a layer0/source0/geojson0. Layers are associated when there are at least *two* markers. 
+              AllMarkers[i].id = i; //return the Markers to match
+            }
+      }     
 
       //Generate route when 2 or more markers are on screen
       if (AllMarkers.length > 1){
@@ -363,35 +425,35 @@ async function where() {
     }
   }
 
-  calculateRoute = async (start,end) => {
+  calculateRoute = async (startMarker,endMarker) => {
     try {
-      let promise_safegeojson = safeRouteCalc(AllMarkers[AllMarkers.length-2],AllMarkers[AllMarkers.length-1]);
-      let promise_dangerousgeojson = dangerousRouteCalc(AllMarkers[AllMarkers.length-2],AllMarkers[AllMarkers.length-1]);
-      let promise_Co2geojson = CO2RouteCalc(AllMarkers[AllMarkers.length-2],AllMarkers[AllMarkers.length-1]);
+      let promise_safegeojson = safeRouteCalc(startMarker,endMarker);
+      let promise_dangerousgeojson = dangerousRouteCalc(startMarker,endMarker);
+      let promise_Co2geojson = CO2RouteCalc(startMarker,endMarker);
       let AllRouteArray = [];
 
       await Promise.all([promise_safegeojson, promise_dangerousgeojson, promise_Co2geojson])
         .then(results => {
           AllRouteArray = results;
-          console.log(AllRouteArray);
+          // console.log(AllRouteArray);
         })
         .catch(error => {
           console.log("something went wrong in the route generation of the safe route, dangerous route, or CO2 Estimate");
         });
 
       //Add geojsons to AllMarkers Array of Objects
-        AllMarkers[AllMarkers.length-1].safeRoute = AllRouteArray[0];
-        AllMarkers[AllMarkers.length-1].dangerousRoute = AllRouteArray[1];
-        AllMarkers[AllMarkers.length-1].CO2geojson = AllRouteArray[2];
+        endMarker.safeRoute = AllRouteArray[0];
+        endMarker.dangerousRoute = AllRouteArray[1];
+        endMarker.CO2geojson = AllRouteArray[2];
+        AllMarkers[endMarker.id] = endMarker;
       //Visualize Data On Screen
-        SafeRouteOnScreen(AllMarkers[AllMarkers.length-1]);
-        CrossCarefullyOnScreen();
-        turfDanger();
+        routeOnScreen(endMarker);
         CO2.Display();
+        turfDanger();
     } catch (err) {
       console.error("our error", err)
     }
-          // AllMarkers[AllMarkers.length-1].SafeRouteOnScreen();
+          // AllMarkers[AllMarkers.length-1].routeOnScreen();
           //Turf Stuff
               // await turfDanger();
               // await openCO2Box();
@@ -402,62 +464,24 @@ async function where() {
                   // }
   }
 
+  removeWarningAreaforMarker = (marker) => {
+    if (typeof(marker.warning) !== 'undefined') {
+      map.removeLayer('dangerzonedotID'+ marker.id);
+      map.removeLayer('dangerzoneID'+ marker.id);
+      map.removeSource('dangerzonesource'+ marker.id);
+    }
+  }
+
   UndoButtonClicked = function(marker){
     marker.undoLastMarker();
   }
 
-      undoLastMarker = function(marker){
-        this.destoryMarkersRoute();
-        this.vaporizeMarker();
-        // marker.recount();
-      }
+  undoLastMarker = function(marker){
+    this.destoryMarkersRoute();
+    this.vaporizeMarker();
+    // marker.recount();
+  }
 
-      vaporizeMarker = function(marker) {
-        //Remove marker
-        marker.remove();
-      } 
-      destoryMarkersRoute = function(marker){
-        //M ----- M ------ M ------ M ------ M
-        
-        //M is the only Marker
-        if (marker.id == 0 && AllMarkers.length == 1) {
-          return
-        //There is no route to delete...
-        //Sooo... Yea.... I guess... I don't need to write any code for here
-        //Maybe write a short story about rocket ships of super intelligent dogs(?)  
-        }
-        //M is first Marker
-        // M ------ is deleted
-        else if (marker.id == 0 && AllMarkers.length > 1) {
-          AllMarkers[1].geojson = {};
-          AllMarkers[1].CO2geojson = {};
-          map.removeLayer(AllMarkers[1].layer);
-          map.removeSource(AllMarkers[1].source);
-        } 
-        //M is last Marker
-        // ------ M is deleted
-        else if (marker.id == AllMarkers.length - 1 && AllMarkers.length > 1) {
-          //this is the last marker;
-          map.removeLayer(this.layer);
-          map.removeSource(this.source);
-        }
-        //M is a middle Marker
-        //------ M ------ is deleted
-        //M ---- - ---- M route is calculated
-        else {
-          map.removeLayer(marker.layer);
-          map.removeSource(marker.source);
-          map.removeLayer(AllMarkers[marker.id+1].layer);
-          map.removeSource(AllMarkers[marker.id+1].source);
-        }
-      }
-      recount = function(marker){
-          AllMarkers.splice(marker.id,1) //Remove the approprate marker from the Array
-          for (i = marker.id; i<AllMarkers.length; i++){ //Re-number the marker id's and poi id's to match their position in the array  
-             //This is because there is never a layer0/source0/geojson0. Layers are associated when there are at least *two* markers. 
-              AllMarkers[i].id = i; //return the Markers to match
-            }
-      }      
       redrawMarkerRoute = function(_marker){
         //M ----- M ------ M ------ M ------ M
         //* is the only Marker - There is no route to redraw...
@@ -466,7 +490,8 @@ async function where() {
         }
         //* is first Marker - Redraw M --^--- M ------ M
         else if (_marker.id == 0 && AllMarkers.length > 1) {
-          AllMarkers[1].geojson = {};
+          AllMarkers[1].safeRoute = {};
+          AllMarkers[1].dangerousRoute = {};          
           AllMarkers[1].CO2geojson = {};
           map.removeLayer(AllMarkers[1].layer);
           map.removeSource(AllMarkers[1].source);
@@ -515,8 +540,13 @@ async function where() {
         return ghRouting.doRequest();
       }
 
-      SafeRouteOnScreen = (marker) => {
-        map.addSource(marker.source, { type: 'geojson', data: marker.safeRoute.paths[0].points });
+      routeOnScreen = (marker) => {
+        if (safe == true) {
+          map.addSource(marker.source, { type: 'geojson', data: marker.safeRoute.paths[0].points });
+        } else {
+          map.addSource(marker.source, { type: 'geojson', data: marker.dangerousRoute.paths[0].points });
+        }
+
         map.addLayer({
           "id": marker.layer,
           "type": "line",
