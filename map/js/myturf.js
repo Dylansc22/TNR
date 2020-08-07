@@ -22,6 +22,177 @@ let getParks = async function() {
   console.log(data);
 }
 
+
+
+calculateMarkerDangerZone = async (_marker) => {
+  console.log("calculate marker danger zone");
+  let marker = _marker;
+  const response = await fetch ('js/GH_AvoidArea_minify.geojson');
+  const HSRoads = await response.json();
+  
+  if (safe === true) { 
+    var currentRoute = marker.safeRoute.paths[0].points; 
+  } 
+  else if (safe === false) { 
+    var currentRoute = marker.dangerousRoute.paths[0].points;
+  }
+
+  //Calculate All Intersects beteween High Stress Road and individual marker's geojson-route 
+  let intersects = turf.lineIntersect(currentRoute, HSRoads).features;
+
+  //Route can cross High Stress road multiple times in a small clustered space
+  //(i.e. a route cross 4 times: in-out in-out on a two lane road)
+  //I need to delete that excess of four crossings down to 1 (the first crossing)
+  //Remove excess clusters of intersect-points when the geojson pathway
+  // has multiple crossings with high-stress road in a tight space.
+  if (intersects.length > 1) {
+    intersects = trimIntersects(intersects);
+  }
+  //Finally, if intersects exist save them to the marker.
+  if (intersects !== 'undefined') {
+      let multipointgeojson = { 
+          'type': 'geojson', 
+          'data': {
+            'type':'Feature',
+            'geometry': {
+              'type':'MultiPoint',
+              'coordinates':[],
+            }
+          }
+      }
+    intersects.forEach(geojson => {
+      multipointgeojson.data.geometry.coordinates.push(geojson.geometry.coordinates);
+    });
+    marker.warning = multipointgeojson;
+  }
+}
+
+trimIntersects = (_intersects) => {
+  console.log("trim intersects");
+
+  let trimmed = _intersects;
+  let firstPoint = trimmed[0];
+  let options = {units: 'kilometers'}; //can be degrees, radians, miles, or kilometers
+  
+  //Example below to explain the nested for loops:
+  //the 1st for loop moves up the * up through the array
+  //the 2nd for loop moves down the array checking each turf-distance against *
+  // * 0 0 0 ------- 0 ----- 0 0 ---   start at * and iterate through 0's starting at the end.
+  // X ------------- * ----- 0 0 ---   3 deleted (via splice). now at *. ignore X (behind you and technically already checked in prior step), and iterate through o
+  // X ------------- X ----- * 0 ---   none deleted. now at *. ignore X's. 
+  // X ------------- X ----- X -----   1 deleted. Now complete
+  trimmed.forEach(point => {
+    for (k = trimmed.length -1; k > trimmed.indexOf(point); k--) {
+      let comparePoint = trimmed[k];
+      let distance = turf.distance(firstPoint, comparePoint, options);
+      if (distance < 0.05) {
+        trimmed.splice(k,1);
+        }
+      }
+    });
+  return trimmed;
+} //trimIntersects
+
+displayMarkerDangerZone = (_marker) => {
+  console.log("display marker danger zone");
+  let marker = _marker;
+  if (typeof(marker.warning) !== 'undefined') {
+    //Add center dot
+    map.addSource('dangersource' + marker.id, marker.warning);
+    map.addLayer({
+      'id': 'dangerdot' + marker.id,
+      'type': 'circle',
+      'source': 'dangersource' + marker.id,
+      'layout': {},
+      'paint': {
+        'circle-color': 'brown',
+        'circle-opacity': 1,
+        'circle-radius': {
+          'stops': [[12,3], [14, 4],[20, 8] ]
+        },
+        'circle-stroke-color':'black',
+        'circle-stroke-opacity':1,
+        'circle-stroke-width':1,
+        'circle-pitch-alignment':'map',
+      }
+    }); 
+    //Add radial circle
+    map.addLayer({
+      'id': 'dangercircle' + marker.id,
+      'type': 'circle',
+      'source': 'dangersource' + marker.id,
+      'layout': {},
+      'paint': {
+        'circle-color': 'brown',
+        'circle-opacity': 0.2,
+        'circle-radius': {
+          "type": "exponential",
+          "base": 1.5,
+          "stops": [
+            //I actually have no idea how this actually works, but the sizing seems decent, haha. 
+            [0, 1 * Math.pow(2, (9 - 13))], //[0, baseWidth * Math.pow(2, (0 - baseZoom))],
+            [24, 25 * Math.pow(2, (24 - 18))] //[0, baseWidth * Math.pow(2, (0 - baseZoom))],
+          ]
+        },
+        'circle-stroke-color':'brown',
+        'circle-stroke-opacity':1,
+        'circle-stroke-width':2,
+        'circle-pitch-alignment':'map',
+      }
+    });
+
+    for (i=AllMarkers.length-1;i<AllMarkers.length;i++){
+      map.on('click', 'dangerzoneID' + AllMarkers[i].id, function(e) {
+        if (zoomed === false) {
+          console.log(zoomed);
+          zoomed = true;
+          map.flyTo({
+            center: e.lngLat,
+            bearing: 30,
+            pitch:45,
+            zoom: 18,
+            speed: 1.7, // make the flying slow
+            // curve: 1, // change the speed at which it zooms out
+          });
+          //Turn on Satallite and Annotations Layers, if they are off
+            if (satallitemode === false) { document.getElementById("satellite").click(); } 
+            if (map.getLayoutProperty('road-label', 'visibility') === 'none') {  document.getElementById("annotation").click(); } 
+          //Geojson pathway route always appears as a layer *on top of* the map layers
+          //so I need to turn the line-opacity down to 0.4, so you can read the street names
+          //that appear undernearthe the bike  
+          for (i=1;i<=AllMarkers.length-1;i++) {
+            map.setPaintProperty(AllMarkers[i].layer,'line-opacity', 0.4);
+          }
+        }
+        //already zoomed in (zoomed is true)
+        else {
+          zoomed = false;
+          zoomToFullRoute();
+            if (satallitemode === true) {
+              document.getElementById("satellite").click();
+            } 
+            //Shut off Annotations if they are on
+            if (map.getLayoutProperty('road-label', 'visibility') === 'visible') {
+              document.getElementById("annotation").click();
+            }
+        }
+      });
+      // Change the cursor to a pointer when the it enters a feature in the 'symbols' layer.
+      map.on('mouseenter', 'dangerzoneID'+ AllMarkers[i].id, function() {
+        console.log("mouse went in");
+        cursor = "insideWarningBubble";
+        map.getCanvas().style.cursor = 'pointer';
+      });
+       
+      // Change it back to a pointer when it leaves.
+      map.on('mouseleave', 'dangerzoneID'+ AllMarkers[i].id, function() {
+        cursor = "outsideWarningBubble";
+        map.getCanvas().style.cursor = '';
+      });
+      }
+  }   
+} //end displayMarkerDangerZone
+
 safeturfValues = async () => {
   //Pull Parks into work environment
     const response = await fetch ('js/Mapbox_Parks_minify.geojson');
@@ -220,7 +391,6 @@ turfDanger = async () => {
     await turfCircles();
     await turfDot();
 }
-
 danger = function(){
   turfValues();
   turfCircles();

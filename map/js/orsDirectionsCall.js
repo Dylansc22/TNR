@@ -8,35 +8,28 @@ function doEverything(){
   let parametersGHsafe = {
     host: "http://144.202.64.252:8989", //host: "http://localhost:8989",
     profile: "pathways1", // pathways1, pathways2, pathways3, pathways4, pathways5, co2car
-    //Code does not like any parameter that isn't the profile
-    //vehicle: "bike",
-    //weighting: "shortest", //weighting: "custom",
-    //turn_costs: false, 
-    // elevation: false,
     details: ["road_class", "distance"]
   }
 
   let parametersGHdangerous = {
     host: "http://144.202.64.252:8989", //host: "http://localhost:8989",
-    profile: "pathways6", // pathways1, pathways2, pathways3, pathways4, pathways5, co2car
-    //Does not like any parameter that isn't the profile
-    //weighting: "fastest",
-    //turn_costs: false,
-    // key: keys.graphhopper,
-    // elevation: false,
+    profile: "pathways5", // pathways1, pathways2, pathways3, pathways4, pathways5, co2car
     details: ["road_class", "distance"]
   }
 
   let parametersCO2Car = {
     host: "http://144.202.64.252:8989", //host: "http://localhost:8989",
     profile: "co2car", // pathways1, pathways2, pathways3, pathways4, pathways5, co2car
-    //Does not like any parameter that isn't the profile parameter
-    //vehicle: "bike",
-    //weighting: "shortest", //weighting: "custom",
-    //turn_costs: false, //turn_costs: true, DOES NOT LIKE THIS PARAMETER IN CURRENT GRAPH ITTERATION
-    // elevation: false,
-    //details: ["road_class", "distance"]
   }
+
+    //Other Parameters
+    //Code does not like any parameter that isn't the profile
+    //vehicle: "bike",
+    //weighting: "shortest", // "custom", "shortest", "fastest"
+    //turn_costs: false, 
+    //elevation: false,
+    // key: keys.graphhopper,
+    //details: ["road_class", "distance"]
 
 
   let parameters = parametersGHsafe;
@@ -103,7 +96,7 @@ function doEverything(){
       }
     }
 
-    let zoomToSearchedRoute = function() {
+    let zoomToSearchedRoute = () => {
         if (safe) {
             let boundary = []
             boundary[0] = AllMarkers[1].safeRoute.paths[0].bbox[0] - 0.008;
@@ -147,7 +140,7 @@ function doEverything(){
             // map.zoomTo(map.getZoom() - 0.5);
     } 
 
-    let setPathwayColor = function(){
+    let setPathwayColor = () => {
       //this could probably be written more efficiently
         if (safe == true) {
           if (satallitemode == true && nighttimemode == false) {
@@ -179,7 +172,7 @@ function doEverything(){
         }
     }
 
-    let ToggleSafeRouting = function(){
+    let ToggleSafeRouting = () => {
         if (safe == true) {
           safe = false;
           setPathwayColor();
@@ -188,12 +181,13 @@ function doEverything(){
             for (i = AllMarkers.length - 1; i > 0; i-- ) {
               map.removeLayer(AllMarkers[i].layer);
               map.removeSource(AllMarkers[i].source);
-              removeWarningAreaforMarker(AllMarkers[i]);
+              removeMarkerDangerZone(AllMarkers[i]);
             } 
             //re-add the dangerous route
             for (i=1;i<AllMarkers.length;i++){
-              routeOnScreen(AllMarkers[i]);
-              turfDanger();
+              displayMarkerRoute(AllMarkers[i]);
+              calculateMarkerDangerZone(AllMarkers[i]);
+              displayMarkerDangerZones(AllMarkers[i]);
             }
           }
         }
@@ -205,12 +199,13 @@ function doEverything(){
             for (i = AllMarkers.length - 1; i > 0; i-- ) {
               map.removeLayer(AllMarkers[i].layer);
               map.removeSource(AllMarkers[i].source);
-              removeWarningAreaforMarker(AllMarkers[i]);
+              removeMarkerDangerZone(AllMarkers[i]);
             } 
             //re-add the dangerous route
             for (i=1;i<AllMarkers.length;i++){
-              routeOnScreen(AllMarkers[i]);
-              turfDanger();
+              displayMarkerRoute(AllMarkers[i]);
+              calculateMarkerDangerZone(AllMarkers[i]);
+              displayMarkerDangerZones(AllMarkers[i]);
             }
           }
         }
@@ -323,10 +318,6 @@ function doEverything(){
         marker.recount.call(marker);
         CO2.Display();
 
-        if(marker.id !== 0 && marker.id !== AllMarkers.length){
-          calculateRoute(AllMarkers[marker.id-1], AllMarkers[marker.id]);
-        }
-
         e.stopPropagation(); //Stop Propagation so that a new marker isn't added on click
       });
 
@@ -359,7 +350,7 @@ function doEverything(){
           AllMarkers[1].CO2geojson = {};          
           map.removeLayer(AllMarkers[1].layer);
           map.removeSource(AllMarkers[1].source);
-          removeWarningAreaforMarker(AllMarkers[1]);
+          removeMarkerDangerZone(AllMarkers[1]);
         } 
         //M is last Marker
         // ------ M is deleted
@@ -367,7 +358,7 @@ function doEverything(){
           //this is the last marker;
           map.removeLayer(this.layer);
           map.removeSource(this.source);
-          removeWarningAreaforMarker(this);
+          removeMarkerDangerZone(this);
         }
         //M is a middle Marker
         //------ M ------ is deleted
@@ -377,8 +368,8 @@ function doEverything(){
           map.removeSource(this.source);
           map.removeLayer(AllMarkers[this.id+1].layer);
           map.removeSource(AllMarkers[this.id+1].source);
-          removeWarningAreaforMarker(this);
-          removeWarningAreaforMarker(AllMarkers[this.id+1])
+          removeMarkerDangerZone(this);
+          removeMarkerDangerZone(AllMarkers[this.id+1])
         }
       }
       marker.recount = function(){
@@ -391,9 +382,11 @@ function doEverything(){
 
       //Generate route when 2 or more markers are on screen
       if (AllMarkers.length > 1){
-        calculateRoute(AllMarkers[AllMarkers.length-2], AllMarkers[AllMarkers.length-1]);
+        await calculateRoute(AllMarkers[AllMarkers.length-2], AllMarkers[AllMarkers.length-1]);
+        await calculateMarkerDangerZone(AllMarkers[AllMarkers.length-1]);
+        displayMarkerDangerZone(AllMarkers[AllMarkers.length-1]);
       }
-    }
+  }
 
 
 
@@ -447,13 +440,12 @@ async function where() {
         endMarker.CO2geojson = AllRouteArray[2];
         AllMarkers[endMarker.id] = endMarker;
       //Visualize Data On Screen
-        routeOnScreen(endMarker);
+        displayMarkerRoute(endMarker);
         CO2.Display();
-        turfDanger();
     } catch (err) {
       console.error("our error", err)
     }
-          // AllMarkers[AllMarkers.length-1].routeOnScreen();
+          // AllMarkers[AllMarkers.length-1].displayMarkerRoute();
           //Turf Stuff
               // await turfDanger();
               // await openCO2Box();
@@ -464,7 +456,7 @@ async function where() {
                   // }
   }
 
-  removeWarningAreaforMarker = (marker) => {
+  removeMarkerDangerZone = (marker) => {
     if (typeof(marker.warning) !== 'undefined') {
       map.removeLayer('dangerzonedotID'+ marker.id);
       map.removeLayer('dangerzoneID'+ marker.id);
@@ -540,7 +532,7 @@ async function where() {
         return ghRouting.doRequest();
       }
 
-      routeOnScreen = (marker) => {
+      displayMarkerRoute = (marker) => {
         if (safe == true) {
           map.addSource(marker.source, { type: 'geojson', data: marker.safeRoute.paths[0].points });
         } else {
