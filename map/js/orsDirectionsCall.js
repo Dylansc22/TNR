@@ -172,22 +172,22 @@ function doEverything(){
         }
     }
 
-    let ToggleSafeRouting = () => {
+    let ToggleSafeRouting = async () => {
         if (safe == true) {
           safe = false;
           setPathwayColor();
           if (AllMarkers.length>0) {
             //Remove the safe route entirely
-            for (i = AllMarkers.length - 1; i > 0; i-- ) {
-              map.removeLayer(AllMarkers[i].layer);
-              map.removeSource(AllMarkers[i].source);
-              removeMarkerDangerZone(AllMarkers[i]);
+            for (n = AllMarkers.length - 1; n > 0; n-- ) {
+              map.removeLayer(AllMarkers[n].layer);
+              map.removeSource(AllMarkers[n].source);
+              removeMarkerDangerZone(AllMarkers[n]);
             } 
             //re-add the dangerous route
-            for (i=1;i<AllMarkers.length;i++){
-              displayMarkerRoute(AllMarkers[i]);
-              calculateMarkerDangerZone(AllMarkers[i]);
-              displayMarkerDangerZones(AllMarkers[i]);
+            for (n=1;n<AllMarkers.length;n++){
+              displayMarkerRoute(AllMarkers[n]);
+              await calculateMarkerDangerZone(AllMarkers[n]);
+              displayMarkerDangerZone(AllMarkers[n]);
             }
           }
         }
@@ -196,20 +196,20 @@ function doEverything(){
           setPathwayColor();
           if (AllMarkers.length>0) {
             //Remove the dangerous route entirely
-            for (i = AllMarkers.length - 1; i > 0; i-- ) {
-              map.removeLayer(AllMarkers[i].layer);
-              map.removeSource(AllMarkers[i].source);
-              removeMarkerDangerZone(AllMarkers[i]);
+            for (n = AllMarkers.length - 1; n > 0; n-- ) {
+              map.removeLayer(AllMarkers[n].layer);
+              map.removeSource(AllMarkers[n].source);
+              removeMarkerDangerZone(AllMarkers[n]);
             } 
             //re-add the dangerous route
-            for (i=1;i<AllMarkers.length;i++){
-              displayMarkerRoute(AllMarkers[i]);
-              calculateMarkerDangerZone(AllMarkers[i]);
-              displayMarkerDangerZones(AllMarkers[i]);
+            for (n=1;n<AllMarkers.length;n++){
+              displayMarkerRoute(AllMarkers[n]);
+              await calculateMarkerDangerZone(AllMarkers[n]);
+              displayMarkerDangerZone(AllMarkers[n]);
             }
           }
         }
-      } 
+    } 
 
   function undoLastMarker(){
     if (AllMarkers.length>0){
@@ -311,21 +311,54 @@ function doEverything(){
       counter++;
 
       //Click behavior for marker 
-      marker.getElement().addEventListener('click', function(e){
+      marker.getElement().addEventListener('click', async (e) =>{
         // alert("marker number " + marker.id + " is about to go bye-bye");
-        marker.destoryMarkersRoute.call(marker);
-        marker.vaporizeMarker.call(marker);
-        marker.recount.call(marker);
-        CO2.Display();
+        let position = determineMarkerPosition(marker);
+        if (position == "only") {
+          marker.remove();
+          marker.recount();
+          return
+        }
+        //* is first Marker - Redraw M --^--- M ------ M
+        else if (position == "first") {
+          removeRouteandZone(marker);
+          marker.remove();
+          marker.recount();
+          return
+        } 
+        //M is last Marker - Redraw M ----- M --^-- M 
+        else if (position == "last") {
+          removeRouteandZone(marker);
+          marker.remove();
+          marker.recount();
+          return         
+        }
+        //M is a middle Marker - Redraw Both M --^-- M --^-- M 
+        else {
+          removeRouteandZone(marker);
+          removeRouteandZone(AllMarkers[marker.id+1]);
+          marker.remove();
+          marker.recount(); 
+          await calculateRoute(AllMarkers[marker.id-1],AllMarkers[marker.id]);
+          return
+        }
+         
 
-        e.stopPropagation(); //Stop Propagation so that a new marker isn't added on click
+
+        // removeRouteandZone(marker);
+        // marker.destoryMarkersRoute.call(marker);
+        // marker.vaporizeMarker.call(marker);
+        // marker.recount.call(marker);
+        // CO2.Display();
+
+         //Stop Propagation so that a new marker isn't added on click
       });
 
 
 
       //Drag behavior for marker
-      marker.on('dragend', function(e){
-        moved(this);
+      marker.on('dragend', () => {
+        redrawMarkerRoute(this);
       });
 
       marker.vaporizeMarker = function() {
@@ -383,8 +416,6 @@ function doEverything(){
       //Generate route when 2 or more markers are on screen
       if (AllMarkers.length > 1){
         await calculateRoute(AllMarkers[AllMarkers.length-2], AllMarkers[AllMarkers.length-1]);
-        await calculateMarkerDangerZone(AllMarkers[AllMarkers.length-1]);
-        displayMarkerDangerZone(AllMarkers[AllMarkers.length-1]);
       }
   }
 
@@ -442,6 +473,8 @@ async function where() {
       //Visualize Data On Screen
         displayMarkerRoute(endMarker);
         CO2.Display();
+        await calculateMarkerDangerZone(endMarker);
+        displayMarkerDangerZone(endMarker);
     } catch (err) {
       console.error("our error", err)
     }
@@ -458,9 +491,9 @@ async function where() {
 
   removeMarkerDangerZone = (marker) => {
     if (typeof(marker.warning) !== 'undefined') {
-      map.removeLayer('dangerzonedotID'+ marker.id);
-      map.removeLayer('dangerzoneID'+ marker.id);
-      map.removeSource('dangerzonesource'+ marker.id);
+      map.removeLayer('dangerdot'+ marker.id);
+      map.removeLayer('dangercircle'+ marker.id);
+      map.removeSource('dangersource'+ marker.id);
     }
   }
 
@@ -474,35 +507,60 @@ async function where() {
     // marker.recount();
   }
 
-      redrawMarkerRoute = function(_marker){
+  function determineMarkerPosition (_marker) {
+    let marker = _marker;
+    if (marker.id == 0 && AllMarkers.length == 1) { 
+      return "only" 
+    }
+    else if (marker.id == 0 && AllMarkers.length > 1) { 
+      return "first" 
+    }
+    else if (marker.id == AllMarkers.length - 1 && AllMarkers.length > 1) { 
+      return "last" 
+    }
+    else { 
+      return "middle" 
+    }
+  }
+
+  function removeRouteandZone (_marker) {
+    let marker = _marker;
+    map.removeLayer(marker.layer);
+    map.removeSource(marker.source)
+    if (marker.warning.data.geometry.coordinates.length > 0) {
+      map.removeLayer("dangerdot"+marker.id);
+      map.removeLayer("dangercircle"+marker.id);
+      map.removeSource("dangersource"+marker.id);
+    }
+  }
+
+      redrawMarkerRoute = async function(_marker){
+        let marker = _marker;
+        let position = determineMarkerPosition(marker);
         //M ----- M ------ M ------ M ------ M
         //* is the only Marker - There is no route to redraw...
-        if (_marker.id == 0 && AllMarkers.length == 1) {
+        if (position == "only") {
           return
         }
         //* is first Marker - Redraw M --^--- M ------ M
-        else if (_marker.id == 0 && AllMarkers.length > 1) {
+        else if (position == "first") {
           AllMarkers[1].safeRoute = {};
           AllMarkers[1].dangerousRoute = {};          
           AllMarkers[1].CO2geojson = {};
-          map.removeLayer(AllMarkers[1].layer);
-          map.removeSource(AllMarkers[1].source);
-          calculateRoute(_marker,AllMarkers[_marker.id+1]);
+          removeRouteandZone(AllMarkers[1]);
+          await calculateRoute(marker,AllMarkers[marker.id+1]);
         } 
         //M is last Marker - Redraw M ----- M --^-- M 
-        else if (_marker.id == AllMarkers.length - 1 && AllMarkers.length > 1) {
-          map.removeLayer(_marker.layer);
-          map.removeSource(_marker.source);
-          calculateRoute(AllMarkers[_marker.id-1],_marker);         
+        else if (position == "last") {
+          removeRouteandZone(marker);
+          await calculateRoute(AllMarkers[marker.id-1],marker);         
         }
         //M is a middle Marker - Redraw Both M --^-- M --^-- M 
         else {
-          map.removeLayer(_marker.layer);
-          map.removeSource(_marker.source);
-          map.removeLayer(AllMarkers[_marker.id+1].layer);
-          map.removeSource(AllMarkers[_marker.id+1].source);
-          calculateRoute(AllMarkers[_marker.id-1],_marker);  
-          calculateRoute(_marker,AllMarkers[_marker.id+1]);       
+          removeRouteandZone(marker);
+          removeRouteandZone(AllMarkers[marker.id+1]);
+          await calculateRoute(AllMarkers[marker.id-1],marker);  
+          await calculateRoute(marker,AllMarkers[marker.id+1]);       
         }
       }
 
@@ -838,6 +896,6 @@ async function where() {
     document.getElementById("dropCrosshairMarker").addEventListener("click", AddMarker);
     document.getElementById("undoCrosshairMarker").addEventListener("click", undoLastMarker);
     document.getElementById("directionshere").addEventListener("click", function(){Search.generateRoute()});
-    document.getElementById("routerToggle").addEventListener("click", ToggleSafeRouting);
+    document.getElementById("toggleSwitch").addEventListener("click", ToggleSafeRouting);
     // document.getElementById("cancelCrosshairMarker").addEventListener("click", function() { alert("IOU one function about canceling all routes")});
     // document.getElementById("isochroneButton").addEventListener("click", myIsochrone.IsochroneButtonClicked.bind(myIsochrone));

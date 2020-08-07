@@ -181,7 +181,7 @@ function illCleanThisFunctionUpLater() {
     toggleLayer('annotation',
         ['country-label',
         'state-label', 
-        'settlement-label', 
+        // 'settlement-label', 
         'settlement-subdivision-label', 
         'airport-label', 
         'poi-label', 
