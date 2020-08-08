@@ -19,13 +19,12 @@ let getParks = async function() {
   //https://developer.mozilla.org/en-US/docs/Web/API/Response
   const response = await fetch ('js/Mapbodfx_Parks_minify.geojson');
   const data = await response.json();
-  console.log(data);
+  // console.log(data);
 }
 
 
 
 calculateMarkerDangerZone = async (_marker) => {
-  console.log("calculate marker danger zone");
   let marker = _marker;
   const response = await fetch ('js/GH_AvoidArea_minify.geojson');
   const HSRoads = await response.json();
@@ -68,10 +67,7 @@ calculateMarkerDangerZone = async (_marker) => {
 }
 
 trimIntersects = (_intersects) => {
-  console.log("trim intersects");
-
   let trimmed = _intersects;
-  let firstPoint = trimmed[0];
   let options = {units: 'kilometers'}; //can be degrees, radians, miles, or kilometers
   
   //Example below to explain the nested for loops:
@@ -84,7 +80,7 @@ trimIntersects = (_intersects) => {
   trimmed.forEach(point => {
     for (k = trimmed.length -1; k > trimmed.indexOf(point); k--) {
       let comparePoint = trimmed[k];
-      let distance = turf.distance(firstPoint, comparePoint, options);
+      let distance = turf.distance(point, comparePoint, options);
       if (distance < 0.05) {
         trimmed.splice(k,1);
         }
@@ -94,7 +90,6 @@ trimIntersects = (_intersects) => {
 } //trimIntersects
 
 displayMarkerDangerZone = (_marker) => {
-  console.log("display marker danger zone");
   let marker = _marker;
   if (typeof(marker.warning) !== 'undefined') {
     //Add center dot
@@ -141,10 +136,8 @@ displayMarkerDangerZone = (_marker) => {
       }
     });
 
-    for (i=AllMarkers.length-1;i<AllMarkers.length;i++){
-      map.on('click', 'dangerzoneID' + AllMarkers[i].id, function(e) {
-        if (zoomed === false) {
-          console.log(zoomed);
+      map.on('click', 'dangercircle' + marker.id, (e) => {
+        if (zoomed == false) {
           zoomed = true;
           map.flyTo({
             center: e.lngLat,
@@ -160,37 +153,31 @@ displayMarkerDangerZone = (_marker) => {
           //Geojson pathway route always appears as a layer *on top of* the map layers
           //so I need to turn the line-opacity down to 0.4, so you can read the street names
           //that appear undernearthe the bike  
-          for (i=1;i<=AllMarkers.length-1;i++) {
-            map.setPaintProperty(AllMarkers[i].layer,'line-opacity', 0.4);
+          for (j=1;j<=AllMarkers.length-1;j++) {
+            map.setPaintProperty(AllMarkers[j].layer,'line-opacity', 0.4);
           }
-        }
-        //already zoomed in (zoomed is true)
-        else {
+          e.stopPropagation();
+        } else if (zoomed == true) {
           zoomed = false;
           zoomToFullRoute();
-            if (satallitemode === true) {
-              document.getElementById("satellite").click();
-            } 
+            if (satallitemode === true) { document.getElementById("satellite").click();} 
             //Shut off Annotations if they are on
-            if (map.getLayoutProperty('road-label', 'visibility') === 'visible') {
-              document.getElementById("annotation").click();
-            }
+            if (map.getLayoutProperty('road-label', 'visibility') === 'visible') { document.getElementById("annotation").click(); }
+          e.stopPropagation();
         }
       });
       // Change the cursor to a pointer when the it enters a feature in the 'symbols' layer.
-      map.on('mouseenter', 'dangerzoneID'+ AllMarkers[i].id, function() {
-        console.log("mouse went in");
+      map.on('mouseenter', 'dangercircle'+ marker.id, function() {
         cursor = "insideWarningBubble";
         map.getCanvas().style.cursor = 'pointer';
       });
        
       // Change it back to a pointer when it leaves.
-      map.on('mouseleave', 'dangerzoneID'+ AllMarkers[i].id, function() {
+      map.on('mouseleave', 'dangercircle'+ marker.id, function() {
         cursor = "outsideWarningBubble";
         map.getCanvas().style.cursor = '';
       });
-      }
-  }   
+    } 
 } //end displayMarkerDangerZone
 
 safeturfValues = async () => {
@@ -341,7 +328,6 @@ dangerturfValues = async () => {
       });
       // Change the cursor to a pointer when the it enters a feature in the 'symbols' layer.
       map.on('mouseenter', 'dangerzoneID'+ AllMarkers[i].id, function() {
-        console.log("mouse went in");
         cursor = "insideWarningBubble";
         map.getCanvas().style.cursor = 'pointer';
       });

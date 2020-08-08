@@ -311,27 +311,27 @@ function doEverything(){
       counter++;
 
       //Click behavior for marker 
-      marker.getElement().addEventListener('click', async (e) =>{
+      marker.getElement().addEventListener('click', (e) =>{
         // alert("marker number " + marker.id + " is about to go bye-bye");
         let position = determineMarkerPosition(marker);
         if (position == "only") {
           marker.remove();
           marker.recount();
-          return
+          e.stopPropagation();
         }
         //* is first Marker - Redraw M --^--- M ------ M
         else if (position == "first") {
-          removeRouteandZone(marker);
+          removeRouteandZone(AllMarkers[marker.id+1]);
           marker.remove();
           marker.recount();
-          return
+          e.stopPropagation();
         } 
         //M is last Marker - Redraw M ----- M --^-- M 
         else if (position == "last") {
           removeRouteandZone(marker);
           marker.remove();
           marker.recount();
-          return         
+          e.stopPropagation();         
         }
         //M is a middle Marker - Redraw Both M --^-- M --^-- M 
         else {
@@ -339,8 +339,8 @@ function doEverything(){
           removeRouteandZone(AllMarkers[marker.id+1]);
           marker.remove();
           marker.recount(); 
-          await calculateRoute(AllMarkers[marker.id-1],AllMarkers[marker.id]);
-          return
+          calculateRoute(AllMarkers[marker.id-1],AllMarkers[marker.id]);
+          e.stopPropagation();
         }
          
 
@@ -358,7 +358,7 @@ function doEverything(){
 
       //Drag behavior for marker
       marker.on('dragend', () => {
-        redrawMarkerRoute(this);
+        redrawMarkerRoute(marker);
       });
 
       marker.vaporizeMarker = function() {
