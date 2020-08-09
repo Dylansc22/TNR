@@ -435,13 +435,11 @@ font-family: 'Playfair Display', serif;
 
     #CO2Box {
         /*position and overflow to properly and show the CO2 text when the div 'opens up'*/ 
-        display: inline-block;
+        height:30px;
         position: relative;
         overflow: hidden;
         bottom:0px;
         left:calc(1vh + 15px);
-        width:0px;
-        height:50px; 
         background-color: #29688a; /*#363636;*/
         color:white;
         border-radius: 5px 5px 5px 5px; 
@@ -453,47 +451,45 @@ font-family: 'Playfair Display', serif;
         z-index: 2;
     }
 
-    @media (max-width:1080px) {
-        #CO2Box.displayCO2Box {
-            width:30vw !important;
-            height:50px !important;
-            display: inline-block;
-            border:solid 1px black !important;
-            padding-top:5px;
-        }
+    #CO2Box.displayCO2Box {
+        height:max(5vw,50px);
+        width:fit-content;
+        padding-top:5px;
+        padding-left:30px;
+        padding-right:5px;
+        border:solid 1px black;
     }
 
-    @media (min-width:1081px) {
-        .displayCO2Box {
-            display: inline-block;
-            height:70px !important;
-            border:solid 1px black !important;
-            padding:3px !important;
-        }
-
-        #CO2Box > #offsetinsert {
-            margin-left: 30px !important;
-        }
-
-        #CO2Box > #offsettext {
-            margin-left: 30px !important;
-        }
-    }
-    
-    #CO2Box > #offsetinsert {
-        margin-left:30px;
-        display:inline-block;
-        font-size: 4.5vmin;
+    #CO2Box .rowone {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        grid-template-rows: 1fr;
+        grid-gap: 8px; /*or grid-column-gap and grid-row-gap for additional customation*/
     }
 
-    #CO2Box > #offsetunits {
-        display:inline-block;
-        font-size: 3vmin;
+
+    /*number - calculated in javascript*/
+    #CO2Box #offsetcalc {
+        font-size: max(3vw, 30px);
+        line-height: max(3vw,30px);
+        justify-self:start;/*left-right*/
+        align-self:end;/*top-bottom*/
     }
 
-    #CO2Box > #offsettext {
-        margin-left:30px;
-        font-size: 1.8vmin;
+    /*units - lbs CO2*/
+    #CO2Box #offsetunits {
+        font-size: max(2vw,14px);
+        line-height: max(2vw,14px);
+        justify-self:start;/*left-right*/
+        align-self:end;/*top-bottom*/
+    }
+
+    /*text - Offset from Atmosphere*/
+    #CO2Box #offsettext {
+        padding-top:3px;
+        font-size: max(1vw, 7px);
+        line-height: max(1vw, 7px);
+        width:max(20vw,80px);
     }
 
     #bottomRightControls {
@@ -552,11 +548,6 @@ font-family: 'Playfair Display', serif;
 
 
 @media (min-width:1081px){
-    /*Small Buttons*/
-    #CO2Box {
-        display: inline-block;
-        height:70px;
-    }
 
     /*Big Buttons*/
     #drawRoute, #sidebarCollapse, #isochroneButton { /*bootstrapoverridesformap .btn-warning, #bootstrapoverridesformap .btn-custom1, .btn-secondary, .btn-info*/

@@ -64,7 +64,7 @@ function doEverything(){
                 },
       Display: function() {
                   // alert(CO2.Measure(AllPOIs));      
-                  document.getElementById("offsetinsert").innerHTML = CO2.Measure();
+                  document.getElementById("offsetcalc").innerHTML = CO2.Measure();
                   document.getElementById("offsetunits").innerHTML = " lbs CO2";
                   document.getElementById("offsettext").innerHTML = "Offset from Atmosphere";
                 }
