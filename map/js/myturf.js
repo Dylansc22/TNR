@@ -103,7 +103,16 @@ displayMarkerDangerZone = (_marker) => {
         'circle-color': 'brown',
         'circle-opacity': 1,
         'circle-radius': {
-          'stops': [[12,3], [14, 4],[20, 8] ]
+          'stops': [
+            [0, 5 * Math.pow(2, (0 - 23.5))],
+            [24, 5 * Math.pow(2, (24 - 23.5))] 
+            //[0, baseWidth * Math.pow(2, (0 - baseZoom))],
+            //set the line-width at different zooms, 
+            //specifically the minzoom and maxzoom. By using the exponential 
+            //type with base set to 2 the line width function should 
+            //interpolate between these zooms in a way that the line covers 
+            //the same geographic area as you zoom in and out.
+          ]
         },
         'circle-stroke-color':'black',
         'circle-stroke-opacity':1,

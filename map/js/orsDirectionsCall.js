@@ -13,7 +13,7 @@ function doEverything(){
 
   let parametersGHdangerous = {
     host: "http://144.202.64.252:8989", //host: "http://localhost:8989",
-    profile: "pathways5", // pathways1, pathways2, pathways3, pathways4, pathways5, co2car
+    profile: "pathways6", // pathways1, pathways2, pathways3, pathways4, pathways5, co2car
     details: ["road_class", "distance"]
   }
 
@@ -53,7 +53,7 @@ function doEverything(){
                     let yourCarMPG = 25;
                     let poundsCO2ProducedPerGallonOfGas = 20;
                     let LbsofCO2 = distanceMiles * yourCarMPG / poundsCO2ProducedPerGallonOfGas;
-                    sum = Math.round((sum + LbsofCO2)*100)/100;
+                    sum = Math.round((sum + LbsofCO2)*10)/10;
                   }
                   return sum;
                 },
@@ -603,13 +603,14 @@ async function where() {
           "source": marker.source,
           "paint": {
             "line-color": pathwayscolor,//"#FF6600" //, //"#4f7ba4",
+            "line-dasharray": [2,1.5], //[dashes, gaps] measured in units of line-width
             "line-opacity": 0.9,
             "line-width": {
                 "type": "exponential",
                 "base": 1.5,
                 "stops": [
-                    [0, 3.5 * Math.pow(2, (0 - 9))], //[0, baseWidth * Math.pow(2, (0 - baseZoom))],
-                    [24, 3.5 * Math.pow(2, (24 - 18))] //[0, baseWidth * Math.pow(2, (0 - baseZoom))],
+                    [0, 4.5 * Math.pow(2, (0 - 9))], //[0, baseWidth * Math.pow(2, (0 - baseZoom))],
+                    [24, 4.5 * Math.pow(2, (24 - 18))] //[0, baseWidth * Math.pow(2, (0 - baseZoom))],
                 ]
             }
           }
