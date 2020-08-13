@@ -6,19 +6,19 @@ function doEverything(){
 
 // function OOP(){
   let parametersGHsafe = {
-    host: "http://144.202.64.252:8989", //host: "http://localhost:8989",
+    host: "http://neighborhoodpathways.org:8989", //host: "http://localhost:8989",
     profile: "pathways1", // pathways1, pathways2, pathways3, pathways4, pathways5, co2car
     details: ["road_class", "distance"]
   }
 
   let parametersGHdangerous = {
-    host: "http://144.202.64.252:8989", //host: "http://localhost:8989",
+    host: "http://neighborhoodpathways.org:8989", //host: "http://localhost:8989",
     profile: "pathways6", // pathways1, pathways2, pathways3, pathways4, pathways5, co2car
     details: ["road_class", "distance"]
   }
 
   let parametersCO2Car = {
-    host: "http://144.202.64.252:8989", //host: "http://localhost:8989",
+    host: "http://neighborhoodpathways.org:8989", //host: "http://localhost:8989",
     profile: "co2car", // pathways1, pathways2, pathways3, pathways4, pathways5, co2car
   }
 
@@ -211,17 +211,6 @@ function doEverything(){
         }
     } 
 
-  function undoLastMarker(){
-    if (AllMarkers.length>0){
-      let l = AllMarkers.length - 1;
-      let lastmarker = AllMarkers[l];
-      lastmarker.destoryMarkersRoute();
-      lastmarker.vaporizeMarker();
-      lastmarker.recount();
-      CO2.Display();
-    }
-  }
-
   function setDrawMode(_mode) {
       mode = _mode;
   }
@@ -309,6 +298,7 @@ function doEverything(){
       marker.source = "source" + counter.toString();
       marker.layer = "layer" + counter.toString();
       counter++;
+      openCO2Box();
 
       //Click behavior for marker 
       marker.getElement().addEventListener('click', (e) =>{
@@ -317,6 +307,7 @@ function doEverything(){
         if (position == "only") {
           marker.remove();
           marker.recount();
+          closeCO2Box();
           e.stopPropagation();
         }
         //* is first Marker - Redraw M --^--- M ------ M
@@ -342,6 +333,7 @@ function doEverything(){
           calculateRoute(AllMarkers[marker.id-1],AllMarkers[marker.id]);
           e.stopPropagation();
         }
+        CO2.Display();
          
 
 
@@ -497,14 +489,40 @@ async function where() {
     }
   }
 
-  UndoButtonClicked = function(marker){
-    marker.undoLastMarker();
+  UndoButtonClicked = () => {
+    undoLastMarker();
   }
 
-  undoLastMarker = function(marker){
-    this.destoryMarkersRoute();
-    this.vaporizeMarker();
-    // marker.recount();
+  undoLastMarker = () => {
+    let marker = AllMarkers[AllMarkers.length-1];
+    // alert("marker number " + marker.id + " is about to go bye-bye");
+        let position = determineMarkerPosition(marker);
+        if (position == "only") {
+          marker.remove();
+          marker.recount();
+          closeCO2Box();
+        }
+        //* is first Marker - Redraw M --^--- M ------ M
+        else if (position == "first") {
+          removeRouteandZone(AllMarkers[marker.id+1]);
+          marker.remove();
+          marker.recount();
+        } 
+        //M is last Marker - Redraw M ----- M --^-- M 
+        else if (position == "last") {
+          removeRouteandZone(marker);
+          marker.remove();
+          marker.recount();
+        }
+        //M is a middle Marker - Redraw Both M --^-- M --^-- M 
+        else {
+          removeRouteandZone(marker);
+          removeRouteandZone(AllMarkers[marker.id+1]);
+          marker.remove();
+          marker.recount(); 
+          calculateRoute(AllMarkers[marker.id-1],AllMarkers[marker.id]);
+        }
+        CO2.Display();
   }
 
   function determineMarkerPosition (_marker) {
@@ -603,7 +621,7 @@ async function where() {
           "source": marker.source,
           "paint": {
             "line-color": pathwayscolor,//"#FF6600" //, //"#4f7ba4",
-            "line-dasharray": [2,1.5], //[dashes, gaps] measured in units of line-width
+            // "line-dasharray": [2,1.5], //[dashes, gaps] measured in units of line-width
             "line-opacity": 0.9,
             "line-width": {
                 "type": "exponential",
@@ -887,6 +905,12 @@ async function where() {
 
   function openCO2Box(){
     if (AllMarkers.length==2 && document.getElementById("CO2Box").classList.contains('displayCO2Box') == false) {
+     $('#CO2Box').toggleClass('displayCO2Box');
+    }
+  }
+
+  function closeCO2Box(){
+    if (AllMarkers.length==0 && document.getElementById("CO2Box").classList.contains('displayCO2Box') == true) {
      $('#CO2Box').toggleClass('displayCO2Box');
     }
   }
