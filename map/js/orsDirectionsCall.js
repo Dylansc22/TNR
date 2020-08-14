@@ -66,7 +66,7 @@ function doEverything(){
     }
 
     let Search = {
-      generateRoute: function(e){
+      generateRoute: function(){
         $('#directionshere').toggleClass('directionsbuttonvisible'); //I know this is super hacky to put button behavior in my routing function, but this was the only spot i could get it to work, and I'm lazy tonight
             if (AllMarkers.length>0) {
               for (i = AllMarkers.length; i>=0; i--){
@@ -491,6 +491,7 @@ async function where() {
 
   UndoButtonClicked = () => {
     undoLastMarker();
+    CO2.Display();
   }
 
   undoLastMarker = () => {
@@ -521,8 +522,7 @@ async function where() {
           marker.remove();
           marker.recount(); 
           calculateRoute(AllMarkers[marker.id-1],AllMarkers[marker.id]);
-        }
-        CO2.Display();
+        }    
   }
 
   function determineMarkerPosition (_marker) {
@@ -919,7 +919,7 @@ async function where() {
     document.getElementById("drawRoute").addEventListener("click", addCrosshair);
     document.getElementById("swapButton").addEventListener("click", function(){toggleDrawMode()});
     document.getElementById("dropCrosshairMarker").addEventListener("click", AddMarker);
-    document.getElementById("undoCrosshairMarker").addEventListener("click", undoLastMarker);
+    document.getElementById("undoCrosshairMarker").addEventListener("click", UndoButtonClicked);
     document.getElementById("directionshere").addEventListener("click", function(){Search.generateRoute()});
     document.getElementById("toggleSwitch").addEventListener("click", ToggleSafeRouting);
     // document.getElementById("cancelCrosshairMarker").addEventListener("click", function() { alert("IOU one function about canceling all routes")});
