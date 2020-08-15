@@ -40,14 +40,100 @@ font-family: 'Playfair Display', serif;
     width: 100%;
     margin:0px;
     padding:0px;
-    /*border-radius: 0px !important;*/
+    border-radius: 0px !important;
     /*color:#606060;*/
     /*background-color:#E8E8E8;*/
     /*font-family: ""Source Sans Pro","Helvetica Neue",Helvetica,Arial,sans-serif";*/
 }
 
+/*custom font for ethos fade-in text stuff*/
+#bootstrapoverrides_ethos h1 { font-family: 'Merriweather', serif; }
+#bootstrapoverrides_ethos h2 { font-family: 'Merriweather', serif; }
+#bootstrapoverrides_ethos h3 { font-family: 'Merriweather', serif; }
+#bootstrapoverrides_ethos h4 { font-family: 'Merriweather', serif; }
+#bootstrapoverrides_ethos h5 { font-family: 'Merriweather', serif; }
+#bootstrapoverrides_ethos h6 { font-family: 'Merriweather', serif; }
+#bootstrapoverrides_ethos p { font-family: 'Merriweather', serif; }
+
+
+
+/*I have fonts sepearated from the #bootstrapoverrides css because otherwise the css is not 'ranked' high enough to override the default bootstrap css. I think this might be better best practices*/ 
+h1, h2, h3, h4, h5, h6, p {
+    font-family: 'Raleway', sans-serif; 
+    /*font-family: 'Merriweather', serif;*/
+    /*font-family: 'Lato', sans-serif*/
+}
+
+#bootstrapoverrides button {
+    border-radius: 0 !important;
+}
+
+.row {
+    width:100vw;
+    margin-left:0px;
+    margin-right:0px;
+    padding-left: 0px;
+    padding-right:0px;
+}
+
+.wow {visibility: hidden;}
+
+
+.text-vertical-center {
+    text-align: center;
+    vertical-align: middle;
+}
+
+.alignright {
+    text-align: right;
+    vertical-align: middle;
+}
+
+#ethos {
+    top:0;
+    height: 100%;
+    position: fixed;
+    background-color: white;
+    z-index: 10; 
+    width: 100%;
+    text-align: center;
+    padding: 10% 8%;
+}
+
+#ethosmaininfo {
+    display: block;
+    text-align: right;
+    position: fixed;
+    top: 10px;
+    right: 2%;
+    z-index: 3;
+}
+
+#legend {
+    z-index: 3;
+    position:fixed;
+    height:100px;
+    width:68vw;
+    bottom:20px;
+    /*center the div*/
+        left: 50%;
+        transform: translate(-50%, 0);
+    
+    /*looks a little cleaner without it
+        padding:10px;
+        border: solid 3px #A0A0A0;
+        background-color:#e4e4e4;
+    */
+
+    /*animations & transitions*/
+        -webkit-transition: all 0.4s;
+        -moz-transition: all 0.4s;
+        -o-transition: all 0.4s;
+        transition:all 0.4s;
+}
+
 #map {
-    position: absolute;
+    position: fixed;
     top:0;
     bottom:0;
     width: 100%; /*width 80% with right:0*/;
@@ -966,7 +1052,7 @@ text-align: center;
     text-align: center;
     margin-top:2vw;
     margin-left:2vw;
-    position: relative;
+    position: absolute;
     max-width: 60%;
     /*font-family: sans-serif;*/
     /*overflow-y: scroll; Removed because I don't want the scrollbar showing*/
