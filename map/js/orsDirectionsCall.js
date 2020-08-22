@@ -6,19 +6,19 @@ function doEverything(){
 
 // function OOP(){
   let parametersGHsafe = {
-    host: "http://neighborhoodpathways.org:8989", //host: "http://localhost:8989",
+    host: "https://neighborhoodpathways.org", //host: "http://localhost:8989",
     profile: "pathways1", // pathways1, pathways2, pathways3, pathways4, pathways5, co2car
     details: ["road_class", "distance"]
   }
 
   let parametersGHdangerous = {
-    host: "http://neighborhoodpathways.org:8989", //host: "http://localhost:8989",
+    host: "https://neighborhoodpathways.org", //host: "http://localhost:8989",
     profile: "pathways6", // pathways1, pathways2, pathways3, pathways4, pathways5, co2car
     details: ["road_class", "distance"]
   }
 
   let parametersCO2Car = {
-    host: "http://neighborhoodpathways.org:8989", //host: "http://localhost:8989",
+    host: "https://neighborhoodpathways.org", //host: "http://localhost:8989",
     profile: "co2car", // pathways1, pathways2, pathways3, pathways4, pathways5, co2car
   }
 
