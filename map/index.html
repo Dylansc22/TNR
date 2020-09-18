@@ -22,7 +22,6 @@
         <link href="https://fonts.googleapis.com/css?family=Shadows+Into+Light&display=swap" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap" rel="stylesheet">
 
-
     <!-- Bootstrap 4 Toggle Button Feature -->
         <link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css" rel="stylesheet">
 
@@ -60,12 +59,15 @@
                     <div id="offsetcalc"></div>
                     <div id="offsetunits"></div>
                 </div>
-
                     <div id="offsettext"></div>
 
             </div>
-<!--             <button id="isochroneButton" type="button" class="btn btn-primary btn-circle" title="Toggle Controls" data-toggle="tooltip" data-placement="top"><i class="fas fa-map-marker-alt"></i></button>
-            <button id="donateButton" type="button" class="btn btn-primary btn-circle" title="Toggle Controls" data-toggle="tooltip" data-placement="top"></button> -->
+
+        <!-- Isochrone and donate button -->  
+            <!--
+            <button id="isochroneButton" type="button" class="btn btn-primary btn-circle" title="Toggle Controls" data-toggle="tooltip" data-placement="top"><i class="fas fa-map-marker-alt"></i></button>
+            <button id="donateButton" type="button" class="btn btn-primary btn-circle" title="Toggle Controls" data-toggle="tooltip" data-placement="top"></button> 
+            -->
         </div>
     
     <!--Draw Route Controller (Bottom Right)-->
@@ -89,7 +91,9 @@
             <div id="infoRoute" class="infoScreen"><h2>Route Info</h2>
                 <div class="subcontent"><h3><br><br>Work on all this good stuff later...</h3></div>
             </div>
-<!--             <div id="infoEvents" class="infoScreen"><h2>Consider Donating</h2>
+            <!--Additional slider screens as needed -->
+            <!--             
+            <div id="infoEvents" class="infoScreen"><h2>Consider Donating</h2>
                 <div class="subcontent">This project is soley owned and operated by myself</div>
             </div>
             <div id="infoAnalysis" class="infoScreen"><h2>Local Events</h2>
@@ -106,12 +110,14 @@
             </div>
             <div class="infoScreen"><h2>Even More</h2>
                 <div class="subcontent"></div> 
-            </div>-->
+            </div>
+            -->
         </div>
 
     <!--Search Bar-->
         <div id="geocoder" class="geocoder"></div>
         <button id="directionshere" type="button" class="btn btn-custom1" title="Directions Here?" data-toggle="tooltip" data-placement="bottom"></button>
+    
     <!-- Tutorial Modal -->
         <div class="modal fade bd-example-modal-lg" id="TutorialModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
           <div class="modal-dialog modal-dialog-centered" role="document">
@@ -170,8 +176,6 @@
 <!--             <div id='myLocation'>
                 <a href=#  title="My Location"><button type="button" class="btn btn-custom1"><i class="fas fa-street-view"></i></button></a>
             </div> -->
-        
-
 
 <!--             <div id="bottomControl" class="thumb">
                 <h4>Data Layers</h3>
@@ -213,9 +217,11 @@ Source: http://mynameismatthieu.com/WOW/docs.html
     <script src="../js/wow.min.js"></script>
     <script>new WOW().init();</script>
 
-<!--Load Graphhopper GHUtil (Required for isochrones) 
+<!--Load Graphhopper GHUtil (Activate/Required for Isochrones maps) 
 ---------------------------------------------->
-    <script src="../js/GHUtil.js"></script>
+    <!--
+	<script src="../js/GHUtil.js"></script>
+    -->
 
 <!--Load Graphhopper Javascript API
 ---------------------------------------------->
@@ -225,333 +231,30 @@ Source: http://mynameismatthieu.com/WOW/docs.html
 ---------------------------------------------->
     <script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
 
-<!--Load Slick Carousel Javascript Library
+<!-- Load Slick Carousel Javascript Library
 Source: https://kenwheeler.github.io/slick/
 ---------------------------------------------->
     <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
 
-<!-- Custom JQuery Script
+<!-- Load My Custom JQuery Script
 ---------------------------------------------->
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $('#sidebarCollapse').on('click', function () {
-                $('#presentation').toggleClass('hideleft');
-                $('#mapViewControls').toggleClass('hideright');
-                $('#tutorialButton').toggleClass('tutorialSlideUp');
-                // $('#astronauticon').toggleClass('fa-user-astronaut');
-                // $('#astronauticon').toggleClass('fa-user');
-                $('#sidebarCollapse').toggleClass('slideup420px');
-                $('#bottomRightControls').toggleClass('shrink7left');
-                $('#bottomLeftControls').toggleClass('shrink7right');
-                $('#map').toggleClass('shrink8');
-                $('#sheet').toggleClass('sheetZindex1');
-                // $('#geocoder').toggleClass('hidetop');
-                // $('#directionshere').toggleClass('directionsbuttonvisible');
-                $('#bottomControl').toggleClass('hidebottom');
-                // $('#isochroneButton').toggleClass('isochroneSlideUp');
-                // $('#toolbar').toggleClass('hidebottom');
-            });
+    <script src='js/my-additional-button-ctrl.js' type="text/javascript"></script>
 
-            $(function () {
-                $('[data-toggle="tooltip"]').tooltip({ trigger:'hover' });
-            });
-            //On Mobile - When tapping a button, the tooltip (ie "Draw", "Undo", "Drop Marker")
-            //stays open because it holds the focus for touchscreen interaction, and there is no
-            //simple workaround, so simplest hack is wrap all tooltips in a setTimeout function!
-                $(function () {
-                   $(document).on('shown.bs.tooltip', function (e) {
-                      setTimeout(function () {
-                        $(e.target).tooltip('hide');
-                      }, 850); //0.85 seconds
-                   });
-                });
-
-            //Draw Tool Toggle
-                $('#drawRoute').on('click', function() {
-                    $('#drawRoute').toggleClass('hideDrawRoute');
-                    $('#dropCrosshairMarker').toggleClass('drawSlideRight');
-                    $('#undoCrosshairMarker').toggleClass('undoSlideUp');
-                    $('#routeInfo').toggleClass('RouteInfoSlideRight');
-                    $('#freeDraw').toggleClass('secondaryPositionZ0');
-                    $('#swapButton').toggleClass('secondaryPositionZ1');
-                });
-                $('#cancelCrosshairMarker').on('click', function() {
-                    $('#drawRoute').toggleClass('hideDrawRoute');
-                    $('#dropCrosshairMarker').toggleClass('drawSlideRight');
-                    $('#undoCrosshairMarker').toggleClass('undoSlideUp');
-                    // $('#routeInfo').toggleClass('RouteInfoSlideRight');
-                    $('#freeDraw').toggleClass('secondaryPositionZ0');
-                    $('#swapButton').toggleClass('secondaryPositionZ1');
-                });
-                $('#swapButton').on('click', function() {
-                    //$('#freeDraw').toggleClass('secondaryPositionZ0');
-                    $('canvas').toggleClass('mousecrosshair');
-                    $('#cancelCrosshairMarker').toggleClass('secondaryPositionZ0');
-                    $('#dropCrosshairMarker').toggleClass('undoSlideUp');
-                    $('#dropCrosshairMarker').toggleClass('drawSlideRight');
-                    
-                    // $('dropCrosshairMarker').toggleClass('undoSlideUp');
-                });
-                $('#CO2Button').on('click', function() {
-                    // $('#bottomLeftControls').toggleClass('displayCO2Box');
-                    $('#CO2Box').toggleClass('displayCO2Box');
-                });
-                $('.mapboxgl-ctrl-geocoder--button').on('click', function(){
-                    $('#directionshere').toggleClass('directionsbuttonvisible');
-                });
-
-                
-
-                Nightmode = false;
-                $('#streetlights').on('click', function() {
-                    Nightmode = !Nightmode;
-                    if (Nightmode == true) {
-
-                        //In a smarter way to write this code.
-                        // Preset all the colors as variables, 
-                        //Make an array of all the layers IDs that need to be changed to a given color variable
-                        //Write a ForEach ID in ID Array, change line-color or change the fill-color to variable
-
-                        //Set nighttime colors
-                            //Default Map Layers
-                                let nightRoad = '#3d3d3d';
-                                let nightRoadCase = '#242424';
-                                let nightTunnelCase = '#454545';
-                                let nightWater = '#1f1f1f'
-                                let nightWaterShadow = '#050505';
-                                let nightAeroway = '#404040';
-                                let nightLand = '#292929';
-                                let nightParks = '#252727';
-                                let nightBuildings = '#2b2b2b';
-                                let nightLandCover = '#282929';
-                            //TNR Layers
-                                let nightTNR = '#737168';
-                                let nightHawks = '#d7af65'; //'white'//'#d7af65';
-                                let nightHawksCase = 'black'//'#292929';
-
-                        //Set color of default layers
-                            map.setPaintProperty('road-motorway-trunk', 'line-color', nightRoad); 
-                            map.setPaintProperty('road-primary', 'line-color', nightRoad); 
-                            map.setPaintProperty('road-secondary-tertiary', 'line-color', nightRoad); 
-                            map.setPaintProperty('road-street', 'line-color', nightRoad); 
-                            map.setPaintProperty('road-minor', 'line-color', nightRoad); 
-                            map.setPaintProperty('road-major-link', 'line-color', nightRoad); 
-                            map.setPaintProperty('road-construction', 'line-color', nightRoad); 
-                            map.setPaintProperty('road-motorway-trunk-case', 'line-color', nightRoadCase); 
-                            map.setPaintProperty('road-major-link-case', 'line-color', nightRoadCase); 
-                            map.setPaintProperty('road-primary-case', 'line-color', nightRoadCase); 
-                            map.setPaintProperty('road-secondary-tertiary-case', 'line-color', nightRoadCase); 
-                            map.setPaintProperty('road-street-case', 'line-color', nightRoadCase); 
-                            map.setPaintProperty('road-street-low', 'line-color', nightRoad); 
-                            map.setPaintProperty('road-minor-case', 'line-color', nightRoadCase); 
-                            map.setPaintProperty('road-minor-low', 'line-color', nightRoad); 
-
-                            map.setPaintProperty('bridge-rail', 'line-color', nightRoad);                             
-                            map.setPaintProperty('road-rail', 'line-color', nightRoad); 
-                            
-                            map.setPaintProperty('tunnel-motorway-trunk', 'line-color', nightRoadCase); 
-                            map.setPaintProperty('tunnel-primary-secondary-tertiary', 'line-color', nightRoadCase); 
-                            map.setPaintProperty('tunnel-street-minor', 'line-color', nightRoadCase); 
-                            map.setPaintProperty('tunnel-major-link', 'line-color', nightRoadCase); 
-                            map.setPaintProperty('tunnel-consturction', 'line-color', nightRoadCase); 
-                            map.setPaintProperty('tunnel-motorway-trunk-case', 'line-color', nightTunnelCase); 
-                            map.setPaintProperty('tunnel-major-link-case', 'line-color', nightTunnelCase); 
-                            map.setPaintProperty('tunnel-primary-secondary-tertiary-case', 'line-color', nightTunnelCase); 
-                            map.setPaintProperty('tunnel-street-minor-case', 'line-color', nightTunnelCase); 
-                            map.setPaintProperty('tunnel-street-minor-low', 'line-color', nightRoadCase); 
-
-                            map.setPaintProperty('bridge-motorway-trunk-2', 'line-color', nightRoad); 
-                            map.setPaintProperty('bridge-major-link-2', 'line-color', nightRoad); 
-                            map.setPaintProperty('bridge-motorway-trunk-2-case', 'line-color', nightRoadCase); 
-                            map.setPaintProperty('bridge-major-link-2-case', 'line-color', nightRoadCase); 
-                            map.setPaintProperty('bridge-motorway-trunk', 'line-color', nightRoad); 
-                            map.setPaintProperty('bridge-primary-secondary-tertiary', 'line-color', nightRoad); 
-                            map.setPaintProperty('bridge-street-minor', 'line-color', nightRoad); 
-                            map.setPaintProperty('bridge-major-link', 'line-color', nightRoad); 
-                            map.setPaintProperty('bridge-construction', 'line-color', nightRoad); 
-                            map.setPaintProperty('bridge-motorway-trunk-case', 'line-color', nightRoadCase); 
-                            map.setPaintProperty('bridge-major-link-case', 'line-color', nightRoadCase); 
-                            map.setPaintProperty('bridge-primary-secondary-tertiary-case', 'line-color', nightRoadCase); 
-                            map.setPaintProperty('bridge-street-minor-case', 'line-color', nightRoadCase); 
-                            map.setPaintProperty('bridge-street-minor-low', 'line-color', nightRoad); 
-
-                            map.setPaintProperty('building', 'fill-color', nightBuildings); 
-                            map.setPaintProperty('building-outline', 'line-color', nightWater); 
-                            map.setPaintProperty('aeroway-line', 'line-color', nightAeroway); 
-                            map.setPaintProperty('aeroway-polygon', 'fill-color', nightAeroway); 
-                            map.setPaintProperty('land-structure-line', 'line-color', nightLand); 
-                            map.setPaintProperty('land-structure-polygon', 'fill-color', nightLand); 
-                            
-                            map.setPaintProperty('water', 'fill-color', nightWater); 
-                            map.setPaintProperty('waterway', 'line-color', nightWater); 
-                            map.setPaintProperty('water-shadow', 'fill-color', nightWaterShadow); 
-                            map.setPaintProperty('waterway-shadow', 'line-color', nightWaterShadow); 
-
-                            map.setPaintProperty('landuse', 'fill-color', nightParks); 
-                            map.setPaintProperty('national-park', 'fill-color', nightParks); 
-                            map.setPaintProperty('landcover', 'fill-color', nightLandCover); 
-                            map.setPaintProperty('land', 'background-color', nightLand); 
-
-                        //Sec color of TNR layers
-                            map.setPaintProperty('tnr-v9-7p9y6s copy', 'line-color', nightTNR);                             
-                            map.setPaintProperty('tnr-v9-7p9y6s', 'line-color', nightRoadCase);
-                            map.setPaintProperty('hawks-v2-bb9wvv', 'circle-color', nightHawks);
-                            map.setPaintProperty('hawks-v2-bb9wvv', 'circle-stroke-color', nightHawksCase);
-                            map.setPaintProperty('lshs-hawkroads-v2-ddpdin copy 1', 'line-color', nightTNR);
-                            map.setPaintProperty('lshs-hawkroads-v2-ddpdin', 'line-color', nightTNR); 
-                            map.setPaintProperty('hs-v2-7bxiun copy', 'line-color', nightTNR); 
-                            map.setPaintProperty('ls-v3-cj14ge copy 1', 'line-color', nightTNR); 
-
-                        //Add Streetlights
-                            map.setLayoutProperty('ls-streetlights-4od5h2', 'visibility', 'visible');
-                            map.setLayoutProperty('ls-streetlights-4od5h2 copy', 'visibility', 'visible');
-                            map.setLayoutProperty('hs-streetlights-4qsd4j', 'visibility', 'visible');
-                            map.setLayoutProperty('hs-streetlights-4qsd4j copy', 'visibility', 'visible');
-                            map.setLayoutProperty('hs-streetlights-4qsd4j copy 1', 'visibility', 'visible');
-                            map.setLayoutProperty('hs-streetlights-4qsd4j copy 2', 'visibility', 'visible');
-
-                        //Hide TP Roads, but Keep Hawks on
-                            map.setLayoutProperty('tnr-v9-7p9y6s copy', 'visibility', 'none');
-                            map.setLayoutProperty('tnr-v9-7p9y6s', 'visibility', 'none');
-                            map.setLayoutProperty('lshs-hawkroads-v2-ddpdin copy 1', 'visibility', 'none');
-                            map.setLayoutProperty('lshs-hawkroads-v2-ddpdin', 'visibility', 'none');
-                            // map.setLayoutProperty('hawks-v2-bb9wvv', 'visibility', 'none');
-
-                        //Remove all Cul-de-sacs because of that bug where for some reason I cannot change their color (not even in mapbox studio)
-                            map.setLayoutProperty('turning-feature', 'visibility', 'none');
-                            map.setLayoutProperty('turning-feature-outline', 'visibility', 'none');
-                    }
-
-                    else if (Nightmode == false) { 
-                        //Set daytime colors
-                            //Default Map Layers
-                                let lightRoad = '#ffffff';
-                                let lightRoadCase = '#d9d9d9';
-                                let lightTunnelCase = '#e0e6e6';
-                                let lightWater = '#cad2d3'
-                                let lightWaterShadow = '#b5bebf';
-                                let lightAeroway = '#f7f7f7';
-                                let lightLand = '#f9f9f6'; //F1F3F3
-                                let lightParks = '#eceeed';
-                                let lightBuildings = '#47484d';
-                                let lightLandCover = '#e3e3e3';
-                            //TNR Layers
-                                let lightTNR = '#e6e6e6';
-                                let lightTNRCase = "#828283"
-                                let lightHawks = '#e4c790';
-                                let lightHawksStroke = '#b3b3b3';
-
-                        //Set color of default layers
-                            map.setPaintProperty('road-motorway-trunk', 'line-color', lightRoad); 
-                            map.setPaintProperty('road-primary', 'line-color', lightRoad); 
-                            map.setPaintProperty('road-secondary-tertiary', 'line-color', lightRoad); 
-                            map.setPaintProperty('road-street', 'line-color', lightRoad); 
-                            map.setPaintProperty('road-minor', 'line-color', lightRoad); 
-                            map.setPaintProperty('road-major-link', 'line-color', lightRoad); 
-                            map.setPaintProperty('road-construction', 'line-color', lightRoad); 
-                            map.setPaintProperty('road-motorway-trunk-case', 'line-color', lightRoadCase); 
-                            map.setPaintProperty('road-major-link-case', 'line-color', lightRoadCase); 
-                            map.setPaintProperty('road-primary-case', 'line-color', lightRoadCase); 
-                            map.setPaintProperty('road-secondary-tertiary-case', 'line-color', lightRoadCase); 
-                            map.setPaintProperty('road-street-case', 'line-color', lightRoadCase); 
-                            map.setPaintProperty('road-street-low', 'line-color', lightRoad); 
-                            map.setPaintProperty('road-minor-case', 'line-color', lightRoadCase); 
-                            map.setPaintProperty('road-minor-low', 'line-color', lightRoad); 
-
-                            map.setPaintProperty('bridge-rail', 'line-color', lightRoad);                             
-                            map.setPaintProperty('road-rail', 'line-color', lightRoad); 
-
-                            map.setPaintProperty('tunnel-motorway-trunk', 'line-color', lightRoadCase); 
-                            map.setPaintProperty('tunnel-primary-secondary-tertiary', 'line-color', lightRoadCase); 
-                            map.setPaintProperty('tunnel-street-minor', 'line-color', lightRoadCase); 
-                            map.setPaintProperty('tunnel-major-link', 'line-color', lightRoadCase); 
-                            map.setPaintProperty('tunnel-consturction', 'line-color', lightRoadCase); 
-                            map.setPaintProperty('tunnel-motorway-trunk-case', 'line-color', lightTunnelCase); 
-                            map.setPaintProperty('tunnel-major-link-case', 'line-color', lightTunnelCase); 
-                            map.setPaintProperty('tunnel-primary-secondary-tertiary-case', 'line-color', lightTunnelCase); 
-                            map.setPaintProperty('tunnel-street-minor-case', 'line-color', lightTunnelCase); 
-                            map.setPaintProperty('tunnel-street-minor-low', 'line-color', lightRoadCase); 
-
-                            map.setPaintProperty('bridge-motorway-trunk-2', 'line-color', lightRoad); 
-                            map.setPaintProperty('bridge-major-link-2', 'line-color', lightRoad); 
-                            map.setPaintProperty('bridge-motorway-trunk-2-case', 'line-color', lightRoadCase); 
-                            map.setPaintProperty('bridge-major-link-2-case', 'line-color', lightRoadCase); 
-                            map.setPaintProperty('bridge-motorway-trunk', 'line-color', lightRoad); 
-                            map.setPaintProperty('bridge-primary-secondary-tertiary', 'line-color', lightRoad); 
-                            map.setPaintProperty('bridge-street-minor', 'line-color', lightRoad); 
-                            map.setPaintProperty('bridge-major-link', 'line-color', lightRoad); 
-                            map.setPaintProperty('bridge-construction', 'line-color', lightRoad); 
-                            map.setPaintProperty('bridge-motorway-trunk-case', 'line-color', lightRoadCase); 
-                            map.setPaintProperty('bridge-major-link-case', 'line-color', lightRoadCase); 
-                            map.setPaintProperty('bridge-primary-secondary-tertiary-case', 'line-color', lightRoadCase); 
-                            map.setPaintProperty('bridge-street-minor-case', 'line-color', lightRoadCase); 
-                            map.setPaintProperty('bridge-street-minor-low', 'line-color', lightRoad); 
-
-                            map.setPaintProperty('building', 'fill-color', lightBuildings); 
-                            map.setPaintProperty('building-outline', 'line-color', lightWater); 
-                            map.setPaintProperty('aeroway-line', 'line-color', lightAeroway); 
-                            map.setPaintProperty('aeroway-polygon', 'fill-color', lightAeroway); 
-                            map.setPaintProperty('land-structure-line', 'line-color', lightLand); 
-                            map.setPaintProperty('land-structure-polygon', 'fill-color', lightLand); 
-                            
-                            map.setPaintProperty('water', 'fill-color', lightWater); 
-                            map.setPaintProperty('waterway', 'line-color', lightWater); 
-                            map.setPaintProperty('water-shadow', 'fill-color', lightWaterShadow); 
-                            map.setPaintProperty('waterway-shadow', 'line-color', lightWaterShadow); 
-
-                            map.setPaintProperty('landuse', 'fill-color', lightParks); 
-                            map.setPaintProperty('national-park', 'fill-color', lightParks); 
-                            map.setPaintProperty('landcover', 'fill-color', lightLandCover); 
-                            map.setPaintProperty('land', 'background-color', lightLand); 
-
-                        //Sec color of TNR layers
-                            map.setPaintProperty('tnr-v9-7p9y6s', 'line-color', lightTNRCase); 
-                            map.setPaintProperty('tnr-v9-7p9y6s copy', 'line-color', lightTNR); 
-                            map.setPaintProperty('lshs-hawkroads-v2-ddpdin copy 1', 'line-color', lightTNR); 
-                            map.setPaintProperty('lshs-hawkroads-v2-ddpdin', 'line-color', lightTNRCase); 
-                            map.setPaintProperty('hawks-v2-bb9wvv', 'circle-stroke-color', lightHawksStroke); 
-                            map.setPaintProperty('hs-v2-7bxiun copy', 'line-color', lightTNR); 
-                            map.setPaintProperty('ls-v3-cj14ge copy 1', 'line-color', lightTNR); 
-                            map.setPaintProperty('hawks-v2-bb9wvv', 'circle-color', lightHawks);
-                    
-                        //Remove Streetlights
-                            map.setLayoutProperty('ls-streetlights-4od5h2', 'visibility', 'none');
-                            map.setLayoutProperty('ls-streetlights-4od5h2 copy', 'visibility', 'none');
-                            map.setLayoutProperty('hs-streetlights-4qsd4j', 'visibility', 'none');
-                            map.setLayoutProperty('hs-streetlights-4qsd4j copy', 'visibility', 'none');
-                            map.setLayoutProperty('hs-streetlights-4qsd4j copy 1', 'visibility', 'none');
-                            map.setLayoutProperty('hs-streetlights-4qsd4j copy 2', 'visibility', 'none');
-
-                        //Show TP Road Layers
-                            map.setLayoutProperty('tnr-v9-7p9y6s copy', 'visibility', 'visible');
-                            map.setLayoutProperty('tnr-v9-7p9y6s', 'visibility', 'visible');
-                            map.setLayoutProperty('lshs-hawkroads-v2-ddpdin copy 1', 'visibility', 'visible');
-                            map.setLayoutProperty('lshs-hawkroads-v2-ddpdin', 'visibility', 'visible');
-                            // map.setLayoutProperty('hawks-v2-bb9wvv', 'visibility', 'visible');
-
-                        //Add all Cul-de-sacs because of that bug where for some reason I cannot change their color (not even in mapbox studio)
-                            map.setLayoutProperty('turning-feature', 'visibility', 'visible');
-                            map.setLayoutProperty('turning-feature-outline', 'visibility', 'visible');
-                    }
-                });
-            });
-    </script>
-
-<!--Load Turf.js Libraries
+<!-- Load Turf.js Libraries
 ---------------------------------------------->
     <script src='https://unpkg.com/@turf/turf/turf.min.js'></script>
 
-<!--Load Custom Javascript
+<!-- Load My Custom Main Web-App Script
 ---------------------------------------------->
-    <script src="js/routing.js"></script>
+    <script src="js/my-map.js"></script>
 
-<!-- Load Custom ORS Directions Call
+<!-- Load My Custom Routing Engine Script
 ---------------------------------------------->
-    <script src="js/orsDirectionsCall.js"></script>
+    <script src="js/my-routing.js"></script>
 
-<!-- Load Custom ORS Directions Call
+<!-- Load My Custom Turf Calc Script
 ---------------------------------------------->
-    <script src="js/myturf.js"></script>
+    <script src="js/my-turf-calc.js"></script>
 
 </body>
 </html> 

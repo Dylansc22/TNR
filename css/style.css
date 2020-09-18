@@ -1541,11 +1541,6 @@ span.tooltip:hover {
     cursor: wait;
 }
 
-#mapPosition {
-    border-top: solid 3px #A0A0A0;;
-    word-wrap: break-word;
-}
-
 textarea {
     background-color: red;
     z-index: 2;
