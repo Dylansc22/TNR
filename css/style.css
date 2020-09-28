@@ -362,7 +362,7 @@ h1, h2, h3, h4, h5, h6, p {
     }
 
     #HUDInfo {
-        margin: 0px 0px 0px 8px; /*nudge HUDInfo Gr,id to the right, so Safe Routing isn't right on the left-edge of screen*/
+        margin: 0px 0px 0px 6px; /*nudge HUDInfo Gr,id to the right, so Safe Routing isn't right on the left-edge of screen*/
         display: grid;
         grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
         grid-template-rows: 6vh 4vh; /*must total bottomHUD height*/
@@ -383,7 +383,7 @@ h1, h2, h3, h4, h5, h6, p {
         font-style: italic;
         display: flex;
         align-items: start;
-        font-size: 1.9vh;
+        font-size: 1.8vh;
         text-align: center;
         justify-content: center;
     }
