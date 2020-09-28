@@ -225,7 +225,7 @@ h1, h2, h3, h4, h5, h6, p {
 }
 
 @media (min-width: 1081px) {
-    #mapViewControls > .mapboxgl-ctrl-group > button, #mapViewControls #toggleSwitch .btn.btn-success, #mapViewControls #toggleSwitch .btn.btn-danger {
+    #mapViewControls > .mapboxgl-ctrl-group > button {
         width:58px !important;
         height:40px !important;
     }
@@ -359,68 +359,50 @@ h1, h2, h3, h4, h5, h6, p {
         width: 100vw;
         height: 6vh;
         bottom:0px;
-        padding: 7px 10px;
     }
 
     #HUDInfo {
-        font-style: italic;
         display: grid;
         grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-        grid-template-rows: 1fr;
-        grid-gap: 8px;
-        color:white;
+        grid-template-rows: 3vh 3vh;
+        grid-gap: 1px;
+        color: white;
     }
 
-/*Toggle Switch*/
-
-
-    #toggleSwitch {
-        position: relative;
-        box-shadow: 4px 4px 8px grey;
-        z-index: 3;
-        font-family:auto;
-        border: solid 1px grey;
-        margin-bottom:2vw;
-        /*For centering div
-        bottom: 50px;
-        left: 50%;
-        transform: translate(-50%, 0);*/
+    #HUDInfo > .Value {
+        display: flex;
+        align-items: center;
+        font-size: 1.7vh;
+        text-align: center;
+        justify-content: center;
+        font-weight:900;
+    }
+    
+    #HUDInfo > .Title {
+        font-style: italic;
+        display: flex;
+        align-items: start;
+        font-size: 1.7vh;
+        text-align: center;
+        justify-content: center;
     }
 
-    #toggleSwitch .btn {
-        border-radius: 0px;
+    #HUDSwitchControl {
+        display: flex;
+        font-size: 1.7vh;
+        justify-content: center;
+    }
+
+    .custom-control-label::before {
+        border-color:  brown;
+        background-color: brown;
         border:none;
-        font-size:20px;
     }
 
-    #mapViewControls #toggleSwitch .btn.btn-success {
-        background-color: white;   /*#5f8056;*/
-        color:#363636;
-    }
-
-    #mapViewControls #toggleSwitch .btn.btn-danger {
-        background-color: white; /*#bc5050;*/
-        color:#363636;
-    }
-
-    #toggleSwitch .toggle-handle {
-        width:5px !important;
-        background-color: #363636;
-    }
-
-    #toggleSwitch i {
-        transform: scale(3);
-        transform: scale(1.2);
-        width:20px;
-    }
-
-        #routerToggle {
-            width:25px;
-        }        
-
-
-
-
+    .custom-control-input:checked~.custom-control-label::before {
+        border-color: rgb(3, 94, 18);
+        background-color: rgb(3, 94, 18);
+    }   
 
 
     .thumb h4 {
@@ -676,6 +658,7 @@ h1, h2, h3, h4, h5, h6, p {
 }
 
     #dropCrosshairMarker{
+        background-color:#f9f9f6;
         color: brown;
         display: block;
         z-index: 1;

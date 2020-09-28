@@ -23,7 +23,7 @@
         <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap" rel="stylesheet">
 
     <!-- Bootstrap 4 Toggle Button Feature -->
-        <link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
 
     <!-- Slick Custom Carousel CSS Library -->
         <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/> 
@@ -118,10 +118,18 @@
     <div id="BottomHUD">
         <!-- <h6>Bottom Hud Goes</h6> -->
         <div id="HUDInfo">
-            <div>1.6 mi</div>
-            <div>2.3 lbs</div>
-            <div>10 min</div>
-            <div>safe</div>
+            <div id="HUDSwitchControl" class="custom-control custom-switch">
+                <input type="checkbox" class="custom-control-input" id="HUDSwitch" checked>
+                <label class="custom-control-label" for="HUDSwitch"></label>
+            </div>
+            <div class="Value">--</div>
+            <div class="Value">--</div>
+            <div class="Value">--</div>
+            <div></div>
+            <div class="Title">Safe Routing</div>
+            <div class="Title">CO2 Offset</div>
+            <div class="Title">Distance</div>
+            <div class="Title">Ride Time</div>
             <div></div>
         </div>
     </div>
@@ -171,11 +179,7 @@
         </div>
 
         <!-- Primary Mapbox Window Controls in the Top Right (Zoom, Draw, Pitch, etc...) -->
-            <div id="mapViewControls">
-                <div id="toggleSwitch">
-                    <input id="routerToggle" type="checkbox" checked data-toggle="toggle" data-on='<i class="fas fa-route"></i>' data-off='<i class="fas fa-exclamation-circle"></i>'data-onstyle="success" data-offstyle="danger">
-                </div>
-            </div>
+            <div id="mapViewControls"></div>
 
         <!-- Tutorial and Toggle Sidebar Buttons in the Top Right -->
             <div>

@@ -921,6 +921,6 @@ async function where() {
     document.getElementById("dropCrosshairMarker").addEventListener("click", AddMarker);
     document.getElementById("undoCrosshairMarker").addEventListener("click", UndoButtonClicked);
     document.getElementById("directionshere").addEventListener("click", function(){Search.generateRoute()});
-    document.getElementById("toggleSwitch").addEventListener("click", ToggleSafeRouting);
+    document.getElementById("HUDSwitch").addEventListener("click", ToggleSafeRouting);
     // document.getElementById("cancelCrosshairMarker").addEventListener("click", function() { alert("IOU one function about canceling all routes")});
     // document.getElementById("isochroneButton").addEventListener("click", myIsochrone.IsochroneButtonClicked.bind(myIsochrone));
