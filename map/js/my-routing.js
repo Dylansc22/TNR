@@ -48,11 +48,11 @@ let routeInfo = {
   measureCO2: function () {
     let sum = 0;
     for (i = 1; i < AllMarkers.length; i++) {
-      let distanceMiles = AllMarkers[i].CO2geojson.paths[0].distance / 1609.34;
+      let distanceMiles = AllMarkers[i].CO2geojson.paths[0].distance / 1609.34; //convert meters to miles
       let yourCarMPG = 25;
       let poundsCO2ProducedPerGallonOfGas = 20;
       let LbsofCO2 =
-        (distanceMiles * yourCarMPG) / poundsCO2ProducedPerGallonOfGas;
+        (distanceMiles / yourCarMPG) * poundsCO2ProducedPerGallonOfGas;
       sum = Math.round((sum + LbsofCO2) * 10) / 10;
     }
     return sum;
@@ -338,7 +338,6 @@ AddMarker = async (e) => {
   marker.source = "source" + counter.toString();
   marker.layer = "layer" + counter.toString();
   counter++;
-  openCO2Box();
 
   //Click behavior for marker
   marker.getElement().addEventListener("click", (e) => {
@@ -347,7 +346,6 @@ AddMarker = async (e) => {
     if (position == "only") {
       marker.remove();
       marker.recount();
-      closeCO2Box();
       e.stopPropagation();
     }
     //* is first Marker - Redraw M --^--- M ------ M
@@ -951,26 +949,6 @@ map.on("click", function (e) {
     AddMarker(e);
   }
 });
-
-function openCO2Box() {
-  if (
-    AllMarkers.length == 2 &&
-    document.getElementById("CO2Box").classList.contains("displayCO2Box") ==
-      false
-  ) {
-    $("#CO2Box").toggleClass("displayCO2Box");
-  }
-}
-
-function closeCO2Box() {
-  if (
-    AllMarkers.length == 0 &&
-    document.getElementById("CO2Box").classList.contains("displayCO2Box") ==
-      true
-  ) {
-    $("#CO2Box").toggleClass("displayCO2Box");
-  }
-}
 
 //Button Behavior
 document.getElementById("drawRoute").addEventListener("click", addCrosshair);

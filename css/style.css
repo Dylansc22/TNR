@@ -135,7 +135,7 @@ h1, h2, h3, h4, h5, h6, p {
 #map {
     position: fixed;
     top:0;
-    bottom:0;
+    bottom:10vh; /*must match BottomHUD height*/ 
     width: 100%; /*width 80% with right:0*/;
     /*border: solid 10px black;*/
     -webkit-transition: all 0.4s;
@@ -357,14 +357,15 @@ h1, h2, h3, h4, h5, h6, p {
         background-color:black;
         color:white;
         width: 100vw;
-        height: 6vh;
+        height: 10vh; /*must equal HUDInfo grid-tempate-rows total height*/
         bottom:0px;
     }
 
     #HUDInfo {
+        margin: 0px 0px 0px 8px; /*nudge HUDInfo Gr,id to the right, so Safe Routing isn't right on the left-edge of screen*/
         display: grid;
         grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-        grid-template-rows: 3vh 3vh;
+        grid-template-rows: 6vh 4vh; /*must total bottomHUD height*/
         grid-gap: 1px;
         color: white;
     }
@@ -372,7 +373,7 @@ h1, h2, h3, h4, h5, h6, p {
     #HUDInfo > .Value {
         display: flex;
         align-items: center;
-        font-size: 1.7vh;
+        font-size: 2.2vh;
         text-align: center;
         justify-content: center;
         font-weight:900;
@@ -382,15 +383,16 @@ h1, h2, h3, h4, h5, h6, p {
         font-style: italic;
         display: flex;
         align-items: start;
-        font-size: 1.7vh;
+        font-size: 1.9vh;
         text-align: center;
         justify-content: center;
     }
 
     #HUDSwitchControl {
         display: flex;
-        font-size: 1.7vh;
-        justify-content: center;
+        font-size: 2vh;
+        justify-content: center; /*aligns horizontal*/
+        align-self: center;  /*aligns vertical*/
     }
 
     .custom-control-label::before {
@@ -895,6 +897,8 @@ h1, h2, h3, h4, h5, h6, p {
     -moz-transition: all 0.4s;
     -o-transition: all 0.4s;
     transition:all 0.4s;
+    background-color:teal;
+    color:white;
 }
 
 
@@ -1520,8 +1524,8 @@ span.tooltip:hover {
 
 @media (max-width: 1080px) {
     #sidebarCollapse.btn-circle {
-    width: 60px;
-    height: 60px;
+    width: 8vh;
+    height: 8vh;
     border-radius: 0px;
     font-size: 15px;
     line-height: 1.33;

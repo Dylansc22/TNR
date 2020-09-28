@@ -24,6 +24,7 @@ function illCleanThisFunctionUpLater() {
   //Add Zome & Rotation Controls
   var zoom = new mapboxgl.NavigationControl({
     accessToken: keys.mapbox,
+    showZoom: false,
   });
 
   //Adds Mapbox Search Box
