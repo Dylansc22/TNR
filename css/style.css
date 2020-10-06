@@ -144,6 +144,18 @@ h1, h2, h3, h4, h5, h6, p {
     transition:all 0.4s;
 }
 
+#ethosmap {
+    position: fixed;
+    top:0;
+    bottom:0;
+    width: 100%; /*width 80% with right:0*/;
+    /*border: solid 10px black;*/
+    -webkit-transition: all 0.4s;
+    -moz-transition: all 0.4s;
+    -o-transition: all 0.4s;
+    transition:all 0.4s;
+}
+
 #sheet.sheetZindex1 {
     z-index: 1 !important;
     background-color:white;
