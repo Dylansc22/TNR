@@ -1,16 +1,20 @@
-# Project Title
-Tucson Group Rides Online Webmap
-Attempting to map out the safest Tucson Streets for TNRs. 
+# Tucson Pathways - Website & Web-Map
+The goal of this project is two fold:
+### (1) education and outreach via website
+by illustrating a safer way to perceive our city in terms of bicycle commuting. For non-bicycle commuters who are interested in riding more but apprehensive due to safety concerns, bicycle lanes can be extremely intimidating. 
+
+### (2) provide bicycle navigation via web-map
+for bicycle commuters who need navigation on the fly.
+
 
 
 # Authors
-Dylan Scott Cobean - GIS Data Nerd / Bicycle Geek - http://dylansc22.github.io/portfolio/
+Dylan Scott - GIS Data Nerd / Bicycle Geek - http://dylanscott.dev
 
 
 ----------------------------------------------------
 I'll mess with the rest of this template below later
 ---------------------------------------------------
-
 
 ## Getting Started
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.

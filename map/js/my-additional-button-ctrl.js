@@ -272,14 +272,14 @@ $(document).ready(function () {
       );
 
       //Hide TP Roads, but Keep Hawks on
-      map.setLayoutProperty("tnr-v9-7p9y6s copy", "visibility", "none");
-      map.setLayoutProperty("tnr-v9-7p9y6s", "visibility", "none");
-      map.setLayoutProperty(
-        "lshs-hawkroads-v2-ddpdin copy 1",
-        "visibility",
-        "none"
-      );
-      map.setLayoutProperty("lshs-hawkroads-v2-ddpdin", "visibility", "none");
+      // map.setLayoutProperty("tnr-v9-7p9y6s copy", "visibility", "none");
+      // map.setLayoutProperty("tnr-v9-7p9y6s", "visibility", "none");
+      // map.setLayoutProperty(
+      //   "lshs-hawkroads-v2-ddpdin copy 1",
+      //   "visibility",
+      //   "none"
+      // );
+      // map.setLayoutProperty("lshs-hawkroads-v2-ddpdin", "visibility", "none");
       // map.setLayoutProperty('hawks-v2-bb9wvv', 'visibility', 'none');
 
       //Remove all Cul-de-sacs because of that bug where for some reason I cannot change their color (not even in mapbox studio)
@@ -478,18 +478,18 @@ $(document).ready(function () {
       );
 
       //Show TP Road Layers
-      map.setLayoutProperty("tnr-v9-7p9y6s copy", "visibility", "visible");
-      map.setLayoutProperty("tnr-v9-7p9y6s", "visibility", "visible");
-      map.setLayoutProperty(
-        "lshs-hawkroads-v2-ddpdin copy 1",
-        "visibility",
-        "visible"
-      );
-      map.setLayoutProperty(
-        "lshs-hawkroads-v2-ddpdin",
-        "visibility",
-        "visible"
-      );
+      // map.setLayoutProperty("tnr-v9-7p9y6s copy", "visibility", "visible");
+      // map.setLayoutProperty("tnr-v9-7p9y6s", "visibility", "visible");
+      // map.setLayoutProperty(
+      //   "lshs-hawkroads-v2-ddpdin copy 1",
+      //   "visibility",
+      //   "visible"
+      // );
+      // map.setLayoutProperty(
+      //   "lshs-hawkroads-v2-ddpdin",
+      //   "visibility",
+      //   "visible"
+      // );
       // map.setLayoutProperty('hawks-v2-bb9wvv', 'visibility', 'visible');
 
       //Add all Cul-de-sacs because of that bug where for some reason I cannot change their color (not even in mapbox studio)
