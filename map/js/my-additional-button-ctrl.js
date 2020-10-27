@@ -243,7 +243,7 @@ $(document).ready(function () {
         "line-color",
         nightTNR
       );
-      map.setPaintProperty("lshs-hawkroads-v2-ddpdin", "line-color", nightTNR);
+      map.setPaintProperty("lshs-hawkroads-v2-ddpdin", "line-color", nightRoadCase);
       map.setPaintProperty("hs-v2-7bxiun copy", "line-color", nightTNR);
       map.setPaintProperty("ls-v3-cj14ge copy 1", "line-color", nightTNR);
 
