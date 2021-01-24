@@ -1,0 +1,13 @@
+#redirect from the map subdirectory to the location of the actual tp-app
+*/testing_mapbox        https://www.mapbox.com
+*/testing_yahoo      https://yahoo.com
+*/testing_google      https://google.com
+
+#trying my own method with it not as a subdirectory
+/map/* https://frosty-heisenberg-cf3b94.netlify.app/:splat 200!
+
+#comment out what is suggested in forums
+#/map/* https://frosty-heisenberg-cf3b94.netlify.app/map/:splat 200!
+
+#this is the redirect for fixing the back button issue... Anything past map will redirect to the main map
+/map/*   /map/index.html   200!
