@@ -1,4 +1,10 @@
 /*Overrides*/
+.sitebutton {
+    border: solid 1px #363636;
+    box-shadow: 2px 2px 2px grey;
+    border-radius: 0px;
+}
+
 #bootstrapoverrides {
     position: absolute;
     height:100%;
