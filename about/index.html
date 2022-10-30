@@ -38,9 +38,9 @@
 </head>
 <body>
 
-<div id='bootstrapoverrides_ethos' class='container-fluid'>
+<div id='bootstrapoverrides_about' class='container-fluid'>
     <!--Initialize Map, Menu, & Info Box-->
-        <div id='ethos' >
+        <div id='about' >
             <h1>
                 <span class="wow fadeInUp highstressfont" data-wow-delay="0s" data-wow-duration="1s" >Not feeling safe</span><br>
                 <span class="wow fadeInUp" data-wow-delay="1.5s" data-wow-duration="1s">is the largest barrier of entry</span><br>
@@ -51,7 +51,7 @@
             </h5>
         </div>
     
-        <div id='ethosmap'></div>
+        <div id='aboutmap'></div>
             <div class="modal fade bd-example-modal-lg" id="TutorialModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
@@ -77,7 +77,7 @@
             <div id='toolbar'></div>
         </div>
 
-        <div id='ethosmaininfo'>
+        <div id='aboutmaininfo'>
             <a href=# data-toggle="tooltip" data-placement="top" title="Toggle Sidebar"><button id="sidebarCollapse" type="button" class="btn btn-warning">
             <i class="fas fa-align-right"></i></button></a>
         </div>
@@ -233,8 +233,8 @@
         });
     });
 
-    $("#ethos").click(function() {
-        $("#ethos").fadeOut("slow", function() { //or fadeOut(normal... or fadeOut 3000,
+    $("#about").click(function() {
+        $("#about").fadeOut("slow", function() { //or fadeOut(normal... or fadeOut 3000,
             $(this).remove();
         });
     });

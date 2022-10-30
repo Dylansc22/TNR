@@ -5,7 +5,7 @@
 
 mapboxgl.accessToken = keys.mapbox;
 var map = new mapboxgl.Map({
-    container: 'ethosmap', // container id
+    container: 'aboutmap', // container id
     style: 'mapbox://styles/dylanc/ck911k4gg0rqu1ilnr0o0dk1m',
     center: [-110.926757, 35.215554 ], // starting position [lng, lat]
     zoom: 5, // starting zoom (0 = fully zoomed out, 22 = fully zoomed in)

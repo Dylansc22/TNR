@@ -40,7 +40,7 @@ font-family: 'Playfair Display', serif;
     margin: 50px 0vw;
 }
 
-#bootstrapoverrides_ethos {
+#bootstrapoverrides_about {
     position: absolute;
     height:100%;
     width: 100%;
@@ -52,14 +52,14 @@ font-family: 'Playfair Display', serif;
     /*font-family: ""Source Sans Pro","Helvetica Neue",Helvetica,Arial,sans-serif";*/
 }
 
-/*custom font for ethos fade-in text stuff*/
-#bootstrapoverrides_ethos h1 { font-family: 'Merriweather', serif; }
-#bootstrapoverrides_ethos h2 { font-family: 'Merriweather', serif; }
-#bootstrapoverrides_ethos h3 { font-family: 'Merriweather', serif; }
-#bootstrapoverrides_ethos h4 { font-family: 'Merriweather', serif; }
-#bootstrapoverrides_ethos h5 { font-family: 'Merriweather', serif; }
-#bootstrapoverrides_ethos h6 { font-family: 'Merriweather', serif; }
-#bootstrapoverrides_ethos p { font-family: 'Merriweather', serif; }
+/*custom font for about fade-in text stuff*/
+#bootstrapoverrides_about h1 { font-family: 'Merriweather', serif; }
+#bootstrapoverrides_about h2 { font-family: 'Merriweather', serif; }
+#bootstrapoverrides_about h3 { font-family: 'Merriweather', serif; }
+#bootstrapoverrides_about h4 { font-family: 'Merriweather', serif; }
+#bootstrapoverrides_about h5 { font-family: 'Merriweather', serif; }
+#bootstrapoverrides_about h6 { font-family: 'Merriweather', serif; }
+#bootstrapoverrides_about p { font-family: 'Merriweather', serif; }
 
 
 
@@ -95,7 +95,7 @@ h1, h2, h3, h4, h5, h6, p {
     vertical-align: middle;
 }
 
-#ethos {
+#about {
     top:0;
     height: 100%;
     position: fixed;
@@ -106,7 +106,7 @@ h1, h2, h3, h4, h5, h6, p {
     padding: 10% 8%;
 }
 
-#ethosmaininfo {
+#aboutmaininfo {
     display: block;
     text-align: right;
     position: fixed;
@@ -150,7 +150,7 @@ h1, h2, h3, h4, h5, h6, p {
     transition:all 0.4s;
 }
 
-#ethosmap {
+#aboutmap {
     position: fixed;
     top:0;
     bottom:0;
